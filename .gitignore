@@ -2,6 +2,8 @@
 /public/hot
 /public/storage
 /storage/*.key
+.htaccess
+.env
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
