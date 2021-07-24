@@ -1,0 +1,121 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Folder;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
+class FolderController extends Controller
+{
+
+    public function index()
+    {
+        $user = User::find(Auth::user()->id);
+        $user->load(['folders']);
+        return view('folders.list',
+        [
+            'folders' => $user->folders,
+        ]);
+    }
+
+    public function add()
+    {
+    	return view('folders.add');
+    }
+
+    public function create(Request $request)
+    {
+
+    	$folder = new Folder();
+
+        $folder->reference = $this->str_random(8);
+
+        $folder->lastname = $request->lastname;
+
+        $folder->firstname = $request->firstname;
+        $folder->birthday = $request->birthday;
+
+        $folder->genre = $request->genre;
+
+        $folder->email = $request->email;
+        $folder->phone = $request->phone;
+
+        $folder->category = $request->category;
+
+        $join_piece = FileController::request_file($request->file('join_piece'));
+        if($join_piece['state'] == false){
+            return back()->with('error',$join_piece['message']);
+        }
+
+        $folder->join_piece = $join_piece['url'];
+
+
+        $folder->status = STATUT_RECEIVE;
+
+        $folder->service_id = $request->service_id;
+        $folder->country_id = $request->country_id;
+
+
+        $folder->user_id = auth()->user()->id;
+
+        if($folder->save()){
+
+            return back()->with('succes',"Votre dossier  a été crée.");
+
+        }else{
+            return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
+        }
+    }
+
+    public function edit(Folder $folder)
+    {
+    	if (auth()->user()->id == $folder->user_id)
+        {
+            return view('edit', compact('folder'));
+        }else {
+            return back();
+        }
+    }
+
+    public function update(Request $request, Folder $folder)
+    {
+        Controller::he_can('Folders', 'updat');
+
+    	if(isset($_POST['delete'])) {
+    		if($folder->delete()){
+                return back()->with('success','Le dossier a été supprimée.');
+            }else{
+                return back()->with('error', 'La dossier n\'a pas été supprimée.');
+            }
+    	}else{
+            $folder->lastname = $request->lastname;
+
+            $folder->firstname = $request->firstname;
+            $folder->birthday = $request->birthday;
+
+            $folder->genre = $request->genre;
+
+            $folder->email = $request->email;
+            $folder->phone = $request->phone;
+
+            $folder->category = $request->category;
+
+            $join_piece = FileController::request_file($request->file('join_piece'));
+
+            if($join_piece['state'] == false){
+                return back()->with('error',$join_piece['message']);
+            }
+
+            $folder->join_piece = $join_piece['url'];
+
+            if($folder->save()){
+                return back()->with('success', 'Le statut de la demande a été mise à jour.');
+            }else{
+                return back()->with('error', 'Le statut de la demande n\'a pas été mise à jour.');
+            }
+    	}
+    }
+
+}

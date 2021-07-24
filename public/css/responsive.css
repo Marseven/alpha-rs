@@ -1,0 +1,749 @@
+/*========================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Template Name:  Insurance - Agency & Business HTML5 Template
+Version:        1.0
+Last change:    26/09 /2020
+Primary use:    Agency & Business Template
+Author:         Ingenioushubs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+========================================================================*/
+
+@media (min-width: 1301px) and (max-width: 1430px) {}
+
+@media (min-width: 1200px) and (max-width: 1300px) {}
+
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+    .servNext,
+    .servprev {
+        display: none !important;
+    }
+
+    .subheader-text h5 {
+        font-size: 14px;
+    }
+
+    .header-nav .navbar-nav .nav-link {
+        font-size: 18px;
+    }
+
+    .experience,
+    .service,
+    .testimonial,
+    .team,
+    .blog {
+        overflow-x: hidden;
+    }
+
+    .exp-pad {
+        padding-left: 0px;
+    }
+
+    .exp-ser {
+        padding-left: 20px;
+    }
+
+    .exp-in {
+        padding-top: 20px;
+    }
+
+    .experience {
+        padding: 60px 0;
+    }
+
+    .aboutus {
+        padding-bottom: 70px;
+    }
+
+    .aboutpage .fun-facts-area,
+    .fun-facts-area {
+        position: relative;
+        top: 0;
+    }
+
+    .fun-facts-item {
+        padding-left: 14px;
+    }
+
+    .fun-facts-item p {
+        font-size: 16px;
+    }
+
+    .tg-homeslider h1 {
+        font-size: 48px;
+    }
+
+    .tg-homeslider p {
+        padding-top: 40px;
+    }
+
+    .banner-btn {
+        margin-top: 40px;
+    }
+
+    .tg-homeslider {
+        height: 580px;
+    }
+
+    .testNext {
+        right: 41%;
+    }
+
+    .testprev {
+        left: 46%;
+    }
+
+    #contact .content-text .c-text-menu1 ul li a {
+        font-size: 13px;
+    }
+
+    .content-text {
+        padding-bottom: 30px;
+    }
+
+    #contact .cont-center h3 {
+        font-size: 16px;
+    }
+
+    /*    ===============  About Page ===================    */
+    .about-page-para {
+        padding-top: 60px;
+    }
+
+    .team-txt {
+        bottom: 80px;
+    }
+
+    /*    ===============  Expert Page ===================    */
+    .expert-page {
+        padding-bottom: 0px;
+    }
+
+    /*    ===============  FAQ Page ===================    */
+    .tab-content {
+        min-height: 520px;
+    }
+
+    .faq-nav .nav-link {
+        font-size: 15px;
+    }
+
+    #news {
+        overflow-x: hidden;
+    }
+
+    .details-img-sub ul li {
+        margin: 30px 60px 70px 0px;
+    }
+
+    .tag:after,
+    .share:after {
+        width: 18px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+    .header-nav .navbar-nav .pages,
+    .header-nav .navbar-nav li a {
+        margin: 0px 0px 0px 0;
+    }
+
+    .dropdown-toggle::after {
+        display: none;
+    }
+
+    .btn {
+        padding: 10px 20px !important;
+    }
+
+    .btn {
+        font-size: 16px;
+    }
+
+    #news,
+    .experience,
+    .service,
+    .testimonial,
+    .team {
+        overflow-x: hidden;
+    }
+
+    .blog {
+        overflow: hidden;
+    }
+
+    .subheader-text h5 {
+        font-size: 14px;
+    }
+
+    .logo-pad {
+        padding-left: 0;
+    }
+
+    .tg-homeslider {
+        height: 680px;
+    }
+
+    .header-nav .navbar-nav .nav-link {
+        font-size: 16px;
+    }
+
+    .fun-facts-area {
+        padding: 25px 0px 25px 20px;
+        position: relative;
+        top: 0;
+    }
+
+    .fun-facts-item span {
+        font-size: 20px;
+    }
+
+    .fun-facts-item p {
+        font-size: 16px;
+    }
+
+    .fun-facts-item {
+        padding-left: 8px;
+    }
+
+    .aboutus {
+        padding-bottom: 70px;
+    }
+
+    .exp-in {
+        padding-top: 60px;
+    }
+
+    .exp-pad {
+        padding-left: 0;
+    }
+
+    .experience .pl0 {
+        padding-left: 15px;
+    }
+
+    .experience {
+        padding-bottom: 60px;
+    }
+
+    .testprev {
+        left: 43%;
+    }
+
+    .testNext {
+        right: 40%;
+    }
+
+    .team {
+        padding-bottom: 30px;
+    }
+
+    .team-txt p {
+        font-size: 15px;
+    }
+
+    .team-border {
+        font-size: 14px;
+    }
+
+    .team-txt {
+        width: 100%;
+    }
+
+    .team-border:after {
+        width: 190px;
+    }
+
+    .blog {
+        padding-bottom: 80px;
+    }
+
+    .menu-icon {
+        margin-top: 6px;
+        margin-left: -6px;
+    }
+
+    .menu-icon i {
+        font-size: 14px;
+        padding: 12px 0;
+        height: 40px;
+        width: 40px;
+    }
+
+    .dropdown-menu > li > a {
+        font-size: 16px;
+    }
+
+    .dropdown-menu {
+        padding: 2px 0px;
+        width: 145px;
+        min-width: 160px;
+    }
+
+    /*    ===============  About Page ===================    */
+    .aboutpage .fun-facts-area {
+        top: 30px;
+    }
+
+    /*    ===============  FAQ Page ===================    */
+    .faq-nav .nav-link {
+        padding: 22px 20px 22px 20px;
+        font-size: 14px;
+    }
+
+    .faq-inner p {
+        font-size: 14px;
+    }
+
+    .tab-content {
+        height: 598px;
+    }
+
+    .faq-inner {
+        padding: 30px 30px 10px 30px;
+    }
+
+    /*    ===============  Blog Detail Page ===================    */
+    .details-img-sub ul li {
+        margin: 30px 40px 60px 0px;
+    }
+
+    .detail-text-in h4,
+    .detail-text h4 {
+        font-size: 22px;
+        line-height: 30px;
+    }
+
+    .detail-text-img,
+    .detail-text-in h4,
+    .detail-text-in p {
+        text-align: center;
+    }
+
+    .tag:after,
+    .share:after {
+        display: none;
+    }
+
+    .share ul li {
+        margin-right: 5px;
+    }
+
+    .blog-mess-link {
+        padding-bottom: 50px;
+    }
+
+    .blog-inner h4 {
+        font-size: 22px;
+        line-height: 30px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .header-top {
+        display: none;
+    }
+
+    .hidden {
+        display: block;
+    }
+
+    .heading h2 {
+        font-size: 24px;
+    }
+
+    .hidden-main {
+        display: none;
+    }
+
+    .navbar-toggler span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        border-radius: 1px;
+    }
+
+    .navbar-toggler span + span + span {
+        width: 10px;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 7px 0;
+    }
+
+    .navbar-nav .active,
+    .navbar-nav .nav-link:hover {
+        border-top: 4px solid transparent;
+    }
+
+    .navbar-toggler span + span {
+        margin-top: 4px;
+        width: 18px;
+    }
+
+    .header-nav .navbar-toggler span,
+    .navbar-toggler span {
+        background: #33b2ff;
+    }
+
+    .navbar-nav .dropdown-menu {
+        position: static;
+        float: none;
+    }
+
+    .dropdown-menu {
+        background: transparent;
+        box-shadow: none;
+        border: 3px solid transparent;
+        margin-top: 5px;
+        text-align: center !important;
+    }
+
+    .dropdown-menu > li > a {
+        padding: 4px 0 4px !important;
+        color: #fff !important;
+        text-align: center;
+
+    }
+
+    #news,
+    .aboutus,
+    .experience,
+    .service,
+    .testimonial,
+    .team,
+    .blog,
+    .contact {
+        overflow-x: hidden;
+    }
+
+    .tg-homeslider:before,
+    .tg-homeslider:after {
+        width: 0;
+        height: 0;
+    }
+
+    .tg-homeslider {
+        height: 600px;
+    }
+
+    .tg-homeslider .pogoSlider-slide {
+        padding: 0 5px;
+    }
+
+    .tg-homeslider h1 span {
+        font-size: 48px;
+        line-height: 49px;
+        padding-bottom: 15px;
+    }
+
+    .tg-homeslider h1 {
+        font-size: 30px;
+        line-height: 30px;
+    }
+
+    .tg-homeslider h1:after {
+        display: none;
+    }
+
+    .tg-homeslider p {
+        padding-top: 30px;
+        font-size: 16px;
+    }
+
+    .banner-btn {
+        margin-top: 40px;
+    }
+
+    .aboutus .pl0 {
+        padding-left: 15px;
+    }
+
+    .fun-facts-area {
+        padding: 30px 0px 0px 20px;
+        position: relative;
+        top: 0;
+        left: 10px;
+    }
+
+    .fun-facts-item span {
+        font-size: 20px;
+    }
+
+    .fun-facts-item p {
+        font-size: 16px;
+    }
+
+    .fun-facts-item {
+        padding-left: 8px;
+    }
+
+    .about-icon1 {
+        margin-bottom: 30px;
+    }
+
+    .aboutus {
+        padding-bottom: 70px;
+    }
+
+    .exp-text h5 {
+        font-size: 20px;
+        padding-top: 30px;
+    }
+
+    .exp-text h4 {
+        font-size: 29px;
+        line-height: 29px;
+    }
+
+    .exp-txt p {
+        font-size: 16px;
+    }
+
+    .exp-in {
+        padding-top: 60px;
+    }
+
+    .exp-pad {
+        padding-left: 0;
+    }
+
+    .exp-ser h4 {
+        font-size: 22px;
+    }
+
+    .experience .pl0 {
+        padding-left: 15px;
+    }
+
+    .experience {
+        padding-bottom: 60px;
+    }
+
+    .test-txt {
+        padding-top: 40px;
+    }
+
+    .test-para p {
+        font-size: 15px;
+    }
+
+    .tes-inner .pl0 {
+        padding-left: 15px;
+    }
+
+    .testprev {
+        left: 61%;
+    }
+
+    .testNext {
+        right: 43%;
+    }
+
+    .blog-inner h4 {
+        font-size: 20px;
+        line-height: 25px;
+    }
+
+    .blog-img img {
+        width: 100%;
+    }
+
+    .blog-txt {
+        padding-top: 40px;
+    }
+
+    .blog {
+        padding-bottom: 50px;
+    }
+
+    .blog-inner h3 {
+        font-size: 14px;
+    }
+
+    #contact .cont-center h3 {
+        padding-top: 30px;
+    }
+
+    #contact .content-text .c-text-menu1 ul li a {
+        padding-bottom: 10px;
+    }
+
+    #contact .content-text .c-text-location .address p,
+    .footer-bottom p a,
+    .footer-bottom p {
+        font-size: 14px;
+    }
+
+    .contact {
+        padding-top: 30px;
+    }
+
+    .c-text-location {
+        padding-bottom: 30px;
+    }
+
+    .blog-inner {
+        text-align: center;
+    }
+
+    /*    ============== About Page ================    */
+    .bread-inner {
+        padding: 170px 0 70px;
+    }
+
+    .about-page-in {
+        padding-top: 50px;
+    }
+
+    .aboutpage .fun-facts-area {
+        top: 40px;
+    }
+
+    .about-page2 {
+        padding-top: 60px;
+    }
+
+    .about-page-para {
+        padding-top: 50px;
+    }
+
+    .about-page-para {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+        flex-direction: column-reverse;
+    }
+
+    .team {
+        padding-bottom: 30px;
+    }
+
+    /*    ===============  FAQ Page ===================    */
+
+    .faq-nav .nav-link {
+        padding: 22px 20px 22px 20px;
+        font-size: 14px;
+    }
+
+    .faq-inner p {
+        font-size: 14px;
+    }
+
+    .tab-content {
+        height: 910px;
+    }
+
+    .faq-inner {
+        padding: 30px 30px 10px 30px;
+        margin-top: 30px;
+    }
+
+    .blog-page .blog-txt {
+        margin-bottom: 0;
+    }
+
+    .blog-page {
+        padding-bottom: 30px;
+    }
+
+    .details-img-sub ul li {
+        margin: 30px 40px 60px 0px;
+    }
+
+    .detail-text-in h4,
+    .detail-text h4 {
+        font-size: 18px;
+        line-height: 26px;
+    }
+
+    .white-comment,
+    .detail-text-img,
+    .detail-text-in h4,
+    .detail-text-in p {
+        text-align: center;
+    }
+
+    .share,
+    .tag,
+    .details-img-sub,
+    .tag:after,
+    .share:after {
+        display: none;
+    }
+
+    .share ul li {
+        margin-right: 5px;
+    }
+
+    .blog-mess-link {
+        padding-bottom: 50px;
+    }
+
+    .blog-inner h4 {
+        font-size: 19px;
+        line-height: 25px;
+    }
+
+    .details-img-sub ul li p {
+        font-size: 16px;
+    }
+
+    .detail-text {
+        margin-top: 50px;
+    }
+
+    .blog-detail-inner {
+        padding-bottom: 0;
+    }
+
+    .comments-title h4 {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .media {
+        display: inline-block;
+    }
+
+    .blog_media {
+        padding-right: 15px;
+    }
+
+    .media-left {
+        text-align: center;
+        padding-bottom: 30px;
+    }
+
+    .media-heading span {
+        font-size: 14px;
+    }
+
+    .media-heading {
+        font-size: 18px;
+        line-height: 28px;
+    }
+
+    .reply-comment {
+        margin-left: 0px;
+    }
+
+    .white-comment {
+        margin-bottom: 30px;
+    }
+
+}
+
+@media (min-width: 381px) and (max-width: 575px) {}
+
+@media only screen and (max-width: 380px) {
+
+    .tg-slidercontent {
+        padding-top: 50px;
+    }
+
+}
