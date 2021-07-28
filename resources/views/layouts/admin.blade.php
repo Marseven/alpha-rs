@@ -197,7 +197,7 @@
             Content body start
         ***********************************-->
 
-        @include('layouts.flash')
+        @include('layouts.flash-admin')
 
         @yield('content')
 

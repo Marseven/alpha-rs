@@ -52,7 +52,7 @@ class CountryController extends Controller
         $country->user_id = auth()->user()->id;
 
         if($country->save()){
-            return back()->with('success', 'Votre requête a bien été transmise; nous reviendrons vers au plus vite.');
+            return back()->with('success', 'Le pays a bien été créé.');
         }else{
             return back()->with('error', 'Un problème est survenu.');
         }

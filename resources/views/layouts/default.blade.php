@@ -103,7 +103,7 @@
                         <div class="subheader-text">
                             <p>E-mail</p>
                             <h5>
-                                m.cherone@designservices241.com
+                                m.cherone@reliefservices.space
                             </h5>
                         </div>
                     </div>
@@ -121,13 +121,13 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link active" href="{{route('home')}}"><span data-hover="Home">Accueil</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('home')}}"><span data-hover="Home">Accueil</span></a></li>
 
-                        <li class="nav-item"><a class="nav-link" href="#service"><span data-hover="Services">Nos Services</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="#aboutus"><span data-hover="About">À Propos</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="#testimonial"><span data-hover="Services">Témoignages</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('home')}}#service"><span data-hover="Services">Nos Services</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('home')}}#aboutus"><span data-hover="About">À Propos</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('home')}}#testimonial"><span data-hover="Services">Témoignages</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="{{route('quote')}}"><span data-hover="Services">Devis</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contactus"><span data-hover="Contact">Contact</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('home')}}#contactus"><span data-hover="Contact">Contact</span></a></li>
                     </ul>
                 </div>
                 @if (Auth::user())
@@ -150,12 +150,12 @@
             <div id="head-mobile"></div>
             <div class="button"><i class="more-less fa fa-align-right"></i></div>
             <ul>
-                <li><a href="#banner" class="active">Accueil</a></li>
-                <li><a href="#service">Nos Services</a></li>
-                <li><a href="#aboutus">À Propos</a></li>
-                <li><a href="#testimonial">Témoignages</a></li>
+                <li><a href="{{route('home')}}#banner">Accueil</a></li>
+                <li><a href="{{route('home')}}#service">Nos Services</a></li>
+                <li><a href="{{route('home')}}#aboutus">À Propos</a></li>
+                <li><a href="{{route('home')}}#testimonial">Témoignages</a></li>
                 <li><a href="{{route('quote')}}">Devis</a></li>
-                <li class="nav-item"><a href="#contactus">Contact</a></li>
+                <li class="nav-item"><a href="{{route('home')}}#contactus">Contact</a></li>
 
                 @if (Auth::user())
                     @php
@@ -189,7 +189,7 @@
                         </div>
                         <div class="cont-txt">
                             <p class="cont-gap">
-                                Design Services est une entreprise spécialisée dans l’assistance médicale et l’accompagnement de toute personne désirant se faire soigner à l’étranger dans le cadre d'une évacuation sanitaire ou pour un bilan de santé.
+                                Relief Services est une entreprise spécialisée dans l’assistance médicale et l’accompagnement de toute personne désirant se faire soigner à l’étranger dans le cadre d'une évacuation sanitaire ou pour un bilan de santé.
                             </p>
                             <ul>
                                 <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -234,7 +234,7 @@
                                         <p>+241 077 613 799<br>
                                             +241 066 207 525</p>
 
-                                        <p>m.cherone@designservices241.com</p>
+                                        <p>m.cherone@reliefservices.space</p>
                                     </div>
                                 </div>
                             </div>

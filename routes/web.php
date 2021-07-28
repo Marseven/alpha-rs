@@ -36,6 +36,7 @@ Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
 //form contact classic
 Route::post('/contact', [WelcomeController::class, 'contact'])->name('contact');
+Route::post('/search', [WelcomeController::class, 'search'])->name('search');
 
 //
 Route::get('/quote',[QuoteController::class, 'add'])->name('quote');

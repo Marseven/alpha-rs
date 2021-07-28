@@ -50,29 +50,6 @@
     ============================= -->
 
     <!-- =============================
-        Start: Search
-    ============================= -->
-    <section id="aboutus" class="aboutus section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <form class="form-inline">
-                        <div class="form-group mx-sm-3 mb-2">
-                          <label for="inputPassword2" class="sr-only">Quel maladie souhatez-vous soignée ?</label>
-                          <input type="text" class="form-control" id="inputPassword2" placeholder="Cancer, ...">
-                        </div>
-                        <button type="submit" class="btn btn-primary mb-2">Recherche</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- =============================
-        End: Search
-    ============================= -->
-
-    <!-- =============================
         Start: About Us
     ============================= -->
     <section id="aboutus" class="aboutus section">
@@ -92,7 +69,7 @@
                             <h2>À Propos de Design Service</h2>
                         </div>
 
-                        <p>Design Services est une entreprise spécialisée dans l’assistance médicale et l’accompagnement de toute personne désirant se faire soigner à l’étranger dans le cadre d'une évacuation sanitaire ou pour un bilan de santé. Elle a aussi le privilège d’avoir de bonne connaissance et expertise du secteur avec une excellente plateforme logistique administrative et médicale. Tout ceci avec un ensemble de partenaires. Gagnez du temps dans vos démarches administratives, vos rendez-vous médicaux en un temps record, votre logement et transports sont réservés.</p>
+                        <p>Relief Services est une entreprise spécialisée dans l’assistance médicale et l’accompagnement de toute personne désirant se faire soigner à l’étranger dans le cadre d'une évacuation sanitaire ou pour un bilan de santé. Elle a aussi le privilège d’avoir de bonne connaissance et expertise du secteur avec une excellente plateforme logistique administrative et médicale. Tout ceci avec un ensemble de partenaires. Gagnez du temps dans vos démarches administratives, vos rendez-vous médicaux en un temps record, votre logement et transports sont réservés.</p>
                      </div>
 
                 </div>
@@ -168,47 +145,64 @@
         </div>
         <div class="container">
             <div class="row service-slick">
-                <div class="col-md-4">
-                    <div class="service-inner text-center">
-                        <div>
-                            <i class="flaticon-medical-insurance"></i>
+                @foreach ($services as $service)
+                    <div class="col-md-4">
+                        <div class="service-inner text-center">
+                            <div>
+                                <i class="flaticon-medical-insurance"></i>
+                            </div>
+                            <h5>{{$service->label}}</h5>
+                            <p>{{$service->description}}</p>
+                            <div><a class="btn btn-4 btn-ser" href="{{route('quote')}}">Devis</a></div>
                         </div>
-                        <h5>Health Insurance</h5>
-                        <p>Health insurance is an insurance that covers the whole or a part of the risk of a person incurring medical expenses. spreading the risk over </p>
-                        <div><a class="btn btn-4 btn-ser" href="#">Get a Quote</a></div>
+                    </div>
+                @endforeach
+            </div>
+            @if ($services->count() == 0)
+                <div class="col-md-12">
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        Aucun Service pour le moment !
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="service-inner text-center">
-                        <div>
-                            <i class="flaticon-car-insurance"></i>
+            @endif
+            <br>
+            <br>
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-12 ">
+                        <div class="heading b-text text-center">
+                            <h5>Quel maladie souhatez-vous soignée ?</h5>
+                            <h2>Trouver une Destination</h2>
                         </div>
-                        <h5>Health Insurance</h5>
-                        <p>Health insurance is an insurance that covers the whole or a part of the risk of a person incurring medical expenses. spreading the risk over </p>
-                        <div><a class="btn btn-4 btn-ser" href="#">Get a Quote</a></div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="service-inner text-center">
-                        <div>
-                            <i class="flaticon-safe-flight"></i>
-                        </div>
-                        <h5>Travel Insurance</h5>
-                        <p>Health insurance is an insurance that covers the whole or a part of the risk of a person incurring medical expenses. spreading the risk over </p>
-                        <div><a class="btn btn-4 btn-ser" href="#">Get a Quote</a></div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="service-inner text-center">
-                        <div>
-                            <i class="flaticon-medical-insurance"></i>
-                        </div>
-                        <h5>Health Insurance</h5>
-                        <p>Health insurance is an insurance that covers the whole or a part of the risk of a person incurring medical expenses. spreading the risk over </p>
-                        <div><a class="btn btn-4 btn-ser" href="#">Get a Quote</a></div>
                     </div>
                 </div>
             </div>
+
+            <!-- =============================
+                Start: Search
+            ============================= -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form class="form-inline" method="POST" action="{{route('search')}}">
+                            @csrf
+                            <div class="col-sm-1">
+                            </div>
+                            <div class="form-group col-sm-8">
+                                <input type="text" style="width: 100%" name="q" class="form-control form-control-lg" id="sick" placeholder="Cancer, ...">
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-2">Recherche</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- =============================
+                End: Search
+            ============================= -->
         </div>
     </section>
     <!-- =============================
@@ -223,7 +217,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-12 text-center">
-                    <img class="img-fluid" src="images/why-choose-us-image.jpg" alt="about">
+                    <img class="img-fluid" src="images/why-choose-us-image.png" alt="about">
                 </div>
                 <div class="col-lg-7 exp-pad pl0">
                     <div class="row exp-in">
@@ -240,7 +234,7 @@
                         <div class="col-md-12">
                             <div class="exp-txt">
                                 <p>
-                                    Design Services a sélectionné pour vous les meilleurs hôpitaux en Tunisie, Maroc, Afrique du sud et France. Notre équipe d’assistance est présente pour veiller à ce que vos rendez-vous et séjours se passent dans les bonnes conditions. Le secret professionnel, institué dans l’intérêt des patients, s’impose à Design Services.
+                                    Relief Services a sélectionné pour vous les meilleurs hôpitaux en Tunisie, Maroc, Afrique du sud et France. Notre équipe d’assistance est présente pour veiller à ce que vos rendez-vous et séjours se passent dans les bonnes conditions. Le secret professionnel, institué dans l’intérêt des patients, s’impose à Design Services.
                                 </p>
 
                             </div>
@@ -339,27 +333,20 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="test-img">
-                                    <img src="images/testimonial-image-1.jpg" class="img-fluid" alt="testimonial" />
+                                    <img src="images/testimonial-image-1.png" class="img-fluid" alt="testimonial" />
                                 </div>
 
                             </div>
                             <div class="col-md-9 pl0">
                                 <div class="test-txt">
-                                    <h4>Micheal Rover</h4>
-                                    <p>Satisfied Customer</p>
+                                    <h4>Michel Obiang</h4>
+                                    <p>Médécin</p>
 
-                                    <ul>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star fa-light"></i></li>
-                                        <li><i class="fa fa-star fa-light"></i></li>
-                                    </ul>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="test-para">
-                                    <p>It’s the BEST insurance company. Loved to get services from you and look forward to working with you again one day! Wishing it’ll get all the success in the world.</p>
+                                    <p>Je recommande la solution Alpha car elle permet à mes patients de bénéficier des meilleurs soins.</p>
                                 </div>
                             </div>
                         </div>
@@ -370,27 +357,20 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="test-img">
-                                    <img src="images/testimonial-image-2.jpg" class="img-fluid" alt="testimonial" />
+                                    <img src="images/testimonial-image-4.png" class="img-fluid" alt="testimonial" />
                                 </div>
 
                             </div>
                             <div class="col-md-9 pl0">
                                 <div class="test-txt">
-                                    <h4>Abigali Nain</h4>
-                                    <p>Satisfied Customer</p>
+                                    <h4>Carla Mbadinga</h4>
+                                    <p>Malade</p>
 
-                                    <ul>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star fa-light"></i></li>
-                                        <li><i class="fa fa-star fa-light"></i></li>
-                                    </ul>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="test-para">
-                                    <p>It’s the BEST insurance company. Loved to get services from you and look forward to working with you again one day! Wishing it’ll get all the success in the world.</p>
+                                    <p>Grâce à Alpha, j'ai pu me soigner au Maroc et depuis il est plus facile pour moi de suivre mon dossier médicale.</p>
                                 </div>
                             </div>
                         </div>
@@ -401,27 +381,20 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="test-img">
-                                    <img src="images/testimonial-image-1.jpg" class="img-fluid" alt="testimonial" />
+                                    <img src="images/testimonial-image-3.png" class="img-fluid" alt="testimonial" />
                                 </div>
 
                             </div>
                             <div class="col-md-9 pl0">
                                 <div class="test-txt">
-                                    <h4>Micheal Rover</h4>
-                                    <p>Satisfied Customer</p>
+                                    <h4>Jean Aliangha</h4>
+                                    <p>Client</p>
 
-                                    <ul>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star fa-light"></i></li>
-                                        <li><i class="fa fa-star fa-light"></i></li>
-                                    </ul>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="test-para">
-                                    <p>It’s the BEST insurance company. Loved to get services from you and look forward to working with you again one day! Wishing it’ll get all the success in the world.</p>
+                                    <p>L'assistance et le suivie de Relief Services m'ont permis de trouver la meilleure destinantion pour soigner ma fille.</p>
                                 </div>
                             </div>
                         </div>
@@ -453,43 +426,29 @@
             </div>
 
             <div class="row doctor-slick">
-                <div class="col-md-4">
-                    <div class="team-inner">
-                        <div class="team-img text-center">
-                            <img src="images/team-image-1.jpg" class="img-fluid" alt="team">
-                        </div>
-                        <div class="team-txt text-center">
-                            <h4>Dr. Tranquilli</h4>
-                            <p class="team-border">Project Manager</p>
-                            <p>Phone: +880 1234 567 890</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="team-inner">
-                        <div class="team-img text-center">
-                            <img src="images/team-image-2.jpg" class="img-fluid" alt="team">
-                        </div>
-                        <div class="team-txt text-center">
-                            <h4>Dr. Truluck</h4>
-                            <p class="team-border">Customer Relationship Officer</p>
-                            <p>Phone: +880 1234 567 890</p>
+                @foreach ($towns as $town)
+                    <div class="col-md-4">
+                        <div class="team-inner">
+                            <div class="team-img text-center">
+                                <img src="{{$town->picture}}" class="img-fluid" alt="team">
+                            </div>
+                            <div class="team-txt text-center">
+                                <h4>{{$town->label}}</h4>
+                                <p class="team-border">{{$town->country->label}}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="team-inner">
-                        <div class="team-img text-center">
-                            <img src="images/team-image-3.jpg" class="img-fluid" alt="team">
-                        </div>
-                        <div class="team-txt text-center">
-                            <h4>Dr. Popwell</h4>
-                            <p class="team-border">Distributor Officer</p>
-                            <p>Phone: +880 1234 567 890</p>
+                @endforeach
+                @if ($towns->count() == 0)
+                    <div class="col-md-12">
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            Aucune destination pour le moment !
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                     </div>
-                </div>
-
+                @endif
             </div>
         </div>
     </section>
@@ -528,7 +487,7 @@
                           </div>
                           <div class="form-group col-md-6">
                             <label for="inputPhone4">Téléphone</label>
-                            <input type="text" class="form-control" id="inputPhone4" placeholder="074010203">
+                            <input type="text" name="phone" class="form-control" id="inputPhone4" placeholder="074010203">
                           </div>
                         </div>
                         <div class="form-group">

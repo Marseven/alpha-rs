@@ -4,7 +4,7 @@
 Project:        Insurance - Agency & Business HTML5 Template
 Version:        1.0
 Last change:    26/09/2020
-Primary use:    Agency & Business Template 
+Primary use:    Agency & Business Template
 Author:         Ingenioushubs
 ------------------
 Table of Content
@@ -12,7 +12,7 @@ Table of Content
 
 1.  preloader
 2.  Header Part
-    2.1. top nav 
+    2.1. top nav
     2.2. Main nav part
     2.3. banner part
 
@@ -169,7 +169,7 @@ a:hover {
 
 
 /* ============================
-            common 
+            common
 ========================= */
 .hidden {
     display: none;
@@ -550,7 +550,7 @@ img {
 /* =============Navbar Part CSS End============= */
 
 /* =====================================
-           Banner Css 
+           Banner Css
 ======================================= */
 
 .pogoSlider-slide:after {
@@ -1595,7 +1595,7 @@ img {
 /*==============Contact Part CSS Start=============*/
 
 #contact {
-    background: url(../images/footer-bg.jpg) no-repeat;
+    background: url(../images/footer-bg.png) no-repeat;
     background-position: center !important;
     background-size: cover !important;
     position: relative;

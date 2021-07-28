@@ -52,13 +52,13 @@ class FileController extends Controller
                 $originalpath = public_path('/upload/user/original/'. $filename.'.'.$extension);
                 $thumbnailpath = public_path('/upload/user/traite/'.$filenametostore);
 
-                $img = Image::make($originalpath)->fit(970, 1000, function($constraint) {
+                $img = Image::make($originalpath)->fit(300, 300, function($constraint) {
                     $constraint->aspectRatio();
                 })->interlace(true);
                 $img->save($thumbnailpath);
 
-                $filePath_originale = '/upload/user/original/' . $filename.'.'.$extension;
-                $filePath_traite = '/upload/user/traite/' . $filenametostore;
+                $filePath_originale = '/upload/picture/original/' . $filename.'.'.$extension;
+                $filePath_traite = '/upload/picture/traite/' . $filenametostore;
 
                 $result['state'] = true;
                 $result['url'] =  $filePath_traite;
