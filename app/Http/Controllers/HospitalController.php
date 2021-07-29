@@ -115,17 +115,18 @@ class HospitalController extends Controller
     {
 
         $sicks = Sick::all();
-        dd($request);
+
         foreach($sicks as $sick){
-            $sick = Sick::find($request->get($sick->label.'-sick'));
-            DB::table('hospital_sick')->where([
-                'hospital_id' => $request->get('hospital'),
-                'sick_id' => $sick->id
-            ])->delete();
-            DB::table('hospital_sick')->insert([
-                'hospital_id' => $request->get('hospital'),
-                'sick_id' => $sick->id,
-            ]);
+            if($request->get($sick->label) == "on"){
+                DB::table('hospital_sick')->where([
+                    'hospital_id' => $request->get('hospital'),
+                    'sick_id' => $sick->id
+                ])->delete();
+                DB::table('hospital_sick')->insert([
+                    'hospital_id' => $request->get('hospital'),
+                    'sick_id' => $sick->id,
+                ]);
+            }
         }
 
         return redirect()->back()->with('success','Maladies affectées !');
