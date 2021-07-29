@@ -51,7 +51,7 @@ Breadcrum Part HTML Start
                         <div class="form-row">
                             <div class="form-group col-md-6">
                               <label for="inputCategory">Catégorie</label>
-                              <select id="inputCategory" class="form-control">
+                              <select name="category" id="inputCategory" class="form-control">
                                 <option selected>Choisir...</option>
                                 <option>Particulier</option>
                                 <option>Entreprise</option>

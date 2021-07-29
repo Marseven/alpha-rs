@@ -103,10 +103,10 @@
         <div class="modal-body">
             <div class="text-center">
                 <div class="profile-photo">
-                    <img src="{{$service->picture}}" width="100" class="img-fluid rounded-circle" alt="">
+                    <img src="{{asset($service->picture)}}" width="100" class="img-fluid rounded-circle" alt="">
                 </div>
                 <p class="text-muted">{{$service->description}}</p>
-                <a class="btn btn-outline-primary btn-rounded mt-3 px-5" href="javascript:void(0)">{{$service->price}}</a>
+                <a class="btn btn-outline-primary btn-rounded mt-3 px-5" href="javascript:void(0)">{{$service->price}} XAF</a>
                 <div class="row">
                     <div class="col-4 pt-3 pb-3 border-right">
                         <h3 class="mb-1">{{$service->price_promo}}</h3><span>Prix Promo</span>
@@ -175,7 +175,7 @@
 
             <div class="mb-3">
                 <label for="name" class="col-form-label">Activé ?</label>
-                <select id="selectOne" name="enable" class="form-control">
+                <select id="selectOne" name="status" class="form-control">
                     @php
                         App\Http\Controllers\Controller::enable_status();
                     @endphp
@@ -203,42 +203,42 @@
               @csrf
             <div class="mb-3">
               <label for="name" class="col-form-label">Libellé</label>
-              <input type="text" class="form-control" name="label">
+              <input type="text" class="form-control" name="label" value="{{$service->label}}">
             </div>
 
             <div class="mb-3">
                 <label for="name" class="col-form-label">Description</label>
-                <textarea class="form-control" name="description">Description...</textarea>
+                <textarea class="form-control" name="description">{{$service->description}}</textarea>
             </div>
 
             <div class="mb-3">
                 <label for="price" class="col-form-label">Prix</label>
-                <input type="text" class="form-control" name="price">
+                <input type="text" class="form-control" name="price" value="{{$service->price}}">
             </div>
 
             <div class="mb-3">
                 <label for="price_promo" class="col-form-label">Prix de promo</label>
-                <input type="text" class="form-control" name="price_promo">
+                <input type="text" class="form-control" name="price_promo" value="{{$service->price_promo}}">
             </div>
 
             <div class="mb-3">
                 <label for="begin_promo" class="col-form-label">Début de la Promo</label>
-                <input type="date" class="form-control" name="begin_promo">
+                <input type="date" class="form-control" name="begin_promo" value="{{$service->begin_promo}}">
             </div>
 
             <div class="mb-3">
                 <label for="end_promo" class="col-form-label">Fin de la Promo</label>
-                <input type="date" class="form-control" name="end_promo">
+                <input type="date" class="form-control" name="end_promo" value="{{$service->end_promo}}">
             </div>
 
             <div class="mb-3">
                 <label for="picture" class="col-form-label">Image</label>
-                <input type="file" class="form-control" name="picture">
+                <input type="file" class="form-control" name="picture" value="{{$service->picture}}">
             </div>
 
             <div class="mb-3">
                 <label for="name" class="col-form-label">Activé ?</label>
-                <select id="selectOne" name="enable" class="form-control">
+                <select id="selectOne" name="statut" class="form-control">
                     @php
                         App\Http\Controllers\Controller::enable_status();
                     @endphp

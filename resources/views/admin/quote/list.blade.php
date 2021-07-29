@@ -29,7 +29,6 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Liste des Devis</h4>
-                        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#securityModal">Ajouter</button>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

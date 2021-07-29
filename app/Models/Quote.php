@@ -16,4 +16,19 @@ class Quote extends Model
     	return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function service()
+    {
+    	return $this->belongsTo(Service::class, 'service_id');
+    }
+
+    public function country()
+    {
+    	return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    public function town()
+    {
+    	return $this->belongsTo(Town::class, 'town_id');
+    }
+
 }

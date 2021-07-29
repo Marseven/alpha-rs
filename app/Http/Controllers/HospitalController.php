@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use App\Models\Hospital;
 use App\Models\Hospitals;
 use Illuminate\Http\Request;
 
 use App\Models\Payment;
 use App\Models\Sick;
+use App\Models\Town;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -32,8 +34,9 @@ class HospitalController extends Controller
 
     	$hospital->label = $request->label;
         $hospital->description = $request->description;
-        $hospital->country_id = $request->country_id;
         $hospital->town_id = $request->town_id;
+        $country = Town::find($request->town_id);
+        $hospital->country_id = $country->country_id;
 
         $picture_1 = FileController::picture($request->file('picture_1'));
         if($picture_1['state'] == false){
@@ -118,8 +121,8 @@ class HospitalController extends Controller
                 'hospital_id' => $request->get('hospital'),
                 'sick_id' => $sick->id
             ])->delete();
-            DB::table('security_role_permission')->insert([
-                'hospital_id' => $request->get('role'),
+            DB::table('hospital_sick')->insert([
+                'hospital_id' => $request->get('hospital'),
                 'sick_id' => $sick->id,
             ]);
         }

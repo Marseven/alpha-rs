@@ -51,7 +51,7 @@
                                             <td>
                                                 <div class="media d-flex align-items-center">
                                                     <div class="avatar avatar-xl mr-2">
-                                                        <img class="rounded-circle img-fluid" src="{{$hospital->picture_1}}" alt="" width="30">
+                                                        <img class="rounded-circle img-fluid" src="{{asset($hospital->picture_1)}}" alt="" width="30">
                                                     </div>
                                                 </div>
                                             </td>
@@ -104,7 +104,7 @@
         <div class="modal-body">
             <div class="text-center">
                 <div class="profile-photo">
-                    <img src="{{$hospital->picture_1}}" width="100" class="img-fluid rounded-circle" alt="">
+                    <img src="{{asset($hospital->picture_1)}}" width="100" class="img-fluid rounded-circle" alt="">
                 </div>
                 <p class="text-muted">{{$hospital->description}}</p>
                 @php
@@ -161,12 +161,12 @@
 
             <div class="mb-3">
                 <label for="picture" class="col-form-label">Image 1</label>
-                <input type="file" class="form-control" name="picture">
+                <input type="file" class="form-control" name="picture_1">
             </div>
 
             <div class="mb-3">
                 <label for="picture" class="col-form-label">Image 2</label>
-                <input type="file" class="form-control" name="picture">
+                <input type="file" class="form-control" name="picture_2">
             </div>
         </div>
         <div class="modal-footer">
@@ -190,12 +190,12 @@
               @csrf
             <div class="mb-3">
             <label for="name" class="col-form-label">Libellé</label>
-            <input type="text" class="form-control" name="label">
+            <input type="text" class="form-control" name="label" value="{{$hospital->label}}">
             </div>
 
             <div class="mb-3">
                 <label for="name" class="col-form-label">Description</label>
-                <textarea class="form-control" name="description">Description...</textarea>
+                <textarea class="form-control" name="description">{{$hospital->description}}</textarea>
             </div>
 
             <div class="mb-3">
@@ -282,7 +282,7 @@
                                     </td>
                                     <td class="border-top-0">
                                         <div class="form-check ">
-                                        <input type="checkbox"  name="{{$sick->label}}" class="form-check-input" id="customCheckOne">
+                                        <input type="checkbox"  name="{{$sick->label}}" class="form-check-input" id="customCheckOne" disabled>
                                         <label class="form-check-label" for="customCheckOne"></label>
                                         </div>
                                     </td>

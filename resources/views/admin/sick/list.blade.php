@@ -48,15 +48,12 @@
                                     @foreach($sicks as $sick)
                                         <tr>
                                             <td>
-                                                <div class="media d-flex align-items-center">
-                                                    <div class="avatar avatar-xl mr-2">
-                                                        <img class="rounded-circle img-fluid" src="{{$sick->picture_1}}" alt="" width="30">
-                                                    </div>
-                                                </div>
+                                                {{$sick->id}}
                                             </td>
-                                            <td>{{$sick->label}}</td>
-                                            <td>{{$sick->country->label}}</td>
-                                            <td>{{$sick->town->label}}</td>
+                                            <td>
+                                                {{$sick->label}}
+                                            </td>
+                                            <td>{{$sick->description}}</td>
                                             @php
                                                 $status = App\Http\Controllers\Controller::status($sick->status);
                                             @endphp

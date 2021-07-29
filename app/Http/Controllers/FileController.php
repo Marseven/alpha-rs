@@ -80,7 +80,67 @@ class FileController extends Controller
         }
     }
 
-    static function request_file(UploadedFile $request)
+    static function user(UploadedFile $request)
+    {
+        $result = [];
+
+        if($request != NULL) {
+
+            // On recupere les dimensions du fichier
+            $infosImg = getimagesize($request->path());
+
+            //dd($infosImg);
+
+            if(($infosImg[0] >= WIDTH_MIN) && ($infosImg[1] >= HEIGHT_MIN))
+            {
+                //get filename with extension
+                $filenamewithextension = $request->getClientOriginalName();
+
+                //get filename without extension
+                $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+                //get file extension
+                $extension = $request->getClientOriginalExtension();
+
+                //filename to store
+                $filenametostore = $filename.'_'.time().'_300x300.'.$extension;
+
+                //Upload File
+                $request->move(public_path('/upload/user/original/'),  $filename.'.'.$extension);
+
+                //Resize image here
+                $originalpath = public_path('/upload/user/original/'. $filename.'.'.$extension);
+                $thumbnailpath = public_path('/upload/user/traite/'.$filenametostore);
+
+                $img = Image::make($originalpath)->fit(300, 300, function($constraint) {
+                    $constraint->aspectRatio();
+                })->interlace(true);
+                $img->save($thumbnailpath);
+
+                $filePath_originale = '/upload/user/original/' . $filename.'.'.$extension;
+                $filePath_traite = '/upload/user/traite/' . $filenametostore;
+
+                $result['state'] = true;
+                $result['url'] =  $filePath_traite;
+                $result['message'] = "Image uploadée avec succès!";
+
+                return $result;
+                //change the route as per your flow
+            }else{
+                $result['state'] = false;
+                $result['message'] = "Les dimensions de votre images sont trop petites, les dimensions minimales recommandées sont 300px X 300px.";
+
+                return $result;
+            }
+        }else{
+            $result['state'] = false;
+            $result['message'] = "Image n\'a pas été uploadé";
+
+            return $result;
+        }
+    }
+
+    static function folder_file(UploadedFile $request)
     {
         $result = [];
 
@@ -99,9 +159,9 @@ class FileController extends Controller
             $filenametostore = $filename.'_'.time().'_shap.'.$extension;
 
             //Upload File
-            $request->move(public_path('/upload/requests/'),  $filenametostore);
+            $request->move(public_path('/upload/documents/'),  $filenametostore);
 
-            $filePath_traite = '/upload/requests/' . $filenametostore;
+            $filePath_traite = '/upload/documents/' . $filenametostore;
 
             $result['state'] = true;
             $result['url'] =  $filePath_traite;
@@ -117,7 +177,7 @@ class FileController extends Controller
         }
     }
 
-    static function refill_file(UploadedFile $request)
+    static function quote_file(UploadedFile $request)
     {
         $result = [];
 
@@ -136,9 +196,9 @@ class FileController extends Controller
             $filenametostore = $filename.'_'.time().'_shap.'.$extension;
 
             //Upload File
-            $request->move(public_path('/upload/refill/'),  $filenametostore);
+            $request->move(public_path('/upload/quote/'),  $filenametostore);
 
-            $filePath_traite = '/upload/refill/' . $filenametostore;
+            $filePath_traite = '/upload/quote/' . $filenametostore;
 
             $result['state'] = true;
             $result['url'] =  $filePath_traite;

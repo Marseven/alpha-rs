@@ -25,7 +25,7 @@ class ServiceController extends Controller
 
     public function create(Request $request)
     {
-        Controller::he_can('Cards', 'creat');
+        Controller::he_can('Services', 'creat');
     	$service = new Service();
         $service->label = $request->label;
         $service->description = $request->description;

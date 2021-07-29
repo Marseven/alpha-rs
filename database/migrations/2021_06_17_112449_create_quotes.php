@@ -15,19 +15,20 @@ class CreateQuotes extends Migration
     {
         Schema::create('quotes', function (Blueprint $table) {
             $table->id();
+            $table->string('reference')->unique();
             $table->string('category');
             $table->string('firstname')->nullable();
             $table->string('lastname');
             $table->string('birthday');
-            $table->foreignId('gender');
+            $table->char('gender');
             $table->string('email');
-            $table->foreignId('phone');
-            $table->foreignId('message');
-            $table->foreignId('join_piece');
+            $table->string('phone');
+            $table->string('join_piece');
             $table->foreignId('country_id');
-            $table->foreignId('service_id')->nullable();
-            $table->foreignId('user_id')->nullable();
-            $table->foreignId('status');
+            $table->foreignId('town_id')->nullable();
+            $table->foreignId('service_id');
+            $table->foreignId('user_id');
+            $table->string('status');
             $table->timestamps();
         });
     }

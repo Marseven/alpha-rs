@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use App\Models\Refill;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,12 +19,17 @@ class UserController extends Controller
             $somme += $payment->amount;
         }
 
+        $services = Service::all();
+        $countries = Country::all();
+
         return view('profile.show', [
             'user' =>$user,
             'quotes' => $user->quotes,
             'folders' =>$user->folders->count(),
             'somme' => $somme,
             'payments' => $user->payments,
+            'services' => $services,
+            'countries' => $countries,
 
         ]);
     }
@@ -36,7 +43,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
 
-        $picture = FileController::picture($request->file('picture'));
+        $picture = FileController::user($request->file('picture'));
         if($picture['state'] == false){
             return back()->withErrors($picture['message']);
         }

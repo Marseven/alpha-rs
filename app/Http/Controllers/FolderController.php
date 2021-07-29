@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Folder;
+use App\Models\Quote;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,14 +38,14 @@ class FolderController extends Controller
         $folder->firstname = $request->firstname;
         $folder->birthday = $request->birthday;
 
-        $folder->genre = $request->genre;
+        $folder->gender = $request->gender;
 
         $folder->email = $request->email;
         $folder->phone = $request->phone;
 
         $folder->category = $request->category;
 
-        $join_piece = FileController::request_file($request->file('join_piece'));
+        $join_piece = FileController::folder_file($request->file('join_piece'));
         if($join_piece['state'] == false){
             return back()->with('error',$join_piece['message']);
         }
@@ -67,6 +68,50 @@ class FolderController extends Controller
         }else{
             return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
         }
+    }
+
+    public function quote(Quote $quote){
+
+        $folder = new Folder();
+
+        $folder->reference = $this->str_random(8);
+
+        $folder->lastname = $quote->lastname;
+
+        $folder->firstname = $quote->firstname;
+        $folder->birthday = $quote->birthday;
+
+        $folder->gender = $quote->gender;
+
+        $folder->email = $quote->email;
+        $folder->phone = $quote->phone;
+
+        $folder->category = $quote->category;
+        $folder->join_piece = $quote->join_piece;
+
+
+        $folder->status = STATUT_RECEIVE;
+
+        $folder->service_id = $quote->service_id;
+        $folder->country_id = $quote->country_id;
+
+
+        $folder->user_id = auth()->user()->id;
+
+        if($folder->save()){
+
+            return back()->with('succes',"Votre dossier a été crée avec succès.");
+
+        }else{
+            return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
+        }
+
+    }
+
+    public function pay(Folder $folder){
+
+        return PaymentController::ebilling('folder', $folder);
+
     }
 
     public function edit(Folder $folder)
@@ -102,7 +147,7 @@ class FolderController extends Controller
 
             $folder->category = $request->category;
 
-            $join_piece = FileController::request_file($request->file('join_piece'));
+            $join_piece = FileController::folder_file($request->file('join_piece'));
 
             if($join_piece['state'] == false){
                 return back()->with('error',$join_piece['message']);

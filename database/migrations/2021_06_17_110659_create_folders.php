@@ -20,13 +20,15 @@ class CreateFolders extends Migration
             $table->string('firstname')->nullable();
             $table->string('lastname');
             $table->string('birthday');
-            $table->foreignId('gender');
+            $table->char('gender');
             $table->string('email');
-            $table->foreignId('phone');
-            $table->foreignId('join_piece');
+            $table->string('phone');
+            $table->string('join_piece');
             $table->foreignId('country_id');
-            $table->foreignId('service_id')->nullable();
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('town_id')->nullable();
+            $table->foreignId('service_id');
+            $table->foreignId('user_id');
+            $table->string('status');
             $table->timestamps();
         });
     }

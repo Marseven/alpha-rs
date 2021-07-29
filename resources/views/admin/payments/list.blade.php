@@ -28,8 +28,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Liste des Services</h4>
-                        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#securityModal">Ajouter</button>
+                        <h4 class="card-title">Liste des Paiements</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

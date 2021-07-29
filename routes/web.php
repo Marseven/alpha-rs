@@ -15,8 +15,8 @@ use App\Http\Controllers\FolderController;
 use App\Http\Controllers\HospitalController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\Admin\CountryController;
+use App\Http\Controllers\Admin\SickController;
 use App\Http\Controllers\PaymentController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -67,9 +67,11 @@ Route::middleware('auth')->group( function(){
     Route::get('/folder',[FolderController::class, 'add'])->name('folder');
     Route::post('/folder',[FolderController::class, 'create']);
     Route::get('/list-folder',[FolderController::class, 'index'])->name('list-folder');
+    Route::post('/folder/quote/{quote}',[FolderController::class, 'quote']);
 
      //query
      Route::get('/list-quotes',[QuoteController::class, 'index'])->name('list-quotes');
+     Route::post('/folder',[FolderController::class, 'create']);
 
     //payment
     Route::get('/callback/ebilling/{type}/{entity}',[PaymentController::class, 'callback_ebilling'])->name('ebilling-payment');
@@ -116,14 +118,14 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group( function
 
     //sicks
     Route::get('/list-sicks',[AdminController::class, 'listSicks'])->name('admin-list-sicks');
-    Route::post('/sick',[HospitalController::class, 'createSick']);
-    Route::post('/sick/{sick}', [HospitalController::class, 'updateSick']);
+    Route::post('/sick',[SickController::class, 'create']);
+    Route::post('/sick/{sick}', [SickController::class, 'update']);
 
     //hospital
     Route::post('/hospital',[HospitalController::class, 'create']);
     Route::get('/list-hospitals',[AdminController::class, 'listHospitals'])->name('admin-list-hospitals');
     Route::post('/hospital/{hospital}', [HospitalController::class, 'update']);
-    Route::get('/hospital-sick/{hospital}', [HospitalController::class, 'sick']);
+    Route::post('/hospital-sick/{hospital}', [HospitalController::class, 'sick']);
 
     //folder
     Route::get('/list-folders',[AdminController::class, 'listFolders'])->name('admin-list-folders');

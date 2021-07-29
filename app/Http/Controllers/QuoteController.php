@@ -55,7 +55,7 @@ class QuoteController extends Controller
 
         $quote->category = $request->category;
 
-        $join_piece = FileController::request_file($request->file('join_piece'));
+        $join_piece = FileController::quote_file($request->file('join_piece'));
         if($join_piece['state'] == false){
             return back()->with('error',$join_piece['message']);
         }
@@ -144,7 +144,7 @@ class QuoteController extends Controller
 
             $quote->category = $request->category;
 
-            $join_piece = FileController::request_file($request->file('join_piece'));
+            $join_piece = FileController::quote_file($request->file('join_piece'));
             if($join_piece['state'] == false){
                 return back()->with('error',$join_piece['message']);
             }

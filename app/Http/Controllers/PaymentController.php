@@ -56,37 +56,24 @@ class PaymentController extends Controller
         // ===================== Setup Attributes ===========================
         // =============================================================
 
-        // E-Billing server URL
-        $SERVER_URL = "https://lab2.billing-easy.net/api/v1/merchant/e_bills/bulk_create";
-
-        // Username
-        $USER_NAME = 'aristide';
-
-        // SharedKey
-        $SHARED_KEY = 'a4e80739-61ea-430e-8ddc-db9eb7bf0783';
-
-        // POST URL
-        $POST_URL = 'https://test.billing-easy.net';
-
-
-        if($type == 'refill'){
+        if($type == 'folder'){
             // Fetch all data (including those not optional) from session
-            $eb_amount = $data->amount_refill;
-            $eb_shortdescription = 'Recharge de la Carte prépayé **** **** **** '.substr($data->number_card, -4, 4);
+            $eb_amount = $data->amount;
+            $eb_shortdescription = 'Paiement pour le dossier médical N° '.$data->reference;
             $eb_reference = $data->reference;
             $eb_email = auth()->user()->email;
-            $eb_msisdn = '074010203';
-            $eb_callbackurl = url('/callback/ebilling/refill/'.$data->id);
-            $eb_name = $data->name_card;
+            $eb_msisdn = auth()->user()->phone ? auth()->user()->phone :'074010203';
+            $eb_callbackurl = url('/callback/ebilling/folder/'.$data->id);
+            $eb_name = $data->firstname.' '.$data->lastname;
         }else{
             // Fetch all data (including those not optional) from session
-            $eb_amount = 11900;
-            $eb_shortdescription = 'Frais de demande de carte prépayée.';
-            $eb_reference = $data->r_reference;
+            $eb_amount = 100;
+            $eb_shortdescription = 'Frais de demande de devis.';
+            $eb_reference = $data->reference;
             $eb_email = $data->email;
             $eb_msisdn = $data->phone;
-            $eb_callbackurl = url('/callback/ebilling/request/'.$data->id);
-            $eb_name = $data->firstname.' '.$data->lastname;;
+            $eb_callbackurl = url('/callback/ebilling/quote/'.$data->id);
+            $eb_name = $data->firstname.' '.$data->lastname;
         }
 
         $expiry_period = 60; // 60 minutes timeout
@@ -118,8 +105,8 @@ class PaymentController extends Controller
         ];
 
         $content = json_encode($global_array);
-        $curl = curl_init($SERVER_URL);
-        curl_setopt($curl, CURLOPT_USERPWD, $USER_NAME . ":" . $SHARED_KEY);
+        $curl = curl_init(env('SERVER_URL'));
+        curl_setopt($curl, CURLOPT_USERPWD, env('USER_NAME') . ":" . env('SHARED_KEY'));
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
@@ -143,9 +130,9 @@ class PaymentController extends Controller
         // Get unique transaction id
         $bill_id = $response['e_bills'][0]['bill_id'];
 
-        if($type == 'refill'){
+        if($type == 'folder'){
             $data = [
-                'refill' => $data->id,
+                'folder' => $data->id,
                 'amount' => $eb_amount,
                 'description' => $eb_shortdescription,
                 'reference' => $eb_reference,
@@ -169,7 +156,7 @@ class PaymentController extends Controller
         PaymentController::create($type, $data);
 
         // Redirect to E-Billing portal
-        echo "<form action='" . $POST_URL . "' method='post' name='frm'>";
+        echo "<form action='" . env('POST_URL') . "' method='post' name='frm'>";
         echo "<input type='hidden' name='invoice_number' value='".$bill_id."'>";
         echo "<input type='hidden' name='eb_callbackurl' value='".$eb_callbackurl."'>";
         echo "</form>";
