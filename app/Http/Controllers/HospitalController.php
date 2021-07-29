@@ -115,6 +115,7 @@ class HospitalController extends Controller
     {
 
         $sicks = Sick::all();
+        dd($request);
         foreach($sicks as $sick){
             $sick = Sick::find($request->get($sick->label.'-sick'));
             DB::table('hospital_sick')->where([
