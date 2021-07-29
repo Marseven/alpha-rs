@@ -32,13 +32,13 @@ class WelcomeController extends Controller
 
     public function search(Request $request){
         $keyword = $request->q;
-        $sicks = Sick::where('label', 'LIKE', '%'.$keyword.'%')->get();
+        $sicks = Sick::all()->where('label', 'LIKE', '%'.$keyword.'%');
         $sicks->load(['hospitals']);
 
         $towns = [];
         $i = 0;
 
-        if($sicks->count() > 0){
+        if($sicks->hospitals->count() > 0){
             foreach($sicks->hospitals as $hospital){
                 $town = Town::find($hospital->town_id);
                 $town->load(['country']);
