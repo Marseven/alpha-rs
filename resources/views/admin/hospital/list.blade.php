@@ -334,12 +334,12 @@
                             </td>
                             <td class="border-top-0">
                                 <div class="form-check ">
-                                <input type="checkbox"  name="{{$sick->label}}" class="form-check-input" id="customCheckOne">
+                                <input type="checkbox"  name="sick-{{$sick->id}}" class="form-check-input" id="customCheckOne">
                                 <label class="form-check-label" for="customCheckOne"></label>
                                 </div>
                             </td>
                             <input type="hidden" name="hospital"  value="{{$hospital->id}}">
-                            <input type="hidden" name="{{$sick->label}}-sick"  value="{{$sick->id}}">
+                            <input type="hidden" name="{{$sick->id}}-sick"  value="{{$sick->id}}">
                         </tr>
                     @endforeach
                   </tbody>
