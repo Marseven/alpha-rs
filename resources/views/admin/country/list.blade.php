@@ -50,7 +50,7 @@
                                             <td>
                                                 <div class="media d-flex align-items-center">
                                                     <div class="avatar avatar-xl mr-2">
-                                                        <img class="rounded-circle img-fluid" src="{{$country->flag}}" alt="" width="30">
+                                                        <img class="rounded-circle img-fluid" src="{{asset($country->flag)}}" alt="" width="30">
                                                     </div>
                                                 </div>
                                             </td>
