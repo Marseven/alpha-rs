@@ -18,6 +18,6 @@ class Sick extends Model
 
     public function hospitals()
     {
-    	return $this->belongsToMany(Sick::class, 'hospital_sick');
+    	return $this->belongsToMany(Hospital::class, 'hospital_sick');
     }
 }
