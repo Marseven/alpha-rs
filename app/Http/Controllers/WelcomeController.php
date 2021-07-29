@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Mail\QueryMessage;
+use App\Models\Hospital;
 use App\Models\Service;
 use App\Models\Sick;
 use App\Models\Town;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class WelcomeController extends Controller
@@ -36,14 +38,20 @@ class WelcomeController extends Controller
         $sicks->load(['hospitals']);
 
         $towns = [];
-        $i = 0;
 
-        if($sicks->hospitals->count() > 0){
-            foreach($sicks->hospitals as $hospital){
-                $town = Town::find($hospital->town_id);
-                $town->load(['country']);
-                $towns[$i] = $town;
-                $i++;
+        if($sicks->count() > 0){
+            $i = 0;
+            foreach($sicks as $sick){
+                $sql = DB::table('hospital_sick')->where([
+                    'sick_id' => $sick->id
+                ])->get();
+                foreach($sql as $t){
+                    $hospital = Hospital::find($t->hospital_id);
+                    $town = Town::find($hospital->town_id);
+                    $town->load(['country']);
+                    $towns[$i] = $town;
+                    $i++;
+                }
             }
         }
 
