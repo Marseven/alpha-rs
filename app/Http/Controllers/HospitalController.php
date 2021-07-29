@@ -117,8 +117,7 @@ class HospitalController extends Controller
         $sicks = Sick::all();
 
         foreach($sicks as $sick){
-            dd($request->get('sick-'.$sick->id));
-            if($request->get($sick->label) == "on"){
+            if($request->get('sick-'.$sick->id) == "on"){
                 DB::table('hospital_sick')->where([
                     'hospital_id' => $request->get('hospital'),
                     'sick_id' => $sick->id
