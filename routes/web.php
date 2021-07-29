@@ -50,6 +50,7 @@ Route::get('/list-hospitals',[HospitalController::class, 'index'])->name('list-h
 Auth::routes();
 
 Route::get('logout',[LoginController::class, 'logout']);
+Route::post('login',[LoginController::class, 'authenticate']);
 Route::get('503', function () {return 'Accès non autorisé';});
 Route::get('404', function () {return 'Page non trouvée';});
 

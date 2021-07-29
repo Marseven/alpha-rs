@@ -66,7 +66,7 @@
                     <div class="about-cont">
                         <div class="heading b-text">
                             <h5>Mieux nous connaître</h5>
-                            <h2>À Propos de Design Service</h2>
+                            <h2>À Propos de Relief Service</h2>
                         </div>
 
                         <p>Relief Services est une entreprise spécialisée dans l’assistance médicale et l’accompagnement de toute personne désirant se faire soigner à l’étranger dans le cadre d'une évacuation sanitaire ou pour un bilan de santé. Elle a aussi le privilège d’avoir de bonne connaissance et expertise du secteur avec une excellente plateforme logistique administrative et médicale. Tout ceci avec un ensemble de partenaires. Gagnez du temps dans vos démarches administratives, vos rendez-vous médicaux en un temps record, votre logement et transports sont réservés.</p>

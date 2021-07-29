@@ -17,7 +17,7 @@
     <div class="authincation h-100">
         <div class="container h-100">
 
-            @include('layouts.flash')
+            @include('layouts.flash-admin')
 
              @yield('content')
 

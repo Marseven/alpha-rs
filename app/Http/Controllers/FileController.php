@@ -46,11 +46,11 @@ class FileController extends Controller
                 $filenametostore = $filename.'_'.time().'_300x300.'.$extension;
 
                 //Upload File
-                $request->move(public_path('/upload/user/original/'),  $filename.'.'.$extension);
+                $request->move(public_path('/upload/picture/original/'),  $filename.'.'.$extension);
 
                 //Resize image here
-                $originalpath = public_path('/upload/user/original/'. $filename.'.'.$extension);
-                $thumbnailpath = public_path('/upload/user/traite/'.$filenametostore);
+                $originalpath = public_path('/upload/picture/original/'. $filename.'.'.$extension);
+                $thumbnailpath = public_path('/upload/picture/traite/'.$filenametostore);
 
                 $img = Image::make($originalpath)->fit(300, 300, function($constraint) {
                     $constraint->aspectRatio();

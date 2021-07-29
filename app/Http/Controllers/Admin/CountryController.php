@@ -72,6 +72,13 @@ class CountryController extends Controller
     	}else{
             $country->label = $request->label;
             $country->code = $request->code;
+            $picture = FileController::picture($request->file('flag'));
+            if($picture['state'] == false){
+                return back()->with('error', $picture['message']);
+            }
+
+            $country->flag = $picture['url'];
+            $country->status = STATUT_ENABLE;
             $country->status = $request->status;
 	    	if($country->save()){
                 return back()->with('succes', "Le pays a bien été mis à jour !");
@@ -82,7 +89,7 @@ class CountryController extends Controller
     }
 
 
-    public function createTowns(Request $request)
+    public function createTown(Request $request)
     {
 
     	$town = new Town();
@@ -93,7 +100,7 @@ class CountryController extends Controller
         if($picture['state'] == false){
             return back()->with('error', $picture['message']);
         }
-        $town->flag = $picture['url'];
+        $town->picture = $picture['url'];
         $town->status = STATUT_ENABLE;
         $town->country_id = $request->country_id;
         $town->user_id = auth()->user()->id;
@@ -105,7 +112,7 @@ class CountryController extends Controller
         }
     }
 
-    public function updateTowns(Request $request, Town $town)
+    public function updateTown(Request $request, Town $town)
     {
 
         Controller::he_can('Countries', 'updat');

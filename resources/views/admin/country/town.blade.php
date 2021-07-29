@@ -103,7 +103,7 @@
         <div class="modal-body">
             <div class="text-center">
                 <div class="profile-photo">
-                    <img src="{{$town->picture}}" width="100" class="img-fluid rounded-circle" alt="">
+                    <img src="{{asset($town->picture)}}" width="100" class="img-fluid rounded-circle" alt="">
                 </div>
                 <p>{{$town->country->label}}</p>
                 @php
@@ -142,7 +142,7 @@
 
             <div class="mb-3">
                 <label for="price" class="col-form-label">Pays</label>
-                <select class="form-control" name="town_id">
+                <select class="form-control" name="country_id">
                     <option value="">Choisir...</option>
                     @foreach ($countries as $country)
                         <option value="{{$country->id}}">{{$country->label}}</option>
@@ -187,7 +187,7 @@
 
             <div class="mb-3">
                 <label for="price" class="col-form-label">Pays</label>
-                <select class="form-control" name="town_id">
+                <select class="form-control" name="country_id">
                     <option value="">Choisir...</option>
                     @foreach ($countries as $country)
                         <option value="{{$country->id}}">{{$country->label}}</option>
@@ -202,7 +202,7 @@
 
             <div class="mb-3">
                 <label for="name" class="col-form-label">Activé ?</label>
-                <select id="selectOne" name="enable" class="form-control">
+                <select id="selectOne" name="status" class="form-control">
                     @php
                         App\Http\Controllers\Controller::enable_status();
                     @endphp
