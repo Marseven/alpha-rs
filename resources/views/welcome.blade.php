@@ -161,28 +161,6 @@
                     </div>
                 @endforeach
 
-                <div class="col-md-4">
-                    <div class="service-inner text-center">
-                        <div>
-                            <i class="flaticon-car-insurance"></i>
-                        </div>
-                        <h5>Health Insurance</h5>
-                        <p>Health insurance is an insurance that covers the whole or a part of the risk of a person incurring medical expenses. spreading the risk over </p>
-                        <div><a class="btn btn-4 btn-ser" href="#">Get a Quote</a></div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="service-inner text-center">
-                        <div>
-                            <i class="flaticon-car-insurance"></i>
-                        </div>
-                        <h5>Health Insurance</h5>
-                        <p>Health insurance is an insurance that covers the whole or a part of the risk of a person incurring medical expenses. spreading the risk over </p>
-                        <div><a class="btn btn-4 btn-ser" href="#">Get a Quote</a></div>
-                    </div>
-                </div>
-
             </div>
             @if ($services->count() == 0)
                 <div class="col-md-12">
