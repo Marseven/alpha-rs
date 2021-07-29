@@ -39,6 +39,8 @@ Breadcrum Part HTML Start
     Breadcrum Part HTML End
 ======================-->
 
+@include('layouts.flash')
+
 <!-- =============================
     Start: Profil
 ============================= -->
@@ -54,6 +56,12 @@ Breadcrum Part HTML Start
                         <div class="mt-3">
                           <h4>{{$user->name}}</h4>
                           <p class="text-secondary mb-1">{{$user->email}}</p>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="btn btn-4 btn-ser">
+                                    <span class="ml-2">Déconnexion </span>
+                                </button>
+                            </form>
                         </div>
                       </div>
                     </div>
@@ -286,7 +294,7 @@ Breadcrum Part HTML Start
                     <hr>
                     <div class="col-12 mb-5">
                         <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe</h6>
-                        <a href="{{asset($folder->join_piece)}}">Download</a>
+                        <a class="btn btn-info" href="{{asset($folder->join_piece)}}">Download</a>
                     </div>
                 </div>
             </div>

@@ -68,6 +68,7 @@ Route::middleware('auth')->group( function(){
     Route::post('/folder',[FolderController::class, 'create']);
     Route::get('/list-folder',[FolderController::class, 'index'])->name('list-folder');
     Route::post('/folder/quote/{quote}',[FolderController::class, 'quote']);
+    Route::post('/folder/pay/{folder}',[FolderController::class, 'pay']);
 
      //query
      Route::get('/list-quotes',[QuoteController::class, 'index'])->name('list-quotes');

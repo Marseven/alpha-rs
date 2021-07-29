@@ -33,7 +33,7 @@
                             </div>
                             <div class="card-body pt-2">
                                 <h4 class="text-dark font-w400">Total de dossiers</h4>
-                                <h3 class="text-primary font-w600">562,084 dossiers</h3>
+                                <h3 class="text-primary font-w600">{{$folders}} dossiers</h3>
                                 <div class="row mx-0 align-items-center">
                                     <div class="col-sm-8 col-md-7  px-0">
                                         <div id="chartCircle"></div>
@@ -82,45 +82,46 @@
                                 <div class="table-responsive ">
                                     <table class="table patient-activity">
 
-                                        <tr>
-                                            <td>
-                                                <div class="media align-items-center">
-                                                    <img class="mr-3 img-fluid rounded" width="78" src="images/avatar/1.jpg" alt="DexignZone">
-                                                    <div class="media-body">
-                                                        <a href="patient-details.html"><h5 class="mt-0 mb-1">Media heading</h5></a>
-                                                        <p class="mb-0">41 Years Old</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="mb-0">Disease</p>
-                                                <h5 class="my-0 text-primary">Allergies & Asthma</h5>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div>
-                                                        <p class="mb-1">Status</p>
-                                                        <h5 class="mt-0 mb-1 text-success">Recovered</h5>
-                                                        <small>22/03/2020 12:34 AM</small>
-                                                    </div>
-                                                    <div class="dropdown ml-auto">
-                                                        <div class="btn-link" data-toggle="dropdown">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="12" cy="5" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="19" r="2"></circle></g></svg>
-                                                        </div>
-                                                        <div class="dropdown-menu dropdown-menu-right" >
-                                                            <a class="dropdown-item" href="#">Edit</a>
-                                                            <a class="dropdown-item" href="#">Delete</a>
+                                        @foreach ($quotes as $quote)
+
+                                            @php
+                                                $quote->load(['country', 'service'])
+                                            @endphp
+                                            <tr>
+                                                <td>
+                                                    <div class="media align-items-center">
+                                                        <img class="mr-3 img-fluid rounded" width="78" src="{{asset('images/LogoA.png')}}" alt="Quote">
+                                                        <div class="media-body">
+                                                            <a href="patient-details.html"><h5 class="mt-0 mb-1">{{$quote->firstname.' '.$quote->lastname}}</h5></a>
+                                                            <p class="mb-0">{{$quote->birthday}}</p>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td>
+                                                    <p class="mb-0">{{$quote->country->label}}</p>
+                                                    <h5 class="my-0 text-primary">{{$quote->service->label}}</h5>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div>
+                                                            <p class="mb-1">Status</p>
+                                                            @php
+                                                                $status = App\Http\Controllers\Controller::status($quote->status);
+                                                            @endphp
+                                                            <h5 class="mt-0 mb-1 text-success">{{  $status }}</h5>
+                                                            <small>{{$quote->created_at}}</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+
 
                                     </table>
                                 </div>
                             </div>
                             <div class="card-footer border-0 pt-0 text-center">
-                                <a href="#" class="btn-link">Voir Plus >></a>
+                                <a href="{{url('admin/list-quotes')}}" class="btn-link">Voir Plus >></a>
                             </div>
                         </div>
                     </div>
@@ -137,7 +138,7 @@
                                     </span>
                                     <div class="media-body text-white text-right">
                                         <p class="mb-1">Destinations</p>
-                                        <h3 class="text-white">76</h3>
+                                        <h3 class="text-white">{{$countries}}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +153,7 @@
                                     </span>
                                     <div class="media-body text-white text-right">
                                         <p class="mb-1">Hôpitaux</p>
-                                        <h3 class="text-white">56</h3>
+                                        <h3 class="text-white">{{$hospitals}}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +168,7 @@
                                     </span>
                                     <div class="media-body text-white text-right">
                                         <p class="mb-1">Dossiers</p>
-                                        <h3 class="text-white">783</h3>
+                                        <h3 class="text-white">{{$folders}}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +183,7 @@
                                     </span>
                                     <div class="media-body text-white text-right">
                                         <p class="mb-1">Utilisateurs</p>
-                                        <h3 class="text-white">76</h3>
+                                        <h3 class="text-white">{{$users}}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +202,7 @@
                                 </select>
                             </div>
                             <div class="card-body pt-2">
-                                <h3 class="text-primary font-w600">41 512 000 XAF <small class="text-dark ml-2">25 612 000 XAF</small></h3>
+                                <h3 class="text-primary font-w600">{{$payment_pay}} XAF <small class="text-dark ml-2">{{$payment_total}} XAF</small></h3>
                                 <div id="chartBar"></div>
                             </div>
                         </div>

@@ -33,6 +33,8 @@ Breadcrum Part HTML Start
     Breadcrum Part HTML End
 ======================-->
 
+@include('layouts.flash')
+
 <!-- =============================
     Start: About Us
 ============================= -->

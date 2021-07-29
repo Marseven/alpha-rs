@@ -1,6 +1,46 @@
 @extends('layouts.default')
 
 @section('content')
+
+<!--=========================
+Breadcrum Part HTML Start
+=======================-->
+<section id="breadcrun" class="breadcrun-banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="bread-inner">
+                    <h1 class="heading-font">Espace Client</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="{{route('home')}}">
+                                <p>Accueil</p>
+                            </a>
+                        </li>
+                        <li><i class="fas fa-angle-right"></i></li>
+                        <li>
+                            <p>FACTURE</p>
+                        </li>
+                    </ul>
+                    <div class="clr"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--====================
+    Breadcrum Part HTML End
+======================-->
+
+@include('layouts.flash')
+
+<!-- =============================
+    Start: Profil
+============================= -->
+<section id="aboutus" class="aboutus aboutpage section">
+    <div class="container">
+
     <!--begin::Entry-->
     <div class="d-flex flex-column-fluid">
         <!--begin::Container-->
@@ -13,7 +53,7 @@
                     <div class="row justify-content-center py-8 px-8 py-md-27 px-md-0">
                         <div class="col-md-9">
                             <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
-                                <h1 class="display-4 font-weight-boldest mb-10">PAIMENT DE RECHARGE  ###{{$request_card->id}}</h1>
+                                <h1 class="display-4 font-weight-boldest mb-10">PAIMENT DE DEVIS  ###{{$quote->id}}</h1>
                                 <div class="d-flex flex-column align-items-md-end px-0">
                                     <!--begin::Logo-->
                                     <a href="#" class="mb-5">
@@ -21,8 +61,8 @@
                                     </a>
                                     <!--end::Logo-->
                                     <span class="d-flex flex-column align-items-md-end opacity-70">
-                                        <span>{{$request_card->firstname}} {{$request_card->lastname}}</span>
-                                        <span>{{$urequest_cardser->email}}</span>
+                                        <span>{{$quote->firstname}} {{$quote->lastname}}</span>
+                                        <span>{{$quote->email}}</span>
                                     </span>
                                 </div>
                             </div>
@@ -30,11 +70,11 @@
                             <div class="d-flex justify-content-between pt-6">
                                 <div class="d-flex flex-column flex-root">
                                     <span class="font-weight-bolder mb-2">DATE</span>
-                                    <span class="opacity-70">{{$request_card->created_at}}</span>
+                                    <span class="opacity-70">{{$quote->created_at}}</span>
                                 </div>
                                 <div class="d-flex flex-column flex-root">
                                     <span class="font-weight-bolder mb-2">REFERENCE NO.</span>
-                                    <span class="opacity-70">{{$request_card->reference}}</span>
+                                    <span class="opacity-70">{{$quote->reference}}</span>
                                 </div>
 
                             </div>
@@ -106,4 +146,7 @@
         <!--end::Container-->
     </div>
     <!--end::Entry-->
+
+    </div>
+</section>
 @endsection

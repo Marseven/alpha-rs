@@ -49,6 +49,9 @@
         End: Header Slider
     ============================= -->
 
+
+    @include('layouts.flash')
+
     <!-- =============================
         Start: About Us
     ============================= -->
@@ -82,7 +85,7 @@
                         </div>
                         <div class="col-md-3 col-9">
                             <div class="fun-facts-item">
-                                <h3 class="title odometer" data-count="12">00</h3>
+                                <h3 class="title odometer" data-count="8">00</h3>
                                 <span>+ Clients</span>
                                 <p>Heureux</p>
                             </div>
@@ -94,7 +97,7 @@
                         </div>
                         <div class="col-md-3 col-9">
                             <div class="fun-facts-item">
-                                <h3 class="title odometer" data-count="10">00</h3>
+                                <h3 class="title odometer" data-count="4">00</h3>
                                 <span>+ Services</span>
                                 <p>de Qualitées</p>
                             </div>
@@ -106,7 +109,7 @@
                         </div>
                         <div class="col-md-3 col-9">
                             <div class="fun-facts-item">
-                                <h3 class="title odometer" data-count="10">00</h3>
+                                <h3 class="title odometer" data-count="4">00</h3>
                                 <span>+ Années</span>
                                 <p>d'Expériences</p>
                             </div>
@@ -157,6 +160,29 @@
                         </div>
                     </div>
                 @endforeach
+
+                <div class="col-md-4">
+                    <div class="service-inner text-center">
+                        <div>
+                            <i class="flaticon-car-insurance"></i>
+                        </div>
+                        <h5>Health Insurance</h5>
+                        <p>Health insurance is an insurance that covers the whole or a part of the risk of a person incurring medical expenses. spreading the risk over </p>
+                        <div><a class="btn btn-4 btn-ser" href="#">Get a Quote</a></div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="service-inner text-center">
+                        <div>
+                            <i class="flaticon-car-insurance"></i>
+                        </div>
+                        <h5>Health Insurance</h5>
+                        <p>Health insurance is an insurance that covers the whole or a part of the risk of a person incurring medical expenses. spreading the risk over </p>
+                        <div><a class="btn btn-4 btn-ser" href="#">Get a Quote</a></div>
+                    </div>
+                </div>
+
             </div>
             @if ($services->count() == 0)
                 <div class="col-md-12">
@@ -264,7 +290,7 @@
                                 </div>
                                 <div class="col-md-8 col-9">
                                     <div class="exp-ser">
-                                        <h4>5 pays</h4>
+                                        <h4>4 pays</h4>
                                         <p>Destination de qualité</p>
                                     </div>
                                 </div>
@@ -430,7 +456,7 @@
                     <div class="col-md-4">
                         <div class="team-inner">
                             <div class="team-img text-center">
-                                <img src="{{$town->picture}}" class="img-fluid" alt="team">
+                                <img src="{{asset($town->picture)}}" class="img-fluid" alt="team">
                             </div>
                             <div class="team-txt text-center">
                                 <h4>{{$town->label}}</h4>

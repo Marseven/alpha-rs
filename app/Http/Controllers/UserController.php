@@ -42,6 +42,7 @@ class UserController extends Controller
     public function update(Request $request, User $user){
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->phone = $request->phone;
 
         $picture = FileController::user($request->file('picture'));
         if($picture['state'] == false){

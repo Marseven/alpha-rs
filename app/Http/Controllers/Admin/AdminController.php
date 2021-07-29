@@ -23,28 +23,35 @@ class AdminController extends Controller
 {
     //
     public function index(){
-        $hospitals = Hospital::all();
+        $hospitals = Hospital::all()->count();
         $folders = Folder::all()->count();
-        $quotes = Quote::all()->count();
-        $sicks = Sick::all()->count();
-        $payments = Payment::all()->count();
+        $countries = Country::all()->count();
+        $quotes = Quote::all();
+        $users = User::all()->where('secure_role_id', '<>' , 1)->count();
+
+        $payments = Payment::all();
+        $payment_total =0;
+        foreach($payments as $payment){
+            $payment_total += $payment->amount;
+        }
 
         $hospitals_status = Hospital::all()->where('status', STATUT_ENABLE)->count();
         $folders_status = Folder::all()->where('status', STATUT_DO)->count();
-        $sicks_status = Sick::all()->where('status', STATUT_APPROVE)->count();
-        $payments_status = Payment::all()->where('status', STATUT_PAID)->count();
+
+        $payment = Payment::all()->where('status', STATUT_PAID);
+        $payment_pay =0;
+        foreach($payment as $pay){
+            $payment_pay += $pay->amount;
+        }
 
         return view('admin.dashboard', [
             'hospitals' => $hospitals,
             'folders' => $folders,
             'quotes' => $quotes,
-            'sicks' => $sicks,
-            'payments' => $payments,
-
-            'hospitals_status' => $hospitals_status,
-            'folders_status' => $folders_status,
-            'sicks_status' => $sicks_status,
-            'payments_status' => $payments_status,
+            'countries' => $countries,
+            'users' => $users,
+            'payment_total' => $payment_total,
+            'payment_pay' => $payment_pay,
         ]);
     }
 

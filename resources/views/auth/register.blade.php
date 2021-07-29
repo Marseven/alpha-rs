@@ -23,6 +23,10 @@
                                 <input type="email" name="email" class="form-control" placeholder="hello@example.com">
                             </div>
                             <div class="form-group">
+                                <label class="mb-1"><strong>Téléphone</strong></label>
+                                <input type="text" name="phone" class="form-control" placeholder="074010203">
+                            </div>
+                            <div class="form-group">
                                 <label class="mb-1"><strong>Mot de passe</strong></label>
                                 <input type="password" name="password" class="form-control" value="Password">
                             </div>

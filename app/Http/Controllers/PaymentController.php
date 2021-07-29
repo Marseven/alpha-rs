@@ -39,7 +39,8 @@ class PaymentController extends Controller
     {
 
     	$payment = new Payment();
-    	if($type == 'refill') $payment->refill_id = $data['refill'];
+    	if($type == 'folder') $payment->folder_id = $data['folder_id'];
+        if($type == 'quote') $payment->quote_id = $data['quote_id'];
         $payment->description = $data['description'];
         $payment->reference = $data['reference'];
         $payment->amount = $data['amount'];
@@ -58,7 +59,8 @@ class PaymentController extends Controller
 
         if($type == 'folder'){
             // Fetch all data (including those not optional) from session
-            $eb_amount = $data->amount;
+            $data->load(['service']);
+            $eb_amount = $data->service->price;
             $eb_shortdescription = 'Paiement pour le dossier médical N° '.$data->reference;
             $eb_reference = $data->reference;
             $eb_email = auth()->user()->email;
@@ -132,7 +134,7 @@ class PaymentController extends Controller
 
         if($type == 'folder'){
             $data = [
-                'folder' => $data->id,
+                'folder_id' => $data->id,
                 'amount' => $eb_amount,
                 'description' => $eb_shortdescription,
                 'reference' => $eb_reference,
@@ -143,6 +145,7 @@ class PaymentController extends Controller
             ];
         }else{
             $data = [
+                'quote_id' => $data->id,
                 'amount' => $eb_amount,
                 'description' => $eb_shortdescription,
                 'reference' => $eb_reference,
@@ -170,17 +173,17 @@ class PaymentController extends Controller
     static function callback_ebilling($type, $entity){
         if($type == 'folder'){
             $folder = Folder::find($entity);
-            $folder->status = STATUT_PENDING;
-            $folder->save();
-            $folder->load(['payment']);
             $payment = Payment::all()->where('reference', $folder->reference);
             if(isset($payment->status) && $payment->status == STATUT_PAID){
+                $folder->status = STATUT_PAID;
+                $folder->save();
+                $folder->load(['payment']);
                 return view('payment.callback',
                 [
                     'folder' => $folder,
                 ])->with('succes','Votre paiment a bien été reçu.');
             }else{
-                return redirect('/refill')->with('error',"Une erreur s'est produite, Veuillez réessayer !");;
+                return redirect('/profil')->with('error',"Une erreur s'est produite, Veuillez réessayer !");;
             }
         }else{
             $quote = Quote::find($entity);
@@ -191,7 +194,7 @@ class PaymentController extends Controller
                     'quote' => $quote,
                 ])->with('succes','Votre paiment a bien été reçu. Vérifiez votre boîte mail pour réinitialiser votre mot de passe.');
             }else{
-                return redirect('/request-card')->with('succes',"Votre paiement n'a pas été reçu, Vérifiez votre boîte mail pour réinitialiser votre mot de passe.");
+                return redirect('/home')->with('succes',"Votre paiement n'a pas été reçu, Vérifiez votre boîte mail pour réinitialiser votre mot de passe.");
             }
         }
     }

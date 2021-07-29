@@ -71,17 +71,20 @@ class QuoteController extends Controller
 
         if(Auth::user()) {
             $quote->user_id = auth()->user()->id;
+            if($quote->save()){
+
+                if(Auth::user()){
+                    return PaymentController::ebilling('quote', $quote);
+                }else{
+                    return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
+                }
+            }else{
+                return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
+            }
         }else{
             $email_exist = User::all()->where('email', $request->email)->count();
             if($email_exist > 1){
                 return back()->with('error',"Cette email exiiste déjà, connectez-vous pour faire une nouvelle demande.");
-            }
-        }
-
-        if($quote->save()){
-
-            if(Auth::user()){
-                return back()->with('succes',"Votre demande a été envoyé, nous reviendrons vers vous au plus tôt.");
             }else{
                 $user = new User();
                 $user->name = $request->firstname.' '.$request->lastname;
@@ -106,8 +109,6 @@ class QuoteController extends Controller
                     return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
                 }
             }
-        }else{
-            return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
         }
     }
 

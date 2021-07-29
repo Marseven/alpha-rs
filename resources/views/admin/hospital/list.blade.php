@@ -268,7 +268,7 @@
                                     </td>
                                     <td class="border-top-0">
                                         <div class="form-check ">
-                                        <input type="checkbox" checked  name="{{$sick->label}}" class="form-check-input" id="customCheckOne">
+                                        <input type="checkbox" checked  name="{{$sick->label}}" class="form-check-input" id="customCheckOne" disabled>
                                         <label class="form-check-label" for="customCheckOne"></label>
                                         </div>
                                     </td>

@@ -156,7 +156,7 @@
                 <label for="name" class="col-form-label">Statut</label>
                 <select id="selectOne" name="enable" class="form-control">
                     @php
-                        App\Http\Controllers\Controller::folder_status();
+                        App\Http\Controllers\Controller::work_status();
                     @endphp
                  </select>
             </div>

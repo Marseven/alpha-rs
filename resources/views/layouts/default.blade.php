@@ -122,9 +122,8 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="{{route('home')}}"><span data-hover="Home">Accueil</span></a></li>
-
-                        <li class="nav-item"><a class="nav-link" href="{{route('home')}}#service"><span data-hover="Services">Nos Services</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="{{route('home')}}#aboutus"><span data-hover="About">À Propos</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('home')}}#service"><span data-hover="Services">Nos Services</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="{{route('home')}}#testimonial"><span data-hover="Services">Témoignages</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="{{route('quote')}}"><span data-hover="Services">Devis</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="{{route('home')}}#contactus"><span data-hover="Contact">Contact</span></a></li>
@@ -151,8 +150,8 @@
             <div class="button"><i class="more-less fa fa-align-right"></i></div>
             <ul>
                 <li><a href="{{route('home')}}#banner">Accueil</a></li>
-                <li><a href="{{route('home')}}#service">Nos Services</a></li>
                 <li><a href="{{route('home')}}#aboutus">À Propos</a></li>
+                <li><a href="{{route('home')}}#service">Nos Services</a></li>
                 <li><a href="{{route('home')}}#testimonial">Témoignages</a></li>
                 <li><a href="{{route('quote')}}">Devis</a></li>
                 <li class="nav-item"><a href="{{route('home')}}#contactus">Contact</a></li>
@@ -171,8 +170,6 @@
         </nav>
     </section>
     <!-- Header End -->
-
-    @include('layouts.flash')
 
     @yield('content')
 
