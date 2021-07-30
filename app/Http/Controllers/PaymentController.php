@@ -172,7 +172,7 @@ class PaymentController extends Controller
         exit();
     }
 
-    static function callback_ebilling($type, $entity){
+    public function callback_ebilling($type, $entity){
         if($type == 'folder'){
             $folder = Folder::find($entity);
             $payment = Payment::all()->where('reference', $folder->reference);
