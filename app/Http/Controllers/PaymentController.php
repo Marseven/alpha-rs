@@ -202,7 +202,7 @@ class PaymentController extends Controller
 
     public function notify_ebilling(){
         if(isset($_POST['reference'])){
-            $payment = Payment::where('reference', $_POST['reference'])->get();
+            $payment = Payment::where('reference', $_POST['reference'])->first();
             $payment->status = STATUT_PAID;
             $payment->transaction_id = $_POST['transactionid'];
             $payment->operator = $_POST['paymentsystem'];
