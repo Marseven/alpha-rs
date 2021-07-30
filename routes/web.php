@@ -76,7 +76,7 @@ Route::middleware('auth')->group( function(){
 
     //payment
     Route::get('/callback/ebilling/{type}/{entity}',[PaymentController::class, 'callback_ebilling'])->name('ebilling-payment');
-    Route::post('/notify/ebilling',[PaymentController::class, 'notify_ebilling'])->name('notify-ebilling-payments');
+    Route::get('/notify/ebilling',[PaymentController::class, 'notify_ebilling'])->name('notify-ebilling-payments');
     Route::get('/list-payments',[PaymentController::class, 'payments'])->name('payments');
 
     //user
