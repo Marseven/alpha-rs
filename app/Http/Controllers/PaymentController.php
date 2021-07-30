@@ -203,7 +203,7 @@ class PaymentController extends Controller
         }
     }
 
-    static function notify_ebilling(){
+    public function notify_ebilling(){
         if($_POST['reference']){
             $payment = Payment::where('reference', $_POST['reference']);
             $payment->status = STATUT_PAID;
