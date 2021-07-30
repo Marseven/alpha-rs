@@ -45,6 +45,11 @@ Route::post('/quote',[QuoteController::class, 'create']);
 //hospital
 Route::get('/list-hospitals',[HospitalController::class, 'index'])->name('list-hospitals');
 
+//ebilling
+Route::get('/callback/ebilling/{type}/{entity}',[PaymentController::class, 'callback_ebilling'])->name('ebilling-payment');
+Route::post('/notify/ebilling',[PaymentController::class, 'notify_ebilling'])->name('notify-ebilling-payments');
+
+
 
 
 Auth::routes();
@@ -75,8 +80,6 @@ Route::middleware('auth')->group( function(){
      Route::post('/folder',[FolderController::class, 'create']);
 
     //payment
-    Route::get('/callback/ebilling/{type}/{entity}',[PaymentController::class, 'callback_ebilling'])->name('ebilling-payment');
-    Route::post('/notify/ebilling',[PaymentController::class, 'notify_ebilling'])->name('notify-ebilling-payments');
     Route::get('/list-payments',[PaymentController::class, 'payments'])->name('payments');
 
     //user
