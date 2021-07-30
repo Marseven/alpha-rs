@@ -203,13 +203,17 @@ class PaymentController extends Controller
     public function notify_ebilling(){
         if(isset($_POST['reference'])){
             $payment = Payment::where('reference', $_POST['reference'])->first();
-            $payment->status = STATUT_PAID;
-            $payment->transaction_id = $_POST['transactionid'];
-            $payment->operator = $_POST['paymentsystem'];
-            $payment->amount = $_POST['amount'];
-            $payment->paid_at = date('Y-m-d H:i');
-	    	if($payment->save()){
-                return http_response_code(200);
+            if($payment){
+                $payment->status = STATUT_PAID;
+                $payment->transaction_id = $_POST['transactionid'];
+                $payment->operator = $_POST['paymentsystem'];
+                $payment->amount = $_POST['amount'];
+                $payment->paid_at = date('Y-m-d H:i');
+                if($payment->save()){
+                    return http_response_code(200);
+                }else{
+                    return http_response_code(403);
+                }
             }else{
                 return http_response_code(402);
             }
