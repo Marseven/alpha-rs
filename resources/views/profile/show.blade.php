@@ -212,7 +212,7 @@ Breadcrum Part HTML Start
                                             <tr>
                                                 <td>{{$payment->id}}</td>
                                                 <td>{{$payment->reference}}</td>
-                                                <td>{{$payment->refill->number_card ?? 'ACHAT'}}</td>
+                                                <td>{{$payment->folder_id ? 'DOSSIER' : 'DEVIS'}}</td>
                                                 <td>{{$payment->amount}} XAF</td>
                                                 <td>{{$payment->transaction_id}}</td>
                                                 <td>{{$payment->operator}}</td>
