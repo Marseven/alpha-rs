@@ -99,7 +99,7 @@
             <div class="row">
                 <div class="col-12 mb-5">
                     <!-- text -->
-                    <h6 class="text-uppercase fs-5 ls-2">Informations du Devis/h6>
+                    <h6 class="text-uppercase fs-5 ls-2">Informations du Devis</h6>
                 </div>
                 <div class="col-6 mb-5">
                     <h6 class="text-uppercase fs-5 ls-2">Nom & Prénom </h6>
