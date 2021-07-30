@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Mail\QuoteMessage;
 use Illuminate\Http\Request;
-use App\Models\Refill;
-use App\Models\Card;
 use App\Models\Folder;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\Quote;
-use App\Models\RequestCard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -205,7 +202,7 @@ class PaymentController extends Controller
 
     public function notify_ebilling(){
         if(isset($_POST['reference'])){
-            $payment = Payment::where('reference', $_POST['reference']);
+            $payment = Payment::where('reference', $_POST['reference'])->get();
             $payment->status = STATUT_PAID;
             $payment->transaction_id = $_POST['transactionid'];
             $payment->operator = $_POST['paymentsystem'];
