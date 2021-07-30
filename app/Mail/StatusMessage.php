@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserMessage extends Mailable
+class StatusMessage extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,8 +31,8 @@ class UserMessage extends Mailable
      */
     public function build()
     {
-        return $this->from("contact@reliefservice.space") // L'expéditeur
-                    ->subject('Bienvenue sur Alpha') // Le sujet
-                    ->view('profile.mail');
+        return $this->from("contact@reliefservices.space") // L'expéditeur
+                    ->subject($this->data['subject']) // Le sujet
+                    ->view('layouts.mail-status');
     }
 }

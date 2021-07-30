@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserMessage extends Mailable
+class QuoteMessage extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,8 +31,15 @@ class UserMessage extends Mailable
      */
     public function build()
     {
-        return $this->from("contact@reliefservice.space") // L'expéditeur
-                    ->subject('Bienvenue sur Alpha') // Le sujet
-                    ->view('profile.mail');
+        if($this->data['email'] == "m.cherone@reliefservices.space"){
+            return $this->from("contact@reliefservices.space") // L'expéditeur
+                    ->subject($this->data['subject']) // Le sujet
+                    ->view('quote.mail');
+        }else{
+            return $this->from("contact@reliefservices.space") // L'expéditeur
+                    ->subject($this->data['subject']) // Le sujet
+                    ->view('quote.mail-customer');
+        }
+
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\QuoteMessage;
 use Illuminate\Http\Request;
 use App\Models\Refill;
 use App\Models\Card;
@@ -11,6 +12,7 @@ use App\Models\Payment;
 use App\Models\Quote;
 use App\Models\RequestCard;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -189,6 +191,8 @@ class PaymentController extends Controller
             $quote = Quote::find($entity);
             $payment = Payment::all()->where('reference', $quote->reference);
             if(isset($payment->status) && $payment->status == STATUT_PAID){
+                Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
+                Mail::to($quote->email)->queue(new QuoteMessage($quote));
                 return view('payment.callback-request',
                 [
                     'quote' => $quote,

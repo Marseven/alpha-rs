@@ -75,16 +75,13 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                    <td align="left" valign="top" style="padding: 50px; font-family: Open Sans, Helvetica, Arial, sans-serif; border-radius: 3px; box-shadow: 0 0 5px rgba(0,0,0,.5);" bgcolor="#f6f6f6">
                        <p style="color: #000000; font-size: 16px; line-height: 26px; margin: 0;">
 
-                            Chers Relief Service,<br><br>
+                            Cher {{ $data['lastname'] }} {{ $data['firstname'] }},<br><br>
 
-                            Nous souhaitons avoir un devis pour les informations suivante :
-                            Catégorie : {{ $data['category'] }} <br>
-                            Service : {{ $data['service'] }} <br>
-                            Pays : {{ $data['pays'] }} <br><br>
+                            Votre  {{ $data['entity'] }} a changé de statut. Son nouveau statut est désormais {{ $data['status'] }}.
 
-                           Cordialement,<br>
-                           {{ $data['lastname'] }} {{ $data['firstname'] }} <br>
-                           {{ $data['email'] }} , {{ $data['phone'] }}
+                            Cordialement,<br>
+                            Relief Service <br>
+                            contact@reliefservice.space , (+241) 077 613 799
                        </p>
                    </td>
                </tr>
