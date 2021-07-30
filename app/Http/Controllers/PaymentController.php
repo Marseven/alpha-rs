@@ -207,7 +207,7 @@ class PaymentController extends Controller
         if(isset($_POST['reference'])){
             $payment = Payment::where('reference', $_POST['reference']);
             $payment->status = STATUT_PAID;
-            $payment->transaction_id = $_POST['transaction_id'];
+            $payment->transaction_id = $_POST['transactionid'];
             $payment->operator = $_POST['paymentsystem'];
             $payment->amount = $_POST['amount'];
             $payment->paid_at = date('Y-m-d H:i');
