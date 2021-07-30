@@ -196,9 +196,9 @@ class PaymentController extends Controller
                 return view('payment.callback-request',
                 [
                     'quote' => $quote,
-                ])->with('succes','Votre paiment a bien été reçu. Vérifiez votre boîte mail pour réinitialiser votre mot de passe.');
+                ])->with('succes','Votre paiment a bien été reçu.');
             }else{
-                return redirect('/home')->with('succes',"Votre paiement n'a pas été reçu, Vérifiez votre boîte mail pour réinitialiser votre mot de passe.");
+                return redirect('/profil')->with('succes',"Votre paiement n'a pas été reçu.");
             }
         }
     }
