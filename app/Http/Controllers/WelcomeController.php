@@ -35,7 +35,7 @@ class WelcomeController extends Controller
     public function search(Request $request){
         $keyword = $request->q;
         $sicks = Sick::where('label', 'LIKE', '%'.$keyword.'%')->paginate(10);
-        dd($sicks);
+
         $towns = [];
 
         if($sicks->count() > 0){
@@ -44,6 +44,7 @@ class WelcomeController extends Controller
                 $sql = DB::table('hospital_sick')->where([
                     'sick_id' => $sick->id
                 ])->get();
+                dd($sql);
                 foreach($sql as $t){
                     $hospital = Hospital::find($t->hospital_id);
                     $town = Town::find($hospital->town_id);
