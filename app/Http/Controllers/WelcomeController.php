@@ -44,7 +44,7 @@ class WelcomeController extends Controller
                 $sql = DB::table('hospital_sick')->where([
                     'sick_id' => $sick->id
                 ])->get();
-                dd($sql);
+
                 foreach($sql as $t){
                     $hospital = Hospital::find($t->hospital_id);
                     $town = Town::find($hospital->town_id);
@@ -54,6 +54,7 @@ class WelcomeController extends Controller
                 }
             }
         }
+        dd($towns);
 
         return view('search', [
             'towns' => $towns,
