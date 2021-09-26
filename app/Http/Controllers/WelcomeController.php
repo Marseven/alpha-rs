@@ -34,7 +34,8 @@ class WelcomeController extends Controller
 
     public function search(Request $request){
         $keyword = $request->q;
-        $sicks = Sick::where('label', 'LIKE', '%'.$keyword.'%')->get();
+        $sicks = Sick::where('label', 'LIKE', '%'.$keyword.'%')->paginate(10);
+        dd($sicks);
         $towns = [];
 
         if($sicks->count() > 0){
