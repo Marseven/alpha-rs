@@ -76,7 +76,7 @@ Breadcrum Part HTML Start
                 //dd($towns);
             @endphp
             @foreach ($towns as $town)
-                <div class="col-md-4 col-md-6">
+                <div class="col-md-4">
                     <div class="team-inner">
                         <div class="team-img text-center">
                             <img src="{{$town->picture}}" class="img-fluid" alt="team">
