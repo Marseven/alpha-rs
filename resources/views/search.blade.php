@@ -36,7 +36,7 @@ Breadcrum Part HTML Start
 <!-- =============================
     Start: About Us
 ============================= -->
-<section id="team" class="team section">
+<section id="service" class="service section">
     <div class="container">
         <div class="row">
 
@@ -57,8 +57,6 @@ Breadcrum Part HTML Start
                 <div class="col-lg-12">
                     <form class="form-inline" method="POST" action="{{route('search')}}">
                         @csrf
-                        <div class="col-sm-1">
-                        </div>
                         <div class="form-group col-sm-8">
                             <input type="text" style="width: 100%" name="q" class="form-control form-control-lg" id="sick" placeholder="Cancer, ...">
                         </div>
