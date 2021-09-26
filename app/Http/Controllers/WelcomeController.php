@@ -49,8 +49,10 @@ class WelcomeController extends Controller
                     $hospital = Hospital::find($t->hospital_id);
                     $town = Town::find($hospital->town_id);
                     $town->load(['country']);
-                    $towns[$i] = $town;
-                    $i++;
+                    if(!in_array($town, $towns)){
+                        $towns[$i] = $town;
+                        $i++;
+                    }
                 }
             }
         }
