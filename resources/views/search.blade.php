@@ -73,7 +73,7 @@ Breadcrum Part HTML Start
 
         <div class="row">
             @php
-                dd($towns);
+                //dd($towns);
             @endphp
             @foreach ($towns as $town)
                 <div class="col-md-4 col-md-6">
