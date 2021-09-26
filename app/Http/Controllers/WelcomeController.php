@@ -54,7 +54,6 @@ class WelcomeController extends Controller
                 }
             }
         }
-        dd($towns);
 
         return view('search', [
             'towns' => $towns,

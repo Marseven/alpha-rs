@@ -72,6 +72,9 @@ Breadcrum Part HTML Start
         <br><br>
 
         <div class="row">
+            @php
+                dd($towns);
+            @endphp
             @foreach ($towns as $town)
                 <div class="col-md-4 col-md-6">
                     <div class="team-inner">
@@ -87,14 +90,14 @@ Breadcrum Part HTML Start
                 </div>
             @endforeach
             @if (empty($towns))
-            <div class="col-md-12">
-                <div class="alert alert-info alert-dismissible fade show" role="alert">
-                    Aucun Résultat !
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="col-md-12">
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        Aucun Résultat !
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 </div>
-            </div>
             @endif
         </div>
         <br><br>
