@@ -18,6 +18,7 @@ use App\Models\Service;
 use App\Models\Sick;
 use App\Models\Town;
 use App\Models\User;
+use DoctrineExtensions\Query\Mysql\Now;
 
 class AdminController extends Controller
 {
@@ -28,6 +29,12 @@ class AdminController extends Controller
         $countries = Country::all()->count();
         $quotes = Quote::all();
         $users = User::all()->where('secure_role_id', '<>' , 1)->count();
+
+        $folders_end = Folder::where('status', STATUT_DO)->count();
+        $folders_pending = Folder::where('status', STATUT_PENDING)->count();
+
+        $folders_today = Folder::where('created_at', Now())->count();
+
 
         $payments = Payment::all();
         $payment_total =0;
@@ -47,6 +54,9 @@ class AdminController extends Controller
         return view('admin.dashboard', [
             'hospitals' => $hospitals,
             'folders' => $folders,
+            'folders_end' => $folders_end,
+            'folders_pending' => $folders_pending,
+            'folders_today' => $folders_today,
             'quotes' => $quotes,
             'countries' => $countries,
             'users' => $users,

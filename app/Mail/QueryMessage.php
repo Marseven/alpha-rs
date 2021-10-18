@@ -31,8 +31,9 @@ class QueryMessage extends Mailable
      */
     public function build()
     {
-        return $this->from("contact@reliefservices.space") // L'expéditeur
+        return $this->from($this->data['email']) // L'expéditeur
                     ->subject($this->data['subject']) // Le sujet
-                    ->view('mail');
+                    ->markdown('mail')
+                    ->with('data',$this->data);
     }
 }

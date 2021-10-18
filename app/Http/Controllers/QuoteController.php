@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Mail\QueryMessage;
+use App\Mail\StatusMessage;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Models\Quote;
 use App\Models\Service;
+use App\Models\Town;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -25,14 +27,27 @@ class QuoteController extends Controller
         ]);
     }
 
-    public function add()
+    public function add($type = null, $id = null)
     {
         $services = Service::all();
         $countries = Country::all();
+
+        $service_check = false;
+        $country_check = false;
+
+        if($type == "town"){
+            $town = Town::find($id);
+            $country_check = Country::find($town->country_id);
+        }elseif($type == "service"){
+            $service_check = Service::find($id);
+        }
+
     	return view('quote.add',
         [
             'services' => $services,
             'countries' => $countries,
+            'service_check' => $service_check,
+            'country_check' => $country_check,
         ]);
     }
 
@@ -157,6 +172,20 @@ class QuoteController extends Controller
                 return back()->with('error', 'Le devis n\'a pas été mise à jour.');
             }
     	}
+    }
+
+    public function updateState(Request $request, $quote)
+    {
+        $quote = Quote::find($quote);
+        $quote->status = $request->status;
+        $quote->load(['user']);
+        if($quote->save()){
+            Mail::to($quote->user->email)->queue(new StatusMessage($quote, "quote"));
+            return back()->with('success', "Le status du devis a bien été mis à jour !");
+        }else{
+            return back()->with('error', "Une erreur s'est produite.");
+        }
+
     }
 
 }

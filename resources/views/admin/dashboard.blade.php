@@ -25,11 +25,11 @@
                         <div class="card">
                             <div class="card-header border-0 pb-0">
                                 <h4 class="card-title">Dossiers Médicaux (%)</h4>
-                                <select class="form-control style-1 default-select ">
+                                <!--select class="form-control style-1 default-select ">
                                     <option>Semaine</option>
                                     <option>Jour</option>
                                     <option>Mois</option>
-                                </select>
+                                </select-->
                             </div>
                             <div class="card-body pt-2">
                                 <h4 class="text-dark font-w400">Total de dossiers</h4>
@@ -44,21 +44,21 @@
                                                 <span class="bg-danger"></span>
                                                 <div>
                                                     <p>Nouveau</p>
-                                                    <h3>45%</h3>
+                                                    <h3>{{ $folders_today > 0 ? (($folders-$folders_today)/$folders_today)*100 : 0 }}%</h3>
                                                 </div>
                                             </div>
                                             <div class="col px-0">
                                                 <span class="bg-success"></span>
                                                 <div>
                                                     <p>Traité</p>
-                                                    <h3>34%</h3>
+                                                    <h3>{{ $folders_end > 0 ? (($folders-$folders_end)/$folders_end)*100 : 0 }}%</h3>
                                                 </div>
                                             </div>
                                             <div class="col px-0">
                                                 <span class="bg-warning"></span>
                                                 <div>
                                                     <p>En Taitement</p>
-                                                    <h3>18%</h3>
+                                                    <h3>{{ $folders_pending > 0 ? (($folders-$folders_pending)/$folders_pending)*100 : 0 }}%</h3>
                                                 </div>
                                             </div>
                                         </div>

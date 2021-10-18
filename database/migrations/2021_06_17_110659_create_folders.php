@@ -23,6 +23,7 @@ class CreateFolders extends Migration
             $table->char('gender');
             $table->string('email');
             $table->string('phone');
+            $table->double('price')->nullable();
             $table->string('join_piece');
             $table->foreignId('country_id');
             $table->foreignId('town_id')->nullable();

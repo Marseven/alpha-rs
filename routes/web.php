@@ -40,6 +40,7 @@ Route::post('/search', [WelcomeController::class, 'search'])->name('search');
 
 //
 Route::get('/quote',[QuoteController::class, 'add'])->name('quote');
+Route::get('/quote/{type}/{id}',[QuoteController::class, 'add']);
 Route::post('/quote',[QuoteController::class, 'create']);
 
 //hospital
@@ -48,6 +49,9 @@ Route::get('/list-hospitals',[HospitalController::class, 'index'])->name('list-h
 //ebilling
 Route::get('/callback/ebilling/{type}/{entity}',[PaymentController::class, 'callback_ebilling'])->name('ebilling-payment');
 Route::post('/notify/ebilling',[PaymentController::class, 'notify_ebilling'])->name('notify-ebilling-payments');
+
+//singpay
+Route::post('/callback/singpay',[PaymentController::class, 'callback_singpay'])->name('callback-singpay');
 
 
 
@@ -134,6 +138,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group( function
     //folder
     Route::get('/list-folders',[AdminController::class, 'listFolders'])->name('admin-list-folders');
     Route::post('/folder/{folder}', [FolderController::class, 'update']);
+    Route::post('/folder-state/{folder}', [FolderController::class, 'updateState']);
 
     //payment
     Route::get('/list-payments',[AdminController::class, 'listPayments'])->name('admin-list-payments');
@@ -141,6 +146,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group( function
     //quote
     Route::get('/list-quotes',[AdminController::class, 'listQuotes'])->name('admin-list-quotes');
     Route::post('/quotes/{quotes}', [QuoteController::class, 'update']);
+    Route::post('/quotes-state/{quotes}', [QuoteController::class, 'updateState']);
 
     //country
     Route::get('/list-countries',[AdminController::class, 'listCountries'])->name('admin-list-countries');

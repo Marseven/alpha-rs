@@ -137,7 +137,7 @@ trait CanBeOneOfMany
     {
         return $this->ofMany(collect(Arr::wrap($column))->mapWithKeys(function ($column) {
             return [$column => 'MAX'];
-        })->all(), 'MAX', $relation ?: $this->guessRelationship());
+        })->all(), 'MAX', $relation);
     }
 
     /**
@@ -152,7 +152,7 @@ trait CanBeOneOfMany
     {
         return $this->ofMany(collect(Arr::wrap($column))->mapWithKeys(function ($column) {
             return [$column => 'MIN'];
-        })->all(), 'MIN', $relation ?: $this->guessRelationship());
+        })->all(), 'MIN', $relation);
     }
 
     /**
@@ -186,7 +186,7 @@ trait CanBeOneOfMany
         }
 
         if (! is_null($column)) {
-            $subQuery->selectRaw($aggregate.'('.$column.') as '.$column);
+            $subQuery->selectRaw($aggregate.'('.$subQuery->getQuery()->grammar->wrap($column).') as '.$subQuery->getQuery()->grammar->wrap($column));
         }
 
         $this->addOneOfManySubQueryConstraints($subQuery, $groupBy, $column, $aggregate);

@@ -150,11 +150,11 @@
           <h5 class="modal-title" id="exampleModalLabelOne">Modifier un quote</h5>
         </div>
         <div class="modal-body">
-          <form action="{{ url('admin/quote/'.$quote->id) }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ url('admin/quotes-state/'.$quote->id) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="name" class="col-form-label">Statut</label>
-                <select id="selectOne" name="enable" class="form-control">
+                <select id="selectOne" name="status" class="form-control">
                     @php
                         App\Http\Controllers\Controller::quote_status();
                     @endphp

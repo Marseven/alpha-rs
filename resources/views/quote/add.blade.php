@@ -99,7 +99,11 @@ Breadcrum Part HTML Start
                             <div class="form-group col-md-6">
                               <label for="inputCountry">Pays de destination</label>
                               <select name="country_id" id="inputCountry" class="form-control">
-                                <option selected>Choisir...</option>
+                                @if($country_check)
+                                    <option value="{{$country_check->id}}">{{$country_check->label}}</option>
+                                @else
+                                    <option selected>Choisir...</option>
+                                @endif
                                 @foreach ($countries as $country)
                                     <option value="{{$country->id}}">{{$country->label}}</option>
                                 @endforeach
@@ -108,7 +112,11 @@ Breadcrum Part HTML Start
                             <div class="form-group col-md-6">
                               <label for="inputService">Service Sollicité</label>
                               <select name="service_id" id="inputService" class="form-control">
-                                <option selected>Choisir...</option>
+                                @if($service_check)
+                                    <option value="{{$service_check->id}}">{{$service_check->label}}</option>
+                                @else
+                                    <option selected>Choisir...</option>
+                                @endif
                                 @foreach ($services as $service)
                                     <option value="{{$service->id}}">{{$service->label}}</option>
                                 @endforeach

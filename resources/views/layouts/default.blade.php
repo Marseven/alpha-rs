@@ -28,6 +28,33 @@
     <link href="{{ asset('css/style.css')}}" rel="stylesheet">
     <link href="{{ asset('css/responsive.css')}}" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <style>
+        .float{
+            position:fixed;
+            width:60px;
+            height:60px;
+            bottom:75px;
+            right:40px;
+            background-color:#25d366;
+            color:#FFF;
+            border-radius:50px;
+            text-align:center;
+            font-size:30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index:100;
+        }
+
+        .float:hover{
+            color:rgb(5, 37, 1);
+        }
+
+        .my-float{
+            margin-top:16px;
+        }
+    </style>
+
     @stack('styles')
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -181,6 +208,8 @@
     </section>
     <!-- Header End -->
 
+    @include('layouts.flash')
+
     @yield('content')
 
     <!--====================
@@ -263,6 +292,9 @@
 
     </section>
 
+    <a href="https://api.whatsapp.com/send?phone=24177613799" class="float" target="_blank">
+        <i class="fa fa-whatsapp my-float"></i>
+    </a>
 
     <!--===========================
         Contact Part HTML End

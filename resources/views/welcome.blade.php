@@ -156,7 +156,7 @@
                             </div>
                             <h5>{{$service->label}}</h5>
                             <p>{{$service->description}}</p>
-                            <div><a class="btn btn-4 btn-ser" href="{{route('quote')}}">Devis</a></div>
+                            <div><a class="btn btn-4 btn-ser" href="{{url('quote/service/'.$service->id)}}">Devis</a></div>
                         </div>
                     </div>
                 @endforeach
@@ -238,7 +238,7 @@
                         <div class="col-md-12">
                             <div class="exp-txt">
                                 <p>
-                                    Relief Services a sélectionné pour vous les meilleurs hôpitaux en Tunisie, Maroc, Afrique du sud et France. Notre équipe d’assistance est présente pour veiller à ce que vos rendez-vous et séjours se passent dans les bonnes conditions. Le secret professionnel, institué dans l’intérêt des patients, s’impose à Design Services.
+                                    Relief Services a sélectionné pour vous les meilleurs hôpitaux en Tunisie, Maroc, Afrique du sud et France. Notre équipe d’assistance est présente pour veiller à ce que vos rendez-vous et séjours se passent dans les bonnes conditions. Le secret professionnel, institué dans l’intérêt des patients, s’impose à Relief Services.
                                 </p>
 
                             </div>

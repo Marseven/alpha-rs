@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\StatusMessage;
 use Illuminate\Http\Request;
 use App\Models\Folder;
 use App\Models\Quote;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class FolderController extends Controller
 {
@@ -162,5 +164,21 @@ class FolderController extends Controller
             }
     	}
     }
+
+    public function updateState(Request $request, $folder)
+    {
+        $folder = Folder::find($folder);
+        $folder->status = $request->status;
+        $folder->price = $request->price;
+        $folder->load(['user']);
+        if($folder->save()){
+            Mail::to($folder->user->email)->queue(new StatusMessage($folder, "folder"));
+            return back()->with('success', "Le status du dossier a bien été mis à jour !");
+        }else{
+            return back()->with('error', "Une erreur s'est produite.");
+        }
+
+    }
+
 
 }

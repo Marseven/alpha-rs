@@ -150,11 +150,15 @@
           <h5 class="modal-title" id="exampleModalLabelOne">Modifier un Dossier</h5>
         </div>
         <div class="modal-body">
-          <form action="{{ url('admin/folder/'.$folder->id) }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ url('admin/folder-state/'.$folder->id) }}" method="POST">
             @csrf
             <div class="mb-3">
+                <label for="name" class="col-form-label">Prix de l'évacuation</label>
+                <input type="number" name="price" class="form-control" value="{{$folder->price}}"/>
+            </div>
+            <div class="mb-3">
                 <label for="name" class="col-form-label">Statut</label>
-                <select id="selectOne" name="enable" class="form-control">
+                <select id="selectOne" name="status" class="form-control">
                     @php
                         App\Http\Controllers\Controller::work_status();
                     @endphp

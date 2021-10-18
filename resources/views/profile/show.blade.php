@@ -292,9 +292,13 @@ Breadcrum Part HTML Start
                     <p class="mb-0 mb-5">{{$folder->country->label}}</p>
                     </div>
                     <hr>
-                    <div class="col-12 mb-5">
+                    <div class="col-6 mb-5">
                         <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe</h6>
                         <a class="btn btn-info" href="{{asset($folder->join_piece)}}">Download</a>
+                    </div>
+                    <div class="col-6  mb-5">
+                        <h6 class="text-uppercase fs-5 ls-2">Montant total à payer</h6>
+                        <p class="mb-0">{{  $folder->price+$folder->service->price }} XAF</p>
                     </div>
                 </div>
             </div>
