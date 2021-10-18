@@ -127,7 +127,7 @@
                         <div class="subheader-text">
                             <p>Téléphone</p>
                             <h5>
-                                (+241) 077 613 799
+                                (+241) 76 55 57 81
                             </h5>
                         </div>
                     </div>
@@ -267,8 +267,8 @@
 
                                         <p>Libreville <br> Port-Gentil</p>
 
-                                        <p>+241 077 613 799<br>
-                                            +241 066 207 525</p>
+                                        <p>+241 076 555 781<br>
+                                           +241 066 207 525</p>
 
                                         <p>m.cherone@reliefservices.space</p>
                                     </div>
