@@ -90,19 +90,27 @@ class HospitalController extends Controller
             $hospital->country_id = $request->country_id;
             $hospital->town_id = $request->town_id;
 
-            $picture_1 = FileController::picture($request->file('picture_1'));
-            if($picture_1['state'] == false){
-                return back()->with('error', $picture_1['message']);
+            if($request->file('picture_1')){
+                $picture_1 = FileController::picture($request->file('picture_1'));
+
+                if($picture_1['state'] == false){
+                    return back()->with('error',$picture_1['message']);
+                }
+
+                $hospital->picture_1 = $picture_1['url'];
             }
 
-            $hospital->picture_1 = $picture_1['url'];
+            if($request->file('picture_2')){
+                $picture_2 = FileController::picture($request->file('picture_2'));
 
-            $picture_2 = FileController::picture($request->file('picture_2'));
-            if($picture_2['state'] == false){
-                return back()->with('error', $picture_2['message']);
+                if($picture_2['state'] == false){
+                    return back()->with('error',$picture_2['message']);
+                }
+
+                $hospital->picture_2 = $picture_2['url'];
             }
 
-            $hospital->picture_2 = $picture_2['url'];
+            $hospital->status = $request->status;
 	    	if($hospital->save()){
                 return back()->with('succes', "L'hôpital a bien été mis à jour !");
             }else{

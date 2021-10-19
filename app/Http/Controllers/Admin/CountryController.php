@@ -106,7 +106,7 @@ class CountryController extends Controller
         $town->user_id = auth()->user()->id;
 
         if($town->save()){
-            return back()->with('success', 'Votre requête a bien été transmise; nous reviendrons vers au plus vite.');
+            return back()->with('success', 'La ville a été créé avec succes.');
         }else{
             return back()->with('error', 'Un problème est survenu.');
         }

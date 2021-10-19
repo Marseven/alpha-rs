@@ -67,13 +67,16 @@ class ServiceController extends Controller
             $service->price_promo = $request->price_promo;
             $service->begin_promo = $request->begin_promo;
             $service->end_promo = $request->end_promo;
-            $picture = FileController::picture($request->file('picture'));
 
-            if($picture['state'] == false){
-                return back()->with('error',$picture['message']);
+            if($request->file('picture')){
+                $picture = FileController::picture($request->file('picture'));
+
+                if($picture['state'] == false){
+                    return back()->with('error',$picture['message']);
+                }
+                $service->picture = $picture['url'];
             }
 
-            $service->picture = $picture['url'];
             $service->status = $request->status;
 	    	if($service->save()){
                 return back()->with('succes', "Le service a bien été mis à jour !");

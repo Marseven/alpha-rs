@@ -238,7 +238,7 @@
 
             <div class="mb-3">
                 <label for="name" class="col-form-label">Activé ?</label>
-                <select id="selectOne" name="statut" class="form-control">
+                <select id="selectOne" name="status" class="form-control">
                     @php
                         App\Http\Controllers\Controller::enable_status();
                     @endphp
