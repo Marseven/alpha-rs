@@ -97,8 +97,8 @@ class QuoteController extends Controller
                 return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
             }
         }else{
-            $email_exist = User::all()->where('email', $request->email)->count();
-            if($email_exist > 1){
+            $email_exist = User::where('email', $request->email)->count();
+            if($email_exist > 0){
                 return back()->with('error',"Cette email exiiste déjà, connectez-vous pour faire une nouvelle demande.");
             }else{
                 $user = new User();

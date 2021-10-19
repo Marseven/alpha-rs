@@ -179,6 +179,40 @@
 
                     <div class="col-12 ">
                         <div class="heading b-text text-center">
+                            <h5>Les maladies traitées</h5>
+                            <h2>Les Pathologies</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- =============================
+                Start: Search
+            ============================= -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        @foreach ($sicks as $sick)
+                            <span class="badge badge-pill badge-light">{{$sick->label}}</span>
+                        @endforeach
+
+                        @if
+                            <span class="badge badge-pill badge-light">Aucune Maladie Pour le Moment</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <!-- =============================
+                End: Search
+            ============================= -->
+
+            <br>
+            <br>
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-12 ">
+                        <div class="heading b-text text-center">
                             <h5>Quel maladie souhatez-vous soignée ?</h5>
                             <h2>Trouver une Destination</h2>
                         </div>

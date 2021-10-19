@@ -17,11 +17,13 @@ class WelcomeController extends Controller
 
     public function index(){
         $services = Service::limit(4)->get();
-        $towns = Town::limit(3)->get();
+        $towns = Town::limit(6)->get();
+        $sicks = Sick::all();
         $towns->load(['country']);
         return view('welcome', [
             'services' => $services,
             'towns' => $towns,
+            'sicks' => $sicks,
         ]);
     }
 

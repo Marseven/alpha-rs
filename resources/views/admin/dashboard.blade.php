@@ -92,7 +92,7 @@
                                                     <div class="media align-items-center">
                                                         <img class="mr-3 img-fluid rounded" width="78" src="{{asset('images/LogoA.png')}}" alt="Quote">
                                                         <div class="media-body">
-                                                            <a href="patient-details.html"><h5 class="mt-0 mb-1">{{$quote->firstname.' '.$quote->lastname}}</h5></a>
+                                                            <a href="#"><h5 class="mt-0 mb-1">{{$quote->firstname.' '.$quote->lastname}}</h5></a>
                                                             <p class="mb-0">{{$quote->birthday}}</p>
                                                         </div>
                                                     </div>
