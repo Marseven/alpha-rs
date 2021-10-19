@@ -65,7 +65,7 @@ class CountryController extends Controller
 
         if(isset($_POST['delete'])) {
     		if($country->delete()){
-                return back()->with('succes', "Le pays a bien été supprimée !");
+                return back()->with('success', "Le pays a bien été supprimée !");
             }else{
                 return back()->with('error', "Une erreur s'est produite.");
             }

@@ -56,7 +56,7 @@ class HospitalController extends Controller
     	$hospital->user_id = auth()->user()->id;
 
         if($hospital->save()){
-            return back()->with('succes', "L'hôpital a bien été créé !");
+            return back()->with('success', "L'hôpital a bien été créé !");
         }else{
             return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
         }
@@ -80,7 +80,7 @@ class HospitalController extends Controller
 
         if(isset($_POST['delete'])) {
     		if($hospital->delete()){
-                return back()->with('succes', "L'hôpital a bien été supprimée !");
+                return back()->with('success', "L'hôpital a bien été supprimée !");
             }else{
                 return back()->with('error', "Une erreur s'est produite.");
             }
@@ -112,7 +112,7 @@ class HospitalController extends Controller
 
             $hospital->status = $request->status;
 	    	if($hospital->save()){
-                return back()->with('succes', "L'hôpital a bien été mis à jour !");
+                return back()->with('success', "L'hôpital a bien été mis à jour !");
             }else{
                 return back()->with('error', "Une erreur s'est produite.");
             }

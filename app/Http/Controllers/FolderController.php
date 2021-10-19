@@ -65,7 +65,7 @@ class FolderController extends Controller
 
         if($folder->save()){
 
-            return back()->with('succes',"Votre dossier  a été crée.");
+            return back()->with('success',"Votre dossier  a été crée.");
 
         }else{
             return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
@@ -102,7 +102,7 @@ class FolderController extends Controller
 
         if($folder->save()){
 
-            return back()->with('succes',"Votre dossier a été crée avec succès.");
+            return back()->with('success',"Votre dossier a été crée avec succès.");
 
         }else{
             return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');

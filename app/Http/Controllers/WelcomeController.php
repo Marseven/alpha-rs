@@ -29,7 +29,7 @@ class WelcomeController extends Controller
 
         Mail::to('processma55@gmail.com')->queue(new QueryMessage($request->all()));
 
-        return back()->with('succes',"Votre mail a été envoyé, nous reviendrons vers vous au plus tôt.");
+        return back()->with('success',"Votre mail a été envoyé, nous reviendrons vers vous au plus tôt.");
     }
 
     public function search(Request $request){
@@ -59,6 +59,7 @@ class WelcomeController extends Controller
 
         return view('search', [
             'towns' => $towns,
+            'keyword' => $keyword,
         ]);
 
 

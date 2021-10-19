@@ -45,7 +45,7 @@ class SickController extends Controller
 
         if(isset($_POST['delete'])) {
     		if($sick->delete()){
-                return  back()->with('succes', "La maladie a bien été supprimée !");
+                return  back()->with('success', "La maladie a bien été supprimée !");
             }else{
                 return back()->with('error', "Une erreur s'est produite.");
             }
@@ -54,7 +54,7 @@ class SickController extends Controller
             $sick->description = $request->description;
     		$sick->status = $request->status;
 	    	if($sick->save()){
-                return  back()->with('succes', "La maladie a bien été mis à jour !");
+                return  back()->with('success', "La maladie a bien été mis à jour !");
             }else{
                 return back()->with('error', "Une erreur s'est produite.");
             }

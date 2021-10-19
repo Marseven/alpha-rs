@@ -42,8 +42,8 @@ Breadcrum Part HTML Start
 
             <div class="col-12 ">
                 <div class="heading b-text text-center">
-                    <h5>Résultats</h5>
-                    <h2>Recherches</h2>
+                    <h5>Destinations en fonction de la maladie</h5>
+                    <h2>Recherches : {{$keyword}}</h2>
                 </div>
             </div>
 

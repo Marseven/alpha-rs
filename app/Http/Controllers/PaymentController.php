@@ -180,7 +180,7 @@ class PaymentController extends Controller
                 return view('payment.callback',
                 [
                     'folder' => $folder,
-                ])->with('succes','Votre paiment a bien été reçu.');
+                ])->with('success','Votre paiment a bien été reçu.');
             }else{
                 return redirect('/profil')->with('error',"Une erreur s'est produite, Veuillez réessayer !");;
             }
@@ -193,9 +193,9 @@ class PaymentController extends Controller
                 return view('payment.callback-request',
                 [
                     'quote' => $quote,
-                ])->with('succes','Votre paiment a bien été reçu.');
+                ])->with('success','Votre paiment a bien été reçu.');
             }else{
-                return redirect('/profil')->with('succes',"Votre paiement n'a pas été reçu.");
+                return redirect('/profil')->with('success',"Votre paiement n'a pas été reçu.");
             }
         }
     }

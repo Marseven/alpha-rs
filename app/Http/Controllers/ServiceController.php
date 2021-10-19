@@ -44,7 +44,7 @@ class ServiceController extends Controller
     	$service->user_id = auth()->user()->id;
 
         if($service->save()){
-            return back()->with('succes', "Le service a bien été créée !");
+            return back()->with('success', "Le service a bien été créée !");
         }else{
             return back()->with('error', "Une erreur s'est produite.");
         }
@@ -56,7 +56,7 @@ class ServiceController extends Controller
 
     	if(isset($_POST['delete'])) {
     		if($service->delete()){
-                return back()->with('succes', "Le service bien été supprimée !");
+                return back()->with('success', "Le service bien été supprimée !");
             }else{
                 return back()->with('error', "Une erreur s'est produite.");
             }
@@ -79,7 +79,7 @@ class ServiceController extends Controller
 
             $service->status = $request->status;
 	    	if($service->save()){
-                return back()->with('succes', "Le service a bien été mis à jour !");
+                return back()->with('success', "Le service a bien été mis à jour !");
             }else{
                 return back()->with('error', "Une erreur s'est produite.");
             }
