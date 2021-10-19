@@ -46,6 +46,14 @@
             z-index:100;
         }
 
+        .alert{
+            position:fixed;
+            width:60px;
+            height:60px;
+            bottom:75px;
+            right:40px;
+        }
+
         .float:hover{
             color:rgb(5, 37, 1);
         }
