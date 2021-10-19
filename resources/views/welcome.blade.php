@@ -196,7 +196,7 @@
                             <span class="badge badge-pill badge-light">{{$sick->label}}</span>
                         @endforeach
 
-                        @if
+                        @if($sicks->count() == 0)
                             <span class="badge badge-pill badge-light">Aucune Maladie Pour le Moment</span>
                         @endif
                     </div>
