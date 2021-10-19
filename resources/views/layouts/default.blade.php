@@ -210,6 +210,10 @@
 
     @include('layouts.flash')
 
+    <div class="alert alert-primary" role="alert">
+        This is a primary alert—check it out!
+    </div>
+
     @yield('content')
 
     <!--====================
