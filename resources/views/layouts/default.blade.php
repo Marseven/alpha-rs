@@ -48,12 +48,13 @@
 
         .alert{
             position: fixed;
-            width: 350px;
+            width: 400px;
             height: auto;
             top: 90px;
             right: 40px;
+            text-align:center;
             box-shadow: 2px 2px 3px #999;
-            z-index: 100;
+            z-index: 1050;
         }
 
         .float:hover{
