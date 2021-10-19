@@ -1,6 +1,6 @@
 
 @if ($message = Session::get('success'))
-<div style="position: absolute; top: 85px; right: 25px;" class="alert alert-succes fade show" role="alert">
+<div  class="alert alert-succes" role="alert">
     <div class="alert-icon"><i class="flaticon-warning"></i></div>
     <div class="alert-text">{{ $message }}</div>
     <div class="alert-close">
@@ -11,7 +11,7 @@
 @endif
 
 @if ($message = Session::get('error'))
-<div style="position: absolute; top: 85px; right: 25px;" class="alert alert-danger fade show" role="alert">
+<div  class="alert alert-danger" role="alert">
     <div class="alert-icon"><i class="flaticon-warning"></i></div>
     <div class="alert-text">{{ $message }}</div>
     <div class="alert-close">
@@ -22,7 +22,7 @@
 @endif
 
 @if ($message = Session::get('warning'))
-<div style="position: absolute; top: 85px; right: 25px;" class="alert alert-warning fade show" role="alert">
+<div  class="alert alert-warning" role="alert">
     <div class="alert-icon"><i class="flaticon-warning"></i></div>
     <div class="alert-text">{{ $message }}</div>
     <div class="alert-close">
@@ -33,7 +33,7 @@
 @endif
 
 @if ($message = Session::get('info'))
-<div style="position: absolute; top: 85px; right: 25px;" class="alert alert-info alert-dismissible fade show" role="alert">
+<div  class="alert alert-info " role="alert">
     <div class="alert-icon"><i class="flaticon-warning"></i></div>
     <div class="alert-text">{{ $message }}</div>
     <div class="alert-close">
@@ -45,7 +45,7 @@
 
 @if ($errors->any())
 
-<div style="position: absolute; top: 85px; right: 25px;" class="alert alert-danger alert-dismissible fade show" role="alert">
+<div  class="alert alert-danger " role="alert">
     <div class="alert-icon"><i class="flaticon-warning"></i></div>
     <div class="alert-text">Une erreur s'est produite.</div>
     <div class="alert-close">
