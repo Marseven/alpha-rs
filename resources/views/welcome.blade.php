@@ -193,7 +193,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         @foreach ($sicks as $sick)
-                            <h2 style="display: inline-block"><span class="badge badge-pill badge-primary">{{$sick->label}}</span></h2>
+                            <h2 style="display: inline-block; margin : 3px;"><span class="badge badge-pill badge-primary">{{$sick->label}}</span></h2>
                         @endforeach
 
                         @if($sicks->count() == 0)
