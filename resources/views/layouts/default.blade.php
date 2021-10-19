@@ -47,11 +47,13 @@
         }
 
         .alert{
-            position:fixed;
-            width:60px;
-            height:60px;
-            bottom:75px;
-            right:40px;
+            position: fixed;
+            width: 350px;
+            height: auto;
+            top: 90px;
+            right: 40px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
         }
 
         .float:hover{
@@ -217,13 +219,6 @@
     <!-- Header End -->
 
     @include('layouts.flash')
-
-    <div class="alert alert-primary" role="alert">
-        This is a primary alert—check it out!
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
 
     @yield('content')
 
