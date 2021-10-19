@@ -212,6 +212,9 @@
 
     <div class="alert alert-primary" role="alert">
         This is a primary alert—check it out!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 
     @yield('content')
