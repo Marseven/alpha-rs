@@ -219,7 +219,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © 2021 - Design Service &amp; Développé par <a href="https://mebodorichard.tech/" target="_blank">@aristidemebodo</a> 2021</p>
+                <p>Copyright © 2021 - Relief Services &amp; Développé par <a href="https://mebodorichard.tech/" target="_blank">@aristidemebodo</a> 2021</p>
             </div>
         </div>
         <!--**********************************
