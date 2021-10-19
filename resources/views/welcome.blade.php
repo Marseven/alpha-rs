@@ -193,11 +193,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         @foreach ($sicks as $sick)
-                            <span class="badge badge-pill badge-light">{{$sick->label}}</span>
+                            <h2><span class="badge badge-pill badge-info">{{$sick->label}}</span></h2>
                         @endforeach
 
                         @if($sicks->count() == 0)
-                            <span class="badge badge-pill badge-light">Aucune Maladie Pour le Moment</span>
+                            <h2><span class="badge badge-pill badge-info">Aucune Maladie Pour le Moment</span></h2>
                         @endif
                     </div>
                 </div>
