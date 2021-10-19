@@ -29,6 +29,7 @@ class CreateQuotes extends Migration
             $table->foreignId('service_id');
             $table->foreignId('user_id');
             $table->string('status');
+            $table->boolean('folder')->default(false);
             $table->timestamps();
         });
     }

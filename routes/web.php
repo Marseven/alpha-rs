@@ -146,6 +146,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group( function
     //quote
     Route::get('/list-quotes',[AdminController::class, 'listQuotes'])->name('admin-list-quotes');
     Route::post('/quotes/{quotes}', [QuoteController::class, 'update']);
+    Route::post('/quotes/pay/{quotes}', [QuoteController::class, 'pay']);
     Route::post('/quotes-state/{quotes}', [QuoteController::class, 'updateState']);
 
     //country

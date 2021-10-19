@@ -76,7 +76,7 @@ class FolderController extends Controller
 
         $folder = new Folder();
 
-        $folder->reference = $this->str_random(8);
+        $folder->reference = $quote->reference;
 
         $folder->lastname = $quote->lastname;
 
@@ -101,7 +101,8 @@ class FolderController extends Controller
         $folder->user_id = auth()->user()->id;
 
         if($folder->save()){
-
+            $quote->folder = true;
+            $quote->save();
             return back()->with('success',"Votre dossier a été crée avec succès.");
 
         }else{

@@ -68,7 +68,7 @@ class PaymentController extends Controller
             $eb_name = $data->firstname.' '.$data->lastname;
         }else{
             // Fetch all data (including those not optional) from session
-            $eb_amount = 100;
+            $eb_amount = 80000;
             $eb_shortdescription = 'Frais de demande de devis.';
             $eb_reference = $data->reference;
             $eb_email = $data->email;

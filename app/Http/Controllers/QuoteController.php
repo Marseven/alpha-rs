@@ -188,4 +188,8 @@ class QuoteController extends Controller
 
     }
 
+    public function pay(Quote $quote){
+        return PaymentController::ebilling('quote', $quote);
+    }
+
 }

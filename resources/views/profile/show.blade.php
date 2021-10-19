@@ -169,7 +169,9 @@ Breadcrum Part HTML Start
                                                     <td>Devi #{{$quote->reference}}</td>
                                                     <td>
                                                         <a data-toggle="modal" data-target="#quoteModalView{{$quote->id}}" ><i class="fa fa-eye"></i></a>
-                                                        <a data-toggle="modal" data-target="#quoteModal{{$quote->id}}" ><i class="fa fa-upload"></i></a>
+                                                        @if($quote->folder == false)
+                                                            <a data-toggle="modal" data-target="#quoteModal{{$quote->id}}" ><i class="fa fa-upload"></i></a>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                         @endforeach
@@ -396,6 +398,9 @@ Breadcrum Part HTML Start
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
+            @if($quote->status == 0)
+                <a href="{{ url('/quotes/pay/'.$quote->id) }}"><button type="submit" class="btn btn-primary">Payer</button></a>
+            @endif
         </div>
       </div>
     </div>
