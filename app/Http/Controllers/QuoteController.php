@@ -189,7 +189,6 @@ class QuoteController extends Controller
     }
 
     public function pay(Quote $quote){
-        dd($quote);
         return PaymentController::singpay('quote', $quote);
     }
 
