@@ -257,8 +257,8 @@ class PaymentController extends Controller
                 "logoURL" => asset('images/LogoRSA.png'),
             ]);
         }
-
-        dd($response->body());
+        $response = json_decode($response->body());
+        dd($response);
 
         if($type == 'folder'){
             $data->load(['service']);
@@ -271,7 +271,7 @@ class PaymentController extends Controller
                 'description' => $eb_shortdescription,
                 'reference' => $eb_reference,
                 'status' => STATUT_PENDING,
-                'time_out' => 60,
+                'time_out' => 30,
                 'customer_id' => Auth::user()->id,
                 'description' => $eb_shortdescription,
             ];
@@ -285,7 +285,7 @@ class PaymentController extends Controller
                 'description' => $eb_shortdescription,
                 'reference' => $eb_reference,
                 'status' => STATUT_PENDING,
-                'time_out' => 60,
+                'time_out' => 30,
                 'customer_id' => $data->user_id,
                 'description' => $eb_shortdescription,
             ];
