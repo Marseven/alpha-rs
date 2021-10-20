@@ -258,7 +258,6 @@ class PaymentController extends Controller
             ]);
         }
         $response = json_decode($response->body());
-        dd($response->link);
 
         if($type == 'folder'){
             $data->load(['service']);
@@ -293,7 +292,7 @@ class PaymentController extends Controller
 
         PaymentController::create($type, $data);
 
-        return redirect($response['url']);
+        return redirect($response->link);
 
     }
 
