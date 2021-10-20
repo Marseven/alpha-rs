@@ -182,6 +182,9 @@
                         $user = Auth::user();
                     @endphp
                     <div><a class="btn btn-4 btn-br" href="{{ route('profil')}}" title="Espace Client">Mon Compte</a></div>
+                    @if ($user->security_role_id == 1 || $user->security_role_id == 2)
+                        <div><a class="btn btn-4 btn-br" href="{{ url('admin/dashboard') }}" title="Espace Client">Mon Compte</a></div>
+                    @endif
                 @else
                 <div><a class="btn btn-4 btn-br" href="{{ route('login')}}" title="Espace Client">Espace Client</a></div>
                 @endif
