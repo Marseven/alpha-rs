@@ -231,7 +231,7 @@ class PaymentController extends Controller
             $response = Http::post('https://gateway.singpay.ga/v1/ext', [
                 "amount" => $data->price+$data->service->price,
                 "client_msisdn" => $data->phone,
-                "portefeuille" => env('SING_WALLET'),
+                "portefeuille" => env('SING_WALLET', "6155b3f1d290be2c04380c7d"),
                 "reference" => $data->reference,
                 "redirect_success" => url('/callback-singpay/quote/'.$data->id),
                 "redirect_error" => url('/callback-singpay/quote/'.$data->id),
@@ -242,7 +242,7 @@ class PaymentController extends Controller
             $response = Http::post('https://gateway.singpay.ga/v1/ext', [
                 "amount" => 80000,
                 "client_msisdn" => $data->phone,
-                "portefeuille" => env('SING_WALLET'),
+                "portefeuille" => env('SING_WALLET', "6155b3f1d290be2c04380c7d"),
                 "reference" => $data->reference,
                 "redirect_success" => url('/callback-singpay/quote/'.$data->id),
                 "redirect_error" => url('/callback-singpay/quote/'.$data->id),
