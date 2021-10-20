@@ -113,7 +113,7 @@ class FolderController extends Controller
 
     public function pay(Folder $folder){
 
-        return PaymentController::ebilling('folder', $folder);
+        return PaymentController::singpay('folder', $folder);
 
     }
 

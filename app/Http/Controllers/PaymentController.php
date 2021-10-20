@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Payment;
 use App\Models\Quote;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
@@ -221,5 +222,121 @@ class PaymentController extends Controller
             return http_response_code(401);
         }
 
+    }
+
+    static function singpay($type, $data){
+
+        if($type == 'folder'){
+            // Fetch all data (including those not optional) from session
+            $response = Http::post('https://gateway.singpay.ga/v1/74/paiement', [
+                "amount" => $data->price+$data->service->price,
+                "client_msisdn" => $data->phone,
+                "portefeuille" => env('SING_WALLET'),
+                "reference" => $data->reference,
+                "redirect_success" => url('/callback/ebilling/quote/'.$data->id),
+                "redirect_error" => url('/callback/ebilling/quote/'.$data->id),
+                "logoURL" => asset('images/LogoRSA.png'),
+            ]);
+        }else{
+            // Fetch all data (including those not optional) from session
+            $response = Http::post('https://gateway.singpay.ga/v1/74/paiement', [
+                "amount" => 80000,
+                "client_msisdn" => $data->phone,
+                "portefeuille" => env('SING_WALLET'),
+                "reference" => $data->reference,
+                "redirect_success" => url('/callback/ebilling/quote/'.$data->id),
+                "redirect_error" => url('/callback/ebilling/quote/'.$data->id),
+                "logoURL" => asset('images/LogoRSA.png'),
+            ]);
+        }
+
+        if($type == 'folder'){
+            $data->load(['service']);
+            $eb_amount = $data->service->price+$data->price;
+            $eb_shortdescription = 'Paiement pour le dossier médical N° '.$data->reference;
+            $eb_reference = $data->reference;
+            $data = [
+                'folder_id' => $data->id,
+                'amount' => $eb_amount,
+                'description' => $eb_shortdescription,
+                'reference' => $eb_reference,
+                'status' => STATUT_PENDING,
+                'time_out' => 60,
+                'customer_id' => Auth::user()->id,
+                'description' => $eb_shortdescription,
+            ];
+        }else{
+            $eb_amount = 80000;
+            $eb_shortdescription = 'Frais de demande de devis.';
+            $eb_reference = $data->reference;
+            $data = [
+                'quote_id' => $data->id,
+                'amount' => $eb_amount,
+                'description' => $eb_shortdescription,
+                'reference' => $eb_reference,
+                'status' => STATUT_PENDING,
+                'time_out' => 60,
+                'customer_id' => $data->user_id,
+                'description' => $eb_shortdescription,
+            ];
+        }
+
+        PaymentController::create($type, $data);
+
+        return redirect($response['url']);
+
+    }
+
+    public function callback_singpay($type, $entity){
+        if($type == 'folder'){
+            $folder = Folder::find($entity);
+            $payment = Payment::all()->where('reference', $folder->reference);
+            if(isset($payment->status) && $payment->status == STATUT_PAID){
+                $folder->status = STATUT_PAID;
+                $folder->save();
+                $folder->load(['payment']);
+                return view('payment.callback',
+                [
+                    'folder' => $folder,
+                ])->with('success','Votre paiment a bien été reçu.');
+            }else{
+                return redirect('/profil')->with('error',"Une erreur s'est produite, Veuillez réessayer !");;
+            }
+        }else{
+            $quote = Quote::find($entity);
+            $payment = Payment::all()->where('reference', $quote->reference);
+            if(isset($payment->status) && $payment->status == STATUT_PAID){
+                Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
+                Mail::to($quote->email)->queue(new QuoteMessage($quote));
+                return view('payment.callback-request',
+                [
+                    'quote' => $quote,
+                ])->with('success','Votre paiment a bien été reçu.');
+            }else{
+                return redirect('/profil')->with('success',"Votre paiement n'a pas été reçu.");
+            }
+        }
+    }
+
+    public function notify_singpay(Request $request){
+        if($request->input('transaction.reference')){
+            $payment = Payment::where('reference', $request->input('transaction.reference'))->first();
+            if($payment){
+                $payment->status = STATUT_PAID;
+                $payment->transaction_id = $request->input('transaction.id');
+                $payment->operator = "airtelmoney";
+                $payment->amount = $request->input('transaction.amount');
+                $payment->paid_at = date('Y-m-d H:i');
+                if($payment->save()){
+                    return http_response_code(200);
+                }else{
+                    return http_response_code(403);
+                }
+            }else{
+                return http_response_code(402);
+            }
+        }else{
+            return http_response_code(401);
+        }
     }
 }

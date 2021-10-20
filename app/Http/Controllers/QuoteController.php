@@ -115,7 +115,7 @@ class QuoteController extends Controller
                     if($status === Password::RESET_LINK_SENT){
                         $quote->user_id = $user->id;
                         $quote->save();
-                        return PaymentController::ebilling('quote', $quote);
+                        return PaymentController::singpay('quote', $quote);
                     } else{
                         return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
                     }

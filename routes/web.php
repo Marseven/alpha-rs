@@ -52,6 +52,10 @@ Route::post('/notify/ebilling',[PaymentController::class, 'notify_ebilling'])->n
 
 //singpay
 Route::post('/callback/singpay',[PaymentController::class, 'callback_singpay'])->name('callback-singpay');
+Route::get('/callback/singpay/{type}/{entity}',[PaymentController::class, 'callback_singpay'])->name('singpay');
+Route::post('/notify/singpay',[PaymentController::class, 'notify_ebilling'])->name('notify-singpay');
+
+
 
 
 
