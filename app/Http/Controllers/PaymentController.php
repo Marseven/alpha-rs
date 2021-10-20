@@ -250,6 +250,8 @@ class PaymentController extends Controller
             ]);
         }
 
+        dd($response);
+
         if($type == 'folder'){
             $data->load(['service']);
             $eb_amount = $data->service->price+$data->price;

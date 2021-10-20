@@ -42,7 +42,7 @@ Route::post('/search', [WelcomeController::class, 'search'])->name('search');
 Route::get('/quote',[QuoteController::class, 'add'])->name('quote');
 Route::get('/quote/{type}/{id}',[QuoteController::class, 'add']);
 Route::post('/quote',[QuoteController::class, 'create']);
-Route::get('/quote/pay/{quotes}', [QuoteController::class, 'pay']);
+Route::get('/quote/pay/{quote}', [QuoteController::class, 'pay']);
 
 //hospital
 Route::get('/list-hospitals',[HospitalController::class, 'index'])->name('list-hospitals');
