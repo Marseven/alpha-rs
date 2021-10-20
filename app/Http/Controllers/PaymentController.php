@@ -228,7 +228,7 @@ class PaymentController extends Controller
 
         if($type == 'folder'){
             // Fetch all data (including those not optional) from session
-            $response = Http::post('https://gateway.singpay.ga/v1/74/paiement', [
+            $response = Http::post('https://gateway.singpay.ga/v1/74/ext', [
                 "amount" => $data->price+$data->service->price,
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET'),
@@ -239,7 +239,7 @@ class PaymentController extends Controller
             ]);
         }else{
             // Fetch all data (including those not optional) from session
-            $response = Http::post('https://gateway.singpay.ga/v1/74/paiement', [
+            $response = Http::post('https://gateway.singpay.ga/v1/74/ext', [
                 "amount" => 80000,
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET'),
