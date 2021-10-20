@@ -258,7 +258,7 @@ class PaymentController extends Controller
             ]);
         }
 
-        dd($response);
+        dd($response->body());
 
         if($type == 'folder'){
             $data->load(['service']);
