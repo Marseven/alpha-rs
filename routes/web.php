@@ -42,18 +42,18 @@ Route::post('/search', [WelcomeController::class, 'search'])->name('search');
 Route::get('/quote',[QuoteController::class, 'add'])->name('quote');
 Route::get('/quote/{type}/{id}',[QuoteController::class, 'add']);
 Route::post('/quote',[QuoteController::class, 'create']);
-Route::get('/quote/pay/{quote}', [QuoteController::class, 'pay']);
+Route::get('/quote-pay/{quote}', [QuoteController::class, 'pay']);
 
 //hospital
 Route::get('/list-hospitals',[HospitalController::class, 'index'])->name('list-hospitals');
 
 //ebilling
-Route::get('/callback/ebilling/{type}/{entity}',[PaymentController::class, 'callback_ebilling'])->name('ebilling-payment');
+Route::get('/callback-ebilling/{type}/{entity}',[PaymentController::class, 'callback_ebilling'])->name('ebilling-payment');
 Route::post('/notify/ebilling',[PaymentController::class, 'notify_ebilling'])->name('notify-ebilling-payments');
 
 //singpay
-Route::get('/callback/singpay/{type}/{entity}',[PaymentController::class, 'callback_singpay'])->name('singpay');
-Route::post('/notify/singpay',[PaymentController::class, 'notify_ebilling'])->name('notify-singpay');
+Route::get('/callback-singpay/{type}/{entity}',[PaymentController::class, 'callback_singpay'])->name('singpay');
+Route::post('/notify/singpay',[PaymentController::class, 'notify_singpay'])->name('notify-singpay');
 
 
 
@@ -73,8 +73,6 @@ Route::middleware('auth')->group( function(){
 
     //cards
     Route::get('/list-services',[ServiceController::class, 'index'])->name('list-services');
-
-
 
     //requests_card
     Route::get('/folder',[FolderController::class, 'add'])->name('folder');

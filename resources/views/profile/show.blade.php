@@ -399,7 +399,7 @@ Breadcrum Part HTML Start
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
             @if($quote->status == 0)
-                <a href="{{ url('/quote/pay/'.$quote->id) }}"><button type="submit" class="btn btn-primary">Payer</button></a>
+                <a href="{{ url('/quote-pay/'.$quote->id) }}"><button type="submit" class="btn btn-primary">Payer</button></a>
             @endif
         </div>
       </div>

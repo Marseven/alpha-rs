@@ -233,8 +233,8 @@ class PaymentController extends Controller
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET'),
                 "reference" => $data->reference,
-                "redirect_success" => url('/callback/ebilling/quote/'.$data->id),
-                "redirect_error" => url('/callback/ebilling/quote/'.$data->id),
+                "redirect_success" => url('/callback-singpay/quote/'.$data->id),
+                "redirect_error" => url('/callback-singpay/quote/'.$data->id),
                 "logoURL" => asset('images/LogoRSA.png'),
             ]);
         }else{
@@ -244,8 +244,8 @@ class PaymentController extends Controller
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET'),
                 "reference" => $data->reference,
-                "redirect_success" => url('/callback/ebilling/quote/'.$data->id),
-                "redirect_error" => url('/callback/ebilling/quote/'.$data->id),
+                "redirect_success" => url('/callback-singpay/quote/'.$data->id),
+                "redirect_error" => url('/callback-singpay/quote/'.$data->id),
                 "logoURL" => asset('images/LogoRSA.png'),
             ]);
         }
