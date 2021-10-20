@@ -275,7 +275,7 @@ class PaymentController extends Controller
                 'description' => $eb_shortdescription,
             ];
         }else{
-            $eb_amount = 80000;
+            $eb_amount = 100;
             $eb_shortdescription = 'Frais de demande de devis.';
             $eb_reference = $data->reference;
             $data = [
