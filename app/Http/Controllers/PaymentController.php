@@ -258,7 +258,7 @@ class PaymentController extends Controller
             ]);
         }
         $response = json_decode($response->body());
-        dd($response);
+        dd($response->link);
 
         if($type == 'folder'){
             $data->load(['service']);
