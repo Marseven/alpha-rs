@@ -42,6 +42,7 @@ Route::post('/search', [WelcomeController::class, 'search'])->name('search');
 Route::get('/quote',[QuoteController::class, 'add'])->name('quote');
 Route::get('/quote/{type}/{id}',[QuoteController::class, 'add']);
 Route::post('/quote',[QuoteController::class, 'create']);
+Route::get('/quote/pay/{quotes}', [QuoteController::class, 'pay']);
 
 //hospital
 Route::get('/list-hospitals',[HospitalController::class, 'index'])->name('list-hospitals');
@@ -150,7 +151,6 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group( function
     //quote
     Route::get('/list-quotes',[AdminController::class, 'listQuotes'])->name('admin-list-quotes');
     Route::post('/quotes/{quotes}', [QuoteController::class, 'update']);
-    Route::get('/quotes/pay/{quotes}', [QuoteController::class, 'pay']);
     Route::post('/quotes-state/{quotes}', [QuoteController::class, 'updateState']);
 
     //country
