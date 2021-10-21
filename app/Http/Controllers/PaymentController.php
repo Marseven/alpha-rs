@@ -254,8 +254,8 @@ class PaymentController extends Controller
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET', "6155b3f1d290be2c04380c7d"),
                 "reference" => $eb_reference,
-                "redirect_success" => url('/callback-singpay/quote/'.$data->id),
-                "redirect_error" => url('/callback-singpay/quote/'.$data->id),
+                "redirect_success" => url('/callback-singpay/quote/'.$data->id.'/'.$eb_reference),
+                "redirect_error" => url('/callback-singpay/quote/'.$data->id.'/'.$eb_reference),
                 "logoURL" => asset('images/LogoRSA.png'),
             ]);
         }
@@ -296,10 +296,10 @@ class PaymentController extends Controller
 
     }
 
-    public function callback_singpay($type, $entity){
+    public function callback_singpay($type, $entity, $payment){
         if($type == 'folder'){
             $folder = Folder::find($entity);
-            $payment = Payment::all()->where('reference', $folder->reference);
+            $payment = Payment::all()->where('reference', $payment);
             if(isset($payment->status) && $payment->status == STATUT_PAID){
                 $folder->status = STATUT_PAID;
                 $folder->save();
@@ -313,7 +313,7 @@ class PaymentController extends Controller
             }
         }else{
             $quote = Quote::find($entity);
-            $payment = Payment::all()->where('reference', $quote->reference);
+            $payment = Payment::all()->where('reference',  $payment);
             if(isset($payment->status) && $payment->status == STATUT_PAID){
                 Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
                 Mail::to($quote->email)->queue(new QuoteMessage($quote));
@@ -322,7 +322,7 @@ class PaymentController extends Controller
                     'quote' => $quote,
                 ])->with('success','Votre paiment a bien été reçu.');
             }else{
-                return redirect('/profil')->with('success',"Votre paiement n'a pas été reçu.");
+                return redirect('/profil')->with('error',"Votre paiement n'a pas été reçu.");
             }
         }
     }
