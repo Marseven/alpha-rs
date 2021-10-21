@@ -248,7 +248,7 @@ class PaymentController extends Controller
                 'x-client-id' => '7fbdcd94-7fa2-45d9-9db4-c165d8200364',
                 'x-client-secret' => 'ce88eefaf3f18d65c83187d8197d3a3566515a9dd59dca701f327818e3d8946b'
             ])->post('https://gateway.singpay.ga/v1/ext', [
-                "amount" => 80000,
+                "amount" => 100,
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET', "6155b3f1d290be2c04380c7d"),
                 "reference" => $data->reference,
