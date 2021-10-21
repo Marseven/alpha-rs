@@ -29,7 +29,7 @@ class WelcomeController extends Controller
 
     public function contact(Request $request){
 
-        Mail::to('processma55@gmail.com')->queue(new QueryMessage($request->all()));
+        Mail::to('m.cherone@reliefservices.space')->queue(new QueryMessage($request->all()));
 
         return back()->with('success',"Votre mail a été envoyé, nous reviendrons vers vous au plus tôt.");
     }
