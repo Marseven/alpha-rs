@@ -32,6 +32,11 @@ class Controller extends BaseController
         return substr(str_shuffle(str_repeat($alphabet, $length)), 0, $length);
     }
 
+    static function str_random_pay($length){
+        $alphabet = "0123456789azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN";
+        return substr(str_shuffle(str_repeat($alphabet, $length)), 0, $length);
+    }
+
     static function status($status){
         switch ($status) {
             case STATUT_RECEIVE:

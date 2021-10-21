@@ -226,6 +226,8 @@ class PaymentController extends Controller
 
     static function singpay($type, $data){
 
+        $eb_reference = Controller::str_random_pay(8);
+
         if($type == 'folder'){
             // Fetch all data (including those not optional) from session
             $response = Http::withHeaders([
@@ -236,7 +238,7 @@ class PaymentController extends Controller
                 "amount" => $data->price+$data->service->price,
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET', "6155b3f1d290be2c04380c7d"),
-                "reference" => $data->reference,
+                "reference" => $eb_reference,
                 "redirect_success" => url('/callback-singpay/quote/'.$data->id),
                 "redirect_error" => url('/callback-singpay/quote/'.$data->id),
                 "logoURL" => asset('images/LogoRSA.png'),
@@ -251,7 +253,7 @@ class PaymentController extends Controller
                 "amount" => 100,
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET', "6155b3f1d290be2c04380c7d"),
-                "reference" => $data->reference,
+                "reference" => $eb_reference,
                 "redirect_success" => url('/callback-singpay/quote/'.$data->id),
                 "redirect_error" => url('/callback-singpay/quote/'.$data->id),
                 "logoURL" => asset('images/LogoRSA.png'),
@@ -263,7 +265,6 @@ class PaymentController extends Controller
             $data->load(['service']);
             $eb_amount = $data->service->price+$data->price;
             $eb_shortdescription = 'Paiement pour le dossier médical N° '.$data->reference;
-            $eb_reference = $data->reference;
             $data = [
                 'folder_id' => $data->id,
                 'amount' => $eb_amount,
@@ -277,7 +278,6 @@ class PaymentController extends Controller
         }else{
             $eb_amount = 100;
             $eb_shortdescription = 'Frais de demande de devis.';
-            $eb_reference = $data->reference;
             $data = [
                 'quote_id' => $data->id,
                 'amount' => $eb_amount,
