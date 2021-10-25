@@ -193,8 +193,8 @@
         </nav>
         <nav id='cssmenu' class="hidden mobile">
             <div class="logo">
-                <a href="index-2.html" class="logo">
-                    <img src="images/logo.png" class="img-responsive" alt="">
+                <a href="{{ route('home')}}" class="logo">
+                    <img src="{{ asset('images/LogoRSA.png')}}" class="img-responsive" alt="">
                 </a>
             </div>
             <div id="head-mobile"></div>
@@ -211,9 +211,12 @@
                     @php
                         $user = Auth::user();
                     @endphp
-                    <li class="login"><a href="{{ route('profil')}}" class="btn btn-4 btn-br">Mon Compte</a></li>
+                    <div><a class="btn btn-4 btn-br" href="{{ route('profil')}}" title="Espace Client">Mon Compte</a></div>
+                    @if ($user->security_role_id == 1 || $user->security_role_id == 2)
+                        <div><a class="btn btn-success" href="{{ url('admin/dashboard') }}" title="Espace Admin">Admin</a></div>
+                    @endif
                 @else
-                    <li class="login"><a href="{{ route('login')}}" class="btn btn-4 btn-br">Espace Client</a></li>
+                <div><a class="btn btn-4 btn-br" href="{{ route('login')}}" title="Espace Client">Espace Client</a></div>
                 @endif
 
             </ul>
