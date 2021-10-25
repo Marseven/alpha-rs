@@ -328,6 +328,7 @@ class PaymentController extends Controller
     }
 
     public function notify_singpay(Request $request){
+        die("ici");
         if($request->input('transaction.reference')){
             $payment = Payment::where('reference', $request->input('transaction.reference'))->first();
             if($payment){
