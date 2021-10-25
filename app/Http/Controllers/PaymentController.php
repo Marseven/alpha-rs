@@ -328,7 +328,6 @@ class PaymentController extends Controller
     }
 
     public function notify_singpay(Request $request){
-        dd($request->input('transaction.reference'));
         if($request->input('transaction.reference')){
             $payment = Payment::where('reference', $request->input('transaction.reference'))->first();
             if($payment){
