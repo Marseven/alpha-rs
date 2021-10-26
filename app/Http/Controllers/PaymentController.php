@@ -239,8 +239,8 @@ class PaymentController extends Controller
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET', "6155b3f1d290be2c04380c7d"),
                 "reference" => $eb_reference,
-                "redirect_success" => url('/callback-singpay/quote/'.$data->id),
-                "redirect_error" => url('/callback-singpay/quote/'.$data->id),
+                "redirect_success" => url('/callback-singpay/folder/'.$data->id.'/'.$eb_reference),
+                "redirect_error" => url('/callback-singpay/folder/'.$data->id.'/'.$eb_reference),
                 "logoURL" => asset('images/LogoRSA.png'),
             ]);
         }else{
@@ -314,9 +314,10 @@ class PaymentController extends Controller
         }else{
             $quote = Quote::find($entity);
             $payment = Payment::all()->where('reference',  $payment);
+            dd($payment);
             if(isset($payment->status) && $payment->status == STATUT_PAID){
                 Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
-                Mail::to($quote->email)->queue(new QuoteMessage($quote));
+                Mail::to(Auth::user()->email)->queue(new QuoteMessage($quote));
                 return view('payment.callback-request',
                 [
                     'quote' => $quote,
