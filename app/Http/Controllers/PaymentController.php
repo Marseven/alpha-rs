@@ -299,7 +299,7 @@ class PaymentController extends Controller
     public function callback_singpay($type, $entity, $payment){
         if($type == 'folder'){
             $folder = Folder::find($entity);
-            $payment = Payment::all()->where('reference', $payment);
+            $payment = Payment::all()->where('reference', $payment)->first();
             if(isset($payment->status) && $payment->status == STATUT_PAID){
                 $folder->status = STATUT_PAID;
                 $folder->save();
@@ -314,7 +314,6 @@ class PaymentController extends Controller
         }else{
             $quote = Quote::find($entity);
             $payment = Payment::all()->where('reference',  $payment)->first();
-            dd($payment->status);
             if(isset($payment->status) && $payment->status == STATUT_PAID){
                 Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
                 Mail::to(Auth::user()->email)->queue(new QuoteMessage($quote));
