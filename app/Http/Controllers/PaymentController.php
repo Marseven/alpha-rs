@@ -307,6 +307,7 @@ class PaymentController extends Controller
                 return view('payment.callback',
                 [
                     'folder' => $folder,
+                    'payment' => $payment,
                 ])->with('success','Votre paiment a bien été reçu.');
             }else{
                 return redirect('/profil')->with('error',"Une erreur s'est produite, Veuillez réessayer !");;
@@ -320,6 +321,7 @@ class PaymentController extends Controller
                 return view('payment.callback-request',
                 [
                     'quote' => $quote,
+                    'payment' => $payment,
                 ])->with('success','Votre paiment a bien été reçu.');
             }else{
                 return redirect('/profil')->with('error',"Votre paiement n'a pas été reçu.");
