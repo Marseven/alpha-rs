@@ -73,7 +73,7 @@ Breadcrum Part HTML Start
                                     <span class="opacity-70">{{$quote->created_at}}</span>
                                 </div>
                                 <div class="d-flex flex-column flex-root">
-                                    <span class="font-weight-bolder mb-2">REFERENCE NO.</span>
+                                    <span class="font-weight-bolder mb-2">REFERENCE N°.</span>
                                     <span class="opacity-70">{{$quote->reference}}</span>
                                 </div>
 
