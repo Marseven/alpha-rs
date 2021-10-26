@@ -313,7 +313,7 @@ class PaymentController extends Controller
             }
         }else{
             $quote = Quote::find($entity);
-            $payment = Payment::all()->where('reference',  $payment);
+            $payment = Payment::all()->where('reference',  $payment)->first();
             dd($payment);
             if(isset($payment->status) && $payment->status == STATUT_PAID){
                 Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
