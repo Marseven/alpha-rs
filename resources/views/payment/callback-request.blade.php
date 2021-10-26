@@ -53,7 +53,7 @@ Breadcrum Part HTML Start
                     <div class="row justify-content-center py-8 px-8 py-md-27 px-md-0">
                         <div class="col-md-9">
                             <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
-                                <h1 class="display-4 font-weight-boldest mb-10">PAIMENT DE DEVIS  ###{{$quote->id}}</h1>
+                                <h3 class="display-4 font-weight-boldest mb-10">PAIMENT DE DEVIS N°{{$quote->id}}</h3>
                                 <div class="d-flex flex-column align-items-md-end px-0">
                                     <!--begin::Logo-->
                                     <a href="#" class="mb-5">
@@ -137,6 +137,7 @@ Breadcrum Part HTML Start
                             </div>
                         </div>
                     </div>
+                    <br><br>
                     <!-- end: Invoice action-->
                     <!-- end: Invoice-->
                 </div>
