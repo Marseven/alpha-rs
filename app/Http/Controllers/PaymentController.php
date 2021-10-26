@@ -314,7 +314,7 @@ class PaymentController extends Controller
         }else{
             $quote = Quote::find($entity);
             $payment = Payment::all()->where('reference',  $payment)->first();
-            dd($payment);
+            dd($payment->status);
             if(isset($payment->status) && $payment->status == STATUT_PAID){
                 Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
                 Mail::to(Auth::user()->email)->queue(new QuoteMessage($quote));
