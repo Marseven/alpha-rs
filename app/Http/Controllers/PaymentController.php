@@ -318,7 +318,6 @@ class PaymentController extends Controller
             if(isset($payment->status) && $payment->status == STATUT_PAID){
                 $quote->status = STATUT_PAID;
                 $quote->save();
-                $quote->load(['payment']);
                 Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
                 Mail::to(Auth::user()->email)->queue(new QuoteMessage($quote));
                 return view('payment.callback-request',
