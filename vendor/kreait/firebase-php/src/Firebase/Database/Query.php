@@ -26,17 +26,11 @@ use Psr\Http\Message\UriInterface;
  */
 class Query
 {
-    /** @var Reference */
-    private $reference;
-
-    /** @var ApiClient */
-    private $apiClient;
-
+    private Reference $reference;
+    private ApiClient $apiClient;
     /** @var Filter[] */
-    private $filters;
-
-    /** @var Sorter|null */
-    private $sorter;
+    private array $filters;
+    private ?Sorter $sorter = null;
 
     /**
      * @internal
@@ -73,7 +67,7 @@ class Query
             throw new UnsupportedQuery($this, $e->getMessage(), $e->getCode(), $e->getPrevious());
         }
 
-        if ($this->sorter) {
+        if ($this->sorter !== null) {
             $value = $this->sorter->modifyValue($value);
         }
 
@@ -104,9 +98,7 @@ class Query
      *
      * @see https://firebase.google.com/docs/reference/js/firebase.database.Query#endAt
      *
-     * @param int|float|string|bool $value
-     *
-     * @return Query
+     * @param scalar $value
      */
     public function endAt($value): self
     {
@@ -118,9 +110,7 @@ class Query
      *
      * @see https://firebase.google.com/docs/reference/js/firebase.database.Query#endbefore
      *
-     * @param int|float|string|bool $value
-     *
-     * @return Query
+     * @param scalar $value
      */
     public function endBefore($value): self
     {
@@ -132,9 +122,7 @@ class Query
      *
      * @see https://firebase.google.com/docs/reference/js/firebase.database.Query#equalTo
      *
-     * @param int|float|string|bool $value
-     *
-     * @return Query
+     * @param scalar $value
      */
     public function equalTo($value): self
     {
@@ -146,9 +134,7 @@ class Query
      *
      * @see https://firebase.google.com/docs/reference/js/firebase.database.Query#startAt
      *
-     * @param int|float|string|bool $value
-     *
-     * @return Query
+     * @param scalar $value
      */
     public function startAt($value): self
     {
@@ -160,9 +146,7 @@ class Query
      *
      * @see https://firebase.google.com/docs/reference/js/firebase.database.Query#startafter
      *
-     * @param int|float|string|bool $value
-     *
-     * @return Query
+     * @param scalar $value
      */
     public function startAfter($value): self
     {
@@ -173,8 +157,6 @@ class Query
      * Generates a new Query limited to the first specific number of children.
      *
      * @see https://firebase.google.com/docs/reference/js/firebase.database.Query#limitToFirst
-     *
-     * @return Query
      */
     public function limitToFirst(int $limit): self
     {
@@ -185,8 +167,6 @@ class Query
      * Generates a new Query object limited to the last specific number of children.
      *
      * @see https://firebase.google.com/docs/reference/js/firebase.database.Query#limitToLast
-     *
-     * @return Query
      */
     public function limitToLast(int $limit): self
     {
@@ -202,8 +182,6 @@ class Query
      * @see https://firebase.google.com/docs/reference/js/firebase.database.Query#orderByChild
      *
      * @throws UnsupportedQuery if the query is already ordered
-     *
-     * @return Query
      */
     public function orderByChild(string $childKey): self
     {
@@ -221,8 +199,6 @@ class Query
      * @see https://firebase.google.com/docs/reference/js/firebase.database.Query#orderByKey
      *
      * @throws UnsupportedQuery if the query is already ordered
-     *
-     * @return Query
      */
     public function orderByKey(): self
     {
@@ -241,8 +217,6 @@ class Query
      * @see https://firebase.google.com/docs/reference/js/firebase.database.Query#orderByValue
      *
      * @throws UnsupportedQuery if the query is already ordered
-     *
-     * @return Query
      */
     public function orderByValue(): self
     {
@@ -258,8 +232,6 @@ class Query
      * truncated to true.
      *
      * @see https://firebase.google.com/docs/reference/rest/database/#section-param-shallow
-     *
-     * @return Query
      */
     public function shallow(): self
     {
@@ -280,7 +252,7 @@ class Query
     {
         $uri = $this->reference->getUri();
 
-        if ($this->sorter) {
+        if ($this->sorter !== null) {
             $uri = $this->sorter->modifyUri($uri);
         }
 
@@ -295,10 +267,8 @@ class Query
      * Returns the absolute URL for this location.
      *
      * @see getUri()
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getUri();
     }
@@ -313,7 +283,7 @@ class Query
 
     private function withSorter(Sorter $sorter): self
     {
-        if ($this->sorter) {
+        if ($this->sorter !== null) {
             throw new UnsupportedQuery($this, 'This query is already ordered.');
         }
 

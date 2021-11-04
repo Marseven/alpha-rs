@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Alpha</title>
+    <title>HealthExpress</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/LogoRSA.png')}}">
 	<link href="{{ asset('admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css')}}" rel="stylesheet">
@@ -19,7 +19,7 @@
 
             @include('layouts.flash-admin')
 
-             @yield('content')
+            @yield('content')
 
         </div>
     </div>
@@ -33,7 +33,6 @@
 	<script src="{{ asset('admin/vendor/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
     <script src="{{ asset('admin/js/custom.min.js')}}"></script>
     <script src="{{ asset('admin/js/deznav-init.js')}}"></script>
-
     <script src="{{ asset('admin/js/styleSwitcher.js')}}"></script>
 </body>
 

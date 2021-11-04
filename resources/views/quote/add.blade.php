@@ -127,6 +127,16 @@ Breadcrum Part HTML Start
                             <label for="inputPjoin">Pièce Jointe du dossier médical</label>
                             <input type="file" name="join_piece" class="form-control" id="inputPjoin">
                           </div>
+
+                          <div class="col-12">
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="gridCheck" required>
+                              <label class="form-check-label" for="gridCheck">
+                                Accepter les termes et conditions d'utilisation
+                              </label>
+                            </div>
+                          </div>
+                          <br><br>
                         <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
                 </div>
@@ -134,7 +144,7 @@ Breadcrum Part HTML Start
             </div>
             <div class="col-lg-5 col-md-5 text-left">
                 <div class="">
-                    <img class="img-fluid about-page2" src="images/about-image-2.png" alt="about">
+                    <img class="img-fluid about-page2" src="{{asset('images/about-image-2.png')}}" alt="about">
                 </div>
 
             </div>

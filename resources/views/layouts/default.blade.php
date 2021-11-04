@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Alpha</title>
+    <title>HealthExpress</title>
     <meta name="description" content="Assistance de santé, Évacuation sanitaire, Gabon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!---Favicon Icon-->
@@ -173,7 +173,13 @@
                         <li class="nav-item"><a class="nav-link" href="{{route('home')}}#aboutus"><span data-hover="About">À Propos</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="{{route('home')}}#service"><span data-hover="Services">Nos Services</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="{{route('home')}}#testimonial"><span data-hover="Services">Témoignages</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{route('quote')}}"><span data-hover="Services">Devis</span></a></li>
+                        <li class="nav-item dropdown">
+                            <a href="{{route('quote')}}" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span data-hover="pages">Devis <i class="caret"></i></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{route('quote')}}">Demande</a></li>
+                                <li><a href="{{route('simulator')}}">Simulateur</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="{{route('home')}}#contactus"><span data-hover="Contact">Contact</span></a></li>
                     </ul>
                 </div>
@@ -204,7 +210,13 @@
                 <li><a href="{{route('home')}}#aboutus">À Propos</a></li>
                 <li><a href="{{route('home')}}#service">Nos Services</a></li>
                 <li><a href="{{route('home')}}#testimonial">Témoignages</a></li>
-                <li><a href="{{route('quote')}}">Devis</a></li>
+                <li class="nav-item dropdown">
+                    <a href="{{route('quote')}}" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span data-hover="pages">pages <i class="caret"></i></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{route('quote')}}">Demande</a></li>
+                        <li><a href="{{route('simulator')}}">Simulateur</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item"><a href="{{route('home')}}#contactus">Contact</a></li>
 
                 @if (Auth::user())
@@ -238,7 +250,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="cont-logo" style="text-align: center">
-                            <a href="#aboutus"><img src="images/ReliefServiceswhite.png" alt="footer logo" style="width: 60%; height:auto;"></a>
+                            <a href="#aboutus"><img src="images/AlphaWhite.png" alt="footer logo" style="width: 40%; height:auto;"></a>
                         </div>
                         <div class="cont-txt">
                             <p class="cont-gap">

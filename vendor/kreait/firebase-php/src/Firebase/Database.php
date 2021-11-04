@@ -16,11 +16,9 @@ class Database implements Contract\Database
 {
     public const SERVER_TIMESTAMP = ['.sv' => 'timestamp'];
 
-    /** @var ApiClient */
-    private $client;
+    private ApiClient $client;
 
-    /** @var UriInterface */
-    private $uri;
+    private UriInterface $uri;
 
     /**
      * @internal
@@ -36,6 +34,8 @@ class Database implements Contract\Database
         if ($path === null || \trim($path) === '') {
             $path = '/';
         }
+
+        $path = '/'.\ltrim($path, '/');
 
         try {
             return new Reference($this->uri->withPath($path), $this->client);
@@ -61,14 +61,14 @@ class Database implements Contract\Database
 
     public function getRuleSet(): RuleSet
     {
-        $rules = $this->client->get($this->uri->withPath('.settings/rules'));
+        $rules = $this->client->get($this->uri->withPath('/.settings/rules'));
 
         return RuleSet::fromArray($rules);
     }
 
     public function updateRules(RuleSet $ruleSet): void
     {
-        $this->client->updateRules($this->uri->withPath('.settings/rules'), $ruleSet);
+        $this->client->updateRules($this->uri->withPath('/.settings/rules'), $ruleSet);
     }
 
     public function runTransaction(callable $callable)

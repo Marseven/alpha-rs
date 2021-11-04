@@ -38,16 +38,15 @@ class DT
         if (\is_scalar($value) || (\is_object($value) && \method_exists($value, '__toString'))) {
             $value = (string) $value;
         } else {
-            $type = \is_object($value) ? \get_class($value) : \gettype($value);
+            $type = \get_debug_type($value);
+
             throw new InvalidArgumentException("This {$type} cannot be parsed to a DateTime value");
         }
 
         if (\ctype_digit($value)) {
             // Seconds
-            if ($value === '0' || \mb_strlen($value) === \mb_strlen((string) $now)) {
-                if ($result = DateTimeImmutable::createFromFormat('U', $value)) {
-                    return $result->setTimezone($tz);
-                }
+            if (($value === '0' || \mb_strlen($value) === \mb_strlen((string) $now)) && ($result = DateTimeImmutable::createFromFormat('U', $value))) {
+                return $result->setTimezone($tz);
             }
 
             // Milliseconds

@@ -47,6 +47,13 @@ use UnexpectedValueException;
 trait EnumeratesValues
 {
     /**
+     * Indicates that the object's string representation should be escaped when __toString is invoked.
+     *
+     * @var bool
+     */
+    protected $escapeWhenCastingToString = false;
+
+    /**
      * The methods that can be proxied.
      *
      * @var string[]
@@ -752,9 +759,25 @@ trait EnumeratesValues
      * @param  mixed  ...$initial
      * @return array
      *
+     * @deprecated Use "reduceSpread" instead
+     *
      * @throws \UnexpectedValueException
      */
     public function reduceMany(callable $callback, ...$initial)
+    {
+        return $this->reduceSpread($callback, ...$initial);
+    }
+
+    /**
+     * Reduce the collection to multiple aggregate values.
+     *
+     * @param  callable  $callback
+     * @param  mixed  ...$initial
+     * @return array
+     *
+     * @throws \UnexpectedValueException
+     */
+    public function reduceSpread(callable $callback, ...$initial)
     {
         $result = $initial;
 
@@ -884,7 +907,22 @@ trait EnumeratesValues
      */
     public function __toString()
     {
-        return $this->toJson();
+        return $this->escapeWhenCastingToString
+                    ? e($this->toJson())
+                    : $this->toJson();
+    }
+
+    /**
+     * Indicate that the model's string representation should be escaped when __toString is invoked.
+     *
+     * @param  bool  $escape
+     * @return $this
+     */
+    public function escapeWhenCastingToString($escape = true)
+    {
+        $this->escapeWhenCastingToString = $escape;
+
+        return $this;
     }
 
     /**

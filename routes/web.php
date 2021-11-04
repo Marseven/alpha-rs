@@ -17,6 +17,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\SickController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SimulatorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,6 +89,10 @@ Route::middleware('auth')->group( function(){
     //payment
     Route::get('/list-payments',[PaymentController::class, 'payments'])->name('payments');
 
+    //simulator
+    Route::get('/simulator',[SimulatorController::class, 'index'])->name('simulator');
+    Route::post('/simulate',[SimulatorController::class, 'search'])->name('simulate');
+
     //user
     Route::get('/profil',[UserController::class, 'profil'])->name('profil');
     Route::get('/user/{user}', [UserController::class, 'edit']);
@@ -125,6 +130,11 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group( function
     Route::get('/list-services',[AdminController::class, 'listServices'])->name('admin-list-services');
     Route::post('/service',[ServiceController::class, 'create']);
     Route::post('/service/{service}', [ServiceController::class, 'update']);
+
+    //simulators
+    Route::get('/list-simulators',[AdminController::class, 'listSimulators'])->name('admin-list-simulators');
+    Route::post('/simulator',[SimulatorController::class, 'create']);
+    Route::post('/simulator/{simulator}', [SimulatorController::class, 'update']);
 
     //sicks
     Route::get('/list-sicks',[AdminController::class, 'listSicks'])->name('admin-list-sicks');

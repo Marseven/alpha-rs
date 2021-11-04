@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
                             <div class="tg-slidercontent " data-transition="blocksReveal">
-                                <h6 class="pogoSlider-slide-element" data-in="slideUp" data-duration="800" data-delay="500">ALPHA</h6>
+                                <h6 class="pogoSlider-slide-element" data-in="slideUp" data-duration="800" data-delay="500">HealthExpress</h6>
                                 <h1 class="pogoSlider-slide-element" data-in="slideDown" data-duration="800" data-delay="500"><span>Évacuation </span>
                                     Sanitaire</h1>
                                 <p>Nous vous accompagnos dans la procédure de bout en bout.</p>
@@ -29,7 +29,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
                             <div class="tg-slidercontent">
-                                <h6 class="pogoSlider-slide-element" data-in="slidedown" data-duration="800" data-delay="500">ALPHA</h6>
+                                <h6 class="pogoSlider-slide-element" data-in="slidedown" data-duration="800" data-delay="500">HealthExpress</h6>
                                 <h1 class="pogoSlider-slide-element" data-in="slideUp" data-duration="800" data-delay="500"><span>Assistance</span>
                                     Sanitaire</h1>
                                 <p>Nous sommes là pour vous car votre santé est important pous nous.</p>
@@ -154,7 +154,7 @@
                             <div>
                                 <i class="flaticon-medical-insurance"></i>
                             </div>
-                            <h5>{{$service->label}}</h5>
+                            <h5>{{$service->label}} <br><br> <span class="badge badge-pill badge-info">{{$service->price}} XAF</span></h5>
                             <p>{{$service->description}}</p>
                             <div><a class="btn btn-4 btn-ser" href="{{url('quote/service/'.$service->id)}}">Devis</a></div>
                         </div>

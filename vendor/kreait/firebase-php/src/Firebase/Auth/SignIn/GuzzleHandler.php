@@ -27,17 +27,16 @@ use Psr\Http\Message\RequestInterface;
 final class GuzzleHandler implements Handler
 {
     /** @var array<string, mixed> */
-    private static $defaultBody = [
+    private static array $defaultBody = [
         'returnSecureToken' => true,
     ];
 
     /** @var array<string, mixed> */
-    private static $defaultHeaders = [
+    private static array $defaultHeaders = [
         'Content-Type' => 'application/json; charset=UTF-8',
     ];
 
-    /** @var ClientInterface */
-    private $client;
+    private ClientInterface $client;
 
     public function __construct(ClientInterface $client)
     {
@@ -83,7 +82,7 @@ final class GuzzleHandler implements Handler
             case $action instanceof SignInWithRefreshToken:
                 return $this->refreshToken($action);
             default:
-                throw new FailedToSignIn(static::class.' does not support '.\get_class($action));
+                throw new FailedToSignIn(self::class.' does not support '.\get_class($action));
         }
     }
 
@@ -91,7 +90,7 @@ final class GuzzleHandler implements Handler
     {
         $uri = Utils::uriFor('https://identitytoolkit.googleapis.com/v1/accounts:signUp');
 
-        $body = Utils::streamFor(\json_encode(self::prepareBody($action)));
+        $body = Utils::streamFor(JSON::encode(self::prepareBody($action), JSON_FORCE_OBJECT));
 
         $headers = self::$defaultHeaders;
 
@@ -102,9 +101,9 @@ final class GuzzleHandler implements Handler
     {
         $uri = Utils::uriFor('https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken');
 
-        $body = Utils::streamFor(\json_encode(\array_merge(self::prepareBody($action), [
+        $body = Utils::streamFor(JSON::encode(\array_merge(self::prepareBody($action), [
             'token' => $action->customToken(),
-        ])));
+        ]), JSON_FORCE_OBJECT));
 
         $headers = self::$defaultHeaders;
 
@@ -115,11 +114,11 @@ final class GuzzleHandler implements Handler
     {
         $uri = Utils::uriFor('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword');
 
-        $body = Utils::streamFor(\json_encode(\array_merge(self::prepareBody($action), [
+        $body = Utils::streamFor(JSON::encode(\array_merge(self::prepareBody($action), [
             'email' => $action->email(),
             'password' => $action->clearTextPassword(),
             'returnSecureToken' => true,
-        ])));
+        ]), JSON_FORCE_OBJECT));
 
         $headers = self::$defaultHeaders;
 
@@ -130,11 +129,11 @@ final class GuzzleHandler implements Handler
     {
         $uri = Utils::uriFor('https://www.googleapis.com/identitytoolkit/v3/relyingparty/emailLinkSignin');
 
-        $body = Utils::streamFor(\json_encode(\array_merge(self::prepareBody($action), [
+        $body = Utils::streamFor(JSON::encode(\array_merge(self::prepareBody($action), [
             'email' => $action->email(),
             'oobCode' => $action->oobCode(),
             'returnSecureToken' => true,
-        ])));
+        ]), JSON_FORCE_OBJECT));
 
         $headers = self::$defaultHeaders;
 
@@ -151,15 +150,25 @@ final class GuzzleHandler implements Handler
             'providerId' => $action->provider(),
         ];
 
-        if ($action->oauthTokenSecret()) {
-            $postBody['oauth_token_secret'] = $action->oauthTokenSecret();
+        if ($oauthTokenSecret = $action->oauthTokenSecret()) {
+            $postBody['oauth_token_secret'] = $oauthTokenSecret;
         }
 
-        $body = Utils::streamFor(\json_encode(\array_merge(self::prepareBody($action), [
+        if ($rawNonce = $action->rawNonce()) {
+            $postBody['nonce'] = $rawNonce;
+        }
+
+        $rawBody = \array_merge(self::prepareBody($action), [
             'postBody' => \http_build_query($postBody),
             'returnIdpCredential' => true,
             'requestUri' => $action->requestUri(),
-        ])));
+        ]);
+
+        if ($action->linkingIdToken()) {
+            $rawBody['idToken'] = $action->linkingIdToken();
+        }
+
+        $body = Utils::streamFor(JSON::encode($rawBody, JSON_FORCE_OBJECT));
 
         $headers = self::$defaultHeaders;
 

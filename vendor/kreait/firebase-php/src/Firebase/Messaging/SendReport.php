@@ -10,29 +10,24 @@ use Throwable;
 
 final class SendReport
 {
-    /** @var MessageTarget */
-    private $target;
+    private MessageTarget $target;
 
-    /** @var array<mixed>|null */
-    private $result;
+    /** @var array<array-key, scalar>|null */
+    private ?array $result = null;
+    private ?Message $message = null;
+    private ?Throwable $error = null;
 
-    /** @var Message|null */
-    private $message;
-
-    /** @var Throwable|null */
-    private $error;
-
-    private function __construct()
+    private function __construct(MessageTarget $target)
     {
+        $this->target = $target;
     }
 
     /**
-     * @param array<mixed> $response
+     * @param array<array-key, scalar> $response
      */
     public static function success(MessageTarget $target, array $response, ?Message $message = null): self
     {
-        $report = new self();
-        $report->target = $target;
+        $report = new self($target);
         $report->result = $response;
         $report->message = $message;
 
@@ -41,8 +36,7 @@ final class SendReport
 
     public static function failure(MessageTarget $target, Throwable $error, ?Message $message = null): self
     {
-        $report = new self();
-        $report->target = $target;
+        $report = new self($target);
         $report->error = $error;
         $report->message = $message;
 
@@ -66,7 +60,7 @@ final class SendReport
 
     public function messageTargetWasInvalid(): bool
     {
-        $errorMessage = $this->error ? $this->error->getMessage() : '';
+        $errorMessage = $this->error !== null ? $this->error->getMessage() : '';
 
         return $this->messageWasInvalid() && \preg_match('/((not.+valid)|invalid).+token/i', $errorMessage) === 1;
     }
@@ -82,7 +76,7 @@ final class SendReport
     }
 
     /**
-     * @return array<mixed>|null
+     * @return array<array-key, scalar>|null
      */
     public function result(): ?array
     {

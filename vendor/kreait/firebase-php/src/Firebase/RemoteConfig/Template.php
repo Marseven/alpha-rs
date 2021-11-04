@@ -10,20 +10,18 @@ use Psr\Http\Message\ResponseInterface;
 
 class Template implements \JsonSerializable
 {
-    /** @var string */
-    private $etag = '*';
+    private string $etag = '*';
 
     /** @var Parameter[] */
-    private $parameters = [];
+    private array $parameters = [];
 
     /** @var ParameterGroup[] */
-    private $parameterGroups = [];
+    private array $parameterGroups = [];
 
     /** @var Condition[] */
-    private $conditions = [];
+    private array $conditions = [];
 
-    /** @var Version|null */
-    private $version;
+    private ?Version $version = null;
 
     private function __construct()
     {
@@ -97,7 +95,8 @@ class Template implements \JsonSerializable
     {
         $parameter = Parameter::named($name)
             ->withDescription((string) ($data['description'] ?? ''))
-            ->withDefaultValue(DefaultValue::fromArray($data['defaultValue'] ?? []));
+            ->withDefaultValue(DefaultValue::fromArray($data['defaultValue'] ?? []))
+        ;
 
         foreach ((array) ($data['conditionalValues'] ?? []) as $key => $conditionalValueData) {
             $parameter = $parameter->withConditionalValue(new ConditionalValue($key, $conditionalValueData['value']));
@@ -112,7 +111,8 @@ class Template implements \JsonSerializable
     private static function buildParameterGroup(string $name, array $parameterGroupData): ParameterGroup
     {
         $group = ParameterGroup::named($name)
-            ->withDescription((string) ($parameterGroupData['description'] ?? ''));
+            ->withDescription((string) ($parameterGroupData['description'] ?? ''))
+        ;
 
         foreach ($parameterGroupData['parameters'] ?? [] as $parameterName => $parameterData) {
             $group = $group->withParameter(self::buildParameter($parameterName, $parameterData));
@@ -158,7 +158,7 @@ class Template implements \JsonSerializable
         return $this->version;
     }
 
-    public function withParameter(Parameter $parameter): Template
+    public function withParameter(Parameter $parameter): self
     {
         $this->assertThatAllConditionalValuesAreValid($parameter);
 
@@ -168,7 +168,7 @@ class Template implements \JsonSerializable
         return $template;
     }
 
-    public function withParameterGroup(ParameterGroup $parameterGroup): Template
+    public function withParameterGroup(ParameterGroup $parameterGroup): self
     {
         $template = clone $this;
         $template->parameterGroups[$parameterGroup->name()] = $parameterGroup;
@@ -176,7 +176,7 @@ class Template implements \JsonSerializable
         return $template;
     }
 
-    public function withCondition(Condition $condition): Template
+    public function withCondition(Condition $condition): self
     {
         $template = clone $this;
         $template->conditions[$condition->name()] = $condition;
@@ -201,9 +201,9 @@ class Template implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'conditions' => !empty($this->conditions) ? \array_values($this->conditions) : null,
-            'parameters' => !empty($this->parameters) ? $this->parameters : null,
-            'parameterGroups' => !empty($this->parameterGroups) ? $this->parameterGroups : null,
+            'conditions' => empty($this->conditions) ? null : \array_values($this->conditions),
+            'parameters' => empty($this->parameters) ? null : $this->parameters,
+            'parameterGroups' => empty($this->parameterGroups) ? null : $this->parameterGroups,
         ];
     }
 }

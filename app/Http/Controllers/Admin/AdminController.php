@@ -16,6 +16,7 @@ use App\Models\Quote;
 use App\Models\RequestCard;
 use App\Models\Service;
 use App\Models\Sick;
+use App\Models\Simulator;
 use App\Models\Town;
 use App\Models\User;
 use DoctrineExtensions\Query\Mysql\Now;
@@ -117,6 +118,17 @@ class AdminController extends Controller
         Controller::he_can('Countries', 'look');
         $countries = Country::all();
         return view('admin.country.list', [
+            'countries' => $countries,
+        ]);
+    }
+
+    public function listSimulators(){
+        $simulators = Simulator::all();
+        $services = Service::all();
+        $countries = Country::all();
+        return view('admin.simulator.list', [
+            'simulators' => $simulators,
+            'services' => $services,
             'countries' => $countries,
         ]);
     }

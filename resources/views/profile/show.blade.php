@@ -116,12 +116,6 @@ Breadcrum Part HTML Start
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
                                     <tbody>
                                         @if ($user->folders->count() > 0)
                                             @foreach($user->folders as $folder)
@@ -135,12 +129,6 @@ Breadcrum Part HTML Start
                                             @endforeach
                                         @endif
                                     </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -156,12 +144,6 @@ Breadcrum Part HTML Start
 
                             <div class="table-responsive">
                                 <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
                                     <tbody>
 
                                         @foreach ($quotes as $quote)
@@ -169,6 +151,11 @@ Breadcrum Part HTML Start
                                                     <td>Devi #{{$quote->reference}}</td>
                                                     <td>
                                                         <a data-toggle="modal" data-target="#quoteModalView{{$quote->id}}" ><i class="fa fa-eye"></i></a>
+
+                                                        @if($quote->folder == false)
+                                                            <a class="btn btn-small" data-toggle="modal" data-target="#responseModal{{$quote->id}}" >R</a>
+                                                        @endif
+
                                                         @if($quote->folder == false)
                                                             <a data-toggle="modal" data-target="#quoteModal{{$quote->id}}" ><i class="fa fa-upload"></i></a>
                                                         @endif
@@ -177,12 +164,6 @@ Breadcrum Part HTML Start
                                         @endforeach
 
                                     </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>
