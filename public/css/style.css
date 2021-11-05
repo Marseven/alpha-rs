@@ -224,11 +224,10 @@ img {
 
 .btn {
     color: #fff !important;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 500;
     position: relative;
     transition: ease all .3s;
-    padding: 12px 25px !important;
     font-family: "Poppins", sans-serif !important;
     border-radius: 5px;
     cursor: pointer;

@@ -150,14 +150,14 @@ Breadcrum Part HTML Start
                                                 <tr>
                                                     <td>Devi #{{$quote->reference}}</td>
                                                     <td>
-                                                        <a data-toggle="modal" data-target="#quoteModalView{{$quote->id}}" ><i class="fa fa-eye"></i></a>
+                                                        <a class="btn btn-small" data-toggle="modal" data-target="#quoteModalView{{$quote->id}}" ><i class="fa fa-eye"></i></a>
 
                                                         @if($quote->folder == false)
                                                             <a class="btn btn-small" data-toggle="modal" data-target="#responseModal{{$quote->id}}" >R</a>
                                                         @endif
 
                                                         @if($quote->folder == false)
-                                                            <a data-toggle="modal" data-target="#quoteModal{{$quote->id}}" ><i class="fa fa-upload"></i></a>
+                                                            <a class="btn btn-small" data-toggle="modal" data-target="#quoteModal{{$quote->id}}" ><i class="fa fa-upload"></i></a>
                                                         @endif
                                                     </td>
                                                 </tr>
