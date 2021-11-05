@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
                             <div class="tg-slidercontent " data-transition="blocksReveal">
-                                <h6 class="pogoSlider-slide-element" data-in="slideUp" data-duration="800" data-delay="500">HealthExpress</h6>
+                                <h6 class="pogoSlider-slide-element" data-in="slideUp" data-duration="800" data-delay="500">Health Express</h6>
                                 <h1 class="pogoSlider-slide-element" data-in="slideDown" data-duration="800" data-delay="500"><span>Évacuation </span>
                                     Sanitaire</h1>
                                 <p>Nous vous accompagnos dans la procédure de bout en bout.</p>
@@ -29,7 +29,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
                             <div class="tg-slidercontent">
-                                <h6 class="pogoSlider-slide-element" data-in="slidedown" data-duration="800" data-delay="500">HealthExpress</h6>
+                                <h6 class="pogoSlider-slide-element" data-in="slidedown" data-duration="800" data-delay="500">Health Express</h6>
                                 <h1 class="pogoSlider-slide-element" data-in="slideUp" data-duration="800" data-delay="500"><span>Assistance</span>
                                     Sanitaire</h1>
                                 <p>Nous sommes là pour vous car votre santé est important pous nous.</p>
@@ -69,10 +69,10 @@
                     <div class="about-cont">
                         <div class="heading b-text">
                             <h5>Mieux nous connaître</h5>
-                            <h2>À Propos de Relief Service</h2>
+                            <h2>À Propos de Health Express</h2>
                         </div>
 
-                        <p>Relief Services est une entreprise spécialisée dans l’assistance médicale et l’accompagnement de toute personne désirant se faire soigner à l’étranger dans le cadre d'une évacuation sanitaire ou pour un bilan de santé. Elle a aussi le privilège d’avoir de bonne connaissance et expertise du secteur avec une excellente plateforme logistique administrative et médicale. Tout ceci avec un ensemble de partenaires. Gagnez du temps dans vos démarches administratives, vos rendez-vous médicaux en un temps record, votre logement et transports sont réservés.</p>
+                        <p>Health Express est une entreprise spécialisée dans l’assistance médicale et l’accompagnement de toute personne désirant se faire soigner à l’étranger dans le cadre d'une évacuation sanitaire ou pour un bilan de santé. Elle a aussi le privilège d’avoir de bonne connaissance et expertise du secteur avec une excellente plateforme logistique administrative et médicale. Tout ceci avec un ensemble de partenaires. Gagnez du temps dans vos démarches administratives, vos rendez-vous médicaux en un temps record, votre logement et transports sont réservés.</p>
                      </div>
 
                 </div>
