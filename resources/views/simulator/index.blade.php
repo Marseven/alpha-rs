@@ -59,7 +59,7 @@ Breadcrum Part HTML Start
                         <div class="row mb-3">
                             <label for="inputEmail3" class="col-sm-2 col-form-label">Pays</label>
                             <div class="col-sm-10">
-                                <select id="selectOne" name="country_id" class="form-control">
+                                <select name="country_id" class="form-control">
                                     @foreach ($countries as $country)
                                         <option value="{{$country->id}}">{{$country->label}}</option>
                                     @endforeach
