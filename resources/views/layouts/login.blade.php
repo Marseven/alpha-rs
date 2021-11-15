@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Health Express</title>
+    <title>Alpha</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/LogoRSA.png')}}">
-	<link href="{{ asset('admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('admin/css/style.css')}}" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/LogoRSA.png') }}">
+    <link href="{{ asset('admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
 
 </head>
 
@@ -29,12 +29,13 @@
         Scripts
     ***********************************-->
     <!-- Required vendors -->
-    <script src="{{ asset('admin/vendor/global/global.min.js')}}"></script>
-	<script src="{{ asset('admin/vendor/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
-    <script src="{{ asset('admin/js/custom.min.js')}}"></script>
-    <script src="{{ asset('admin/js/deznav-init.js')}}"></script>
-    <script src="{{ asset('admin/js/styleSwitcher.js')}}"></script>
+    <script src="{{ asset('admin/vendor/global/global.min.js') }}"></script>
+    <script src="{{ asset('admin/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('admin/js/custom.min.js') }}"></script>
+    <script src="{{ asset('admin/js/deznav-init.js') }}"></script>
+    <script src="{{ asset('admin/js/styleSwitcher.js') }}"></script>
 </body>
 
 <!-- Mirrored from mediqu.dexignzone.com/xhtml/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 14 Jul 2021 09:26:37 GMT -->
+
 </html>
