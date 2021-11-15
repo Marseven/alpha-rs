@@ -36,22 +36,24 @@ class StatusMessage extends Mailable
     {
         $data = [];
 
-        if($this->type == "quote"){
+        if ($this->type == "quote") {
 
-            $data['fullname'] = $this->data->lastname.' '.$this->data->firstname;
+            $data['fullname'] = $this->data->lastname . ' ' . $this->data->firstname;
             $data['entity'] = "devis";
             $data['url'] = url('/profil');
             $data['status'] = Controller::status($this->data->status);
 
             $this->data = $data;
 
-            return $this->from("contact@reliefservices.space") // L'expéditeur
-                    ->subject("Mise à jour de statut du devis") // Le sujet
-                    ->markdown('layouts.mail-status')
-                    ->with('data',$this->data);
-        }else{
+            //dd($data);
 
-            $data['fullname'] = $this->data->lastname.' '.$this->data->firstname;
+            return $this->from("contact@reliefservices.space") // L'expéditeur
+                ->subject("Mise à jour de statut du devis") // Le sujet
+                ->markdown('layouts.mail-status')
+                ->with('data', $this->data);
+        } else {
+
+            $data['fullname'] = $this->data->lastname . ' ' . $this->data->firstname;
             $data['entity'] = "dossier";
             $data['url'] = url('/profil');
             $data['status'] = Controller::status($this->data->status);
@@ -59,9 +61,9 @@ class StatusMessage extends Mailable
             $this->data = $data;
 
             return $this->from("contact@reliefservices.space") // L'expéditeur
-                    ->subject("Mise à jour de statut du dossier") // Le sujet
-                    ->markdown('layouts.mail-status')
-                    ->with('data',$this->data);
+                ->subject("Mise à jour de statut du dossier") // Le sujet
+                ->markdown('layouts.mail-status')
+                ->with('data', $this->data);
         }
     }
 }

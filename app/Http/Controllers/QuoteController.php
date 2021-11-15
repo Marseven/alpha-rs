@@ -21,10 +21,12 @@ class QuoteController extends Controller
     {
         $user = User::find(Auth::user()->id);
         $user->load(['quotes']);
-        return view('quotes.list',
-        [
-            'quotes' => $user->quotes,
-        ]);
+        return view(
+            'quotes.list',
+            [
+                'quotes' => $user->quotes,
+            ]
+        );
     }
 
     public function add($type = null, $id = null)
@@ -35,26 +37,28 @@ class QuoteController extends Controller
         $service_check = false;
         $country_check = false;
 
-        if($type == "town"){
+        if ($type == "town") {
             $town = Town::find($id);
             $country_check = Country::find($town->country_id);
-        }elseif($type == "service"){
+        } elseif ($type == "service") {
             $service_check = Service::find($id);
         }
 
-    	return view('quote.add',
-        [
-            'services' => $services,
-            'countries' => $countries,
-            'service_check' => $service_check,
-            'country_check' => $country_check,
-        ]);
+        return view(
+            'quote.add',
+            [
+                'services' => $services,
+                'countries' => $countries,
+                'service_check' => $service_check,
+                'country_check' => $country_check,
+            ]
+        );
     }
 
     public function create(Request $request)
     {
 
-    	$quote = new Quote();
+        $quote = new Quote();
 
         $quote->reference = $this->str_random(8);
 
@@ -71,8 +75,8 @@ class QuoteController extends Controller
         $quote->category = $request->category;
 
         $join_piece = FileController::quote_file($request->file('join_piece'));
-        if($join_piece['state'] == false){
-            return back()->with('error',$join_piece['message']);
+        if ($join_piece['state'] == false) {
+            return back()->with('error', $join_piece['message']);
         }
 
         $quote->join_piece = $join_piece['url'];
@@ -84,44 +88,43 @@ class QuoteController extends Controller
         $quote->country_id = $request->country_id;
 
 
-        if(Auth::user()) {
+        if (Auth::user()) {
             $quote->user_id = auth()->user()->id;
-            if($quote->save()){
+            if ($quote->save()) {
 
-                if(Auth::user()){
+                if (Auth::user()) {
                     return PaymentController::ebilling('quote', $quote);
-                }else{
-                    return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
+                } else {
+                    return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
                 }
-            }else{
-                return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
+            } else {
+                return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
             }
-        }else{
+        } else {
             $email_exist = User::where('email', $request->email)->count();
-            if($email_exist > 0){
-                return back()->with('error',"Cette email exiiste déjà, connectez-vous pour faire une nouvelle demande.");
-            }else{
+            if ($email_exist > 0) {
+                return back()->with('error', "Cette email exiiste déjà, connectez-vous pour faire une nouvelle demande.");
+            } else {
                 $user = new User();
-                $user->name = $request->firstname.' '.$request->lastname;
+                $user->name = $request->firstname . ' ' . $request->lastname;
                 $user->email = $request->email;
 
-                if($user->save()){
+                if ($user->save()) {
                     $status = Password::sendResetLink(
                         $request->only('email')
                     );
 
                     //$user->sendEmailVerificationNotification();
 
-                    if($status === Password::RESET_LINK_SENT){
+                    if ($status === Password::RESET_LINK_SENT) {
                         $quote->user_id = $user->id;
                         $quote->save();
                         return PaymentController::singpay('quote', $quote);
-                    } else{
-                        return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
+                    } else {
+                        return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
                     }
-
-                }else{
-                    return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
+                } else {
+                    return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
                 }
             }
         }
@@ -129,10 +132,9 @@ class QuoteController extends Controller
 
     public function edit(Quote $quote)
     {
-    	if (auth()->user()->id == $quote->user_id)
-        {
+        if (auth()->user()->id == $quote->user_id) {
             return view('edit', compact('quote'));
-        }else {
+        } else {
             return back();
         }
     }
@@ -141,13 +143,13 @@ class QuoteController extends Controller
     {
         Controller::he_can('Quotes', 'updat');
 
-    	if(isset($_POST['delete'])) {
-    		if($quote->delete()){
-                return back()->with('success','Le devis a été supprimée.');
-            }else{
+        if (isset($_POST['delete'])) {
+            if ($quote->delete()) {
+                return back()->with('success', 'Le devis a été supprimée.');
+            } else {
                 return back()->with('error', 'La devis n\'a pas été supprimée.');
             }
-    	}else{
+        } else {
             $quote->lastname = $request->lastname;
 
             $quote->firstname = $request->firstname;
@@ -161,35 +163,35 @@ class QuoteController extends Controller
             $quote->category = $request->category;
 
             $join_piece = FileController::quote_file($request->file('join_piece'));
-            if($join_piece['state'] == false){
-                return back()->with('error',$join_piece['message']);
+            if ($join_piece['state'] == false) {
+                return back()->with('error', $join_piece['message']);
             }
 
             $quote->join_piece = $join_piece['url'];
-	    	if($quote->save()){
+            if ($quote->save()) {
                 return back()->with('success', 'Le devis a été mise à jour.');
-            }else{
+            } else {
                 return back()->with('error', 'Le devis n\'a pas été mise à jour.');
             }
-    	}
+        }
     }
 
     public function updateState(Request $request, $quote)
     {
         $quote = Quote::find($quote);
         $quote->status = $request->status;
+        $quote->response = $request->response;
         $quote->load(['user']);
-        if($quote->save()){
+        if ($quote->save()) {
             Mail::to($quote->user->email)->queue(new StatusMessage($quote, "quote"));
             return back()->with('success', "Le status du devis a bien été mis à jour !");
-        }else{
+        } else {
             return back()->with('error', "Une erreur s'est produite.");
         }
-
     }
 
-    public function pay(Quote $quote){
+    public function pay(Quote $quote)
+    {
         return PaymentController::singpay('quote', $quote);
     }
-
 }
