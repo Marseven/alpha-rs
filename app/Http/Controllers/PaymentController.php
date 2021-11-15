@@ -19,28 +19,32 @@ class PaymentController extends Controller
     {
         $user = User::find(Auth::user()->id);
         $user->load(['payments']);
-        return view('payment.list',
-        [
-            'payments' => $user->payments,
-        ]);
+        return view(
+            'payment.list',
+            [
+                'payments' => $user->payments,
+            ]
+        );
     }
 
     public function payments()
     {
         $user = User::find(Auth::user()->id);
         $user->load(['payments']);
-        return view('payment.list',
-        [
-            'payments' => $user->payments,
-        ]);
+        return view(
+            'payment.list',
+            [
+                'payments' => $user->payments,
+            ]
+        );
     }
 
     static function create($type, $data)
     {
 
-    	$payment = new Payment();
-    	if($type == 'folder') $payment->folder_id = $data['folder_id'];
-        if($type == 'quote') $payment->quote_id = $data['quote_id'];
+        $payment = new Payment();
+        if ($type == 'folder') $payment->folder_id = $data['folder_id'];
+        if ($type == 'quote') $payment->quote_id = $data['quote_id'];
         $payment->description = $data['description'];
         $payment->reference = $data['reference'];
         $payment->amount = $data['amount'];
@@ -48,34 +52,35 @@ class PaymentController extends Controller
         $payment->time_out = $data['time_out'];
         $payment->customer_id = $data['customer_id'];
 
-    	return $payment->save();
+        return $payment->save();
     }
 
-    static function ebilling($type, $data){
+    static function ebilling($type, $data)
+    {
 
         // =============================================================
         // ===================== Setup Attributes ===========================
         // =============================================================
 
-        if($type == 'folder'){
+        if ($type == 'folder') {
             // Fetch all data (including those not optional) from session
             $data->load(['service']);
             $eb_amount = $data->service->price;
-            $eb_shortdescription = 'Paiement pour le dossier médical N° '.$data->reference;
+            $eb_shortdescription = 'Paiement pour le dossier médical N° ' . $data->reference;
             $eb_reference = $data->reference;
             $eb_email = auth()->user()->email;
-            $eb_msisdn = auth()->user()->phone ? auth()->user()->phone :'074010203';
-            $eb_callbackurl = url('/callback/ebilling/folder/'.$data->id);
-            $eb_name = $data->firstname.' '.$data->lastname;
-        }else{
+            $eb_msisdn = auth()->user()->phone ? auth()->user()->phone : '074010203';
+            $eb_callbackurl = url('/callback/ebilling/folder/' . $data->id);
+            $eb_name = $data->firstname . ' ' . $data->lastname;
+        } else {
             // Fetch all data (including those not optional) from session
-            $eb_amount = 80000;
+            $eb_amount = 50000;
             $eb_shortdescription = 'Frais de demande de devis.';
             $eb_reference = $data->reference;
             $eb_email = $data->email;
             $eb_msisdn = $data->phone;
-            $eb_callbackurl = url('/callback/ebilling/quote/'.$data->id);
-            $eb_name = $data->firstname.' '.$data->lastname;
+            $eb_callbackurl = url('/callback/ebilling/quote/' . $data->id);
+            $eb_name = $data->firstname . ' ' . $data->lastname;
         }
 
         $expiry_period = 60; // 60 minutes timeout
@@ -100,11 +105,11 @@ class PaymentController extends Controller
         $e_bills[] = $invoice;
 
         $global_array =
-        [
-            'merchant_name' => $merchant_name,
-            'e_bills' => $e_bills,
-            'expiry_period' => $expiry_period
-        ];
+            [
+                'merchant_name' => $merchant_name,
+                'e_bills' => $e_bills,
+                'expiry_period' => $expiry_period
+            ];
 
         $content = json_encode($global_array);
         $curl = curl_init(env('SERVER_URL'));
@@ -120,7 +125,7 @@ class PaymentController extends Controller
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         // Check status <> 200
-        if ( $status < 200  || $status > 299  ) {
+        if ($status < 200  || $status > 299) {
             die("Error: call to URL failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
         }
 
@@ -132,7 +137,7 @@ class PaymentController extends Controller
         // Get unique transaction id
         $bill_id = $response['e_bills'][0]['bill_id'];
 
-        if($type == 'folder'){
+        if ($type == 'folder') {
             $data = [
                 'folder_id' => $data->id,
                 'amount' => $eb_amount,
@@ -143,7 +148,7 @@ class PaymentController extends Controller
                 'customer_id' => Auth::user()->id,
                 'description' => $eb_shortdescription,
             ];
-        }else{
+        } else {
             $data = [
                 'quote_id' => $data->id,
                 'amount' => $eb_amount,
@@ -160,8 +165,8 @@ class PaymentController extends Controller
 
         // Redirect to E-Billing portal
         echo "<form action='" . env('POST_URL') . "' method='post' name='frm'>";
-        echo "<input type='hidden' name='invoice_number' value='".$bill_id."'>";
-        echo "<input type='hidden' name='eb_callbackurl' value='".$eb_callbackurl."'>";
+        echo "<input type='hidden' name='invoice_number' value='" . $bill_id . "'>";
+        echo "<input type='hidden' name='eb_callbackurl' value='" . $eb_callbackurl . "'>";
         echo "</form>";
         echo "<script language='JavaScript'>";
         echo "document.frm.submit();";
@@ -170,80 +175,86 @@ class PaymentController extends Controller
         exit();
     }
 
-    public function callback_ebilling($type, $entity){
-        if($type == 'folder'){
+    public function callback_ebilling($type, $entity)
+    {
+        if ($type == 'folder') {
             $folder = Folder::find($entity);
             $payment = Payment::all()->where('reference', $folder->reference);
-            if(isset($payment->status) && $payment->status == STATUT_PAID){
+            if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 $folder->status = STATUT_PAID;
                 $folder->save();
                 $folder->load(['payment']);
-                return view('payment.callback',
-                [
-                    'folder' => $folder,
-                ])->with('success','Votre paiment a bien été reçu.');
-            }else{
-                return redirect('/profil')->with('error',"Une erreur s'est produite, Veuillez réessayer !");;
+                return view(
+                    'payment.callback',
+                    [
+                        'folder' => $folder,
+                    ]
+                )->with('success', 'Votre paiment a bien été reçu.');
+            } else {
+                return redirect('/profil')->with('error', "Une erreur s'est produite, Veuillez réessayer !");;
             }
-        }else{
+        } else {
             $quote = Quote::find($entity);
             $payment = Payment::all()->where('reference', $quote->reference);
-            if(isset($payment->status) && $payment->status == STATUT_PAID){
+            if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
                 Mail::to($quote->email)->queue(new QuoteMessage($quote));
-                return view('payment.callback-request',
-                [
-                    'quote' => $quote,
-                ])->with('success','Votre paiment a bien été reçu.');
-            }else{
-                return redirect('/profil')->with('success',"Votre paiement n'a pas été reçu.");
+                return view(
+                    'payment.callback-request',
+                    [
+                        'quote' => $quote,
+                    ]
+                )->with('success', 'Votre paiment a bien été reçu.');
+            } else {
+                return redirect('/profil')->with('success', "Votre paiement n'a pas été reçu.");
             }
         }
     }
 
-    public function notify_ebilling(){
-        if(isset($_POST['reference'])){
+    public function notify_ebilling()
+    {
+        if (isset($_POST['reference'])) {
             $payment = Payment::where('reference', $_POST['reference'])->first();
-            if($payment){
+            if ($payment) {
                 $payment->status = STATUT_PAID;
                 $payment->transaction_id = $_POST['transactionid'];
                 $payment->operator = $_POST['paymentsystem'];
                 $payment->amount = $_POST['amount'];
                 $payment->paid_at = date('Y-m-d H:i');
-                if($payment->save()){
+                if ($payment->save()) {
                     return http_response_code(200);
-                }else{
+                } else {
                     return http_response_code(403);
                 }
-            }else{
+            } else {
                 return http_response_code(402);
             }
-        }else{
+        } else {
             return http_response_code(401);
         }
-
     }
 
-    static function singpay($type, $data){
+    static function singpay($type, $data)
+    {
 
         $eb_reference = Controller::str_random_pay(8);
 
-        if($type == 'folder'){
+        if ($type == 'folder') {
             // Fetch all data (including those not optional) from session
             $response = Http::withHeaders([
                 'x-wallet' => '6155b3f1d290be2c04380c7d',
                 'x-client-id' => '7fbdcd94-7fa2-45d9-9db4-c165d8200364',
                 'x-client-secret' => 'ce88eefaf3f18d65c83187d8197d3a3566515a9dd59dca701f327818e3d8946b'
             ])->post('https://gateway.singpay.ga/v1/ext', [
-                "amount" => $data->price+$data->service->price,
+                "amount" => $data->price + $data->service->price,
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET', "6155b3f1d290be2c04380c7d"),
                 "reference" => $eb_reference,
-                "redirect_success" => url('/callback-singpay/folder/'.$data->id.'/'.$eb_reference),
-                "redirect_error" => url('/callback-singpay/folder/'.$data->id.'/'.$eb_reference),
+                "redirect_success" => url('/callback-singpay/folder/' . $data->id . '/' . $eb_reference),
+                "redirect_error" => url('/callback-singpay/folder/' . $data->id . '/' . $eb_reference),
                 "logoURL" => asset('images/LogoRSA.png'),
             ]);
-        }else{
+        } else {
             // Fetch all data (including those not optional) from session
             $response = Http::withHeaders([
                 'x-wallet' => '6155b3f1d290be2c04380c7d',
@@ -254,17 +265,17 @@ class PaymentController extends Controller
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET', "6155b3f1d290be2c04380c7d"),
                 "reference" => $eb_reference,
-                "redirect_success" => url('/callback-singpay/quote/'.$data->id.'/'.$eb_reference),
-                "redirect_error" => url('/callback-singpay/quote/'.$data->id.'/'.$eb_reference),
+                "redirect_success" => url('/callback-singpay/quote/' . $data->id . '/' . $eb_reference),
+                "redirect_error" => url('/callback-singpay/quote/' . $data->id . '/' . $eb_reference),
                 "logoURL" => asset('images/LogoRSA.png'),
             ]);
         }
         $response = json_decode($response->body());
 
-        if($type == 'folder'){
+        if ($type == 'folder') {
             $data->load(['service']);
-            $eb_amount = $data->service->price+$data->price;
-            $eb_shortdescription = 'Paiement pour le dossier médical N° '.$data->reference;
+            $eb_amount = $data->service->price + $data->price;
+            $eb_shortdescription = 'Paiement pour le dossier médical N° ' . $data->reference;
             $data = [
                 'folder_id' => $data->id,
                 'amount' => $eb_amount,
@@ -275,7 +286,7 @@ class PaymentController extends Controller
                 'customer_id' => Auth::user()->id,
                 'description' => $eb_shortdescription,
             ];
-        }else{
+        } else {
             $eb_amount = 100;
             $eb_shortdescription = 'Frais de demande de devis.';
             $data = [
@@ -293,62 +304,67 @@ class PaymentController extends Controller
         PaymentController::create($type, $data);
 
         return redirect($response->link);
-
     }
 
-    public function callback_singpay($type, $entity, $payment){
-        if($type == 'folder'){
+    public function callback_singpay($type, $entity, $payment)
+    {
+        if ($type == 'folder') {
             $folder = Folder::find($entity);
             $payment = Payment::all()->where('reference', $payment)->first();
-            if(isset($payment->status) && $payment->status == STATUT_PAID){
+            if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 $folder->status = STATUT_PAID;
                 $folder->save();
                 $folder->load(['payment']);
-                return view('payment.callback',
-                [
-                    'folder' => $folder,
-                    'payment' => $payment,
-                ])->with('success','Votre paiment a bien été reçu.');
-            }else{
-                return redirect('/profil')->with('error',"Une erreur s'est produite, Veuillez réessayer !");;
+                return view(
+                    'payment.callback',
+                    [
+                        'folder' => $folder,
+                        'payment' => $payment,
+                    ]
+                )->with('success', 'Votre paiment a bien été reçu.');
+            } else {
+                return redirect('/profil')->with('error', "Une erreur s'est produite, Veuillez réessayer !");;
             }
-        }else{
+        } else {
             $quote = Quote::find($entity);
             $payment = Payment::all()->where('reference',  $payment)->first();
-            if(isset($payment->status) && $payment->status == STATUT_PAID){
+            if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 $quote->status = STATUT_PAID;
                 $quote->save();
                 Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
                 Mail::to(Auth::user()->email)->queue(new QuoteMessage($quote));
-                return view('payment.callback-request',
-                [
-                    'quote' => $quote,
-                    'payment' => $payment,
-                ])->with('success','Votre paiment a bien été reçu.');
-            }else{
-                return redirect('/profil')->with('error',"Votre paiement n'a pas été reçu.");
+                return view(
+                    'payment.callback-request',
+                    [
+                        'quote' => $quote,
+                        'payment' => $payment,
+                    ]
+                )->with('success', 'Votre paiment a bien été reçu.');
+            } else {
+                return redirect('/profil')->with('error', "Votre paiement n'a pas été reçu.");
             }
         }
     }
 
-    public function notify_singpay(Request $request){
-        if($request->input('transaction.reference')){
+    public function notify_singpay(Request $request)
+    {
+        if ($request->input('transaction.reference')) {
             $payment = Payment::where('reference', $request->input('transaction.reference'))->first();
-            if($payment){
+            if ($payment) {
                 $payment->status = STATUT_PAID;
                 $payment->transaction_id = $request->input('transaction.id');
                 $payment->operator = "airtelmoney";
                 $payment->amount = $request->input('transaction.amount');
                 $payment->paid_at = date('Y-m-d H:i');
-                if($payment->save()){
+                if ($payment->save()) {
                     return http_response_code(200);
-                }else{
+                } else {
                     return http_response_code(403);
                 }
-            }else{
+            } else {
                 return http_response_code(402);
             }
-        }else{
+        } else {
             return http_response_code(401);
         }
     }
