@@ -93,7 +93,7 @@ class QuoteController extends Controller
             if ($quote->save()) {
 
                 if (Auth::user()) {
-                    return PaymentController::ebilling('quote', $quote);
+                    return PaymentController::singpay('quote', $quote);
                 } else {
                     return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
                 }
