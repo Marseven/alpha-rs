@@ -31,19 +31,18 @@ class QuoteMessage extends Mailable
      */
     public function build()
     {
-        if($this->data['email'] == "m.cherone@reliefservices.space"){
+        if ($this->data['email'] == "m.cherone@reliefservices.space") {
 
             return $this->from("contact@reliefservices.space") // L'expéditeur
-                        ->subject($this->data['subject']) // Le sujet
-                        ->markdown('quote.mail')
-                        ->with('data',$this->data);
-        }else{
+                ->subject("Nouvelle demande de Devis") // Le sujet
+                ->markdown('quote.mail')
+                ->with('data', $this->data);
+        } else {
 
             return $this->from("contact@reliefservices.space") // L'expéditeur
-                        ->subject($this->data['subject']) // Le sujet
-                        ->markdown('quote.mail-customer')
-                        ->with('data',$this->data);
+                ->subject("Demande devis - Alpha") // Le sujet
+                ->markdown('quote.mail-customer')
+                ->with('data', $this->data);
         }
-
     }
 }

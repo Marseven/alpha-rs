@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\QuoteAdminMessage;
 use App\Mail\QuoteMessage;
 use Illuminate\Http\Request;
 use App\Models\Folder;
@@ -331,7 +332,7 @@ class PaymentController extends Controller
             if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 $quote->status = STATUT_PAID;
                 $quote->save();
-                Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
+                Mail::to('m.cherone@reliefservices.space')->cc("servicesdesign2018@gmail.com")->queue(new QuoteAdminMessage($quote));
                 Mail::to(Auth::user()->email)->queue(new QuoteMessage($quote));
                 return view(
                     'payment.callback-request',
