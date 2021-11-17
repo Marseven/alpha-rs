@@ -33,12 +33,15 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    public function showResetForm(Request $request){
+    public function showResetForm(Request $request)
+    {
         $token = $request->route()->parameter('token');
         return view('auth.reset-password', compact('token'));
     }
 
-    public function reset(Request $request){
+    public function reset(Request $request)
+    {
+
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
@@ -48,6 +51,7 @@ class ResetPasswordController extends Controller
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
+                dd($user);
                 $user->forceFill([
                     'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60));
@@ -58,8 +62,10 @@ class ResetPasswordController extends Controller
             }
         );
 
+
+
         return $status === Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withErrors(['email' => [__($status)]]);
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
     }
 }
