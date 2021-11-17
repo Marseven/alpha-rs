@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Mail;
 class WelcomeController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
         $services = Service::limit(4)->get();
         $towns = Town::limit(6)->get();
         $sicks = Sick::all();
@@ -27,31 +28,33 @@ class WelcomeController extends Controller
         ]);
     }
 
-    public function contact(Request $request){
+    public function contact(Request $request)
+    {
 
-        Mail::to('m.cherone@reliefservices.space')->queue(new QueryMessage($request->all()));
+        Mail::to('m.cherone@reliefservices.space')->cc("servicesdesign2018@gmail.com")->queue(new QueryMessage($request->all()));
 
-        return back()->with('success',"Votre mail a été envoyé, nous reviendrons vers vous au plus tôt.");
+        return back()->with('success', "Votre mail a été envoyé, nous reviendrons vers vous au plus tôt.");
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $keyword = $request->q;
-        $sicks = Sick::where('label', 'LIKE', '%'.$keyword.'%')->paginate(10);
+        $sicks = Sick::where('label', 'LIKE', '%' . $keyword . '%')->paginate(10);
 
         $towns = [];
 
-        if($sicks->count() > 0){
+        if ($sicks->count() > 0) {
             $i = 0;
-            foreach($sicks as $sick){
+            foreach ($sicks as $sick) {
                 $sql = DB::table('hospital_sick')->where([
                     'sick_id' => $sick->id
                 ])->get();
 
-                foreach($sql as $t){
+                foreach ($sql as $t) {
                     $hospital = Hospital::find($t->hospital_id);
                     $town = Town::find($hospital->town_id);
                     $town->load(['country']);
-                    if(!in_array($town, $towns)){
+                    if (!in_array($town, $towns)) {
                         $towns[$i] = $town;
                         $i++;
                     }
@@ -63,7 +66,5 @@ class WelcomeController extends Controller
             'towns' => $towns,
             'keyword' => $keyword,
         ]);
-
-
     }
 }
