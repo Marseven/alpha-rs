@@ -253,6 +253,7 @@ class PaymentController extends Controller
                 "reference" => $eb_reference,
                 "redirect_success" => url('/callback-singpay/folder/' . $data->id . '/' . $eb_reference),
                 "redirect_error" => url('/callback-singpay/folder/' . $data->id . '/' . $eb_reference),
+                "disbursement" => "6196a082de1502e8692e2e03",
                 "logoURL" => asset('images/LogoRSA.png'),
             ]);
         } else {
@@ -268,6 +269,7 @@ class PaymentController extends Controller
                 "reference" => $eb_reference,
                 "redirect_success" => url('/callback-singpay/quote/' . $data->id . '/' . $eb_reference),
                 "redirect_error" => url('/callback-singpay/quote/' . $data->id . '/' . $eb_reference),
+                "disbursement" => "6196a082de1502e8692e2e03",
                 "logoURL" => asset('images/LogoRSA.png'),
             ]);
         }

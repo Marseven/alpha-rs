@@ -51,9 +51,7 @@ class ResetPasswordController extends Controller
             'password_confirmation' => 'required'
         ]);
 
-
         $user = User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
-
 
         return redirect('/login')->with('message', '');
     }
