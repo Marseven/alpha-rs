@@ -17,8 +17,9 @@ class Simulators extends Migration
         Schema::create('simulators', function (Blueprint $table) {
             $table->id();
             $table->string('label')->unique();
-            $table->string('price_min');
-            $table->string('price_max');
+            $table->double('price_min');
+            $table->double('price_max');
+            $table->string('periode');
             $table->foreignId('country_id');
             $table->foreignId('service_id');
             $table->foreignId('user_id');

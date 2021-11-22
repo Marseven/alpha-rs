@@ -56,6 +56,7 @@ class SimulatorController extends Controller
         $simulator->label = $request->label;
         $simulator->price_min = $request->price_min;
         $simulator->price_max = $request->price_max;
+        $simulator->periode = $request->periode;
         $simulator->country_id = $request->country_id;
         $simulator->service_id = $request->service_id;
         $simulator->status = STATUT_ENABLE;
@@ -88,10 +89,11 @@ class SimulatorController extends Controller
             }
         } else {
             $simulator->label = $request->label;
-            $simulator->price_min = $request->description;
-            $simulator->price_max = $request->description;
-            $simulator->price_max = $request->country_id;
-            $simulator->price_max = $request->service_id;
+            $simulator->price_min = $request->price_min;
+            $simulator->price_max = $request->price_max;
+            $simulator->periode = $request->periode;
+            $simulator->country_id = $request->country_id;
+            $simulator->service_id = $request->service_id;
             if ($simulator->save()) {
                 return back()->with('success', "L'élément a bien été mis à jour !");
             } else {
