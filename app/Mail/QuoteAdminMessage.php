@@ -31,6 +31,7 @@ class QuoteAdminMessage extends Mailable
      */
     public function build()
     {
+        $this->data->load(['service', 'country']);
 
         return $this->from("contact@reliefservices.space") // L'expéditeur
             ->subject("Nouvelle demande de Devis") // Le sujet
