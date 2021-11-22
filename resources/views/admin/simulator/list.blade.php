@@ -96,6 +96,10 @@
 
     @foreach ($simulators as $simulator)
 
+        @php
+            $simulator->load(['country', 'service']);
+        @endphp
+
         <div class="modal fade" id="cardModalView{{ $simulator->id }}">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -112,6 +116,10 @@
                                 <div class="col-4 pt-3 pb-3 border-right">
                                     <h3 class="mb-1">{{ $simulator->price_max }} / {{ $simulator->periode }}
                                     </h3><span>Prix Max</span>
+                                </div>
+                                <div class="col-4 pt-3 pb-3 border-right">
+                                    <h3 class="mb-1">{{ $simulator->service->label }}
+                                    </h3><span>{{ $simulator->country->label }}</span>
                                 </div>
                             </div>
                         </div>
