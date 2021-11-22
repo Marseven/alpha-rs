@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\QueryMessage;
+use App\Models\Country;
 use App\Models\Hospital;
 use App\Models\Service;
 use App\Models\Sick;
@@ -18,6 +19,7 @@ class WelcomeController extends Controller
     public function index()
     {
         $services = Service::limit(4)->get();
+        $countries = Country::all();
         $towns = Town::limit(6)->get();
         $sicks = Sick::all();
         $towns->load(['country']);
@@ -25,6 +27,7 @@ class WelcomeController extends Controller
             'services' => $services,
             'towns' => $towns,
             'sicks' => $sicks,
+            'countries' => $countries,
         ]);
     }
 
