@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                Breadcrum Part HTML Start
-                =======================-->
+                        Breadcrum Part HTML Start
+                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,12 +30,12 @@
     </section>
 
     <!--====================
-                    Breadcrum Part HTML End
-                ======================-->
+                            Breadcrum Part HTML End
+                        ======================-->
 
     <!-- =============================
-                    Start: About Us
-                ============================= -->
+                            Start: About Us
+                        ============================= -->
     <section id="service" class="service section">
         <div class="container">
             <div class="row">
@@ -49,12 +49,12 @@
             </div>
 
             <!-- =============================
-                            Start: Search
-                        ============================= -->
+                                    Start: Search
+                                ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form method="POST" action="{{ route('quote') }}">
+                        <form method="POST" action="{{ route('simulate') }}">
                             @csrf
                             <div class="row mb-3">
                                 <label for="inputEmail3" class="col-sm-2 col-form-label">Pays</label>
@@ -85,8 +85,8 @@
                 </div>
             </div>
             <!-- =============================
-                            End: Search
-                        ============================= -->
+                                    End: Search
+                                ============================= -->
 
             <br>
 
@@ -153,7 +153,7 @@
     </section>
 
     <!-- =============================
-                    End: About Us
-                ============================= -->
+                            End: About Us
+                        ============================= -->
 
 @endsection

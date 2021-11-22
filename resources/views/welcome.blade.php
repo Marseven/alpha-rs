@@ -3,8 +3,8 @@
 @section('content')
 
     <!-- =============================
-                    Start: Header Slider
-                ============================= -->
+                        Start: Header Slider
+                    ============================= -->
     <div class="tg-sliderholder">
         <div id="tg-homeslider" class="tg-homeslider tg-haslayout" style="padding-bottom: 0!important">
             <div class="pogoSlider-slide" data-transition="fade" data-duration="600"
@@ -55,15 +55,15 @@
     </div>
 
     <!-- =============================
-                    End: Header Slider
-                ============================= -->
+                        End: Header Slider
+                    ============================= -->
 
 
     @include('layouts.flash')
 
     <!-- =============================
-                    Start: About Us
-                ============================= -->
+                        Start: About Us
+                    ============================= -->
     <section id="aboutus" class="aboutus section">
         <div class="container">
             <div class="row">
@@ -142,12 +142,12 @@
     </section>
 
     <!-- =============================
-                    End: About Us
-                ============================= -->
+                        End: About Us
+                    ============================= -->
 
     <!-- =============================
-                    Start: service Part
-                ============================= -->
+                        Start: service Part
+                    ============================= -->
 
     <section id="service" class="service section">
         <div class="container">
@@ -207,8 +207,8 @@
             </div>
 
             <!-- =============================
-                            Start: Search
-                        ============================= -->
+                                Start: Search
+                            ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -224,8 +224,8 @@
                 </div>
             </div>
             <!-- =============================
-                            End: Search
-                        ============================= -->
+                                End: Search
+                            ============================= -->
 
             <br>
             <br>
@@ -242,8 +242,8 @@
             </div>
 
             <!-- =============================
-                            Start: Search
-                        ============================= -->
+                                Start: Search
+                            ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -261,17 +261,63 @@
                 </div>
             </div>
             <!-- =============================
-                            End: Search
-                        ============================= -->
+                                End: Search
+                            ============================= -->
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-12 ">
+                        <div class="heading b-text text-center">
+                            <h5>Vous souhaitez avoir une estimation ?</h5>
+                            <h2>Simulateur</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form method="POST" action="{{ route('simulate') }}">
+                            @csrf
+                            <div class="row mb-3">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Pays</label>
+                                <div class="col-sm-10">
+                                    <select id="selectOne" name="country_id" class="form-control">
+                                        @foreach ($countries as $country)
+                                            <option value="{{ $country->id }}">{{ $country->label }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputPassword3" class="col-sm-2 col-form-label">Offres</label>
+                                <div class="col-sm-10">
+                                    <select name="service_id" class="form-control" onChange="afficherservice()">
+                                        @foreach ($services as $service)
+                                            <option value="{{ $service->id }}">{{ $service->label }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row mb-3">
+                                <button type="submit" class="btn btn-primary">Valider</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- =============================
-                    End: service Part
-                ============================= -->
+                        End: service Part
+                    ============================= -->
 
     <!-- =============================
-                    Start: Experience Part
-                ============================= -->
+                        Start: Experience Part
+                    ============================= -->
 
     <section id="experience" class="experience">
         <div class="container">
@@ -373,11 +419,11 @@
     </section>
 
     <!-- =============================
-                    End: Experience Part
-                ============================= -->
+                        End: Experience Part
+                    ============================= -->
     <!-- =============================
-                    Start: Testimonial Part
-                ============================= -->
+                        Start: Testimonial Part
+                    ============================= -->
     <section id="testimonial" class="testimonial section">
         <div class="container">
             <div class="row">
@@ -473,11 +519,11 @@
     </section>
 
     <!-- =============================
-                    End: Testimonial Part
-                ============================= -->
+                        End: Testimonial Part
+                    ============================= -->
     <!--========================
-                 Team Part HTML Start
-                ==========================-->
+                     Team Part HTML Start
+                    ==========================-->
     <section id="team" class="team section">
         <div class="container">
             <div class="row">
@@ -520,11 +566,11 @@
     </section>
 
     <!--======================
-                 Team Part HTML End
-                =======================-->
+                     Team Part HTML End
+                    =======================-->
     <!--======================
-                    Latest Updates Part HTML Start
-                =======================-->
+                        Latest Updates Part HTML Start
+                    =======================-->
 
     <section id="contactus" class="blog section">
         <div class="container">
@@ -584,7 +630,7 @@
     </section>
 
     <!--======================
-                    Blog Part HTML End
-                =======================-->
+                        Blog Part HTML End
+                    =======================-->
 
 @endsection
