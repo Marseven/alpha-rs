@@ -146,12 +146,12 @@
 
                         <div class="mb-3">
                             <label for="price_min" class="col-form-label">Prix Min</label>
-                            <input type="text" class="form-control" name="price_min">
+                            <input type="number" class="form-control" name="price_min">
                         </div>
 
                         <div class="mb-3">
                             <label for="price_max" class="col-form-label">Prix Max</label>
-                            <input type="text" class="form-control" name="price_max">
+                            <input type="number" class="form-control" name="price_max">
                         </div>
 
                         <div class="mb-3">
@@ -216,13 +216,13 @@
 
                             <div class="mb-3">
                                 <label for="price" class="col-form-label">Prix Min</label>
-                                <input type="text" class="form-control" name="price_min"
+                                <input type="number" class="form-control" name="price_min"
                                     value="{{ $simulator->price_min }}">
                             </div>
 
                             <div class="mb-3">
                                 <label for="price_promo" class="col-form-label">Prix Max</label>
-                                <input type="text" class="form-control" name="price_max"
+                                <input type="number" class="form-control" name="price_max"
                                     value="{{ $simulator->price_max }}">
                             </div>
 
