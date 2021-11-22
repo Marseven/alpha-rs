@@ -50,12 +50,7 @@
                                         @foreach ($simulators as $simulator)
                                             <tr>
                                                 <td>
-                                                    <div class="media d-flex align-items-center">
-                                                        <div class="avatar avatar-xl mr-2">
-                                                            <img class="rounded-circle img-fluid"
-                                                                src="{{ asset($simulator->picture) }}" alt="" width="30">
-                                                        </div>
-                                                    </div>
+                                                    {{ $simulator->id }}
                                                 </td>
                                                 <td>{{ $simulator->label }}</td>
                                                 <td>{{ $simulator->price_min }}</td>
