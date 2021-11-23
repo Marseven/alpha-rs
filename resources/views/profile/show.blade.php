@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                            Breadcrum Part HTML Start
-                                                            =======================-->
+                                                                        Breadcrum Part HTML Start
+                                                                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                Breadcrum Part HTML End
-                                                            ======================-->
+                                                                            Breadcrum Part HTML End
+                                                                        ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                Start: Profil
-                                                            ============================= -->
+                                                                            Start: Profil
+                                                                        ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="main-body">
@@ -209,7 +209,8 @@
                                                             <td>{{ $payment->id }}</td>
                                                             <td>{{ $payment->reference }}</td>
                                                             <td>{{ $payment->folder_id ? 'DOSSIER' : 'DEVIS' }}</td>
-                                                            <td>{{ $payment->amount }} XAF</td>
+                                                            <td>{{ number_format($payment->amount, 0, ',', ' ') }} XAF
+                                                            </td>
                                                             <td>{{ $payment->transaction_id }}</td>
                                                             <td>{{ $payment->operator }}</td>
                                                             @php
@@ -365,7 +366,9 @@
                                 </div>
                                 <div class="col-6  mb-5">
                                     <h6 class="text-uppercase fs-5 ls-2">Montant total à payer</h6>
-                                    <p class="mb-0">{{ $folder->price + $folder->service->price }} XAF</p>
+                                    <p class="mb-0">
+                                        {{ number_format($folder->price + $folder->service->price, 0, ',', ' ') }} XAF
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -458,7 +461,7 @@
                             </div>
                             <div class="col-12  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Réponse</h6>
-                                <p>{{ $quote->response ?? 'Aucune Réponse' }}</p>
+                                <p>{{ $quote->response ?? 'Aucune Réponse Pour le Moment' }}</p>
                             </div>
                         </div>
                     </div>
@@ -547,8 +550,8 @@
     </div>
 
     <!-- =============================
-                                                                End: Profil
-                                                            ============================= -->
+                                                                            End: Profil
+                                                                        ============================= -->
 
 
     <div class="modal fade" id="folderModal">
