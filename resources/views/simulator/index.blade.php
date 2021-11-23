@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                Breadcrum Part HTML Start
-                                                                                                                                =======================-->
+                                                                                                                                    Breadcrum Part HTML Start
+                                                                                                                                    =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,14 +30,14 @@
     </section>
 
     <!--====================
-                                                                                                                                    Breadcrum Part HTML End
-                                                                                                                                ======================-->
+                                                                                                                                        Breadcrum Part HTML End
+                                                                                                                                    ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                    Start: About Us
-                                                                                                                                ============================= -->
+                                                                                                                                        Start: About Us
+                                                                                                                                    ============================= -->
     <section id="aboutus" class="aboutus aboutpage section" style="padding-top: 0px;">
         <div class="container">
             <div class="row about-page-para">
@@ -130,8 +130,8 @@
     </section>
 
     <!-- =============================
-                                                                                                                                    End: About Us
-                                                                                                                                ============================= -->
+                                                                                                                                        End: About Us
+                                                                                                                                    ============================= -->
 
 @endsection
 
@@ -141,7 +141,7 @@
         function afficherService() {
             var service1 = document.getElementById("service-1");
             var service2 = document.getElementById("service-2");
-            var service2 = document.getElementById("service-3");
+            var service3 = document.getElementById("service-3");
 
             if (document.form_simu.service_id.value == "1") {
                 service1.style.display = "block";
