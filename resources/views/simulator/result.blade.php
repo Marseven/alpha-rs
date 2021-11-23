@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                        Breadcrum Part HTML Start
-                        =======================-->
+                                Breadcrum Part HTML Start
+                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,12 +30,12 @@
     </section>
 
     <!--====================
-                            Breadcrum Part HTML End
-                        ======================-->
+                                    Breadcrum Part HTML End
+                                ======================-->
 
     <!-- =============================
-                            Start: About Us
-                        ============================= -->
+                                    Start: About Us
+                                ============================= -->
     <section id="service" class="service section">
         <div class="container">
             <div class="row">
@@ -49,8 +49,8 @@
             </div>
 
             <!-- =============================
-                                    Start: Search
-                                ============================= -->
+                                            Start: Search
+                                        ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -67,13 +67,47 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="inputPassword3" class="col-sm-2 col-form-label">Offres</label>
+                                <label for="inputPassword3" class="col-sm-2 col-form-label">Service</label>
                                 <div class="col-sm-10">
-                                    <select name="service_id" class="form-control" onChange="afficherservice()">
+                                    <select name="service_id" id="service_id" class="form-control service_id">
                                         @foreach ($services as $service)
                                             <option value="{{ $service->id }}">{{ $service->label }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div class="col-sm-10" id="service1" style="display: none">
+                                    <br>
+                                    <br>
+                                    <label>Éléments du Service</label>
+                                    <br>
+                                    <ol>
+                                        <li>Hospitalisation</li>
+                                    </ol>
+                                </div>
+                                <div class="col-sm-10" id="service2" style="display: none">
+                                    <br>
+                                    <br>
+                                    <label>Éléments du Service</label>
+                                    <br>
+                                    <ol>
+                                        <li>Hospitalisation</li>
+                                        <li>Hébergement</li>
+                                        <li>Transport Standard</li>
+                                        <li>Restauration</li>
+                                    </ol>
+                                </div>
+                                <div class="col-sm-10" id="service3" style="display: none">
+                                    <br>
+                                    <br>
+                                    <label>Éléments du Service</label>
+                                    <br>
+                                    <ol>
+                                        <li>Hospitalisation</li>
+                                        <li>Hébergement</li>
+                                        <li>Transport Standard ou Médicalisé</li>
+                                        <li>Restauration</li>
+                                        <li>Accompagnement</li>
+                                    </ol>
                                 </div>
                             </div>
                             <br>
@@ -85,8 +119,8 @@
                 </div>
             </div>
             <!-- =============================
-                                    End: Search
-                                ============================= -->
+                                            End: Search
+                                        ============================= -->
 
             <br>
 
@@ -153,7 +187,41 @@
     </section>
 
     <!-- =============================
-                            End: About Us
-                        ============================= -->
+                                    End: About Us
+                                ============================= -->
 
 @endsection
+
+@push('scripts')
+
+    <script language="JavaScript">
+        $(function() {
+
+            $('#service_id').change(function() {
+                var service1 = document.getElementById("service1");
+                var service2 = document.getElementById("service2");
+                var service3 = document.getElementById("service3");
+
+                var valeur = document.getElementById("service_id").value;
+
+                if (valeur == 1) {
+                    service1.style.display = "block";
+                    service2.style.display = "none";
+                    service3.style.display = "none";
+                }
+
+                if (valeur == 2) {
+                    service1.style.display = "none";
+                    service2.style.display = "block";
+                    service3.style.display = "none";
+                }
+
+                if (valeur == 3) {
+                    service1.style.display = "none";
+                    service2.style.display = "none";
+                    service3.style.display = "block";
+                }
+            });
+        });
+    </script>
+@endpush
