@@ -182,10 +182,11 @@
                                     data-hover="About">À Propos</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#service"><span
                                     data-hover="Services">Nos Services</span></a></li>
-                        <li class="nav-item"><a class="nav-link"
-                                href="{{ route('home') }}#testimonial"><span
-                                    data-hover="Services">Témoignages</span></a></li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item"><a class="nav-link" href="{{ route('simulator') }}"><span
+                                    data-hover="Simulateur">Simulateur</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('quote') }}"><span
+                                    data-hover="Devis">Devis</span></a></li>
+                        <!--li class="nav-item dropdown">
                             <a href="{{ route('quote') }}" class="dropdown-toggle nav-link" data-toggle="dropdown"
                                 role="button" aria-haspopup="true" aria-expanded="false"><span data-hover="pages">Devis
                                     <i class="caret"></i></span></a>
@@ -193,16 +194,18 @@
                                 <li><a href="{{ route('quote') }}">Demande</a></li>
                                 <li><a href="{{ route('simulator') }}">Simulateur</a></li>
                             </ul>
+                        </li-->
+                        <li class="nav-item"><a class="nav-link"
+                                href="{{ route('home') }}#contactus"><span data-hover="Contact">Contact</span></a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#contactus"><span
-                                    data-hover="Contact">Contact</span></a></li>
                     </ul>
                 </div>
                 @if (Auth::user())
                     @php
                         $user = Auth::user();
                     @endphp
-                    <div><a class="btn btn-4 btn-br" href="{{ route('profil') }}" title="Espace Client">Mon Compte</a>
+                    <div><a class="btn btn-4 btn-br" href="{{ route('profil') }}" title="Espace Client">Mon
+                            Compte</a>
                     </div>
                     @if ($user->security_role_id == 1 || $user->security_role_id == 2)
                         <div><a class="btn btn-success" href="{{ url('admin/dashboard') }}"
@@ -243,7 +246,8 @@
                     @php
                         $user = Auth::user();
                     @endphp
-                    <div><a class="btn btn-4 btn-br" href="{{ route('profil') }}" title="Espace Client">Mon Compte</a>
+                    <div><a class="btn btn-4 btn-br" href="{{ route('profil') }}" title="Espace Client">Mon
+                            Compte</a>
                     </div>
                     @if ($user->security_role_id == 1 || $user->security_role_id == 2)
                         <div><a class="btn btn-success" href="{{ url('admin/dashboard') }}"
