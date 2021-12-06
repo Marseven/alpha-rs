@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                                                Breadcrum Part HTML Start
-                                                                                                                                                                                                                =======================-->
+                                                                                                                                                                                                                            Breadcrum Part HTML Start
+                                                                                                                                                                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,20 +30,20 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                                                    Breadcrum Part HTML End
-                                                                                                                                                                                                                ======================-->
+                                                                                                                                                                                                                                Breadcrum Part HTML End
+                                                                                                                                                                                                                            ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                                                    Start: About Us
-                                                                                                                                                                                                                ============================= -->
+                                                                                                                                                                                                                                Start: About Us
+                                                                                                                                                                                                                            ============================= -->
     <section id="aboutus" class="aboutus aboutpage section" style="padding-top: 0px;">
         <div class="container">
             <div class="row about-page-para">
                 <div class="col-lg-12 col-md-12 text-left">
                     <div class="about-page-in">
-                        <div class="heading b-text">
+                        <div class="heading b-text text-center">
                             <h5>Obtenez des estimations</h5>
                             <h2>Faites une simulation</h2>
                         </div>
@@ -60,10 +60,10 @@
                                 </div>
                             </div>
                         </div>
-
+                        <br><br>
                         <!-- =============================
-                                                                            Start: Search
-                                                                        ============================= -->
+                                                                                        Start: Search
+                                                                                    ============================= -->
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-12">
@@ -80,8 +80,8 @@
                             </div>
                         </div>
                         <!-- =============================
-                                                                            End: Search
-                                                                        ============================= -->
+                                                                                        End: Search
+                                                                                    ============================= -->
 
                         <br>
 
@@ -170,8 +170,8 @@
                         </div>
 
                         <!-- =============================
-                                                                            Start: Search
-                                                                        ============================= -->
+                                                                                        Start: Search
+                                                                                    ============================= -->
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-12">
@@ -189,8 +189,8 @@
                             </div>
                         </div>
                         <!-- =============================
-                                                                            End: Search
-                                                                        ============================= -->
+                                                                                        End: Search
+                                                                                    ============================= -->
                     </div>
 
                 </div>
@@ -201,8 +201,8 @@
     </section>
 
     <!-- =============================
-                                                                                                                                                                                                                    End: About Us
-                                                                                                                                                                                                                ============================= -->
+                                                                                                                                                                                                                                End: About Us
+                                                                                                                                                                                                                            ============================= -->
 
 @endsection
 
