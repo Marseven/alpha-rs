@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                                                                    Breadcrum Part HTML Start
-                                                                    =======================-->
+                                                                            Breadcrum Part HTML Start
+                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,12 +30,12 @@
     </section>
 
     <!--====================
-                                                                        Breadcrum Part HTML End
-                                                                    ======================-->
+                                                                                Breadcrum Part HTML End
+                                                                            ======================-->
 
     <!-- =============================
-                                                                        Start: About Us
-                                                                    ============================= -->
+                                                                                Start: About Us
+                                                                            ============================= -->
     <section id="service" class="service section">
         <div class="container">
             <div class="row">
@@ -49,12 +49,11 @@
             </div>
 
             <!-- =============================
-                                                                                Start: Search
-                                                                            ============================= -->
+                                                                                        Start: Search
+                                                                                    ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <br>
                         <br>
                         <div class="container">
                             <div class="row">
@@ -66,103 +65,102 @@
                                 </div>
                             </div>
                         </div>
-                        <br><br>
-                        <!-- =============================
-                                                                                                                Start: Search
-                                                                                                            ============================= -->
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    @foreach ($sicks as $sick)
-                                        <h4 style="display: inline-block; margin : 3px;"><span
-                                                class="badge badge-pill badge-primary">{{ $sick->label }}</span></h4>
-                                    @endforeach
-
-                                    @if ($sicks->count() == 0)
-                                        <h2><span class="badge badge-pill badge-info">Aucune Spécialité Pour le
-                                                Moment</span>
-                                        </h2>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <!-- =============================
-                                                                                                                End: Search
-                                                                                                            ============================= -->
-
                         <br>
-                        <form method="POST" action="{{ route('simulate') }}">
-                            @csrf
-                            <div class="row mb-3">
-                                <label for="inputEmail3" class="col-sm-2 col-form-label">Pays</label>
-                                <div class="col-sm-10">
-                                    <select id="selectOne" name="country_id" class="form-control">
-                                        @foreach ($countries as $country)
-                                            <option value="{{ $country->id }}">{{ $country->label }}</option>
+                        < <!--=============================Start: Search=============================-->
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        @foreach ($sicks as $sick)
+                                            <h4 style="display: inline-block; margin : 3px;"><span
+                                                    class="badge badge-pill badge-primary">{{ $sick->label }}</span></h4>
                                         @endforeach
-                                    </select>
+
+                                        @if ($sicks->count() == 0)
+                                            <h2><span class="badge badge-pill badge-info">Aucune Spécialité Pour le
+                                                    Moment</span>
+                                            </h2>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <label for="inputPassword3" class="col-sm-2 col-form-label">Service</label>
-                                <div class="col-sm-10">
-                                    <select name="service_id" id="service_id" class="form-control service_id">
-                                        @foreach ($services as $service)
-                                            <option value="{{ $service->id }}">{{ $service->label }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-10" id="service1" style="display: none">
-                                    <br>
-                                    <br>
-                                    <label>Éléments du Service</label>
-                                    <br>
-                                    <ol>
-                                        <li></li>
-                                    </ol>
-                                </div>
-                                <div class="col-sm-10" id="service2" style="display: none">
-                                    <br>
-                                    <br>
-                                    <label>Éléments du Service</label>
-                                    <br>
-                                    <ol>
-                                        <li>Hébergement</li>
-                                        <li>Transport Standard</li>
-                                        <li>Restauration</li>
-                                    </ol>
-                                </div>
-                                <div class="col-sm-10" id="service3" style="display: none">
-                                    <br>
-                                    <br>
-                                    <label>Éléments du Service</label>
-                                    <br>
-                                    <ol>
-                                        <li>Hébergement</li>
-                                        <li>Transport Standard ou Médicalisé</li>
-                                        <li>Restauration</li>
-                                        <li>Accompagnement</li>
-                                    </ol>
-                                </div>
-                            </div>
+                            <!-- =============================
+                                                                                                                        End: Search
+                                                                                                                    ============================= -->
+
                             <br>
-                            <div class="col-12">
-                                <i style="color: black; font-weight: 600;">*Les estimations sont pour une seule personne et
-                                    sur un seul
-                                    mois.</i>
-                                <br><br>
-                            </div>
-                            <br>
-                            <div class="row mb-3">
-                                <button type="submit" class="btn btn-primary">Valider</button>
-                            </div>
-                        </form>
+                            <form method="POST" action="{{ route('simulate') }}">
+                                @csrf
+                                <div class="row mb-3">
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Pays</label>
+                                    <div class="col-sm-10">
+                                        <select id="selectOne" name="country_id" class="form-control">
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}">{{ $country->label }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputPassword3" class="col-sm-2 col-form-label">Service</label>
+                                    <div class="col-sm-10">
+                                        <select name="service_id" id="service_id" class="form-control service_id">
+                                            @foreach ($services as $service)
+                                                <option value="{{ $service->id }}">{{ $service->label }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-10" id="service1" style="display: none">
+                                        <br>
+                                        <br>
+                                        <label>Éléments du Service</label>
+                                        <br>
+                                        <ol>
+                                            <li></li>
+                                        </ol>
+                                    </div>
+                                    <div class="col-sm-10" id="service2" style="display: none">
+                                        <br>
+                                        <br>
+                                        <label>Éléments du Service</label>
+                                        <br>
+                                        <ol>
+                                            <li>Hébergement</li>
+                                            <li>Transport Standard</li>
+                                            <li>Restauration</li>
+                                        </ol>
+                                    </div>
+                                    <div class="col-sm-10" id="service3" style="display: none">
+                                        <br>
+                                        <br>
+                                        <label>Éléments du Service</label>
+                                        <br>
+                                        <ol>
+                                            <li>Hébergement</li>
+                                            <li>Transport Standard ou Médicalisé</li>
+                                            <li>Restauration</li>
+                                            <li>Accompagnement</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="col-12">
+                                    <i style="color: black; font-weight: 600;">*Les estimations sont pour une seule personne
+                                        et
+                                        sur un seul
+                                        mois.</i>
+                                    <br><br>
+                                </div>
+                                <br>
+                                <div class="row mb-3">
+                                    <button type="submit" class="btn btn-primary">Valider</button>
+                                </div>
+                            </form>
                     </div>
                 </div>
             </div>
             <!-- =============================
-                                                                                End: Search
-                                                                            ============================= -->
+                                                                                        End: Search
+                                                                                    ============================= -->
 
             <br>
 
@@ -233,8 +231,8 @@
     </section>
 
     <!-- =============================
-                                                                        End: About Us
-                                                                    ============================= -->
+                                                                                End: About Us
+                                                                            ============================= -->
 
 @endsection
 
