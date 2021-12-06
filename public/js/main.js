@@ -15,7 +15,7 @@ $(function () {
         },
         onStepChanging: function (event, currentIndex, newIndex) {
 
-            if (currentIndex === 4) { //if last step
+            if (currentIndex === 3) { //if last step
                 //remove default #finish button
                 $('.form-register').find('a[href="#finish"]').remove();
                 //append a submit type button
