@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                                                    Breadcrum Part HTML Start
-                                                    =======================-->
+                                                        Breadcrum Part HTML Start
+                                                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,12 +30,12 @@
     </section>
 
     <!--====================
-                                                        Breadcrum Part HTML End
-                                                    ======================-->
+                                                            Breadcrum Part HTML End
+                                                        ======================-->
 
     <!-- =============================
-                                                        Start: About Us
-                                                    ============================= -->
+                                                            Start: About Us
+                                                        ============================= -->
     <section id="service" class="service section">
         <div class="container">
             <div class="row">
@@ -49,8 +49,8 @@
             </div>
 
             <!-- =============================
-                                                                Start: Search
-                                                            ============================= -->
+                                                                    Start: Search
+                                                                ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -123,8 +123,8 @@
                 </div>
             </div>
             <!-- =============================
-                                                                End: Search
-                                                            ============================= -->
+                                                                    End: Search
+                                                                ============================= -->
 
             <br>
 
@@ -187,7 +187,7 @@
                 </div>
             </div>
             <br><br>
-            <div>
+            <div class="text-center">
                 <a class="btn btn-4 btn-ser" href="{{ url('quote') }}">Demander un devis pour le coût de
                     l'hospitalisation</a>
             </div>
@@ -195,8 +195,8 @@
     </section>
 
     <!-- =============================
-                                                        End: About Us
-                                                    ============================= -->
+                                                            End: About Us
+                                                        ============================= -->
 
 @endsection
 
