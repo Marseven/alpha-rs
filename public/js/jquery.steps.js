@@ -741,7 +741,7 @@
      */
     function refreshPagination(wizard, options, state) {
         if (options.enablePagination) {
-            var finish = wizard.find(".actions button[type$='submit', ]").parent(),
+            var finish = wizard.find(".actions a[href$='#finish']").parent(),
                 next = wizard.find(".actions a[href$='#next']").parent();
 
             if (!options.forceMoveForward) {
