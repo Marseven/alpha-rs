@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                                                        Breadcrum Part HTML Start
-                                                        =======================-->
+                                                                    Breadcrum Part HTML Start
+                                                                    =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,12 +30,12 @@
     </section>
 
     <!--====================
-                                                            Breadcrum Part HTML End
-                                                        ======================-->
+                                                                        Breadcrum Part HTML End
+                                                                    ======================-->
 
     <!-- =============================
-                                                            Start: About Us
-                                                        ============================= -->
+                                                                        Start: About Us
+                                                                    ============================= -->
     <section id="service" class="service section">
         <div class="container">
             <div class="row">
@@ -49,11 +49,48 @@
             </div>
 
             <!-- =============================
-                                                                    Start: Search
-                                                                ============================= -->
+                                                                                Start: Search
+                                                                            ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
+                        <br>
+                        <br>
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-12 ">
+                                    <div class="heading b-text text-center">
+                                        <h3>Les Spécialités</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <!-- =============================
+                                                                                                                Start: Search
+                                                                                                            ============================= -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    @foreach ($sicks as $sick)
+                                        <h4 style="display: inline-block; margin : 3px;"><span
+                                                class="badge badge-pill badge-primary">{{ $sick->label }}</span></h4>
+                                    @endforeach
+
+                                    @if ($sicks->count() == 0)
+                                        <h2><span class="badge badge-pill badge-info">Aucune Spécialité Pour le
+                                                Moment</span>
+                                        </h2>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <!-- =============================
+                                                                                                                End: Search
+                                                                                                            ============================= -->
+
+                        <br>
                         <form method="POST" action="{{ route('simulate') }}">
                             @csrf
                             <div class="row mb-3">
@@ -110,7 +147,8 @@
                             </div>
                             <br>
                             <div class="col-12">
-                                <i style="color: black">Les estimations sont pour une seule personne et sur un seul
+                                <i style="color: black; font-weight: 600;">*Les estimations sont pour une seule personne et
+                                    sur un seul
                                     mois.</i>
                                 <br><br>
                             </div>
@@ -123,8 +161,8 @@
                 </div>
             </div>
             <!-- =============================
-                                                                    End: Search
-                                                                ============================= -->
+                                                                                End: Search
+                                                                            ============================= -->
 
             <br>
 
@@ -195,8 +233,8 @@
     </section>
 
     <!-- =============================
-                                                            End: About Us
-                                                        ============================= -->
+                                                                        End: About Us
+                                                                    ============================= -->
 
 @endsection
 
