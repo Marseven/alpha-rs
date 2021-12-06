@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                                        Breadcrum Part HTML Start
-                                                                                                                                                                                                        =======================-->
+                                                                                                                                                                                                                Breadcrum Part HTML Start
+                                                                                                                                                                                                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,24 +30,18 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                                            Breadcrum Part HTML End
-                                                                                                                                                                                                        ======================-->
+                                                                                                                                                                                                                    Breadcrum Part HTML End
+                                                                                                                                                                                                                ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                                            Start: About Us
-                                                                                                                                                                                                        ============================= -->
+                                                                                                                                                                                                                    Start: About Us
+                                                                                                                                                                                                                ============================= -->
     <section id="aboutus" class="aboutus aboutpage section" style="padding-top: 0px;">
         <div class="container">
             <div class="row about-page-para">
-                <div class="col-lg-5 col-md-5 text-left">
-                    <div class="">
-                        <img class="img-fluid about-page2" src="{{ asset('images/simu-image.png') }}" alt="about">
-                    </div>
-
-                </div>
-                <div class="col-lg-7 col-md-7 text-left">
+                <div class="col-lg-12 col-md-12 text-left">
                     <div class="about-page-in">
                         <div class="heading b-text">
                             <h5>Obtenez des estimations</h5>
@@ -61,22 +55,21 @@
 
                                 <div class="col-12 ">
                                     <div class="heading b-text text-center">
-                                        <h5>Les maladies traitées</h5>
-                                        <h2>Les Spécialités</h2>
+                                        <h3>Les Spécialités</h3>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- =============================
-                                                                    Start: Search
-                                                                ============================= -->
+                                                                            Start: Search
+                                                                        ============================= -->
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-12">
                                     @foreach ($sicks as $sick)
-                                        <h2 style="display: inline-block; margin : 3px;"><span
-                                                class="badge badge-pill badge-primary">{{ $sick->label }}</span></h2>
+                                        <h4 style="display: inline-block; margin : 3px;"><span
+                                                class="badge badge-pill badge-primary">{{ $sick->label }}</span></h4>
                                     @endforeach
 
                                     @if ($sicks->count() == 0)
@@ -87,8 +80,8 @@
                             </div>
                         </div>
                         <!-- =============================
-                                                                    End: Search
-                                                                ============================= -->
+                                                                            End: Search
+                                                                        ============================= -->
 
                         <br>
 
@@ -177,8 +170,8 @@
                         </div>
 
                         <!-- =============================
-                                                                    Start: Search
-                                                                ============================= -->
+                                                                            Start: Search
+                                                                        ============================= -->
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-12">
@@ -196,8 +189,8 @@
                             </div>
                         </div>
                         <!-- =============================
-                                                                    End: Search
-                                                                ============================= -->
+                                                                            End: Search
+                                                                        ============================= -->
                     </div>
 
                 </div>
@@ -208,8 +201,8 @@
     </section>
 
     <!-- =============================
-                                                                                                                                                                                                            End: About Us
-                                                                                                                                                                                                        ============================= -->
+                                                                                                                                                                                                                    End: About Us
+                                                                                                                                                                                                                ============================= -->
 
 @endsection
 
