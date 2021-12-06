@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Service;
+use App\Models\Sick;
 use App\Models\Simulator;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,7 @@ class SimulatorController extends Controller
         $services = Service::all();
         $countries = Country::all();
         $simulators = Simulator::all();
+        $sicks = Sick::all();
 
         return view(
             'simulator.index',
@@ -22,6 +24,7 @@ class SimulatorController extends Controller
                 'simulators' => $simulators,
                 'services' => $services,
                 'countries' => $countries,
+                'sicks' => $sicks,
             ]
         );
     }
