@@ -14,20 +14,8 @@ $(function () {
             current: ''
         },
         onStepChanging: function (event, currentIndex, newIndex) {
-            var fullname = $('#first_name').val() + ' ' + $('#last_name').val();
-            var email = $('#email').val();
-            var phone = $('#phone').val();
-            var username = $('#username').val();
-            var gender = $('form input[type=radio]:checked').val();
-            var address = $('#address').val();
 
-            $('#fullname-val').text(fullname);
-            $('#email-val').text(email);
-            $('#phone-val').text(phone);
-            $('#username-val').text(username);
-            $('#address-val').text(address);
-            $('#gender-val').text(gender);
-            if (currentIndex === 3) { //if last step
+            if (currentIndex === 4) { //if last step
                 //remove default #finish button
                 $('#form-total').find('a[href="#finish"]').remove();
                 //append a submit type button
