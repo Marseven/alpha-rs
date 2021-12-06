@@ -178,14 +178,14 @@
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><span
                                     data-hover="Home">Accueil</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#aboutus"><span
-                                    data-hover="About">À Propos</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#service"><span
-                                    data-hover="Services">Nos Services</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('simulator') }}"><span
                                     data-hover="Simulateur">Simulateur</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('quote') }}"><span
                                     data-hover="Devis">Devis</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#aboutus"><span
+                                    data-hover="About">À Propos</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#service"><span
+                                    data-hover="Services">Nos Services</span></a></li>
                         <!--li class="nav-item dropdown">
                             <a href="{{ route('quote') }}" class="dropdown-toggle nav-link" data-toggle="dropdown"
                                 role="button" aria-haspopup="true" aria-expanded="false"><span data-hover="pages">Devis
@@ -228,18 +228,12 @@
             <div class="button"><i class="more-less fa fa-align-right"></i></div>
             <ul>
                 <li><a href="{{ route('home') }}#banner">Accueil</a></li>
+                <li><a href="{{ route('simulator') }}">Simulateur</a></li>
+                <li><a href="{{ route('quote') }}">Devis</a></li>
                 <li><a href="{{ route('home') }}#aboutus">À Propos</a></li>
                 <li><a href="{{ route('home') }}#service">Nos Services</a></li>
                 <li><a href="{{ route('home') }}#testimonial">Témoignages</a></li>
-                <li class="nav-item dropdown">
-                    <a href="{{ route('quote') }}" class="dropdown-toggle nav-link" data-toggle="dropdown"
-                        role="button" aria-haspopup="true" aria-expanded="false"><span data-hover="pages">pages <i
-                                class="caret"></i></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ route('quote') }}">Demande</a></li>
-                        <li><a href="{{ route('simulator') }}">Simulateur</a></li>
-                    </ul>
-                </li>
+
                 <li class="nav-item"><a href="{{ route('home') }}#contactus">Contact</a></li>
 
                 @if (Auth::user())

@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                    Breadcrum Part HTML Start
-                                                                                                                                                                                    =======================-->
+                                                                                                                                                                                                        Breadcrum Part HTML Start
+                                                                                                                                                                                                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,14 +30,14 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                        Breadcrum Part HTML End
-                                                                                                                                                                                    ======================-->
+                                                                                                                                                                                                            Breadcrum Part HTML End
+                                                                                                                                                                                                        ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                        Start: About Us
-                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                            Start: About Us
+                                                                                                                                                                                                        ============================= -->
     <section id="aboutus" class="aboutus aboutpage section" style="padding-top: 0px;">
         <div class="container">
             <div class="row about-page-para">
@@ -53,6 +53,44 @@
                             <h5>Obtenez des estimations</h5>
                             <h2>Faites une simulation</h2>
                         </div>
+
+                        <br>
+                        <br>
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-12 ">
+                                    <div class="heading b-text text-center">
+                                        <h5>Les maladies traitées</h5>
+                                        <h2>Les Spécialités</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =============================
+                                                                    Start: Search
+                                                                ============================= -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    @foreach ($sicks as $sick)
+                                        <h2 style="display: inline-block; margin : 3px;"><span
+                                                class="badge badge-pill badge-primary">{{ $sick->label }}</span></h2>
+                                    @endforeach
+
+                                    @if ($sicks->count() == 0)
+                                        <h2><span class="badge badge-pill badge-info">Aucune Maladie Pour le Moment</span>
+                                        </h2>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <!-- =============================
+                                                                    End: Search
+                                                                ============================= -->
+
+                        <br>
 
                         <form method="POST" action="{{ route('simulate') }}" class="form_simu">
                             @csrf
@@ -86,7 +124,7 @@
                                     <label>Éléments du Service</label>
                                     <br>
                                     <ol>
-                                        <li>Hospitalisation</li>
+                                        <li></li>
                                     </ol>
                                 </div>
                                 <div class="col-sm-10" id="service2" style="display: none">
@@ -95,7 +133,6 @@
                                     <label>Éléments du Service</label>
                                     <br>
                                     <ol>
-                                        <li>Hospitalisation</li>
                                         <li>Hébergement</li>
                                         <li>Transport Standard</li>
                                         <li>Restauration</li>
@@ -107,7 +144,6 @@
                                     <label>Éléments du Service</label>
                                     <br>
                                     <ol>
-                                        <li>Hospitalisation</li>
                                         <li>Hébergement</li>
                                         <li>Transport Standard ou Médicalisé</li>
                                         <li>Restauration</li>
@@ -116,9 +152,52 @@
                                 </div>
                             </div>
                             <br>
+                            <div class="col-12">
+                                <i style="color: black">Les estimations sont pour une seule personne et sur un seul
+                                    mois.</i>
+                                <br><br>
+                            </div>
+                            <br>
                             <button type="submit" class="btn btn-primary">Valider</button>
 
                         </form>
+
+                        <br>
+                        <br>
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-12 ">
+                                    <div class="heading b-text text-center">
+                                        <h5>Quel maladie souhatez-vous soignée ?</h5>
+                                        <h2>Trouver une Destination</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- =============================
+                                                                    Start: Search
+                                                                ============================= -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form class="form-inline" method="POST" action="{{ route('search') }}">
+                                        @csrf
+                                        <div class="col-sm-1">
+                                        </div>
+                                        <div class="form-group col-sm-8">
+                                            <input type="text" style="width: 100%" name="q"
+                                                class="form-control form-control-lg" id="sick" placeholder="Cancer, ...">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mb-2">Recherche</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- =============================
+                                                                    End: Search
+                                                                ============================= -->
                     </div>
 
                 </div>
@@ -129,8 +208,8 @@
     </section>
 
     <!-- =============================
-                                                                                                                                                                                        End: About Us
-                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                            End: About Us
+                                                                                                                                                                                                        ============================= -->
 
 @endsection
 

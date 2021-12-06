@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                                Breadcrum Part HTML Start
-                                =======================-->
+                                        Breadcrum Part HTML Start
+                                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,12 +30,12 @@
     </section>
 
     <!--====================
-                                    Breadcrum Part HTML End
-                                ======================-->
+                                            Breadcrum Part HTML End
+                                        ======================-->
 
     <!-- =============================
-                                    Start: About Us
-                                ============================= -->
+                                            Start: About Us
+                                        ============================= -->
     <section id="service" class="service section">
         <div class="container">
             <div class="row">
@@ -49,8 +49,8 @@
             </div>
 
             <!-- =============================
-                                            Start: Search
-                                        ============================= -->
+                                                    Start: Search
+                                                ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -81,7 +81,7 @@
                                     <label>Éléments du Service</label>
                                     <br>
                                     <ol>
-                                        <li>Hospitalisation</li>
+                                        <li></li>
                                     </ol>
                                 </div>
                                 <div class="col-sm-10" id="service2" style="display: none">
@@ -90,7 +90,6 @@
                                     <label>Éléments du Service</label>
                                     <br>
                                     <ol>
-                                        <li>Hospitalisation</li>
                                         <li>Hébergement</li>
                                         <li>Transport Standard</li>
                                         <li>Restauration</li>
@@ -102,13 +101,18 @@
                                     <label>Éléments du Service</label>
                                     <br>
                                     <ol>
-                                        <li>Hospitalisation</li>
                                         <li>Hébergement</li>
                                         <li>Transport Standard ou Médicalisé</li>
                                         <li>Restauration</li>
                                         <li>Accompagnement</li>
                                     </ol>
                                 </div>
+                            </div>
+                            <br>
+                            <div class="col-12">
+                                <i style="color: black">Les estimations sont pour une seule personne et sur un seul
+                                    mois.</i>
+                                <br><br>
                             </div>
                             <br>
                             <div class="row mb-3">
@@ -119,8 +123,8 @@
                 </div>
             </div>
             <!-- =============================
-                                            End: Search
-                                        ============================= -->
+                                                    End: Search
+                                                ============================= -->
 
             <br>
 
@@ -187,8 +191,8 @@
     </section>
 
     <!-- =============================
-                                    End: About Us
-                                ============================= -->
+                                            End: About Us
+                                        ============================= -->
 
 @endsection
 
