@@ -27,11 +27,17 @@ $(function () {
             $('#username-val').text(username);
             $('#address-val').text(address);
             $('#gender-val').text(gender);
+            if (currentIndex === 3) { //if last step
+                //remove default #finish button
+                $('#form-total').find('a[href="#finish"]').remove();
+                //append a submit type button
+                $('#form-total .actions li:last-child').append('<button type="submit" id="submit" class="btn-large"><span class="fa fa-chevron-right"></span></button>');
+            }
 
             return true;
         },
         onFinished: function (event, currentIndex) {
-            $("#form-total").submit();
+            $(".steps-basic").submit();
         }
     });
     $("#date").datepicker({

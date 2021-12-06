@@ -13,8 +13,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                                                                                                                                                                                                                                        Breadcrum Part HTML Start
-                                                                                                                                                                                                                                                                                                                                                                                                        =======================-->
+                                                                                                                                                                                                                                                                                                                                                                                                            Breadcrum Part HTML Start
+                                                                                                                                                                                                                                                                                                                                                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -40,14 +40,14 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                                                                                                                                                                                                                                            Breadcrum Part HTML End
-                                                                                                                                                                                                                                                                                                                                                                                                        ======================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                Breadcrum Part HTML End
+                                                                                                                                                                                                                                                                                                                                                                                                            ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                                                                                                                                                                                                                                            Start: About Us
-                                                                                                                                                                                                                                                                                                                                                                                                        ============================= -->
+                                                                                                                                                                                                                                                                                                                                                                                                                Start: About Us
+                                                                                                                                                                                                                                                                                                                                                                                                            ============================= -->
 
     <section class="aboutus aboutpage section" style="padding-top: 0px;">
         <div class="container">
@@ -153,7 +153,7 @@
                                                     <div class="col-sm-10" id="service2" style="display: none">
                                                         <br>
                                                         <br>
-                                                        <label>Éléments du Service</label>
+                                                        <label> <strong>Éléments du Service</strong></label>
                                                         <br>
                                                         <ol>
                                                             <li>Hébergement</li>
@@ -164,7 +164,7 @@
                                                     <div class="col-sm-10" id="service3" style="display: none">
                                                         <br>
                                                         <br>
-                                                        <label>Éléments du Service</label>
+                                                        <label> <strong>Éléments du Service</strong></label>
                                                         <br>
                                                         <ol>
                                                             <li>Hébergement</li>
@@ -196,8 +196,8 @@
                 </div>
 
                 <!-- =============================
-                                                                                                                                                                                                                                                            Start: Search
-                                                                                                                                                                                                                                                        ============================= -->
+                                                                                                                                                                                                                                                                Start: Search
+                                                                                                                                                                                                                                                            ============================= -->
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
@@ -220,8 +220,8 @@
     </section>
 
     <!-- =============================
-                                                                                                                                                                                                                                                                                                                                                                                                            End: About Us
-                                                                                                                                                                                                                                                                                                                                                                                                        ============================= -->
+                                                                                                                                                                                                                                                                                                                                                                                                                End: About Us
+                                                                                                                                                                                                                                                                                                                                                                                                            ============================= -->
 
 @endsection
 
