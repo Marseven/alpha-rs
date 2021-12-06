@@ -741,8 +741,8 @@
      */
     function refreshPagination(wizard, options, state) {
         if (options.enablePagination) {
-            var finish = $('.form-register .actions li:last-child').append('<button type="submit" id="submit" class="btn-large"><span class="fa fa-chevron-right"></span></button>');
-            next = wizard.find(".actions a[href$='#next']").parent();
+            var finish = wizard.find(".actions button[type$='submit', ]").parent(),
+                next = wizard.find(".actions a[href$='#next']").parent();
 
             if (!options.forceMoveForward) {
                 var previous = wizard.find(".actions a[href$='#previous']").parent();
