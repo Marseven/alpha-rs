@@ -17,15 +17,15 @@ $(function () {
 
             if (currentIndex === 4) { //if last step
                 //remove default #finish button
-                $('#form-total').find('a[href="#finish"]').remove();
+                $('.form-register').find('a[href="#finish"]').remove();
                 //append a submit type button
-                $('#form-total .actions li:last-child').append('<button type="submit" id="submit" class="btn-large"><span class="fa fa-chevron-right"></span></button>');
+                $('.form-register .actions li:last-child').append('<button type="submit" id="submit" class="btn-large"><span class="fa fa-chevron-right"></span></button>');
             }
 
             return true;
         },
         onFinished: function (event, currentIndex) {
-            $(".steps-basic").submit();
+            $(".form-register").submit();
         }
     });
     $("#date").datepicker({
