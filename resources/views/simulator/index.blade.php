@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                                                            Breadcrum Part HTML Start
-                                                                                                                                                                                                                            =======================-->
+                                                                                                                                                                                                                                        Breadcrum Part HTML Start
+                                                                                                                                                                                                                                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,20 +30,20 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                                                                Breadcrum Part HTML End
-                                                                                                                                                                                                                            ======================-->
+                                                                                                                                                                                                                                            Breadcrum Part HTML End
+                                                                                                                                                                                                                                        ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                                                                Start: About Us
-                                                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                                            Start: About Us
+                                                                                                                                                                                                                                        ============================= -->
     <section id="aboutus" class="aboutus aboutpage section" style="padding-top: 0px;">
         <div class="container">
             <div class="row about-page-para">
                 <div class="col-lg-12 col-md-12 text-left">
                     <div class="about-page-in">
-                        <div class="heading b-text text-center">
+                        <div class="heading b-text">
                             <h5>Obtenez des estimations</h5>
                             <h2>Faites une simulation</h2>
                         </div>
@@ -62,8 +62,8 @@
                         </div>
                         <br><br>
                         <!-- =============================
-                                                                                        Start: Search
-                                                                                    ============================= -->
+                                                                                                    Start: Search
+                                                                                                ============================= -->
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-12">
@@ -80,8 +80,8 @@
                             </div>
                         </div>
                         <!-- =============================
-                                                                                        End: Search
-                                                                                    ============================= -->
+                                                                                                    End: Search
+                                                                                                ============================= -->
 
                         <br>
 
@@ -146,7 +146,8 @@
                             </div>
                             <br>
                             <div class="col-12">
-                                <i style="color: black">Les estimations sont pour une seule personne et sur un seul
+                                <i style="color: black; font-weight: 600;">Les estimations sont pour une seule personne et
+                                    sur un seul
                                     mois.</i>
                                 <br><br>
                             </div>
@@ -161,7 +162,7 @@
                             <div class="row">
 
                                 <div class="col-12 ">
-                                    <div class="heading b-text text-center">
+                                    <div class="heading b-text">
                                         <h5>Quel maladie souhatez-vous soignée ?</h5>
                                         <h2>Trouver une Destination</h2>
                                     </div>
@@ -170,8 +171,8 @@
                         </div>
 
                         <!-- =============================
-                                                                                        Start: Search
-                                                                                    ============================= -->
+                                                                                                    Start: Search
+                                                                                                ============================= -->
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-12">
@@ -189,8 +190,8 @@
                             </div>
                         </div>
                         <!-- =============================
-                                                                                        End: Search
-                                                                                    ============================= -->
+                                                                                                    End: Search
+                                                                                                ============================= -->
                     </div>
 
                 </div>
@@ -201,8 +202,8 @@
     </section>
 
     <!-- =============================
-                                                                                                                                                                                                                                End: About Us
-                                                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                                            End: About Us
+                                                                                                                                                                                                                                        ============================= -->
 
 @endsection
 
