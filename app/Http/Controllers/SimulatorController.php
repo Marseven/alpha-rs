@@ -38,6 +38,8 @@ class SimulatorController extends Controller
 
         $services = Service::all();
         $countries = Country::all();
+        $sicks = Sick::all();
+
 
         return view(
             'simulator.result',
@@ -47,6 +49,7 @@ class SimulatorController extends Controller
                 'country_id' => $country_id,
                 'services' => $services,
                 'countries' => $countries,
+                'sicks' => $sicks,
             ]
         );
     }
