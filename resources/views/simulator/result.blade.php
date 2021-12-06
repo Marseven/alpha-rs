@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                                                                            Breadcrum Part HTML Start
-                                                                            =======================-->
+                                                                                Breadcrum Part HTML Start
+                                                                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,12 +30,12 @@
     </section>
 
     <!--====================
-                                                                                Breadcrum Part HTML End
-                                                                            ======================-->
+                                                                                    Breadcrum Part HTML End
+                                                                                ======================-->
 
     <!-- =============================
-                                                                                Start: About Us
-                                                                            ============================= -->
+                                                                                    Start: About Us
+                                                                                ============================= -->
     <section id="service" class="service section">
         <div class="container">
             <div class="row">
@@ -49,8 +49,8 @@
             </div>
 
             <!-- =============================
-                                                                                        Start: Search
-                                                                                    ============================= -->
+                                                                                            Start: Search
+                                                                                        ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -84,8 +84,8 @@
                                 </div>
                             </div>
                             <!-- =============================
-                                                                                                                        End: Search
-                                                                                                                    ============================= -->
+                                                                                                                            End: Search
+                                                                                                                        ============================= -->
 
                             <br>
                             <form method="POST" action="{{ route('simulate') }}">
@@ -112,7 +112,7 @@
                                     <div class="col-sm-10" id="service1" style="display: none">
                                         <br>
                                         <br>
-                                        <label>Éléments du Service</label>
+                                        <label> <strong>Éléments du Service</strong></label>
                                         <br>
                                         <ol>
                                             <li></li>
@@ -159,8 +159,8 @@
                 </div>
             </div>
             <!-- =============================
-                                                                                        End: Search
-                                                                                    ============================= -->
+                                                                                            End: Search
+                                                                                        ============================= -->
 
             <br>
 
@@ -231,8 +231,8 @@
     </section>
 
     <!-- =============================
-                                                                                End: About Us
-                                                                            ============================= -->
+                                                                                    End: About Us
+                                                                                ============================= -->
 
 @endsection
 
