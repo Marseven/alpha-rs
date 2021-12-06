@@ -13,8 +13,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                                                                                                                                                                                                                                            Breadcrum Part HTML Start
-                                                                                                                                                                                                                                                                                                                                                                                                            =======================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                            Breadcrum Part HTML Start
+                                                                                                                                                                                                                                                                                                                                                                                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -40,14 +40,14 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                                                                                                                                                                                                                                                Breadcrum Part HTML End
-                                                                                                                                                                                                                                                                                                                                                                                                            ======================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                Breadcrum Part HTML End
+                                                                                                                                                                                                                                                                                                                                                                                                                                            ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                                                                                                                                                                                                                                                Start: About Us
-                                                                                                                                                                                                                                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                Start: About Us
+                                                                                                                                                                                                                                                                                                                                                                                                                                            ============================= -->
 
     <section class="aboutus aboutpage section" style="padding-top: 0px;">
         <div class="container">
@@ -79,7 +79,7 @@
                                 </h2>
                                 <section>
                                     <div class="inner">
-                                        <h3>Quel pathologie souhaité vous soigné ? :</h3>
+                                        <h3>Quel pathologie souhaité vous soigné ?</h3>
                                         <div class="form-row">
                                             <div class="form-holder form-holder-2">
                                                 <div class="row mb-3">
@@ -103,7 +103,7 @@
                                 </h2>
                                 <section>
                                     <div class="inner">
-                                        <h3>Dans quel pays souhaitez-vous aller vous soignez ? :</h3>
+                                        <h3>Dans quel pays souhaitez-vous aller vous soignez ?</h3>
 
                                         <div class="form-row">
                                             <div class="form-holder form-holder-2">
@@ -128,7 +128,7 @@
                                 </h2>
                                 <section>
                                     <div class="inner">
-                                        <h3>Vous souhaitez souscrire à quel service ?:</h3>
+                                        <h3>Vous souhaitez souscrire à quel service ?</h3>
                                         <div class="form-row">
                                             <div class="form-holder form-holder-2">
                                                 <div class="row mb-3">
@@ -179,7 +179,6 @@
                                     </div>
                                 </section>
                             </div>
-                        </form>
                     </div>
                 </div>
 
@@ -196,8 +195,8 @@
                 </div>
 
                 <!-- =============================
-                                                                                                                                                                                                                                                                Start: Search
-                                                                                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                                                                                                Start: Search
+                                                                                                                                                                                                                                                                                            ============================= -->
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
@@ -220,8 +219,8 @@
     </section>
 
     <!-- =============================
-                                                                                                                                                                                                                                                                                                                                                                                                                End: About Us
-                                                                                                                                                                                                                                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                End: About Us
+                                                                                                                                                                                                                                                                                                                                                                                                                                            ============================= -->
 
 @endsection
 
