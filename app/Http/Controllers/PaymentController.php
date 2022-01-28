@@ -310,7 +310,7 @@ class PaymentController extends Controller
 
             return redirect($response->link);
         } else {
-            return back()->with('error', "Une erreur s'est produite, veuillez réessayer plus tard.");
+            return back()->with('error', "Une erreur s'est produite, veuillez réessayer plus tard.")->withInput();
         }
     }
 

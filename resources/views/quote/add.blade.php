@@ -3,8 +3,8 @@
 @section('content')
 
     <!--=========================
-                            Breadcrum Part HTML Start
-                            =======================-->
+                                Breadcrum Part HTML Start
+                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,14 +30,14 @@
     </section>
 
     <!--====================
-                                Breadcrum Part HTML End
-                            ======================-->
+                                    Breadcrum Part HTML End
+                                ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                Start: About Us
-                            ============================= -->
+                                    Start: About Us
+                                ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="row about-page-para">
@@ -67,7 +67,7 @@
                                 <div class="form-group col-md-6">
                                     <label for="inputLastname4">Nom</label>
                                     <input type="text" name="lastname" class="form-control" id="inputEmail4"
-                                        placeholder="Nom" required>
+                                        placeholder="Nom" value="{{ old('lastname') }}" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputFirstname4">Prénom</label>
@@ -78,7 +78,8 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputBirthday">Date de Naissance</label>
-                                    <input type="date" name="birthday" class="form-control" id="inputBirthday">
+                                    <input type="date" name="birthday" value="{{ old('birthday') }}"
+                                        class="form-control" id="inputBirthday">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="inputGender">Genre</label>
@@ -92,12 +93,12 @@
                             <div class="form-group">
                                 <label for="inputEmail">Email</label>
                                 <input type="email" name="email" class="form-control" id="inputEmail"
-                                    placeholder="nom.premon@domaine.com">
+                                    placeholder="nom.premon@domaine.com" value="{{ old('email') }}">
                             </div>
                             <div class="form-group">
                                 <label for="inputPhone">Téléphone</label>
-                                <input type="phone" name="phone" class="form-control" id="inputPhone"
-                                    placeholder="074010203">
+                                <input type="phone" name="phone" value="{{ old('phone') }}" class="form-control"
+                                    id="inputPhone" placeholder="074010203">
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -131,7 +132,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputPjoin">Pièce Jointe du dossier médical</label>
-                                <input type="file" name="join_piece" class="form-control" id="inputPjoin">
+                                <input type="file" name="join_piece" class="form-control"
+                                    value="{{ old('join_piece') }}" id="inputPjoin">
                             </div>
 
                             <div class="col-12">
@@ -165,7 +167,7 @@
     </section>
 
     <!-- =============================
-                                End: About Us
-                            ============================= -->
+                                    End: About Us
+                                ============================= -->
 
 @endsection
