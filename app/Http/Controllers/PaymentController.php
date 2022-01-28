@@ -306,7 +306,12 @@ class PaymentController extends Controller
 
         PaymentController::create($type, $data);
 
-        return redirect($response->link);
+        if ($response->link) {
+
+            return redirect($response->link);
+        } else {
+            return back()->with('error', "Une erreur s'est produite, veuillez réessayer plus tard.");
+        }
     }
 
     public function callback_singpay($type, $entity, $payment)
