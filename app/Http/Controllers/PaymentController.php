@@ -306,9 +306,7 @@ class PaymentController extends Controller
 
         PaymentController::create($type, $data);
 
-        dd($response);
-
-        if ($response->link) {
+        if ($response != null) {
 
             return redirect($response->link);
         } else {
