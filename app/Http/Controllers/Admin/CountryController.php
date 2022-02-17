@@ -18,32 +18,36 @@ class CountryController extends Controller
     {
 
         $contries = Country::all();
-        return view('admin.contries.list',
-        [
-            'contries' => $contries,
-        ]);
+        return view(
+            'admin.contries.list',
+            [
+                'contries' => $contries,
+            ]
+        );
     }
 
     public function towns()
     {
         $towns = Town::find(Auth::user()->id);
         $contries = Country::all();
-        return view('admin.contries.list',
-        [
-            'towns' => $towns,
-            'contries' => $contries,
-        ]);
+        return view(
+            'admin.contries.list',
+            [
+                'towns' => $towns,
+                'contries' => $contries,
+            ]
+        );
     }
 
     public function create(Request $request)
     {
 
-    	$country = new Country();
+        $country = new Country();
 
         $country->label = $request->label;
         $country->code = $request->code;
         $picture = FileController::picture($request->file('flag'));
-        if($picture['state'] == false){
+        if ($picture['state'] == false) {
             return back()->with('error', $picture['message']);
         }
 
@@ -51,9 +55,11 @@ class CountryController extends Controller
         $country->status = STATUT_ENABLE;
         $country->user_id = auth()->user()->id;
 
-        if($country->save()){
+        dd($country->save());
+
+        if ($country->save()) {
             return back()->with('success', 'Le pays a bien été créé.');
-        }else{
+        } else {
             return back()->with('error', 'Un problème est survenu.');
         }
     }
@@ -63,41 +69,41 @@ class CountryController extends Controller
 
         Controller::he_can('Countries', 'updat');
 
-        if(isset($_POST['delete'])) {
-    		if($country->delete()){
+        if (isset($_POST['delete'])) {
+            if ($country->delete()) {
                 return back()->with('success', "Le pays a bien été supprimée !");
-            }else{
+            } else {
                 return back()->with('error', "Une erreur s'est produite.");
             }
-    	}else{
+        } else {
             $country->label = $request->label;
             $country->code = $request->code;
             $picture = FileController::picture($request->file('flag'));
-            if($picture['state'] == false){
+            if ($picture['state'] == false) {
                 return back()->with('error', $picture['message']);
             }
 
             $country->flag = $picture['url'];
             $country->status = STATUT_ENABLE;
             $country->status = $request->status;
-	    	if($country->save()){
+            if ($country->save()) {
                 return back()->with('succes', "Le pays a bien été mis à jour !");
-            }else{
+            } else {
                 return back()->with('error', "Une erreur s'est produite.");
             }
-    	}
+        }
     }
 
 
     public function createTown(Request $request)
     {
 
-    	$town = new Town();
+        $town = new Town();
 
         $town->label = $request->label;
         $town->code = $request->code;
         $picture = FileController::picture($request->file('picture'));
-        if($picture['state'] == false){
+        if ($picture['state'] == false) {
             return back()->with('error', $picture['message']);
         }
         $town->picture = $picture['url'];
@@ -105,9 +111,9 @@ class CountryController extends Controller
         $town->country_id = $request->country_id;
         $town->user_id = auth()->user()->id;
 
-        if($town->save()){
+        if ($town->save()) {
             return back()->with('success', 'La ville a été créé avec succes.');
-        }else{
+        } else {
             return back()->with('error', 'Un problème est survenu.');
         }
     }
@@ -117,22 +123,22 @@ class CountryController extends Controller
 
         Controller::he_can('Countries', 'updat');
 
-        if(isset($_POST['delete'])) {
-    		if($town->delete()){
+        if (isset($_POST['delete'])) {
+            if ($town->delete()) {
                 return back()->with('succes', "La ville a bien été supprimée !");
-            }else{
+            } else {
                 return back()->with('error', "Une erreur s'est produite.");
             }
-    	}else{
+        } else {
             $town->label = $request->label;
             $town->code = $request->code;
             $town->status = $request->status;
             $town->country_id = $request->country_id;
-	    	if($town->save()){
+            if ($town->save()) {
                 return back()->with('succes', "La ville a bien été mis à jour !");
-            }else{
+            } else {
                 return back()->with('error', "Une erreur s'est produite.");
             }
-    	}
+        }
     }
 }
