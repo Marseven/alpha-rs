@@ -55,7 +55,7 @@ class CountryController extends Controller
         $country->status = STATUT_ENABLE;
         $country->user_id = auth()->user()->id;
 
-        dd($country->save());
+        dd($country);
 
         if ($country->save()) {
             return back()->with('success', 'Le pays a bien été créé.');
