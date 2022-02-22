@@ -164,7 +164,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabelOne">Modifier un country</h5>
+                        <h5 class="modal-title" id="exampleModalLabelOne">Modifier un pays</h5>
                     </div>
                     <div class="modal-body">
                         <form action="{{ url('admin/country/' . $country->id) }}" method="POST"
@@ -172,17 +172,17 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="label" class="col-form-label">Libellé</label>
-                                <input type="text" class="form-control" name="label">
+                                <input type="text" value="{{ $country->label }}" class="form-control" name="label">
                             </div>
 
                             <div class="mb-3">
                                 <label for="code" class="col-form-label">Code</label>
-                                <input type="text" class="form-control" name="code">
+                                <input type="text" value="{{ $country->code }}" class="form-control" name="code">
                             </div>
 
                             <div class="mb-3">
                                 <label for="flag" class="col-form-label">Drapeau</label>
-                                <input type="file" class="form-control" name="flag">
+                                <input type="file" value="{{ $country->flag }}" class="form-control" name="flag">
                             </div>
 
                             <div class="mb-3">
