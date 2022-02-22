@@ -156,7 +156,7 @@
                         <div class="subheader-text">
                             <p>E-mail</p>
                             <h5>
-                                m.cherone@reliefservices.space
+                                reliefservices21@gmail.com
                             </h5>
                         </div>
                     </div>
@@ -335,7 +335,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-center">
-                            <p>Copyright © 2021. Tous Droits Réservés à Relief Service. Réaliser par <a
+                            <p>Copyright © 2022. Tous Droits Réservés à Relief Service. Réaliser par <a
                                     href="https://mebodorichard.tech">@aristidemebodo</a></p>
                         </div>
 
@@ -346,7 +346,7 @@
 
     </section>
 
-    <a href="https://api.whatsapp.com/send?phone=24177613799" class="float" target="_blank">
+    <a href="https://api.whatsapp.com/send?phone=24176555781" class="float" target="_blank">
         <i class="fa fa-whatsapp my-float"></i>
     </a>
 
