@@ -83,7 +83,7 @@ class CountryController extends Controller
 
             $country->flag = $picture['url'];
             $country->status = STATUT_ENABLE;
-            $country->status = $request->status;
+
             if ($country->save()) {
                 return back()->with('succes', "Le pays a bien été mis à jour !");
             } else {
