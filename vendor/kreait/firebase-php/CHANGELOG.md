@@ -2,6 +2,37 @@
 
 ## [Unreleased]
 
+## [5.26.3]
+### Fixed
+* Updating a Realtime Database Ruleset converted lists to objects with numeric keys.
+  (backported from [#707](https://github.com/kreait/firebase-php/pull/707))
+
+## [5.26.2]
+### Fixed
+* Nested lists in custom user claims were not correctly encoded.
+  ([#699](https://github.com/kreait/firebase-php/pull/699))
+
+## [5.26.1] - 2022-01-16
+### Fixed
+* When signing in with IdP credentials a user's Firebase UID is retrieved from the returned `localId` field, if present
+
+## [5.26.0] - 2022-01-06
+### Added
+* Ensured compatibility with PHP 8.1
+* Added optional `$locale` parameter to the following methods
+  ([#679](https://github.com/kreait/firebase-php/pull/679))
+  * `Kreait\Firebase\Auth::getEmailActionLink(string $type, $email, $actionCodeSettings = null, ?string $locale = null)` 
+  * `Kreait\Firebase\Auth::getEmailVerificationLink($email, $actionCodeSettings = null, ?string $locale = null)` 
+  * `Kreait\Firebase\Auth::getPasswordResetLink($email, $actionCodeSettings = null, ?string $locale = null)` 
+  * `Kreait\Firebase\Auth::getSignInWithEmailLink($email, $actionCodeSettings = null, ?string $locale = null)`
+
+### Deprecated
+* `Kreait\Firebase\Value\Provider`, use provider strings directly ([supported providers](https://firebase.google.com/docs/projects/provisioning/configure-oauth#add-idp))
+* `Kreait\Firebase\Auth::signInWithTwitterOauthCredential()`, use `signInWithIdpAccessToken('twitter.com')` instead
+* `Kreait\Firebase\Auth::signInWithGoogleIdToken()`, use `signInWithIdpIdToken('google.com')` instead
+* `Kreait\Firebase\Auth::signInWithFacebookAccessToken()`, use `signInWithIdpAccessToken('facebook.com')` instead
+* `Kreait\Firebase\Auth::signInWithAppleIdToken()`, use `signInWithIdpIdToken('apple.com')` instead
+
 ## [5.25.0] - 2021-11-01
 ### Added
 * Added support for providing a nonce when signing in with IdP credentials
@@ -313,7 +344,11 @@ to upgrade from a 4.x release to 5.0 without changes to your code.**
 * Support for PHP `<7.2`
 * Deprecated methods and classes
 
-[Unreleased]: https://github.com/kreait/firebase-php/compare/5.25.0...HEAD
+[Unreleased]: https://github.com/kreait/firebase-php/compare/5.26.3...5.x
+[5.26.3]: https://github.com/kreait/firebase-php/compare/5.26.2...5.26.3
+[5.26.2]: https://github.com/kreait/firebase-php/compare/5.26.1...5.26.2
+[5.26.1]: https://github.com/kreait/firebase-php/compare/5.26.0...5.26.1
+[5.26.0]: https://github.com/kreait/firebase-php/compare/5.25.0...5.26.0
 [5.25.0]: https://github.com/kreait/firebase-php/compare/5.24.0...5.25.0
 [5.24.0]: https://github.com/kreait/firebase-php/compare/5.23.0...5.24.0
 [5.23.0]: https://github.com/kreait/firebase-php/compare/5.22.0...5.23.0

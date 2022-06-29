@@ -1,6 +1,17 @@
 # CHANGELOG
 
-## 3.2.0 - 2021-1021
+## Unreleased
+
+## 3.4.0 - 2021-12-04
+### Added
+* Added support for caching the authentication tokens used for connecting to the Firebase servers.
+
+## 3.3.0 - 2021-11-29
+### Added
+* Ensure support for all PHP 8.x versions 
+  ([#110](https://github.com/kreait/laravel-firebase/pull/110))
+
+## 3.2.0 - 2021-10-21
 ### Added
 * Support for Database Auth Variable Overrides
   ([#93](https://github.com/kreait/laravel-firebase/pull/93))
