@@ -6,7 +6,6 @@
 @endpush
 
 @section('content')
-
     <div class="content-body">
         <div class="container-fluid">
             <div class="row page-titles mx-0">
@@ -24,6 +23,8 @@
                 </div>
             </div>
             <!-- row -->
+            @include('layouts.flash-admin')
+            <br>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -59,8 +60,7 @@
                                                 <td>{{ $status }}</td>
                                                 <td>
                                                     <a href="{{ $quote->join_piece }}"><button type="button"
-                                                            class="btn btn-info"><i
-                                                                class="fa fa-download"></i></button></a>
+                                                            class="btn btn-info"><i class="fa fa-download"></i></button></a>
                                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                                         data-target="#cardModalView{{ $quote->id }}"><i
                                                             class="fa fa-eye"></i></button>
@@ -96,7 +96,6 @@
     </div>
 
     @foreach ($quotes as $quote)
-
         <div class="modal fade" id="cardModalView{{ $quote->id }}">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -210,13 +209,10 @@
             </div>
         </div>
     @endforeach
-
-
 @endsection
 
 @push('scripts')
     <!-- Datatable -->
     <script src="{{ asset('admin/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('admin/js/plugins-init/datatables.init.js') }}"></script>
-
 @endpush

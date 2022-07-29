@@ -6,7 +6,6 @@
 @endpush
 
 @section('content')
-
     <div class="content-body">
         <div class="container-fluid">
             <div class="row page-titles mx-0">
@@ -24,6 +23,8 @@
                 </div>
             </div>
             <!-- row -->
+            @include('layouts.flash-admin')
+            <br>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -95,7 +96,6 @@
     </div>
 
     @foreach ($simulators as $simulator)
-
         @php
             $simulator->load(['country', 'service']);
         @endphp
@@ -214,7 +214,8 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="col-form-label">Libellé</label>
-                                <input type="text" class="form-control" name="label" value="{{ $simulator->label }}">
+                                <input type="text" class="form-control" name="label"
+                                    value="{{ $simulator->label }}">
                             </div>
 
                             <div class="mb-3">
@@ -299,13 +300,10 @@
             </div>
         </div>
     @endforeach
-
-
 @endsection
 
 @push('scripts')
     <!-- Datatable -->
     <script src="{{ asset('admin/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('admin/js/plugins-init/datatables.init.js') }}"></script>
-
 @endpush

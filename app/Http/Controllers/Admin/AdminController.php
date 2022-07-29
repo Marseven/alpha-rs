@@ -24,22 +24,22 @@ use DoctrineExtensions\Query\Mysql\Now;
 class AdminController extends Controller
 {
     //
-    public function index(){
+    public function index()
+    {
         $hospitals = Hospital::all()->count();
         $folders = Folder::all()->count();
         $countries = Country::all()->count();
-        $quotes = Quote::all();
-        $users = User::all()->where('secure_role_id', '<>' , 1)->count();
+        $quotes = Quote::limit(10)->get();
+        $users = User::all()->where('secure_role_id', '<>', 1)->count();
 
         $folders_end = Folder::where('status', STATUT_DO)->count();
         $folders_pending = Folder::where('status', STATUT_PENDING)->count();
 
         $folders_today = Folder::where('created_at', Now())->count();
 
-
         $payments = Payment::all();
-        $payment_total =0;
-        foreach($payments as $payment){
+        $payment_total = 0;
+        foreach ($payments as $payment) {
             $payment_total += $payment->amount;
         }
 
@@ -47,8 +47,8 @@ class AdminController extends Controller
         $folders_status = Folder::all()->where('status', STATUT_DO)->count();
 
         $payment = Payment::all()->where('status', STATUT_PAID);
-        $payment_pay =0;
-        foreach($payment as $pay){
+        $payment_pay = 0;
+        foreach ($payment as $pay) {
             $payment_pay += $pay->amount;
         }
 
@@ -66,7 +66,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function listHospitals(){
+    public function listHospitals()
+    {
         Controller::he_can('Hospitals', 'look');
         $hospitals = Hospital::all();
         $hospitals->load(['country', 'town', 'sicks']);
@@ -79,7 +80,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function listFolders(){
+    public function listFolders()
+    {
         Controller::he_can('Folders', 'look');
         $folders = Folder::all();
         $quotes = Quote::all();
@@ -89,32 +91,37 @@ class AdminController extends Controller
         ]);
     }
 
-    public function listQuotes(){
+    public function listQuotes()
+    {
         Controller::he_can('Quotes', 'look');
         $quotes = Quote::all();
         return view('admin.quote.list', compact('quotes'));
     }
 
-    public function listServices(){
+    public function listServices()
+    {
         Controller::he_can('Services', 'look');
         $services = Service::all();
         return view('admin.service.list', compact('services'));
     }
 
-    public function listSicks(){
+    public function listSicks()
+    {
         Controller::he_can('Sicks', 'look');
         $sicks = Sick::all();
         return view('admin.sick.list', compact('sicks'));
     }
 
-    public function listPayments(){
+    public function listPayments()
+    {
         Controller::he_can('Payments', 'look');
         $payments = Payment::all();
         return view('admin.payments.list', compact('payments'));
     }
 
 
-    public function listCountries(){
+    public function listCountries()
+    {
         Controller::he_can('Countries', 'look');
         $countries = Country::all();
         return view('admin.country.list', [
@@ -122,7 +129,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function listSimulators(){
+    public function listSimulators()
+    {
         $simulators = Simulator::all();
         $services = Service::all();
         $countries = Country::all();
@@ -133,7 +141,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function listTowns(){
+    public function listTowns()
+    {
         Controller::he_can('Countries', 'look');
         $towns = Town::all();
         $towns->load(['country']);
@@ -143,5 +152,4 @@ class AdminController extends Controller
             'countries' => $countries,
         ]);
     }
-
 }

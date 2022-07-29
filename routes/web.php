@@ -173,6 +173,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group(function 
     Route::get('/list-users', [AdminUserController::class, 'list'])->name('admin-list-users');
     Route::get('/admin-profil', [AdminUserController::class, 'profil'])->name('admin-profil');
     Route::get('/register', [AdminUserController::class, 'register'])->name('admin-register');
+    Route::post('/register', [AdminUserController::class, 'create']);
     Route::post('/admin-user/{user}', [AdminUserController::class, 'update']);
     Route::post('/admin-userpassword/{user}', [AdminUserController::class, 'updatePassword']);
 });

@@ -23,6 +23,8 @@
                 </div>
             </div>
             <!-- row -->
+            @include('layouts.flash-admin')
+            <br>
             <div class="row">
                 <div class="col-12">
                     <div class="card">

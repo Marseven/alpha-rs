@@ -27,17 +27,31 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function str_random($length){
+    public function str_random($length)
+    {
         $alphabet = "0123456789azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN";
         return substr(str_shuffle(str_repeat($alphabet, $length)), 0, $length);
     }
 
-    static function str_random_pay($length){
+    static function str_random_pay($length)
+    {
         $alphabet = "0123456789azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN";
         return substr(str_shuffle(str_repeat($alphabet, $length)), 0, $length);
     }
 
-    static function status($status){
+    static function formatPhone($num)
+    {
+        if (preg_match("#^0[6-7][0-7]([-. ]?[0-9]{2}){3}$#", $num)) {
+            $meta_carac = array("-", ".", " ");
+            $num = str_replace($meta_carac, "", $num);
+            return $num;
+        }
+
+        return false;
+    }
+
+    static function status($status)
+    {
         switch ($status) {
             case STATUT_RECEIVE:
                 return $message = "Reçu";
@@ -75,26 +89,30 @@ class Controller extends BaseController
         }
     }
 
-    static function work_status(){
-        print '<option value="'.STATUT_RECEIVE.'">Reçu</option>';
-        print '<option value="'.STATUT_PENDING.'">En cours de traitement</option>';
-        print '<option value="'.STATUT_APPROVE.'">Appouvé</option>';
-        print '<option value="'.STATUT_REFUSED.'">Refusé</option>';
-        print '<option value="'.STATUT_CANCEL.'">Annulé</option>';
+    static function work_status()
+    {
+        print '<option value="' . STATUT_RECEIVE . '">Reçu</option>';
+        print '<option value="' . STATUT_PENDING . '">En cours de traitement</option>';
+        print '<option value="' . STATUT_APPROVE . '">Appouvé</option>';
+        print '<option value="' . STATUT_REFUSED . '">Refusé</option>';
+        print '<option value="' . STATUT_CANCEL . '">Annulé</option>';
     }
 
-    static function enable_status(){
-        print '<option value="'.STATUT_ENABLE.'">Actif</option>';
-        print '<option value="'.STATUT_DISABLE.'">Inactif</option>';
+    static function enable_status()
+    {
+        print '<option value="' . STATUT_ENABLE . '">Actif</option>';
+        print '<option value="' . STATUT_DISABLE . '">Inactif</option>';
     }
 
-    static function quote_status(){
-        print '<option value="'.STATUT_RECEIVE.'">Reçu</option>';
-        print '<option value="'.STATUT_PENDING.'">En cours de traitement</option>';
-        print '<option value="'.STATUT_DO.'">Traité</option>';
+    static function quote_status()
+    {
+        print '<option value="' . STATUT_RECEIVE . '">Reçu</option>';
+        print '<option value="' . STATUT_PENDING . '">En cours de traitement</option>';
+        print '<option value="' . STATUT_DO . '">Traité</option>';
     }
 
-    static function he_can($controller, $action){
+    static function he_can($controller, $action)
+    {
         $user = Auth::user();
         $rolepermissions = DB::table('security_role_permission')
             ->join('security_permissions', 'security_permissions.id', '=', 'security_role_permission.security_permission_id')
@@ -102,39 +120,37 @@ class Controller extends BaseController
             ->where('security_role_permission.security_role_id', $user->security_role_id)
             ->get();
 
-        foreach($rolepermissions as $permission){
+        foreach ($rolepermissions as $permission) {
 
-            if($permission->name == $controller){
+            if ($permission->name == $controller) {
 
                 switch ($action) {
                     case 'look':
-                        if($permission->look != "on"){
+                        if ($permission->look != "on") {
 
-                            return redirect('logout')->with('error',"Vous n'avez pas le droit de faire cette action.");
+                            return redirect('logout')->with('error', "Vous n'avez pas le droit de faire cette action.");
                         }
                         break;
                     case 'creat':
-                        if($permission->creat != "on"){
+                        if ($permission->creat != "on") {
 
-                            return redirect('logout')->with('error',"Vous n'avez pas le droit de faire cette action.");
+                            return redirect('logout')->with('error', "Vous n'avez pas le droit de faire cette action.");
                         }
                         break;
                     case 'updat':
-                        if($permission->updat != "on"){
+                        if ($permission->updat != "on") {
 
-                            return redirect('logout')->with('error',"Vous n'avez pas le droit de faire cette action.");
+                            return redirect('logout')->with('error', "Vous n'avez pas le droit de faire cette action.");
                         }
                         break;
                     case 'del':
-                        if($permission->del != "on"){
+                        if ($permission->del != "on") {
 
-                            return redirect('logout')->with('error',"Vous n'avez pas le droit de faire cette action.");
+                            return redirect('logout')->with('error', "Vous n'avez pas le droit de faire cette action.");
                         }
                         break;
                 }
             }
-
         }
     }
-
 }
