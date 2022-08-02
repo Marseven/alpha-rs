@@ -208,9 +208,9 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabelOne">Modifier un service</h5>
                     </div>
-                    <div class="modal-body">
-                        <form action="{{ url('admin/service/' . $service->id) }}" method="POST"
-                            enctype="multipart/form-data">
+                    <form action="{{ url('admin/service/' . $service->id) }}" method="POST"
+                        enctype="multipart/form-data">
+                        <div class="modal-body">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="col-form-label">Libellé</label>
@@ -261,11 +261,11 @@
                                     @endphp
                                 </select>
                             </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
                     </form>
                 </div>
             </div>

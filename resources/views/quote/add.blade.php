@@ -1,10 +1,9 @@
 @extends('layouts.default')
 
 @section('content')
-
     <!--=========================
-                                Breadcrum Part HTML Start
-                                =======================-->
+                                                                    Breadcrum Part HTML Start
+                                                                    =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -30,14 +29,14 @@
     </section>
 
     <!--====================
-                                    Breadcrum Part HTML End
-                                ======================-->
+                                                                        Breadcrum Part HTML End
+                                                                    ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                    Start: About Us
-                                ============================= -->
+                                                                        Start: About Us
+                                                                    ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="row about-page-para">
@@ -78,8 +77,8 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputBirthday">Date de Naissance</label>
-                                    <input type="date" name="birthday" value="{{ old('birthday') }}"
-                                        class="form-control" id="inputBirthday">
+                                    <input type="date" name="birthday" value="{{ old('birthday') }}" class="form-control"
+                                        id="inputBirthday">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="inputGender">Genre</label>
@@ -132,14 +131,30 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputPjoin">Pièce Jointe du dossier médical</label>
+                                <br>
+                                <ul>
+                                    <li>- Copie de votre passeport</li>
+                                    <li>- Rapport Médical délivré par votre médecin traitant</li>
+                                    <li>- Différents types d’examens effectués (IRM, Scan, radiographie Biopsies)</li>
+                                </ul>
                                 <input type="file" name="join_piece" class="form-control"
                                     value="{{ old('join_piece') }}" id="inputPjoin">
+
+
                             </div>
 
                             <div class="col-12">
                                 <i style="color: red">Les frais d'ouverture de dossier s'élève à 50 000 XAF.</i><br>
                                 <i style="color: red">Votre demande de devis ne sera traité qu'une fois les frais
                                     réglés et sera disponible dans 72 heures maximum.</i>
+                                <br><br>
+                                <i>* Veillez-vous rassurer que tous les documents demandés ont été téléversés</i><br>
+                                <i>* La procédure d’obtention de devis prendra plus de temps que prévu au cas où le dossier
+                                    médical est incomplet</i><br>
+                                <i>* Vous pouvez nous contacter sous les 48h pour complément du dossier </i><br>
+                                <i>* En cas de désistements de la procédure les frais du dossier ne seront pas
+                                    remboursables</i>
+
                                 <br><br>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="gridCheck" required>
@@ -149,7 +164,7 @@
                                 </div>
                             </div>
                             <br><br>
-                            <button type="submit" class="btn btn-primary">Payer</button>
+                            <button type="submit" class="btn btn-primary">Payer & Envoyer</button>
                         </form>
                     </div>
 
@@ -167,7 +182,6 @@
     </section>
 
     <!-- =============================
-                                    End: About Us
-                                ============================= -->
-
+                                                                        End: About Us
+                                                                    ============================= -->
 @endsection
