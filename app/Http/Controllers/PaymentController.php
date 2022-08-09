@@ -243,7 +243,7 @@ class PaymentController extends Controller
         if ($type == 'folder') {
             // Fetch all data (including those not optional) from session
             $response = Http::withHeaders([
-                'x-wallet' => '61968f70de15022d622e2ddd',
+                'x-wallet' => '6155b3f1d290be2c04380c7d',
                 'x-client-id' => '7fbdcd94-7fa2-45d9-9db4-c165d8200364',
                 'x-client-secret' => 'ce88eefaf3f18d65c83187d8197d3a3566515a9dd59dca701f327818e3d8946b'
             ])->post('https://gateway.singpay.ga/v1/ext', [
@@ -259,11 +259,11 @@ class PaymentController extends Controller
         } else {
             // Fetch all data (including those not optional) from session
             $response = Http::withHeaders([
-                'x-wallet' => '61968f70de15022d622e2ddd',
+                'x-wallet' => '6155b3f1d290be2c04380c7d',
                 'x-client-id' => '7fbdcd94-7fa2-45d9-9db4-c165d8200364',
                 'x-client-secret' => 'ce88eefaf3f18d65c83187d8197d3a3566515a9dd59dca701f327818e3d8946b'
             ])->post('https://gateway.singpay.ga/v1/ext', [
-                "amount" => 50000,
+                "amount" => 100,
                 "client_msisdn" => $data->phone,
                 "portefeuille" => env('SING_WALLET', "6155b3f1d290be2c04380c7d"),
                 "reference" => $eb_reference,
@@ -290,7 +290,7 @@ class PaymentController extends Controller
                 'description' => $eb_shortdescription,
             ];
         } else {
-            $eb_amount = 50000;
+            $eb_amount = 100;
             $eb_shortdescription = 'Frais de demande de devis.';
             $data = [
                 'quote_id' => $data->id,

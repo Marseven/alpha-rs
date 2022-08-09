@@ -23,7 +23,7 @@
                         <div class="col-xl-12 col-xxl-12 col-lg-12 col-md-12">
                             <div class="card">
                                 <div class="card-header border-0 pb-0">
-                                    <h4 class="card-title">Dossiers Médicaux (%)</h4>
+                                    <h4 class="card-title">Dossiers Médicaux</h4>
                                 </div>
                                 <div class="card-body pt-2">
                                     <h4 class="text-dark font-w400">Total de dossiers</h4>
@@ -68,7 +68,8 @@
                                                             <div class="media-body">
                                                                 <a href="#">
                                                                     <h5 class="mt-0 mb-1">
-                                                                        {{ $quote->firstname . ' ' . $quote->lastname }}</h5>
+                                                                        {{ $quote->firstname . ' ' . $quote->lastname }}
+                                                                    </h5>
                                                                 </a>
                                                                 <p class="mb-0">{{ $quote->birthday }}</p>
                                                             </div>
@@ -172,11 +173,6 @@
                             <div class="card">
                                 <div class="card-header border-0 pb-0">
                                     <h4 class="card-title">Statistique des Paiements</h4>
-                                    <select class="form-control style-1 default-select ">
-                                        <option>2021</option>
-                                        <option>2020</option>
-                                        <option>2019</option>
-                                    </select>
                                 </div>
                                 <div class="card-body pt-2">
                                     <h3 class="text-primary font-w600">{{ $payment_pay }} XAF <small

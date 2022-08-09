@@ -74,12 +74,17 @@ class QuoteController extends Controller
 
         $quote->category = $request->category;
 
-        $join_piece = FileController::quote_file($request->file('join_piece'));
-        if ($join_piece['state'] == false) {
-            return back()->with('error', $join_piece['message']);
-        }
+        if($request->file('join_piece') != null){
+            $join_piece = FileController::quote_file($request->file('join_piece'));
+            if ($join_piece['state'] == false) {
+                return back()->with('error', $join_piece['message']);
+            }
 
-        $quote->join_piece = $join_piece['url'];
+            $quote->join_piece = $join_piece['url'];
+
+        }else{
+            return back()->with('error', "Veuillez joindre le dossier médicale.");
+        }
 
 
         $quote->status = STATUT_RECEIVE;

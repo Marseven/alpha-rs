@@ -2,8 +2,8 @@
 
 @section('content')
     <!-- =============================
-                                                                                            Start: Header Slider
-                                                                                        ============================= -->
+                                                                                                Start: Header Slider
+                                                                                            ============================= -->
     <div class="tg-sliderholder">
         <div id="tg-homeslider" class="tg-homeslider tg-haslayout" style="padding-bottom: 0!important">
             <div class="pogoSlider-slide" data-transition="expandReveal" data-duration="1000"
@@ -134,12 +134,12 @@
     </section>
 
     <!-- =============================
-                                                                                            End: About Us
-                                                                                        ============================= -->
+                                                                                                End: About Us
+                                                                                            ============================= -->
 
     <!-- =============================
-                                                                                            Start: service Part
-                                                                                        ============================= -->
+                                                                                                Start: service Part
+                                                                                            ============================= -->
 
     <section id="service" class="service section">
         <div class="container">
@@ -282,8 +282,8 @@
             </div>
 
             <!-- =============================
-                                                                                                    Start: Search
-                                                                                                ============================= -->
+                                                                                                        Start: Search
+                                                                                                    ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -299,8 +299,8 @@
                 </div>
             </div>
             <!-- =============================
-                                                                                                    End: Search
-                                                                                                ============================= -->
+                                                                                                        End: Search
+                                                                                                    ============================= -->
 
             <br>
             <br>
@@ -317,8 +317,8 @@
             </div>
 
             <!-- =============================
-                                                                                                    Start: Search
-                                                                                                ============================= -->
+                                                                                                        Start: Search
+                                                                                                    ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -336,18 +336,18 @@
                 </div>
             </div>
             <!-- =============================
-                                                                                                    End: Search
-                                                                                                ============================= -->
+                                                                                                        End: Search
+                                                                                                    ============================= -->
 
         </div>
     </section>
     <!-- =============================
-                                                                                            End: service Part
-                                                                                        ============================= -->
+                                                                                                End: service Part
+                                                                                            ============================= -->
 
     <!-- =============================
-                                                                                            Start: Experience Part
-                                                                                        ============================= -->
+                                                                                                Start: Experience Part
+                                                                                            ============================= -->
 
     <section id="experience" class="experience">
         <div class="container">
@@ -371,7 +371,8 @@
                             <div class="exp-txt">
                                 <p>
                                     Relief Services a sélectionné pour vous les meilleurs hôpitaux en Tunisie, Maroc,
-                                    Afrique du sud et France. Notre équipe d’assistance est présente pour veiller à ce que
+                                    Afrique du sud, Turquie et France. Notre équipe d’assistance est présente pour veiller à
+                                    ce que
                                     vos rendez-vous et séjours se passent dans les bonnes conditions. Le secret
                                     professionnel, institué dans l’intérêt des patients, s’impose à Relief Services.
                                 </p>
@@ -453,11 +454,11 @@
     </section>
 
     <!-- =============================
-                                                                                            End: Experience Part
-                                                                                        ============================= -->
+                                                                                                End: Experience Part
+                                                                                            ============================= -->
     <!-- =============================
-                                                                                            Start: Testimonial Part
-                                                                                        ============================= -->
+                                                                                                Start: Testimonial Part
+                                                                                            ============================= -->
     <section id="testimonial" class="testimonial section">
         <div class="container">
             <div class="row">
@@ -553,11 +554,11 @@
     </section>
 
     <!-- =============================
-                                                                                            End: Testimonial Part
-                                                                                        ============================= -->
+                                                                                                End: Testimonial Part
+                                                                                            ============================= -->
     <!--========================
-                                                                                         Team Part HTML Start
-                                                                                        ==========================-->
+                                                                                             Team Part HTML Start
+                                                                                            ==========================-->
     <section id="team" class="team section">
         <div class="container">
             <div class="row">
@@ -600,11 +601,11 @@
     </section>
 
     <!--======================
-                                                                                         Team Part HTML End
-                                                                                        =======================-->
+                                                                                             Team Part HTML End
+                                                                                            =======================-->
     <!--======================
-                                                                                            Latest Updates Part HTML Start
-                                                                                        =======================-->
+                                                                                                Latest Updates Part HTML Start
+                                                                                            =======================-->
 
     <section id="contactus" class="blog section">
         <div class="container">
@@ -664,8 +665,8 @@
     </section>
 
     <!--======================
-                                                                                            Blog Part HTML End
-                                                                                        =======================-->
+                                                                                                Blog Part HTML End
+                                                                                            =======================-->
 @endsection
 
 @push('scripts')
