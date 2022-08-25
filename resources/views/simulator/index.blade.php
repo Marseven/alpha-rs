@@ -11,10 +11,9 @@
 @endpush
 
 @section('content')
-
     <!--=========================
-                                                                                                                                                                                                                                                                                                                                                                                                                                            Breadcrum Part HTML Start
-                                                                                                                                                                                                                                                                                                                                                                                                                                            =======================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                Breadcrum Part HTML Start
+                                                                                                                                                                                                                                                                                                                                                                                                                                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -40,14 +39,14 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                Breadcrum Part HTML End
-                                                                                                                                                                                                                                                                                                                                                                                                                                            ======================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    Breadcrum Part HTML End
+                                                                                                                                                                                                                                                                                                                                                                                                                                                ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                Start: About Us
-                                                                                                                                                                                                                                                                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    Start: About Us
+                                                                                                                                                                                                                                                                                                                                                                                                                                                ============================= -->
 
     <section class="aboutus aboutpage section" style="padding-top: 0px;">
         <div class="container">
@@ -182,50 +181,16 @@
                     </div>
                 </div>
 
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-12 ">
-                            <div class="heading b-text text-center">
-                                <h5>Quel maladie souhatez-vous soignée ?</h5>
-                                <h2>Trouver une Destination</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- =============================
-                                                                                                                                                                                                                                                                                                Start: Search
-                                                                                                                                                                                                                                                                                            ============================= -->
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form class="form-inline" method="POST" action="{{ route('search') }}">
-                                @csrf
-                                <div class="col-sm-1">
-                                </div>
-                                <div class="form-group col-sm-8">
-                                    <input type="text" style="width: 100%" name="q" class="form-control form-control-lg"
-                                        id="sick" placeholder="Cancer, ...">
-                                </div>
-                                <button type="submit" class="btn btn-primary mb-2">Recherche</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
 
     <!-- =============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                End: About Us
-                                                                                                                                                                                                                                                                                                                                                                                                                                            ============================= -->
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    End: About Us
+                                                                                                                                                                                                                                                                                                                                                                                                                                                ============================= -->
 @endsection
 
 @push('scripts')
-
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery.steps.js') }}"></script>
     <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
