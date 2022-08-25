@@ -76,12 +76,14 @@ class CountryController extends Controller
         } else {
             $country->label = $request->label;
             $country->code = $request->code;
-            $picture = FileController::picture($request->file('flag'));
-            if ($picture['state'] == false) {
-                return back()->with('error', $picture['message']);
-            }
+            if ($request->file('flag')) {
+                $picture = FileController::picture($request->file('flag'));
+                if ($picture['state'] == false) {
+                    return back()->with('error', $picture['message']);
+                }
 
-            $country->flag = $picture['url'];
+                $country->flag = $picture['url'];
+            }
             $country->status = STATUT_ENABLE;
 
             if ($country->save()) {

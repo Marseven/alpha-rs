@@ -53,7 +53,8 @@
                                                     <div class="media d-flex align-items-center">
                                                         <div class="avatar avatar-xl mr-2">
                                                             <img class="rounded-circle img-fluid"
-                                                                src="{{ asset($country->flag) }}" alt="" width="30">
+                                                                src="{{ asset($country->flag) }}" alt=""
+                                                                width="30">
                                                         </div>
                                                     </div>
                                                 </td>
@@ -107,7 +108,8 @@
                     <div class="modal-body">
                         <div class="text-center">
                             <div class="profile-photo">
-                                <img src="{{ $country->flag }}" width="100" class="img-fluid rounded-circle" alt="">
+                                <img src="{{ $country->flag }}" width="100" class="img-fluid rounded-circle"
+                                    alt="">
                             </div>
                             <p>{{ $country->code }}</p>
                             @php
@@ -174,7 +176,8 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="label" class="col-form-label">Libellé</label>
-                                <input type="text" value="{{ $country->label }}" class="form-control" name="label">
+                                <input type="text" value="{{ $country->label }}" class="form-control"
+                                    name="label">
                             </div>
 
                             <div class="mb-3">
@@ -184,7 +187,7 @@
 
                             <div class="mb-3">
                                 <label for="flag" class="col-form-label">Drapeau</label>
-                                <input type="file" value="{{ $country->flag }}" class="form-control" name="flag">
+                                <input type="file" class="form-control" name="flag">
                             </div>
 
                             <div class="mb-3">
@@ -197,7 +200,7 @@
                             </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                         <button type="submit" class="btn btn-primary">Enregistrer</button>
                     </div>
                     </form>
