@@ -69,7 +69,7 @@ class CountryController extends Controller
 
         if (isset($_POST['delete'])) {
             if ($country->delete()) {
-                return back()->with('success', "Le pays a bien été supprimée !");
+                return back()->with('success', "Le pays a bien été supprimé !");
             } else {
                 return back()->with('error', "Une erreur s'est produite.");
             }
@@ -87,7 +87,7 @@ class CountryController extends Controller
             $country->status = STATUT_ENABLE;
 
             if ($country->save()) {
-                return back()->with('succes', "Le pays a bien été mis à jour !");
+                return back()->with('success', "Le pays a bien été mis à jour !");
             } else {
                 return back()->with('error', "Une erreur s'est produite.");
             }
@@ -112,7 +112,7 @@ class CountryController extends Controller
         $town->user_id = auth()->user()->id;
 
         if ($town->save()) {
-            return back()->with('success', 'La ville a été créé avec succes.');
+            return back()->with('success', 'La ville a été créée avec succes.');
         } else {
             return back()->with('error', 'Un problème est survenu.');
         }
@@ -125,7 +125,7 @@ class CountryController extends Controller
 
         if (isset($_POST['delete'])) {
             if ($town->delete()) {
-                return back()->with('succes', "La ville a bien été supprimée !");
+                return back()->with('success', "La ville a bien été supprimée !");
             } else {
                 return back()->with('error', "Une erreur s'est produite.");
             }
@@ -135,7 +135,7 @@ class CountryController extends Controller
             $town->status = $request->status;
             $town->country_id = $request->country_id;
             if ($town->save()) {
-                return back()->with('succes', "La ville a bien été mis à jour !");
+                return back()->with('success', "La ville a bien été mis à jour !");
             } else {
                 return back()->with('error', "Une erreur s'est produite.");
             }
