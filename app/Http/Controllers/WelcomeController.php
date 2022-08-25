@@ -37,7 +37,7 @@ class WelcomeController extends Controller
         try {
             Mail::to('mebodoaristide@gmail.com')->queue(new QueryMessage($request->all()));
         } catch (Swift_TransportException $e) {
-            return back()->with('error',  $e->getMessage(););
+            return back()->with('error',  $e->getMessage());
         }
         return back()->with('success', "Votre mail a été envoyé, nous reviendrons vers vous au plus tôt.");
     }
