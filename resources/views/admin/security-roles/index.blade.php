@@ -50,7 +50,7 @@
                                             <tr>
                                                 <td>{{ $role->id }}</td>
                                                 <td>{{ $role->name }}</td>
-                                                <td>{{ $role->objects[0]->name }}</td>
+                                                <td>{{ $role->objects->name }}</td>
                                                 <td>
                                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                                         data-target="#cardModalView{{ $role->id }}">Voir</button>
