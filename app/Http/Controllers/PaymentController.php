@@ -12,6 +12,7 @@ use App\Models\Quote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Swift_TransportException;
 
 class PaymentController extends Controller
 {
@@ -339,8 +340,12 @@ class PaymentController extends Controller
             if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 $quote->status = STATUT_PAID;
                 $quote->save();
-                Mail::to("contact@reliefservices.net")->cc("reliefservices21@gmail.com")->queue(new QuoteAdminMessage($quote));
-                Mail::to(Auth::user()->email)->queue(new QuoteMessage($quote));
+                try {
+                    Mail::to("contact@reliefservices.net")->queue(new QuoteAdminMessage($quote));
+                    Mail::to(Auth::user()->email)->queue(new QuoteMessage($quote));
+                } catch (Swift_TransportException $e) {
+                    echo $e->getMessage();
+                }
                 return view(
                     'payment.callback-request',
                     [
