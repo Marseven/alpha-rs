@@ -344,7 +344,13 @@ class PaymentController extends Controller
                     Mail::to("contact@reliefservices.net")->queue(new QuoteAdminMessage($quote));
                     Mail::to(Auth::user()->email)->queue(new QuoteMessage($quote));
                 } catch (Swift_TransportException $e) {
-                    echo $e->getMessage();
+                    return view(
+                        'payment.callback-request',
+                        [
+                            'quote' => $quote,
+                            'payment' => $payment,
+                        ]
+                    )->with('success', "Votre paiment a bien été reçu. - " . $e->getMessage());
                 }
                 return view(
                     'payment.callback-request',
@@ -352,7 +358,7 @@ class PaymentController extends Controller
                         'quote' => $quote,
                         'payment' => $payment,
                     ]
-                )->with('success', 'Votre paiment a bien été reçu.');
+                )->with('success', "Votre paiment a bien été reçu.");
             } else {
                 return redirect('/profil')->with('error', "Votre paiement n'a pas été reçu.");
             }
