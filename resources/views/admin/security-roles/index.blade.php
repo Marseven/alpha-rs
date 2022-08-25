@@ -50,7 +50,11 @@
                                             <tr>
                                                 <td>{{ $role->id }}</td>
                                                 <td>{{ $role->name }}</td>
-                                                <td>{{ $role->objects->name }}</td>
+                                                @php
+                                                    $role->load(['objects']);
+                                                @endphp
+                                                <td>{{ $role->objects->first() != null ? $role->objects->first()->name : '' }}
+                                                </td>
                                                 <td>
                                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                                         data-target="#cardModalView{{ $role->id }}">Voir</button>

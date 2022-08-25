@@ -19,12 +19,13 @@ class SecurityRoleController extends GenericController
         $this->setModel(new SecurityRole());
     }
 
-    public function index(){
+    public function index()
+    {
         Controller::he_can('Users', 'look');
         $roles = SecurityRole::all();
-        $roles->load(['permissions', 'objects']);
-        if($roles[0]->permissions->count() == 0){
-            for($i = 1; $i > 6; $i++){
+        $roles->load(['permissions']);
+        if ($roles[0]->permissions->count() == 0) {
+            for ($i = 1; $i > 6; $i++) {
                 $result = DB::table('security_role_permission')->insert([
                     'security_role_id' => 1,
                     'security_permission_id' => $i,
@@ -55,13 +56,13 @@ class SecurityRoleController extends GenericController
 
         $role =  new SecurityRole();
 
-        if($request->get('_id')!=0) $role = SecurityRole::find($request->get('_id'));
+        if ($request->get('_id') != 0) $role = SecurityRole::find($request->get('_id'));
         $role->name = $request->get('name');
         $role->security_object_id = $request->get('security_object_id');
         $role->user_id = Auth::user()->id;
         $role->save();
 
-        return redirect()->back()->with('success','Operation performed successfully');
+        return redirect()->back()->with('success', 'Operation performed successfully');
     }
 
     public function permission(Request $request)
@@ -70,8 +71,8 @@ class SecurityRoleController extends GenericController
         Controller::he_can('Users', 'updat');
 
         $permissions = SecurityPermission::all();
-        foreach($permissions as $permission){
-            $permission = SecurityPermission::find($request->get($permission->name.'-permission'));
+        foreach ($permissions as $permission) {
+            $permission = SecurityPermission::find($request->get($permission->name . '-permission'));
             DB::table('security_role_permission')->where([
                 'security_role_id' => $request->get('role'),
                 'security_permission_id' => $permission->id
@@ -79,15 +80,13 @@ class SecurityRoleController extends GenericController
             DB::table('security_role_permission')->insert([
                 'security_role_id' => $request->get('role'),
                 'security_permission_id' => $permission->id,
-                'look' => $request->get($permission->name.'-view'),
-                'creat' => $request->get($permission->name.'-create'),
-                'updat' => $request->get($permission->name.'-edit'),
-                'del' => $request->get($permission->name.'-delete'),
+                'look' => $request->get($permission->name . '-view'),
+                'creat' => $request->get($permission->name . '-create'),
+                'updat' => $request->get($permission->name . '-edit'),
+                'del' => $request->get($permission->name . '-delete'),
             ]);
         }
 
-        return redirect()->back()->with('success','Operation performed successfully');
+        return redirect()->back()->with('success', 'Operation performed successfully');
     }
-
-
 }
