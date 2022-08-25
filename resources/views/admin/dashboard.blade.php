@@ -175,8 +175,8 @@
                                     <h4 class="card-title">Statistique des Paiements</h4>
                                 </div>
                                 <div class="card-body pt-2">
-                                    <h3 class="text-primary font-w600">{{ $payment_pay }} XAF <small
-                                            class="text-dark ml-2">{{ $payment_total }} XAF</small></h3>
+                                    <h3 class="text-primary font-w600">{{ $payment_pay }} FCFA <small
+                                            class="text-dark ml-2">{{ $payment_total }} FCFA</small></h3>
                                     <div id="chartBar"></div>
                                 </div>
                             </div>
