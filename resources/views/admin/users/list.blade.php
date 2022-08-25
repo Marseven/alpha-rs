@@ -190,7 +190,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
-                        <form action="{{ url('admin-user/' . $user->id) }}" method="POST">
+                        <form action="{{ url('admin/admin-user/' . $user->id) }}" method="POST">
                             @csrf
                             <input type="hidden" name="delete" value="true">
                             <button type="submit" class="btn btn-danger">Supprimer</button>
