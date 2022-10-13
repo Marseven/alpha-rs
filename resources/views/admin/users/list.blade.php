@@ -141,7 +141,7 @@
                         <h5 class="modal-title" id="exampleModalLabelOne">Modifier un utilisateur</h5>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ url('/admin-user/' . $user->id) }}" method="POST">
+                        <form action="{{ url('admin/admin-user/' . $user->id) }}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="col-form-label">Nom Complet</label>
