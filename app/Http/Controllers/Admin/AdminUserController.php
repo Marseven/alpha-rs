@@ -73,6 +73,7 @@ class AdminUserController extends Controller
                 return back()->with('error', "Une erreur s'est produite.");
             }
         }
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
