@@ -73,6 +73,7 @@ class SecurityRoleController extends GenericController
         $permissions = SecurityPermission::all();
         foreach ($permissions as $permission) {
             $permission = SecurityPermission::find($request->get($permission->name . '-permission'));
+            dd($permission);
             DB::table('security_role_permission')->where([
                 'security_role_id' => $request->get('role'),
                 'security_permission_id' => $permission->id
