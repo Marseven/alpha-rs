@@ -74,15 +74,14 @@ class QuoteController extends Controller
 
         $quote->category = $request->category;
 
-        if($request->file('join_piece') != null){
+        if ($request->file('join_piece') != null) {
             $join_piece = FileController::quote_file($request->file('join_piece'));
             if ($join_piece['state'] == false) {
                 return back()->with('error', $join_piece['message']);
             }
 
             $quote->join_piece = $join_piece['url'];
-
-        }else{
+        } else {
             return back()->with('error', "Veuillez joindre le dossier médicale.");
         }
 
@@ -188,6 +187,7 @@ class QuoteController extends Controller
         $quote->response = $request->response;
         $quote->load(['user']);
         if ($quote->save()) {
+            dd($quote->user);
             Mail::to($quote->user->email)->queue(new StatusMessage($quote, "quote"));
             return back()->with('success', "Le status du devis a bien été mis à jour !");
         } else {
