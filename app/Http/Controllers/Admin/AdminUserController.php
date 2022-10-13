@@ -88,8 +88,11 @@ class AdminUserController extends Controller
 
         $user->security_role_id = $request->security_role_id;
 
-        $user->save();
-        return redirect('/admin-profil');
+        if ($user->save()) {
+            return  back()->with('success', "L'utilisateur a bien été mis à jour !");
+        } else {
+            return back()->with('error', "Une erreur s'est produite.");
+        }
     }
 
     public function updatePassword(Request $request, User $user)
