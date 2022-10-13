@@ -35,7 +35,7 @@ class WelcomeController extends Controller
     public function contact(Request $request)
     {
         try {
-            Mail::to('mebodoaristide@gmail.com')->queue(new QueryMessage($request->all()));
+            Mail::to('reliefservices21@gmail.com')->queue(new QueryMessage($request->all()));
         } catch (Swift_TransportException $e) {
             return back()->with('error',  $e->getMessage());
         }
