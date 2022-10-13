@@ -9,6 +9,7 @@ use App\Models\Quote;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Swift_TransportException;
 
 class FolderController extends Controller
 {
@@ -17,21 +18,23 @@ class FolderController extends Controller
     {
         $user = User::find(Auth::user()->id);
         $user->load(['folders']);
-        return view('folders.list',
-        [
-            'folders' => $user->folders,
-        ]);
+        return view(
+            'folders.list',
+            [
+                'folders' => $user->folders,
+            ]
+        );
     }
 
     public function add()
     {
-    	return view('folders.add');
+        return view('folders.add');
     }
 
     public function create(Request $request)
     {
 
-    	$folder = new Folder();
+        $folder = new Folder();
 
         $folder->reference = $this->str_random(8);
 
@@ -48,8 +51,8 @@ class FolderController extends Controller
         $folder->category = $request->category;
 
         $join_piece = FileController::folder_file($request->file('join_piece'));
-        if($join_piece['state'] == false){
-            return back()->with('error',$join_piece['message']);
+        if ($join_piece['state'] == false) {
+            return back()->with('error', $join_piece['message']);
         }
 
         $folder->join_piece = $join_piece['url'];
@@ -63,16 +66,16 @@ class FolderController extends Controller
 
         $folder->user_id = auth()->user()->id;
 
-        if($folder->save()){
+        if ($folder->save()) {
 
-            return back()->with('success',"Votre dossier  a été crée.");
-
-        }else{
-            return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
+            return back()->with('success', "Votre dossier  a été crée.");
+        } else {
+            return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
         }
     }
 
-    public function quote(Quote $quote){
+    public function quote(Quote $quote)
+    {
 
         $folder = new Folder();
 
@@ -100,29 +103,26 @@ class FolderController extends Controller
 
         $folder->user_id = auth()->user()->id;
 
-        if($folder->save()){
+        if ($folder->save()) {
             $quote->folder = true;
             $quote->save();
-            return back()->with('success',"Votre dossier a été crée avec succès.");
-
-        }else{
-            return back()->with('error','Une erreur s\'est produite, Veuillez réessayer !');
+            return back()->with('success', "Votre dossier a été crée avec succès.");
+        } else {
+            return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
         }
-
     }
 
-    public function pay(Folder $folder){
+    public function pay(Folder $folder)
+    {
 
         return PaymentController::singpay('folder', $folder);
-
     }
 
     public function edit(Folder $folder)
     {
-    	if (auth()->user()->id == $folder->user_id)
-        {
+        if (auth()->user()->id == $folder->user_id) {
             return view('edit', compact('folder'));
-        }else {
+        } else {
             return back();
         }
     }
@@ -131,13 +131,13 @@ class FolderController extends Controller
     {
         Controller::he_can('Folders', 'updat');
 
-    	if(isset($_POST['delete'])) {
-    		if($folder->delete()){
-                return back()->with('success','Le dossier a été supprimée.');
-            }else{
+        if (isset($_POST['delete'])) {
+            if ($folder->delete()) {
+                return back()->with('success', 'Le dossier a été supprimée.');
+            } else {
                 return back()->with('error', 'La dossier n\'a pas été supprimée.');
             }
-    	}else{
+        } else {
             $folder->lastname = $request->lastname;
 
             $folder->firstname = $request->firstname;
@@ -152,18 +152,18 @@ class FolderController extends Controller
 
             $join_piece = FileController::folder_file($request->file('join_piece'));
 
-            if($join_piece['state'] == false){
-                return back()->with('error',$join_piece['message']);
+            if ($join_piece['state'] == false) {
+                return back()->with('error', $join_piece['message']);
             }
 
             $folder->join_piece = $join_piece['url'];
 
-            if($folder->save()){
+            if ($folder->save()) {
                 return back()->with('success', 'Le statut de la demande a été mise à jour.');
-            }else{
+            } else {
                 return back()->with('error', 'Le statut de la demande n\'a pas été mise à jour.');
             }
-    	}
+        }
     }
 
     public function updateState(Request $request, $folder)
@@ -172,14 +172,15 @@ class FolderController extends Controller
         $folder->status = $request->status;
         $folder->price = $request->price;
         $folder->load(['user']);
-        if($folder->save()){
-            Mail::to($folder->user->email)->queue(new StatusMessage($folder, "folder"));
+        if ($folder->save()) {
+            try {
+                $result = Mail::to($folder->user->email)->queue(new StatusMessage($folder, "folder"));
+            } catch (Swift_TransportException $e) {
+                echo $e->getMessage();
+            }
             return back()->with('success', "Le status du dossier a bien été mis à jour !");
-        }else{
+        } else {
             return back()->with('error', "Une erreur s'est produite.");
         }
-
     }
-
-
 }

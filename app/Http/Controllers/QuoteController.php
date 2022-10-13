@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use PHPUnit\Framework\Constraint\Count;
+use Swift_TransportException;
 
 class QuoteController extends Controller
 {
@@ -187,7 +188,11 @@ class QuoteController extends Controller
         $quote->response = $request->response;
         $quote->load(['user']);
         if ($quote->save()) {
-            //Mail::to($quote->user->email)->queue(new StatusMessage($quote, "quote"));
+            try {
+                $result = Mail::to($quote->user->email)->queue(new StatusMessage($quote, "quote"));
+            } catch (Swift_TransportException $e) {
+                echo $e->getMessage();
+            }
             return back()->with('success', "Le status du devis a bien été mis à jour !");
         } else {
             return back()->with('error', "Une erreur s'est produite.");
