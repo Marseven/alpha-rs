@@ -187,7 +187,7 @@ class QuoteController extends Controller
         $quote->response = $request->response;
         $quote->load(['user']);
         if ($quote->save()) {
-            dd($quote->user);
+            dd($quote->user->email);
             Mail::to($quote->user->email)->queue(new StatusMessage($quote, "quote"));
             return back()->with('success', "Le status du devis a bien été mis à jour !");
         } else {
