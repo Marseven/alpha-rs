@@ -32,6 +32,11 @@ class WelcomeController extends Controller
         ]);
     }
 
+    public function faq()
+    {
+        return view('faq');
+    }
+
     public function contact(Request $request)
     {
         try {
