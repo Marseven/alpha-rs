@@ -64,7 +64,6 @@
         .my-float {
             margin-top: 16px;
         }
-
     </style>
 
     @stack('styles')
@@ -195,8 +194,8 @@
                                 <li><a href="{{ route('simulator') }}">Simulateur</a></li>
                             </ul>
                         </li-->
-                        <li class="nav-item"><a class="nav-link"
-                                href="{{ route('home') }}#contactus"><span data-hover="Contact">Contact</span></a>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#contactus"><span
+                                    data-hover="Contact">Contact</span></a>
                         </li>
                     </ul>
                 </div>
@@ -323,7 +322,7 @@
                                         <p>+241 076 555 781<br>
                                             +241 066 207 525</p>
 
-                                        <p>m.cherone@reliefservices.space</p>
+                                        <p>reliefservices21@gmail.com</p>
                                     </div>
                                 </div>
                             </div>
