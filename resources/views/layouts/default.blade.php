@@ -293,10 +293,10 @@
 
                         <div class="c-text-menu1">
                             <ul>
-                                <li><a href="#">FAQ</a></li>
+                                <li><a href="{{ route('faq') }}">FAQ</a></li>
                                 <li><a href="#">Notre Team</a></li>
-                                <li><a href="blog_details.html">Politique de confidentialité</a></li>
-                                <li><a href="blog_details.html">CGU</a></li>
+                                <li><a href="#">Politique de confidentialité</a></li>
+                                <li><a href="#">CGU</a></li>
                             </ul>
                         </div>
                     </div>
