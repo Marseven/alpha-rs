@@ -158,14 +158,19 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabelOne">Modifier un quote</h5>
+                        <h5 class="modal-title" id="exampleModalLabelOne">Modifier un Devis</h5>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ url('admin/quotes-state/' . $quote->id) }}" method="POST">
+                        <form action="{{ url('admin/quotes-state/' . $quote->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="col-form-label">Réponse du devis</label>
                                 <textarea name="response" class="form-control"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="devis" class="col-form-label">Impoter le Devis</label>
+                                <input type="file" name="devis" class="form-control" required />
                             </div>
                             <div class="mb-3">
                                 <label for="name" class="col-form-label">Statut</label>

@@ -1,19 +1,15 @@
 @extends('layouts.default')
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/roboto-font.css') }}">
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('fonts/material-design-iconic-font/css/material-design-iconic-font.min.css') }}">
-    <!-- datepicker -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.min.css') }}">
     <!-- Main Style Css -->
-    <link rel="stylesheet" href="{{ asset('css/style-wizard.css') }}" />
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/bd-wizard.css') }}" />
 @endpush
 
 @section('content')
     <!--=========================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                Breadcrum Part HTML Start
-                                                                                                                                                                                                                                                                                                                                                                                                                                                =======================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Breadcrum Part HTML Start
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -38,15 +34,8 @@
         </div>
     </section>
 
-    <!--====================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    Breadcrum Part HTML End
-                                                                                                                                                                                                                                                                                                                                                                                                                                                ======================-->
 
     @include('layouts.flash')
-
-    <!-- =============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    Start: About Us
-                                                                                                                                                                                                                                                                                                                                                                                                                                                ============================= -->
 
     <section class="aboutus aboutpage section" style="padding-top: 0px;">
         <div class="container">
@@ -63,121 +52,65 @@
                     </div>
                 </div>
 
-                <div class="wizard-v3-content col-lg-12">
-                    <div class="wizard-form">
-                        <div class="wizard-header">
-                            <h3 class="heading">Le Simulateur ALPHA</h3>
-                            <p>Les estimations sont pour une seule personne et sur un seul mois</p>
-                        </div>
-                        <form class="form-register" action="{{ route('simulate') }}" method="post">
-                            <div id="form-total">
-                                <!-- SECTION 1 -->
-                                <h2>
-                                    <span class="step-icon"><i class="fa fa-plus"></i></span>
-                                    <span class="step-text">La Spécialité</span>
-                                </h2>
+                <div class="d-flex align-items-center">
+                    <div class="container">
+                        <form action="{{ route('simulate') }}" id="form" method="POST">
+                            @csrf
+                            <div id="wizard">
+                                <h3>1</h3>
                                 <section>
-                                    <div class="inner">
-                                        <h3>Quel pathologie souhaité vous soigné ?</h3>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2">
-                                                <div class="row mb-3">
-                                                    <div class="col-sm-12">
-                                                        <select name="country_id" class="form-control">
-                                                            @foreach ($sicks as $sick)
-                                                                <option value="{{ $sick->id }}">{{ $sick->label }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                                <!-- SECTION 2 -->
-                                <h2>
-                                    <span class="step-icon"><i class="fa fa-map-marker"></i></span>
-                                    <span class="step-text">Le Pays</span>
-                                </h2>
-                                <section>
-                                    <div class="inner">
-                                        <h3>Dans quel pays souhaitez-vous aller vous soignez ?</h3>
+                                    <h5 class="bd-wizard-step-title">Étape 1</h5>
+                                    <h2 class="section-heading">Choisissez le Pays de destination </h2>
 
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2">
-                                                <div class="row mb-3">
-                                                    <div class="col-sm-12">
-                                                        <select name="country_id" class="form-control">
-                                                            @foreach ($countries as $country)
-                                                                <option value="{{ $country->id }}">
-                                                                    {{ $country->label }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="country_id" class="sr-only">Pays</label>
+                                        <select name="country_id" class="form-control">
+                                            @foreach ($countries as $ct)
+                                                <option value="{{ $ct->id }}">{{ $ct->label }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </section>
-                                <!-- SECTION 3 -->
-                                <h2>
-                                    <span class="step-icon"><i class="zmdi zmdi-card"></i></span>
-                                    <span class="step-text">Le Service</span>
-                                </h2>
+                                <h3>2</h3>
                                 <section>
-                                    <div class="inner">
-                                        <h3>Vous souhaitez souscrire à quel service ?</h3>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2">
-                                                <div class="row mb-3">
-                                                    <div class="col-sm-12">
-                                                        <select name="service_id" id="service_id"
-                                                            class="form-control service_id">
-                                                            @foreach ($services as $service)
-                                                                <option value="{{ $service->id }}">
-                                                                    {{ $service->label }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-10" id="service1" style="display: none">
-                                                        <br>
-                                                        <br>
-                                                        <label> <strong>Éléments du Service</strong></label>
-                                                        <br>
-                                                        <ol>
-                                                            <li></li>
-                                                        </ol>
-                                                    </div>
-                                                    <div class="col-sm-10" id="service2" style="display: none">
-                                                        <br>
-                                                        <br>
-                                                        <label> <strong>Éléments du Service</strong></label>
-                                                        <br>
-                                                        <ol>
-                                                            <li>Hébergement</li>
-                                                            <li>Transport Standard</li>
-                                                            <li>Restauration</li>
-                                                        </ol>
-                                                    </div>
-                                                    <div class="col-sm-10" id="service3" style="display: none">
-                                                        <br>
-                                                        <br>
-                                                        <label> <strong>Éléments du Service</strong></label>
-                                                        <br>
-                                                        <ol>
-                                                            <li>Hébergement</li>
-                                                            <li>Transport Standard ou Médicalisé</li>
-                                                            <li>Restauration</li>
-                                                            <li>Accompagnement</li>
-                                                        </ol>
-                                                    </div>
-                                                </div>
+                                    <h5 class="bd-wizard-step-title">Étape 2</h5>
+                                    <h2 class="section-heading">Choisissez le Service</h2>
+                                    <div class="purpose-radios-wrapper">
+                                        @foreach ($services as $sv)
+                                            <div class="purpose-radio">
+                                                <input type="radio" name="service_id" id="{{ $sv->label }}"
+                                                    class="purpose-radio-input" value="{{ $sv->id }}">
+                                                <label for="{{ $sv->label }}" class="purpose-radio-label">
+                                                    <span class="label-icon">
+                                                        <img src="assets/images/icon_branding.svg" alt="{{ $sv->label }}"
+                                                            class="label-icon-default">
+                                                        <img src="assets/images/icon_branding_green.svg"
+                                                            alt="{{ $sv->label }}" class="label-icon-active">
+                                                    </span>
+                                                    <span class="label-text">{{ $sv->label }}</span>
+                                                </label>
                                             </div>
-                                        </div>
+                                        @endforeach
                                     </div>
+
+                                </section>
+                                <h3>3</h3>
+                                <section>
+                                    <h5 class="bd-wizard-step-title">Étape 3</h5>
+                                    <h2 class="section-heading mb-5">Choisissez la Pathologie</h2>
+                                    <div class="form-group">
+                                        <label for="sick_id" class="sr-only">Pathologie</label>
+                                        <select name="sick_id" class="form-control">
+                                            @foreach ($sicks as $sc)
+                                                <option value="{{ $sc->id }}">{{ $sc->label }}</option>
+                                            @endforeach
+                                        </select>
+
+                                    </div>
+
                                 </section>
                             </div>
+                        </form>
                     </div>
                 </div>
 
@@ -186,15 +119,15 @@
     </section>
 
     <!-- =============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    End: About Us
-                                                                                                                                                                                                                                                                                                                                                                                                                                                ============================= -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    End: About Us
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ============================= -->
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.steps.js') }}"></script>
-    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="{{ asset('assets/js/jquery.steps.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bd-wizard.js') }}"></script>
 
     <script language="JavaScript">
         $(function() {

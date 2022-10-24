@@ -13,17 +13,21 @@ class Simulator extends Model
 
     public function user()
     {
-    	return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function service()
     {
-    	return $this->belongsTo(Service::class, 'service_id');
+        return $this->belongsTo(Service::class, 'service_id');
     }
 
     public function country()
     {
-    	return $this->belongsTo(Country::class, 'country_id');
+        return $this->belongsTo(Country::class, 'country_id');
     }
 
+    public function item()
+    {
+        return $this->belongsTo(SimulatorItem::class, 'simulator_item_id');
+    }
 }

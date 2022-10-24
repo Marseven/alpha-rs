@@ -28,6 +28,8 @@ class CreateQuotes extends Migration
             $table->foreignId('town_id')->nullable();
             $table->foreignId('service_id');
             $table->foreignId('user_id');
+            $table->string('devis')->nullable();
+            $table->string('response')->nullable();
             $table->string('status');
             $table->boolean('folder')->default(false);
             $table->timestamps();

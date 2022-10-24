@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                                                                    Breadcrum Part HTML Start
-                                                                    =======================-->
+                                                                        Breadcrum Part HTML Start
+                                                                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -29,14 +29,14 @@
     </section>
 
     <!--====================
-                                                                        Breadcrum Part HTML End
-                                                                    ======================-->
+                                                                            Breadcrum Part HTML End
+                                                                        ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                        Start: About Us
-                                                                    ============================= -->
+                                                                            Start: About Us
+                                                                        ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="row about-page-para">
@@ -144,9 +144,9 @@
                             </div>
 
                             <div class="col-12">
-                                <i style="color: red">Les frais d'ouverture de dossier s'élève à 50 000 XAF.</i><br>
+                                {{-- <i style="color: red">Les frais d'ouverture de dossier s'élève à 50 000 XAF.</i><br>
                                 <i style="color: red">Votre demande de devis ne sera traité qu'une fois les frais
-                                    réglés et sera disponible dans 72 heures maximum.</i>
+                                    réglés et sera disponible dans 72 heures maximum.</i> --}}
                                 <br><br>
                                 <i>* Veillez-vous rassurer que tous les documents demandés ont été téléversés</i><br>
                                 <i>* La procédure d’obtention de devis prendra plus de temps que prévu au cas où le dossier
@@ -182,6 +182,6 @@
     </section>
 
     <!-- =============================
-                                                                        End: About Us
-                                                                    ============================= -->
+                                                                            End: About Us
+                                                                        ============================= -->
 @endsection

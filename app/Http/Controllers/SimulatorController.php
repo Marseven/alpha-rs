@@ -47,9 +47,10 @@ class SimulatorController extends Controller
     public function search(Request $request)
     {
 
-        $simulators = Simulator::where('service_id', $request->service_id)->where('country_id', $request->country_id)->get();
+        $simulators = Simulator::where('service_id', $request->service_id)->where('country_id', $request->country_id)->where('sick_id', $request->sick_id)->get();
         $service_id = Service::find($request->service_id);
         $country_id = Country::find($request->country_id);
+        $sick_id = Sick::find($request->sick_id);
 
         $services = Service::all();
         $countries = Country::all();
@@ -63,6 +64,7 @@ class SimulatorController extends Controller
                 'service_id' => $service_id,
                 'country_id' => $country_id,
                 'services' => $services,
+                'sick_id' => $sick_id,
                 'countries' => $countries,
                 'sicks' => $sicks,
             ]

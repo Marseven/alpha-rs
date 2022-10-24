@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                            Breadcrum Part HTML Start
-                                                                            =======================-->
+                                                                                            Breadcrum Part HTML Start
+                                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                Breadcrum Part HTML End
-                                                                            ======================-->
+                                                                                                Breadcrum Part HTML End
+                                                                                            ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                Start: Profil
-                                                                            ============================= -->
+                                                                                                Start: Profil
+                                                                                            ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="main-body">
@@ -248,7 +248,6 @@
 
 
     @foreach ($quotes as $quote)
-
         @php
             $quote->load(['service', 'country']);
         @endphp
@@ -318,9 +317,7 @@
 
 
     @if ($user->folders->count() > 0)
-
         @foreach ($user->folders as $folder)
-
             <div class="modal fade" id="folderModalView{{ $folder->id }}">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -405,11 +402,9 @@
                 </div>
             </div>
         @endforeach
-
     @endif
 
     @foreach ($quotes as $quote)
-
         @php
             $quote->load(['service', 'country']);
         @endphp
@@ -462,6 +457,11 @@
                             <div class="col-12  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Réponse</h6>
                                 <p>{{ $quote->response ?? 'Aucune Réponse Pour le Moment' }}</p>
+                                <br>
+                                @if ($quote->devis != null)
+                                    <a class="btn btn-info" href="{{ asset($quote->devis) }}">Télécharger Devis</a>
+                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -550,8 +550,8 @@
     </div>
 
     <!-- =============================
-                                                                                End: Profil
-                                                                            ============================= -->
+                                                                                                End: Profil
+                                                                                            ============================= -->
 
 
     <div class="modal fade" id="folderModal">
@@ -677,5 +677,4 @@
     <!-- Datatable -->
     <script src="{{ asset('admin/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('admin/js/plugins-init/datatables.init.js') }}"></script>
-
 @endpush
