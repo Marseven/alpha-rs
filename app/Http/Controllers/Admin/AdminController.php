@@ -17,6 +17,7 @@ use App\Models\RequestCard;
 use App\Models\Service;
 use App\Models\Sick;
 use App\Models\Simulator;
+use App\Models\SimulatorItem;
 use App\Models\Town;
 use App\Models\User;
 use DoctrineExtensions\Query\Mysql\Now;
@@ -135,11 +136,13 @@ class AdminController extends Controller
         $services = Service::all();
         $countries = Country::all();
         $sicks = Sick::all();
+        $items = SimulatorItem::all();
         return view('admin.simulator.list', [
             'simulators' => $simulators,
             'services' => $services,
             'countries' => $countries,
             'sicks' => $sicks,
+            'items' => $items,
         ]);
     }
 
