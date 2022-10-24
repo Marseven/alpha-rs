@@ -41,6 +41,7 @@ class WelcomeController extends Controller
     {
         return view('pc');
     }
+
     public function cgu()
     {
         return view('cgu');

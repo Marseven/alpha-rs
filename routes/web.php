@@ -36,7 +36,7 @@ use App\Http\Controllers\SimulatorController;
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('/faq', [WelcomeController::class, 'faq'])->name('faq');
 Route::get('/pc', [WelcomeController::class, 'pc'])->name('pc');
-Route::get('/cgu', [WelcomeController::class, 'faq'])->name('cgu');
+Route::get('/cgu', [WelcomeController::class, 'cgu'])->name('cgu');
 
 //form contact classic
 Route::post('/contact', [WelcomeController::class, 'contact'])->name('contact');
