@@ -2,14 +2,14 @@
 
 @section('content')
     <!--=========================
-            Breadcrum Part HTML Start
-            =======================-->
+                Breadcrum Part HTML Start
+                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
                     <div class="bread-inner">
-                        <h1 class="heading-font">RECHERCHE</h1>
+                        <h1 class="heading-font">Foire Aux Questions</h1>
                         <ul class="breadcrumb">
                             <li>
                                 <a href="{{ route('home') }}">
@@ -29,12 +29,12 @@
     </section>
 
     <!--====================
-                Breadcrum Part HTML End
-            ======================-->
+                    Breadcrum Part HTML End
+                ======================-->
 
     <!-- =============================
-                Start: About Us
-            ============================= -->
+                    Start: About Us
+                ============================= -->
     <section id="faq" class="faq section">
         <div class="container">
             <div class="row">
@@ -105,6 +105,6 @@
     </section>
 
     <!-- =============================
-                End: About Us
-            ============================= -->
+                    End: About Us
+                ============================= -->
 @endsection

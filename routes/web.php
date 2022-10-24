@@ -138,6 +138,10 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group(function 
     Route::post('/simulator', [SimulatorController::class, 'create']);
     Route::post('/simulator/{simulator}', [SimulatorController::class, 'update']);
 
+    Route::get('/list-simulators-items', [SimulatorController::class, 'items'])->name('admin-list-items');
+    Route::post('/simulator-item', [SimulatorController::class, 'create_item']);
+    Route::post('/simulator-item/{simulator}', [SimulatorController::class, 'update_item']);
+
     //sicks
     Route::get('/list-sicks', [AdminController::class, 'listSicks'])->name('admin-list-sicks');
     Route::post('/sick', [SickController::class, 'create']);

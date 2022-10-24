@@ -98,7 +98,7 @@ class QuoteController extends Controller
             if ($quote->save()) {
 
                 if (Auth::user()) {
-                    return PaymentController::singpay('quote', $quote);
+                    return back()->with('success', 'Le devis a été envoyé avec succès.');
                 } else {
                     return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
                 }
@@ -124,7 +124,7 @@ class QuoteController extends Controller
                     if ($status === Password::RESET_LINK_SENT) {
                         $quote->user_id = $user->id;
                         $quote->save();
-                        return PaymentController::singpay('quote', $quote);
+                        return back()->with('success', 'Le devis a été envoyé avec succès.');
                     } else {
                         return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
                     }

@@ -6,6 +6,7 @@ use App\Models\Country;
 use App\Models\Service;
 use App\Models\Sick;
 use App\Models\Simulator;
+use App\Models\SimulatorItem;
 use Illuminate\Http\Request;
 
 class SimulatorController extends Controller
@@ -17,6 +18,7 @@ class SimulatorController extends Controller
         $countries = Country::all();
         $simulators = Simulator::all();
         $sicks = Sick::all();
+        $items = SimulatorItem::all();
 
         return view(
             'simulator.index',
@@ -25,6 +27,19 @@ class SimulatorController extends Controller
                 'services' => $services,
                 'countries' => $countries,
                 'sicks' => $sicks,
+                'items' => $items,
+            ]
+        );
+    }
+
+    public function items()
+    {
+
+        $items = SimulatorItem::all();
+        return view(
+            'simulator.items',
+            [
+                'items' => $items,
             ]
         );
     }
@@ -59,12 +74,12 @@ class SimulatorController extends Controller
 
         $simulator = new Simulator();
 
-        $simulator->label = $request->label;
-        $simulator->price_min = $request->price_min;
-        $simulator->price_max = $request->price_max;
-        $simulator->periode = $request->periode;
+        $simulator->valeur = $request->label;
+        $simulator->note = $request->note;
         $simulator->country_id = $request->country_id;
         $simulator->service_id = $request->service_id;
+        $simulator->sick_id = $request->sick_id;
+        $simulator->simulator_item_id = $request->simulator_item_id;
         $simulator->status = STATUT_ENABLE;
         $simulator->user_id = auth()->user()->id;
 
@@ -94,13 +109,47 @@ class SimulatorController extends Controller
                 return back()->with('error', "Une erreur s'est produite.");
             }
         } else {
-            $simulator->label = $request->label;
-            $simulator->price_min = $request->price_min;
-            $simulator->price_max = $request->price_max;
-            $simulator->periode = $request->periode;
+            $simulator->valeur = $request->label;
+            $simulator->note = $request->note;
             $simulator->country_id = $request->country_id;
             $simulator->service_id = $request->service_id;
+            $simulator->sick_id = $request->sick_id;
+            $simulator->simulator_item_id = $request->simulator_item_id;
             if ($simulator->save()) {
+                return back()->with('success', "L'élément a bien été mis à jour !");
+            } else {
+                return back()->with('error', "Une erreur s'est produite.");
+            }
+        }
+    }
+
+    public function create_item(Request $request)
+    {
+
+        $item = new SimulatorItem();
+
+        $item->label = $request->label;
+        $item->status = STATUT_ENABLE;
+        $item->user_id = auth()->user()->id;
+
+        if ($item->save()) {
+            return back()->with('success', "L'élément a bien été créé !");
+        } else {
+            return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
+        }
+    }
+
+    public function update_item(Request $request, SimulatorItem $item)
+    {
+        if (isset($_POST['delete'])) {
+            if ($item->delete()) {
+                return back()->with('success', "L'élément a bien été supprimée !");
+            } else {
+                return back()->with('error', "Une erreur s'est produite.");
+            }
+        } else {
+            $item->label = $request->label;
+            if ($item->save()) {
                 return back()->with('success', "L'élément a bien été mis à jour !");
             } else {
                 return back()->with('error', "Une erreur s'est produite.");

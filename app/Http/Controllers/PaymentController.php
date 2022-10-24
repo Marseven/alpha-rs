@@ -199,7 +199,7 @@ class PaymentController extends Controller
             $quote = Quote::find($entity);
             $payment = Payment::all()->where('reference', $quote->reference);
             if (isset($payment->status) && $payment->status == STATUT_PAID) {
-                Mail::to('m.cherone@reliefservices.space')->queue(new QuoteMessage($quote));
+                Mail::to('m.cherone@reliefservices.net')->queue(new QuoteMessage($quote));
                 Mail::to($quote->email)->queue(new QuoteMessage($quote));
                 return view(
                     'payment.callback-request',

@@ -203,28 +203,30 @@
                         <ul aria-expanded="false">
                             <li><a href="{{ url('admin/list-simulators') }}">Liste</a></li>
                         </ul>
-                    </li>
-                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                            <i class="flaticon-381-heart"></i>
-                            <span class="nav-text">Destinations</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{{ url('admin/list-countries') }}">Pays</a></li>
-                            <li><a href="{{ url('admin/list-towns') }}">Villes</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="{{ url('admin/list-simulators-items') }}">Éléménts</a></li>
+                </ul>
+                </li>
+                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                        <i class="flaticon-381-heart"></i>
+                        <span class="nav-text">Destinations</span>
+                    </a>
+                    <ul aria-expanded="false">
+                        <li><a href="{{ url('admin/list-countries') }}">Pays</a></li>
+                        <li><a href="{{ url('admin/list-towns') }}">Villes</a></li>
+                    </ul>
+                </li>
 
-                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                            <i class="flaticon-381-heart"></i>
-                            <span class="nav-text">Utilisateurs</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="{{ url('admin/list-users') }}">Utilisateurs</a></li>
-                            <li><a href="{{ url('admin/security-object') }}">Espaces</a></li>
-                            <li><a href="{{ url('admin/security-role') }}">Rôles</a></li>
-                            <li><a href="{{ url('admin/security-permission') }}">Permissions</a></li>
-                        </ul>
-                    </li>
+                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                        <i class="flaticon-381-heart"></i>
+                        <span class="nav-text">Utilisateurs</span>
+                    </a>
+                    <ul aria-expanded="false">
+                        <li><a href="{{ url('admin/list-users') }}">Utilisateurs</a></li>
+                        <li><a href="{{ url('admin/security-object') }}">Espaces</a></li>
+                        <li><a href="{{ url('admin/security-role') }}">Rôles</a></li>
+                        <li><a href="{{ url('admin/security-permission') }}">Permissions</a></li>
+                    </ul>
+                </li>
 
                 </ul>
 

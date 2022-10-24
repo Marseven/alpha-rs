@@ -40,8 +40,10 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Libellé</th>
-                                            <th>Prix Min</th>
-                                            <th>Prix Max</th>
+                                            <th>Valeur</th>
+                                            <th>Pathalogie</th>
+                                            <th>Service</th>
+                                            <th>Pays</th>
                                             <th>Statut</th>
                                             <th>Actions</th>
                                         </tr>
@@ -53,9 +55,11 @@
                                                 <td>
                                                     {{ $simulator->id }}
                                                 </td>
-                                                <td>{{ $simulator->label }}</td>
-                                                <td>{{ $simulator->price_min }}</td>
-                                                <td>{{ $simulator->price_max }}</td>
+                                                <td>{{ $simulator->item->label }}</td>
+                                                <td>{{ $simulator->valeur }}</td>
+                                                <td>{{ $simulator->sick->label }}</td>
+                                                <td>{{ $simulator->service->label }}</td>
+                                                <td>{{ $simulator->country->label }}</td>
                                                 @php
                                                     $status = App\Http\Controllers\Controller::status($simulator->status);
                                                 @endphp
@@ -80,8 +84,10 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Libellé</th>
-                                            <th>Prix Min</th>
-                                            <th>Prix Max</th>
+                                            <th>Valeur</th>
+                                            <th>Pathalogie</th>
+                                            <th>Service</th>
+                                            <th>Pays</th>
                                             <th>Statut</th>
                                             <th>Actions</th>
                                         </tr>
@@ -137,35 +143,11 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabelOne">Créer un simulateur</h5>
+                    <h5 class="modal-title" id="exampleModalLabelOne">Créer une valeur</h5>
                 </div>
                 <div class="modal-body">
                     <form action="{{ url('admin/simulator') }}" method="POST">
                         @csrf
-                        <div class="mb-3">
-                            <label for="name" class="col-form-label">Libellé</label>
-                            <input type="text" class="form-control" name="label">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="price_min" class="col-form-label">Prix Min</label>
-                            <input type="number" class="form-control" name="price_min">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="price_max" class="col-form-label">Prix Max</label>
-                            <input type="number" class="form-control" name="price_max">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="price_max" class="col-form-label">Periode</label>
-                            <select id="selectOne" name="periode" class="form-control">
-                                <option value="Jour">Jour</option>
-                                <option value="Mois">Mois</option>
-                                <option value="Année">Année</option>
-                            </select>
-                        </div>
-
                         <div class="mb-3">
                             <label for="country" class="col-form-label">Pays</label>
                             <select id="selectOne" name="country_id" class="form-control">
@@ -183,6 +165,31 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="sick" class="col-form-label">Pathologie</label>
+                            <select id="selectOne" name="sick_id" class="form-control">
+                                @foreach ($sicks as $sick)
+                                    <option value="{{ $sick->id }}">{{ $sick->label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="item_id" class="col-form-label">Élément</label>
+                            <select id="selectOne" name="item_id" class="form-control">
+                                @foreach ($items as $item)
+                                    <option value="{{ $item->id }}">{{ $item->label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="valeur" class="col-form-label">Valeur</label>
+                            <input type="number" class="form-control" name="valeur">
+                        </div>
+
 
                         <div class="mb-3">
                             <label for="name" class="col-form-label">Activé ?</label>
@@ -213,36 +220,10 @@
                         <form action="{{ url('admin/simulator/' . $simulator->id) }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label for="name" class="col-form-label">Libellé</label>
-                                <input type="text" class="form-control" name="label"
-                                    value="{{ $simulator->label }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="price" class="col-form-label">Prix Min</label>
-                                <input type="number" class="form-control" name="price_min"
-                                    value="{{ $simulator->price_min }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="price_promo" class="col-form-label">Prix Max</label>
-                                <input type="number" class="form-control" name="price_max"
-                                    value="{{ $simulator->price_max }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="price_max" class="col-form-label">Periode</label>
-                                <select id="selectOne" name="periode" class="form-control">
-                                    <option value="{{ $simulator->periode }}">{{ $simulator->periode }}</option>
-                                    <option value="Jour">Jour</option>
-                                    <option value="Mois">Mois</option>
-                                    <option value="Année">Année</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="country" class="col-form-label">Pays</label>
                                 <select id="selectOne" name="country_id" class="form-control">
+                                    <option value="{{ $simulator->country_id }}">{{ $simulator->country->label }}
+                                    </option>
                                     @foreach ($countries as $country)
                                         <option value="{{ $country->id }}">{{ $country->label }}</option>
                                     @endforeach
@@ -252,10 +233,40 @@
                             <div class="mb-3">
                                 <label for="service" class="col-form-label">Service</label>
                                 <select id="selectOne" name="service_id" class="form-control">
+                                    <option value="{{ $simulator->service_id }}">{{ $simulator->service->label }}
+                                    </option>
                                     @foreach ($services as $service)
                                         <option value="{{ $service->id }}">{{ $service->label }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="sick" class="col-form-label">Pathologie</label>
+                                <select id="selectOne" name="sick_id" class="form-control">
+                                    <option value="{{ $simulator->sick_id }}">{{ $simulator->sick->label }}</option>
+                                    @foreach ($sicks as $sick)
+                                        <option value="{{ $sick->id }}">{{ $sick->label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="item_id" class="col-form-label">Élément</label>
+                                <select id="selectOne" name="item_id" class="form-control">
+                                    <option value="{{ $simulator->simulator_item_id }}">{{ $simulator->item->label }}
+                                    </option>
+                                    @foreach ($items as $item)
+                                        <option value="{{ $item->id }}">{{ $item->label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="valeur" class="col-form-label">Valeur</label>
+                                <input type="number" class="form-control" name="valeur"
+                                    value="{{ $simulator->valeur }}">
                             </div>
 
                             <div class="mb-3">
