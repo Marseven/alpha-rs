@@ -37,7 +37,7 @@ class SimulatorController extends Controller
 
         $items = SimulatorItem::all();
         return view(
-            'simulator.items',
+            'admin.simulator.items',
             [
                 'items' => $items,
             ]
