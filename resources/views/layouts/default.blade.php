@@ -294,9 +294,8 @@
                         <div class="c-text-menu1">
                             <ul>
                                 <li><a href="{{ route('faq') }}">FAQ</a></li>
-                                <li><a href="#">Notre Team</a></li>
-                                <li><a href="#">Politique de confidentialité</a></li>
-                                <li><a href="#">CGU</a></li>
+                                <li><a href="{{ route('pc') }}">Politique de confidentialité</a></li>
+                                <li><a href="{{ route('cgu') }}">CGU</a></li>
                             </ul>
                         </div>
                     </div>

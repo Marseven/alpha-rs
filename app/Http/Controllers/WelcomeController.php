@@ -37,6 +37,15 @@ class WelcomeController extends Controller
         return view('faq');
     }
 
+    public function pc()
+    {
+        return view('pc');
+    }
+    public function cgu()
+    {
+        return view('cgu');
+    }
+
     public function contact(Request $request)
     {
         try {
