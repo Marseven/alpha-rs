@@ -134,10 +134,12 @@ class AdminController extends Controller
         $simulators = Simulator::all();
         $services = Service::all();
         $countries = Country::all();
+        $sicks = Sick::all();
         return view('admin.simulator.list', [
             'simulators' => $simulators,
             'services' => $services,
             'countries' => $countries,
+            'sicks' => $sicks,
         ]);
     }
 
