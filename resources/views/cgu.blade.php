@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                            Breadcrum Part HTML Start
-                            =======================-->
+                                            Breadcrum Part HTML Start
+                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -29,28 +29,28 @@
     </section>
 
     <!--====================
-                                Breadcrum Part HTML End
-                            ======================-->
+                                                Breadcrum Part HTML End
+                                            ======================-->
 
     <!-- =============================
-                                Start: About Us
-                            ============================= -->
+                                                Start: About Us
+                                            ============================= -->
     <section id="faq" class="faq section">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="tab-content" id="faq-tab-content">
+                    <div class="tab-content" id="faq-tab-content" style="overflow-y: scroll">
                         <div class="tab-pane show active" id="tab1" role="tabpanel" aria-labelledby="tab1">
                             <div class="faq-inner">
                                 <p> Conditions générales d'utilisation
                                     En vigueur au 24/10/2022
-
+                                    <br><br>
 
                                     Les présentes conditions générales d'utilisation, ci-après « CGU », ont pour objet
                                     l'encadrement juridique des modalités de mise à disposition du site par Relief Services
                                     et de définir les conditions d’accès et d’utilisation des services par « l'Utilisateur
                                     ».
-
+                                    <br><br>
                                     Toute inscription ou utilisation du site implique l'acceptation par l’utilisateur sans
                                     réserve ni restriction des présentes CGU. Lors de l'inscription sur le site, chaque
                                     utilisateur accepte les présentes CGU en cochant la case précédant le texte suivant : «
@@ -60,15 +60,15 @@
                                     Fonction de certaines exigences et de certaines mises à jour, les présentes Conditions
                                     Générales d’Utilisations pourront faire l’objet d’une modification. Il revient à
                                     l’Utilisateur de les consulter régulièrement.
-
+                                    <br><br>
                                     Article 1 : Les mentions légales
-
+                                    <br><br>
                                     L'édition du site www.reliefservices.net est assurée par Relief Services dont le siège
                                     social est situé à Libreville (Gabon) :
 
 
 
-
+                                    <br><br>
 
 
                                     Et, dont le Directeur de publication est : Richard MEBODO.
@@ -76,9 +76,9 @@
                                     L'hébergeur du site www.reliefservices.net est la société Hostinger France, filiale de
                                     Hostinger International Ltd. Le siège social est situé à Larnaca, Chypre, 61 rue Lordou
                                     Vironos, 6023 disponible à l’adresse sales@hostinger.fr.
-
+                                    <br><br>
                                     ARTICLE 2 : Accès au site
-
+                                    <br><br>
                                     A travers le site www.reliefservices.net, l'Utilisateur bénéficie d’un accès aux
                                     services suivants :
                                      Hospitalisation
@@ -105,16 +105,18 @@
                                     Dans ces cas, l’Utilisateur accepte ainsi ne pas tenir rigueur à l’éditeur de toute
                                     interruption de service. Nonobstant, ce dernier a la possibilité de contacter le site
                                     par messagerie électronique à l’adresse email de l’éditeur communiqué à l’ARTICLE 1.
-
+                                    <br><br>
                                     ARTICLE 3 : Collecte des données
+                                    <br><br>
                                     Le site assure à l'Utilisateur une collecte et un traitement d'informations personnelles
                                     dans le respect de la vie privée conformément à la Loi n°001/2011 relative à la
                                     protection des données à caractère personnel.
                                     Conformément à l’article 7 de ladite loi, l'Utilisateur dispose d'un droit d'accès, de
                                     rectification, de suppression et d'opposition de ses données personnelles. Il est libre
                                     d’exercer ce droit à tout moment par mail à l'adresse email reliefservices21@gmail.com
-
+                                    <br><br>
                                     ARTICLE 4 : Propriété intellectuelle
+                                    <br><br>
                                     Les marques, logos, signes ainsi que tous les contenus du site (textes, images, son…)
                                     sont la propriété exclusive du site. Toute utilisation à des fins commerciales et
                                     publicitaires est formellement interdite. Autrement dit, l'Utilisateur en sollicitant
@@ -126,14 +128,16 @@
                                     protégé doit citer l’auteur et sa source. Il en va de soi pour le respect de la
                                     propriété intellectuelle.
 
-
+                                    <br><br>
                                     ARTICLE 5 : Liens hypertextes
+                                    <br><br>
                                     Des liens hypertextes peuvent être présents sur www.reliefservicesnet ; l’Utilisateur
                                     est informé qu’en cliquant sur ces liens, il sortira du site. Ce dernier n’a pas de
                                     contrôle sur les pages web sur lesquelles aboutissent ces liens et ne saurait, en aucun
                                     cas, être responsable de leur contenu.
-
+                                    <br><br>
                                     ARTICLE 6 : Cookies
+                                    <br><br>
                                     Les cookies sont de petits fichiers stockés temporairement sur le disque dur de
                                     l’ordinateur de l’Utilisateur par votre navigateur et qui sont nécessaires à
                                     l’utilisation du site www.reliefservices.net. Les cookies ne contiennent pas
@@ -145,8 +149,9 @@
                                     le site, L’Utilisateur les accepte. A défaut d’acceptation, ce dernier est informé que
                                     certaines fonctionnalités ou pages risquent de lui être refusées. L’Utilisateur doit,
                                     toutefois, donner son consentement quant à l’utilisation de certains cookies.
-
+                                    <br><br>
                                     ARTICLE 7 : Responsabilité
+                                    <br><br>
                                     Les sources des informations diffusées sur le site www.reliefservices.net sont réputées
                                     fiables mais le site ne garantit pas qu’il soit exempt de défauts, d’erreurs ou
                                     d’omissions.
@@ -162,8 +167,9 @@
                                     www.reliefservices.net ne peut être tenu pour responsable d’éventuels virus qui
                                     pourraient infecter l’ordinateur ou tout matériel informatique de l’Internaute, suite à
                                     une utilisation, à l’accès, ou au téléchargement provenant de ce site.
-
+                                    <br><br>
                                     ARTICLE 8 : Publication par l’Utilisateur
+                                    <br><br>
                                     Relief Services ne permet pas aux utilisateurs de publier des contenus sur le site.
                                     Fonction de l’évolution des besoins, le site pourrait donner la possibilité de publier
                                     les contenus de type : Commentaires.
@@ -177,15 +183,14 @@
                                     tiers. Tout recours en justice engagé par un tiers lésé contre le site sera pris en
                                     charge par l'Utilisateur. Le contenu de l'Utilisateur peut être à tout moment supprimé
                                     ou modifié par le site, sans préavis.
-
+                                    <br><br>
                                     ARTICLE 9 : Droit applicable et juridiction compétente
+                                    <br><br>
                                     Le présent contrat s’applique à la législation gabonaise en vigueur. En cas d'absence de
                                     résolution amiable d'un litige entre les parties, les tribunaux gabonais seront seuls
                                     compétents pour en connaître.
                                     Pour toute question relative à l’application des présentes CGU, vous pouvez joindre
                                     l’éditeur aux coordonnées inscrites à l’ARTICLE 1.
-
-
 
                                 </p>
 
@@ -199,6 +204,6 @@
     </section>
 
     <!-- =============================
-                                End: About Us
-                            ============================= -->
+                                                End: About Us
+                                            ============================= -->
 @endsection

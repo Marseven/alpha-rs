@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                                Breadcrum Part HTML Start
-                                =======================-->
+                                                                Breadcrum Part HTML Start
+                                                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -29,29 +29,31 @@
     </section>
 
     <!--====================
-                                    Breadcrum Part HTML End
-                                ======================-->
+                                                                    Breadcrum Part HTML End
+                                                                ======================-->
 
     <!-- =============================
-                                    Start: About Us
-                                ============================= -->
+                                                                    Start: About Us
+                                                                ============================= -->
     <section id="faq" class="faq section">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="tab-content" id="faq-tab-content">
+                    <div class="tab-content" id="faq-tab-content" style="overflow-y: scroll">
                         <div class="tab-pane show active" id="tab1" role="tabpanel" aria-labelledby="tab1">
-                            <div class="faq-inner">
-                                <p> Politique de confidentialité du site www.reliefservices.net
+                            <div class="faq-inner" style="overflow-y: scroll">
+                                <h1>Politique de confidentialité du site www.reliefservices.net</h1>
 
+                                <br><br><br>
+                                <h2> I / L’objectif de la politique de confidentialité</h2>
 
-                                    I / L’objectif de la politique de confidentialité
+                                <br><br>
 
-                                    Cette politique de confidentialité est établie dans le but d’informer les utilisateurs
+                                <p> Cette politique de confidentialité est établie dans le but d’informer les utilisateurs
                                     du site www.reliefservices.net possédé et géré par Relief Service, des modalités
-                                    suivantes :
+                                    suivantes :</p>
 
-                                     Les données personnelles recueillies par le site internet
+                                <p>  Les données personnelles recueillies par le site internet
                                      L’utilisation faite de ces données
                                      L’accès à ces données
                                      Les droits que possèdent les utilisateurs du site
@@ -59,9 +61,9 @@
 
                                     Cette politique de confidentialité fonctionne parallèlement aux conditions générales du
                                     site www.reliefservices.net
-
+                                    <br><br>
                                     II / Lois applicables
-
+                                    <br><br>
                                     La présente politique de confidentialité est établie conformément à la Loi n°001/2011
                                     relative à la protection des données à caractère personnel. Ainsi, les données
                                     personnelles sont :
@@ -93,17 +95,17 @@
                                     physique.
                                      Le traitement est nécessaire à la réalisation d’une mission d’intérêt public dont est
                                     investi Relief Services.
-
+                                    <br><br>
                                     III / Consentement
-
+                                    <br><br>
                                     En utilisant le site www.reliefservices.net, l’Utilisateur accepte :
 
                                      Toutes les conditions incluses dans la présente politique de confidentialité ;
                                      La collecte, le traitement et la conservation des données listées dans la présente
                                     politique de confidentialité.
-
+                                    <br><br>
                                     IV / Données personnelles collectées
-
+                                    <br><br>
                                     Lors de la navigation du site www.reliefservices.net différentes données personnelles au
                                     sujet des utilisateurs sont collectées. Certaines données sont collectées de manière
                                     automatique et d’autres de manière non-automatique :
@@ -117,14 +119,16 @@
                                     services du site. Mais aussi, elles sont recueillies afin de pouvoir constituer les
                                     dossiers relatifs auxdits services. Aucune donnée supplémentaire n’est collectée sans
                                     vous en informer au préalable.
-
+                                    <br><br>
                                     V / Traitement de ces données
+                                    <br><br>
                                     Les données personnelles recueillies sur le site www.reliefservices.net ne sont
                                     collectées et traitées que dans le cadre des fins précisées dans la présente politique
                                     de confidentialité et / ou dans les pages pertinentes du site. Les données personnelles
                                     que nous collectons ne seront pas utilisées à d’autres fins.
-
+                                    <br><br>
                                     VI / Partage des données personnelles recueillies
+                                    <br><br>
                                      Employés : Nous pouvons ouvertement divulguer les informations aux employés de
                                     l’entreprise Relief Services dans la mesure où ceux-ci en ont besoin pour poursuivre la
                                     fin prévue dans cette politique
@@ -140,13 +144,14 @@
 
                                     En dehors des situations prévues dans cette présente politique, les informations
                                     personnelles ne seront en aucun cas divulguées ou partagées à des tiers.
-
+                                    <br><br>
 
                                     VII / Stockage et protection des données personnelles
                                     Relief Services ne conserve pas les données personnelles plus longtemps que ce qui est
                                     nécessaire à la réalisation des fins pour lesquelles elles sont collectées.
 
                                     VIII / Droits de l’utilisateur
+                                    <br><br>
                                     Conformément aux articles 7 et suivants de la Loi n°001/2011 relative à la protection
                                     des données à caractère personnel, les utilisateurs du site www.reliefservices.net ont,
                                     en ce qui concerne leurs données personnelles, les droits suivants :
@@ -160,23 +165,26 @@
                                     Pour faire valoir l’un de ses droits, accéder à vos données, les modifier ou les
                                     supprimer d’une quelconque manière, vous pouvez contacter Relief Services à l’adresse
                                     reliefservices21@gmail.com
-
+                                    <br><br>
                                     IX / Politique au sujet des cookies
+                                    <br><br>
                                     Un cookie est un fichier stocké sur le disque dur d’un utilisateur lorsqu’il navigue sur
                                     un site web. Ce cookie permet de mieux connaître les données relatives aux habitudes de
                                     navigation de l’utilisateur afin de lui proposer une meilleure expérience d’utilisation.
                                     L’Utilisateur est informé que lors de ses visites sur le site, un cookie peut
                                     s’installer automatiquement sur son logiciel de navigation.
-
+                                    <br><br>
                                     X / Modification de la politique de confidentialité
+                                    <br><br>
                                     Afin de rester en accord avec la loi ou de refléter tout changement dans notre processus
                                     de gestion des données personnelles, la présente politique de confidentialité peut être
                                     amenée à changer et à être modifiée régulièrement. Il est recommandé aux utilisateurs de
                                     vérifier régulièrement cette politique afin de se tenir informés de notre politique en
                                     termes de collecte et de traitement de données personnelles.
-
+                                    <br><br>
 
                                     XI / Contact
+                                    <br><br>
                                     Pour d’amples informations ou interrogations diverses, l’Utilisateur peut contacter
                                     Relief Services aux coordonnées suivantes :
 
@@ -198,6 +206,6 @@
     </section>
 
     <!-- =============================
-                                    End: About Us
-                                ============================= -->
+                                                                    End: About Us
+                                                                ============================= -->
 @endsection

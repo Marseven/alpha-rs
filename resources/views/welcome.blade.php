@@ -2,8 +2,8 @@
 
 @section('content')
     <!-- =============================
-                                                                                                                    Start: Header Slider
-                                                                                                                ============================= -->
+                                                                                                                                Start: Header Slider
+                                                                                                                            ============================= -->
     <div class="tg-sliderholder">
         <div id="tg-homeslider" class="tg-homeslider tg-haslayout" style="padding-bottom: 0!important">
             <div class="pogoSlider-slide" data-transition="expandReveal" data-duration="1000"
@@ -134,12 +134,12 @@
     </section>
 
     <!-- =============================
-                                                                                                                    End: About Us
-                                                                                                                ============================= -->
+                                                                                                                                End: About Us
+                                                                                                                            ============================= -->
 
     <!-- =============================
-                                                                                                                    Start: service Part
-                                                                                                                ============================= -->
+                                                                                                                                Start: service Part
+                                                                                                                            ============================= -->
 
     <section id="service" class="service section">
         <div class="container">
@@ -282,8 +282,8 @@
             </div>
 
             <!-- =============================
-                                                                                                                            Start: Search
-                                                                                                                        ============================= -->
+                                                                                                                                        Start: Search
+                                                                                                                                    ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -299,8 +299,8 @@
                 </div>
             </div>
             <!-- =============================
-                                                                                                                            End: Search
-                                                                                                                        ============================= -->
+                                                                                                                                        End: Search
+                                                                                                                                    ============================= -->
 
             <br>
             <br>
@@ -317,8 +317,8 @@
             </div>
 
             <!-- =============================
-                                                                                                                            Start: Search
-                                                                                                                        ============================= -->
+                                                                                                                                        Start: Search
+                                                                                                                                    ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -336,18 +336,18 @@
                 </div>
             </div>
             <!-- =============================
-                                                                                                                            End: Search
-                                                                                                                        ============================= -->
+                                                                                                                                        End: Search
+                                                                                                                                    ============================= -->
 
         </div>
     </section>
     <!-- =============================
-                                                                                                                    End: service Part
-                                                                                                                ============================= -->
+                                                                                                                                End: service Part
+                                                                                                                            ============================= -->
 
     <!-- =============================
-                                                                                                                    Start: Experience Part
-                                                                                                                ============================= -->
+                                                                                                                                Start: Experience Part
+                                                                                                                            ============================= -->
 
     <section id="experience" class="experience">
         <div class="container">
@@ -454,11 +454,11 @@
     </section>
 
     <!-- =============================
-                                                                                                                    End: Experience Part
-                                                                                                                ============================= -->
+                                                                                                                                End: Experience Part
+                                                                                                                            ============================= -->
     <!-- =============================
-                                                                                                                    Start: Testimonial Part
-                                                                                                                ============================= -->
+                                                                                                                                Start: Testimonial Part
+                                                                                                                            ============================= -->
     <section id="testimonial" class="testimonial section">
         <div class="container">
             <div class="row">
@@ -477,21 +477,23 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="test-img">
-                                    <img src="images/testimonial-image-1.png" class="img-fluid" alt="testimonial" />
+                                    <img src="images/hubert.jpeg" class="img-fluid" alt="testimonial" />
                                 </div>
 
                             </div>
                             <div class="col-md-9 pl0">
                                 <div class="test-txt">
-                                    <h4>Michel Obiang</h4>
-                                    <p>Médécin</p>
+                                    <h4>Hubert MINKO</h4>
+                                    <p></p>
 
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="test-para">
-                                    <p>Je recommande la solution Alpha car elle permet à mes patients de bénéficier des
-                                        meilleurs soins.</p>
+                                    <p>
+                                        Je vous recommanderai la structure Relief Services
+                                        pour vos futurs déplacements vers la Turquie dans le cadre d'un tourisme Médical.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -554,11 +556,11 @@
     </section>
 
     <!-- =============================
-                                                                                                                    End: Testimonial Part
-                                                                                                                ============================= -->
+                                                                                                                                End: Testimonial Part
+                                                                                                                            ============================= -->
     <!--========================
-                                                                                                                 Team Part HTML Start
-                                                                                                                ==========================-->
+                                                                                                                             Team Part HTML Start
+                                                                                                                            ==========================-->
     <section id="team" class="team section">
         <div class="container">
             <div class="row">
@@ -601,11 +603,11 @@
     </section>
 
     <!--======================
-                                                                                                                 Team Part HTML End
-                                                                                                                =======================-->
+                                                                                                                             Team Part HTML End
+                                                                                                                            =======================-->
     <!--======================
-                                                                                                                    Latest Updates Part HTML Start
-                                                                                                                =======================-->
+                                                                                                                                Latest Updates Part HTML Start
+                                                                                                                            =======================-->
 
     <section id="contactus" class="blog section">
         <div class="container">
@@ -665,8 +667,8 @@
     </section>
 
     <!--======================
-                                                                                                                    Blog Part HTML End
-                                                                                                                =======================-->
+                                                                                                                                Blog Part HTML End
+                                                                                                                            =======================-->
 @endsection
 
 @push('scripts')

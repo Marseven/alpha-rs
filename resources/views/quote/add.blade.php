@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                                                                        Breadcrum Part HTML Start
-                                                                        =======================-->
+                                                                            Breadcrum Part HTML Start
+                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -29,14 +29,14 @@
     </section>
 
     <!--====================
-                                                                            Breadcrum Part HTML End
-                                                                        ======================-->
+                                                                                Breadcrum Part HTML End
+                                                                            ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                            Start: About Us
-                                                                        ============================= -->
+                                                                                Start: About Us
+                                                                            ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="row about-page-para">
@@ -164,7 +164,7 @@
                                 </div>
                             </div>
                             <br><br>
-                            <button type="submit" class="btn btn-primary">Payer & Envoyer</button>
+                            <button type="submit" class="btn btn-primary">Envoyer</button>
                         </form>
                     </div>
 
@@ -182,6 +182,6 @@
     </section>
 
     <!-- =============================
-                                                                            End: About Us
-                                                                        ============================= -->
+                                                                                End: About Us
+                                                                            ============================= -->
 @endsection
