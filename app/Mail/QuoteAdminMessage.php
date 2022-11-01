@@ -33,7 +33,7 @@ class QuoteAdminMessage extends Mailable
     {
         $this->data->load(['service', 'country']);
 
-        return $this->from("contact@reliefservices.space") // L'expéditeur
+        return $this->from("contact@reliefservices.net") // L'expéditeur
             ->subject("Nouvelle demande de Devis") // Le sujet
             ->markdown('quote.mail')
             ->with('data', $this->data);

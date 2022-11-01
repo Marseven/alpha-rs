@@ -31,7 +31,7 @@ class QuoteMessage extends Mailable
      */
     public function build()
     {
-        return $this->from("contact@reliefservices.space") // L'expéditeur
+        return $this->from("contact@reliefservices.net") // L'expéditeur
             ->subject("Demande devis - Alpha") // Le sujet
             ->markdown('quote.mail-customer')
             ->with('data', $this->data);

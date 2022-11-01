@@ -47,7 +47,7 @@ class StatusMessage extends Mailable
 
             //dd($data);
 
-            return $this->from("contact@reliefservices.space") // L'expéditeur
+            return $this->from("contact@reliefservices.net") // L'expéditeur
                 ->subject("Mise à jour de statut du devis") // Le sujet
                 ->markdown('layouts.mail-status')
                 ->with('data', $this->data);
@@ -60,7 +60,7 @@ class StatusMessage extends Mailable
 
             $this->data = $data;
 
-            return $this->from("contact@reliefservices.space") // L'expéditeur
+            return $this->from("contact@reliefservices.net") // L'expéditeur
                 ->subject("Mise à jour de statut du dossier") // Le sujet
                 ->markdown('layouts.mail-status')
                 ->with('data', $this->data);

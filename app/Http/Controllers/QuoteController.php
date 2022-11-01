@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Mail\QueryMessage;
+use App\Mail\QuoteMessage;
+use App\Mail\QuoteAdminMessage;
 use App\Mail\StatusMessage;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -92,16 +94,20 @@ class QuoteController extends Controller
         $quote->service_id = $request->service_id;
         $quote->country_id = $request->country_id;
 
+        $admins = User::where('security_role_id', '<=', 2)->get();
 
         if (Auth::user()) {
             $quote->user_id = auth()->user()->id;
             if ($quote->save()) {
-
-                if (Auth::user()) {
-                    return back()->with('success', 'Le devis a été envoyé avec succès.');
-                } else {
-                    return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
+                try {
+                    $result = Mail::to($quote->user->email)->queue(new QuoteMessage($quote, "quote"));
+                    foreach ($admins as $admin) {
+                        $result = Mail::to($admin->email)->queue(new QuoteAdminMessage($quote, "quote"));
+                    }
+                } catch (Swift_TransportException $e) {
+                    echo $e->getMessage();
                 }
+                return back()->with('success', 'Le devis a été envoyé avec succès.');
             } else {
                 return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
             }
@@ -119,11 +125,20 @@ class QuoteController extends Controller
                         $request->only('email')
                     );
 
-                    //$user->sendEmailVerificationNotification();
+                    $user->sendEmailVerificationNotification();
 
                     if ($status === Password::RESET_LINK_SENT) {
                         $quote->user_id = $user->id;
                         $quote->save();
+
+                        try {
+                            $result = Mail::to($quote->user->email)->queue(new QuoteMessage($quote, "quote"));
+                            foreach ($admins as $admin) {
+                                $result = Mail::to($admin->email)->queue(new QuoteAdminMessage($quote, "quote"));
+                            }
+                        } catch (Swift_TransportException $e) {
+                            echo $e->getMessage();
+                        }
                         return back()->with('success', 'Le devis a été envoyé avec succès.');
                     } else {
                         return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
