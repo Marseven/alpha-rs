@@ -135,7 +135,7 @@ class AdminController extends Controller
         $simulators = Simulator::all();
         $services = Service::all();
         $countries = Country::all();
-        $sicks = Sick::all();
+        $sicks = Sick::where('status', STATUT_SIMULATOR)->get();
         $items = SimulatorItem::all();
         return view('admin.simulator.list', [
             'simulators' => $simulators,
