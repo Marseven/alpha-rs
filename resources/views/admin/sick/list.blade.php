@@ -138,6 +138,16 @@
                             <label for="name" class="col-form-label">Description</label>
                             <textarea class="form-control" name="description">Description...</textarea>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="name" class="col-form-label">Statut</label>
+                            <select id="selectOne" name="status" class="form-control">
+                                @php
+                                    App\Http\Controllers\Controller::enable_status();
+                                @endphp
+                                <option value="11">Simulateur</option>
+                            </select>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
@@ -156,7 +166,8 @@
                         <h5 class="modal-title" id="exampleModalLabelOne">Modifier une maladie</h5>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ url('admin/sick/' . $sick->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ url('admin/sick/' . $sick->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="col-form-label">Libellé</label>
@@ -169,11 +180,12 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="name" class="col-form-label">Activé ?</label>
+                                <label for="name" class="col-form-label">Statut</label>
                                 <select id="selectOne" name="status" class="form-control">
                                     @php
                                         App\Http\Controllers\Controller::enable_status();
                                     @endphp
+                                    <option value="11">Simulateur</option>
                                 </select>
                             </div>
                     </div>

@@ -23,6 +23,8 @@ define('STATUT_DISABLE', 8);
 define('STATUT_DELIVEDRED', 9);
 define('STATUT_OUT_DELIVERED', 10);
 
+define('STATUT_SIMULATOR', 11);
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;

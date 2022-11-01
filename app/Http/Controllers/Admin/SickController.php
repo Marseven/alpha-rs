@@ -27,7 +27,7 @@ class SickController extends Controller
 
         $sick->label = $request->label;
         $sick->description = $request->description;
-        $sick->status = STATUT_ENABLE;
+        $sick->status = $request->status;
         $sick->user_id = auth()->user()->id;
 
         if($sick->save()){
