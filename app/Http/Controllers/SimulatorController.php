@@ -81,7 +81,7 @@ class SimulatorController extends Controller
         $simulator->country_id = $request->country_id;
         $simulator->service_id = $request->service_id;
         $simulator->sick_id = $request->sick_id;
-        $simulator->simulator_item_id = $request->simulator_item_id;
+        $simulator->simulator_item_id = $request->item_id;
         $simulator->status = STATUT_ENABLE;
         $simulator->user_id = auth()->user()->id;
 
