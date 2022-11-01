@@ -53,7 +53,7 @@
                                                 </td>
                                                 <td>{{ $item->label }}</td>
                                                 @php
-                                                    $status = App\Http\Controllers\Controller::status($simulator->status);
+                                                    $status = App\Http\Controllers\Controller::status($item->status);
                                                 @endphp
                                                 <td>{{ $status }}</td>
                                                 <td>
