@@ -8,8 +8,8 @@
 
 @section('content')
     <!--=========================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Breadcrum Part HTML Start
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                =======================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Breadcrum Part HTML Start
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -64,7 +64,7 @@
 
                                     <div class="form-group">
                                         <label for="country_id" class="sr-only">Pays</label>
-                                        <select name="country_id" class="form-control">
+                                        <select name="country_id" class="form-control" style="padding: 0.375rem 0.75rem;">
                                             @foreach ($countries as $ct)
                                                 <option value="{{ $ct->id }}">{{ $ct->label }}</option>
                                             @endforeach
@@ -77,17 +77,22 @@
                                     <h2 class="section-heading">Choisissez le Service</h2>
                                     <div class="purpose-radios-wrapper">
                                         @foreach ($services as $sv)
-                                            <div class="purpose-radio">
+                                            <div class="purpose-radio" id="purpose{{ $sv->id }}">
                                                 <input type="radio" name="service_id" id="{{ $sv->label }}"
                                                     class="purpose-radio-input" value="{{ $sv->id }}">
                                                 <label for="{{ $sv->label }}" class="purpose-radio-label">
                                                     <span class="label-icon">
-                                                        <img src="assets/images/icon_branding.svg" alt="{{ $sv->label }}"
+                                                        <i class="flaticon-medical-insurance"></i>
+                                                        {{-- <img src="assets/images/icon_branding.svg" alt="{{ $sv->label }}"
                                                             class="label-icon-default">
                                                         <img src="assets/images/icon_branding_green.svg"
-                                                            alt="{{ $sv->label }}" class="label-icon-active">
+                                                            alt="{{ $sv->label }}" class="label-icon-active"> --}}
                                                     </span>
                                                     <span class="label-text">{{ $sv->label }}</span>
+                                                    <br>
+                                                    <span class="label-text" id="price{{ $sv->id }}"
+                                                        style="display: none">{{ number_format($sv->price, 0, ',', ' ') }}
+                                                        XAF</span>
                                                 </label>
                                             </div>
                                         @endforeach
@@ -100,7 +105,7 @@
                                     <h2 class="section-heading mb-5">Choisissez la Pathologie</h2>
                                     <div class="form-group">
                                         <label for="sick_id" class="sr-only">Pathologie</label>
-                                        <select name="sick_id" class="form-control">
+                                        <select name="sick_id" class="form-control" style="padding: 0.375rem 0.75rem;">
                                             @foreach ($sicks as $sc)
                                                 <option value="{{ $sc->id }}">{{ $sc->label }}</option>
                                             @endforeach
@@ -119,8 +124,8 @@
     </section>
 
     <!-- =============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    End: About Us
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ============================= -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    End: About Us
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ============================= -->
 @endsection
 
 @push('scripts')
@@ -131,6 +136,18 @@
 
     <script language="JavaScript">
         $(function() {
+
+            @foreach ($services as $sv)
+                let d{{ $sv->id }} = document.getElementById("purpose{{ $sv->id }}");
+                let p{{ $sv->id }} = document.getElementById("price{{ $sv->id }}");
+
+                d{{ $sv->id }}.addEventListener("mouseover", () => {
+                    p{{ $sv->id }}.style.display = "block";
+                });
+                d{{ $sv->id }}.addEventListener("mouseout", () => {
+                    p{{ $sv->id }}.style.display = "none";
+                });
+            @endforeach
 
             $('#service_id').change(function() {
                 var service1 = document.getElementById("service1");
