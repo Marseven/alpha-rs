@@ -111,7 +111,7 @@ class SimulatorController extends Controller
                 return back()->with('error', "Une erreur s'est produite.");
             }
         } else {
-            $simulator->valeur = $request->label;
+            $simulator->value = $request->value;
             $simulator->note = $request->note;
             $simulator->country_id = $request->country_id;
             $simulator->service_id = $request->service_id;
