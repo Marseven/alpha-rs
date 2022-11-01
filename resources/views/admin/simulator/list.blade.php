@@ -56,7 +56,7 @@
                                                     {{ $simulator->id }}
                                                 </td>
                                                 <td>{{ $simulator->item->label }}</td>
-                                                <td>{{ $simulator->valeur }}</td>
+                                                <td>{{ $simulator->value }}</td>
                                                 <td>{{ $simulator->sick->label }}</td>
                                                 <td>{{ $simulator->service->label }}</td>
                                                 <td>{{ $simulator->country->label }}</td>
