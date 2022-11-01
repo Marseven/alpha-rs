@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                                                                                                                    Breadcrum Part HTML Start
-                                                                                                                    =======================-->
+                                                                                                                            Breadcrum Part HTML Start
+                                                                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -72,7 +72,7 @@
                                 @endphp
                                 <tr>
                                     <td><strong>{{ $simulator->item->label }}</strong></td>
-                                    <td>{{ number_format($simulator->valeur, 0, ',', ' ') }} XAF
+                                    <td>{{ $simulator->value }}
                                         <span>{{ $simulator->note }}</span>
                                     </td>
 
@@ -84,8 +84,7 @@
             </div>
             <br><br>
             <div class="text-center">
-                <a class="btn btn-4 btn-ser" href="{{ url('quote') }}">Demander un devis pour le coût de
-                    l'hospitalisation</a>
+                <a class="btn btn-4 btn-ser" href="{{ url('quote') }}">Demander un devis pour avoir plus d'informations</a>
             </div>
         </div>
     </section>
