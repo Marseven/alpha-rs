@@ -110,24 +110,11 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">{{ $simulator->label }}</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">{{ $simulator->id }}</h5>
                     </div>
                     <div class="modal-body">
                         <div class="text-center">
-                            <div class="row">
-                                <div class="col-4 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">{{ $simulator->price_min }} / {{ $simulator->periode }}
-                                    </h3><span>Prix Min</span>
-                                </div>
-                                <div class="col-4 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">{{ $simulator->price_max }} / {{ $simulator->periode }}
-                                    </h3><span>Prix Max</span>
-                                </div>
-                                <div class="col-4 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">{{ $simulator->service->label }}
-                                    </h3><span>{{ $simulator->country->label }}</span>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -186,8 +173,8 @@
 
 
                         <div class="mb-3">
-                            <label for="valeur" class="col-form-label">Valeur</label>
-                            <input type="number" class="form-control" name="valeur">
+                            <label for="value" class="col-form-label">Valeur</label>
+                            <input type="text" class="form-control" name="value">
                         </div>
 
 
@@ -264,9 +251,9 @@
 
 
                             <div class="mb-3">
-                                <label for="valeur" class="col-form-label">Valeur</label>
-                                <input type="number" class="form-control" name="valeur"
-                                    value="{{ $simulator->valeur }}">
+                                <label for="value" class="col-form-label">Valeur</label>
+                                <input type="text" class="form-control" name="value"
+                                    value="{{ $simulator->value }}">
                             </div>
 
                             <div class="mb-3">
