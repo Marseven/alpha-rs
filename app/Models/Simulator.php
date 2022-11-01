@@ -21,6 +21,11 @@ class Simulator extends Model
         return $this->belongsTo(Service::class, 'service_id');
     }
 
+    public function sick()
+    {
+        return $this->belongsTo(Sick::class, 'sick_id');
+    }
+
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id');
