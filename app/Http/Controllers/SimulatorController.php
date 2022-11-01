@@ -17,7 +17,7 @@ class SimulatorController extends Controller
         $services = Service::all();
         $countries = Country::all();
         $simulators = Simulator::all();
-        $sicks = Sick::all();
+        $sicks = Sick::where('status', STATUT_SIMULATOR)->get();
         $items = SimulatorItem::all();
 
         return view(
