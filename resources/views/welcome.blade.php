@@ -1,9 +1,242 @@
 @extends('layouts.default')
 
+@push('styles')
+    <style>
+        :root {
+            --red: #ff3860;
+            --red-dark: #ff1443;
+            --red-light: #ff5c7c;
+            --blue: #498afb;
+            --blue-dark: #2674fa;
+            --blue-light: #6ca0fc;
+            --orange: #fa8142;
+            --orange-dark: #f96a1f;
+            --orange-light: #fb9865;
+            --green: #09c372;
+            --green-dark: #07a15e;
+            --green-light: #0be586;
+            --purple: #9166cc;
+            --purple-dark: #7d4bc3;
+            --purple-light: #a481d5;
+            --yellow: #ffdd57;
+            --yellow-dark: #ffd633;
+            --yellow-light: #ffe47a;
+            --pink: #ff4088;
+            --pink-dark: #ff1c72;
+            --pink-light: #ff649e;
+            --gray0: #f8f8f8;
+            --gray1: #dbe1e8;
+            --gray2: #b2becd;
+            --gray3: #6c7983;
+            --gray4: #454e56;
+            --gray5: #2a2e35;
+            --gray6: #12181b;
+            --nav-width: 4em;
+            --font-body: "sofia-pro", sans-serif;
+            --font-head: "sofia-pro", sans-serif;
+            --font-code: "attribute-mono", monospace;
+            --font-size: 20px;
+            --max-width-bp: 768px;
+            --orange-pink: linear-gradient(to bottom right, var(--orange-light), var(--orange-dark) 85%);
+            --green-grad: linear-gradient(to bottom right, var(--green-light), var(--green-dark) 85%);
+            --background: var(--gray6);
+            --text-color: var(--gray2);
+            --h-color: #fff;
+            --nav-shadow: 4px 0 10px -3px #010101;
+            --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.38);
+            --toc-shadow: rgba(0, 0, 0, 0.7) 0px 10px 20px 0px;
+            --nav-bg: var(--gray5);
+            --tag-bg: var(--gray4);
+            --code-bg: #22262f;
+            --card-bg: var(--gray5);
+            --overlay-bg: rgba(0, 0, 0, 0.9);
+            --h-border: 2px dashed var(--nav-bg);
+            --nav-border: 2px dashed var(--text-color);
+            --card-radius: 0.25em;
+            transition: all .3s ease
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text-color);
+            margin: 0;
+            font-family: var(--font-body);
+            font-size: var(--font-size);
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column
+        }
+
+
+
+
+
+        .tag {
+            display: inline-block;
+            border-radius: 3px;
+            padding: .2em .5em .3em;
+            border-radius: 2px;
+            background: var(--tag-bg);
+            color: var(--text-color);
+            font-weight: 600;
+            margin: .25em .1em
+        }
+
+        h1.tag {
+            margin-left: 0;
+            margin-right: 0
+        }
+
+        .tag-sm {
+            font-size: .7em;
+            display: inline-block;
+            letter-spacing: .15ch;
+            font-weight: 400
+        }
+
+        .tag-lg {
+            font-size: 1.2em;
+            border-radius: 4px
+        }
+
+        .tag-bg {
+            background: var(--background)
+        }
+
+        .tag-green,
+        .tag-pro {
+            background: var(--green);
+            color: #fff
+        }
+
+        .tag-purple {
+            background: var(--purple);
+            color: #fff
+        }
+
+        .tag-contrast {
+            background: var(--text-color);
+            color: var(--background)
+        }
+
+        .tag-javascript {
+            background: #f0db4f;
+            color: #000
+        }
+
+        .tag-typescript {
+            background: #2775c3;
+            color: #fff
+        }
+
+        .tag-angular {
+            background: #dc0530;
+            color: #fff
+        }
+
+        .tag-firebase {
+            background: #ffcb2b;
+            color: #12181a
+        }
+
+        .tag-vue {
+            background: #41b883;
+            color: #35495e
+        }
+
+        .tag-rxjs {
+            background: var(--pink);
+            color: var(--gray5)
+        }
+
+        .tag-node {
+            background: #90c53f;
+            color: #46483d
+        }
+
+        .tag-cloud-functions {
+            background: var(--blue);
+            color: #fff
+        }
+
+        .tag-flutter {
+            background: #54c5f8;
+            color: #003b6c
+        }
+
+        .tag-google-maps {
+            background: #33a668;
+            color: #f8d845
+        }
+
+        .tag-android {
+            background: #a4c34a;
+            color: #fff
+        }
+
+        .tag-stripe {
+            color: #fff;
+            background: #6675e0
+        }
+
+        .tag-machine-learning {
+            color: #fff;
+            background: var(--purple-light)
+        }
+
+        .tag-python {
+            color: #ffda5d;
+            background: #3879ab
+        }
+
+        .tag-svelte {
+            color: #fff;
+            background: #ff3e00
+        }
+
+        .tag-react {
+            color: #00d8ff;
+            background: #222
+        }
+
+        .tag-ios {
+            color: #fff;
+            background: #000
+        }
+
+        .tag-minimum-viable-product,
+        .tag-mvp {
+            color: #fff;
+            background-image: linear-gradient(90deg, #ff8901, #db1d5f);
+            font-weight: 700
+        }
+
+        .tag-ionic {
+            background: #fff;
+            color: #4a8afc
+        }
+
+        .tag-nest {
+            color: #e0234e;
+            background: #000
+        }
+
+        .tag-graphql {
+            color: #fff;
+            background: #e10097
+        }
+
+        .tag-electron {
+            color: #313244;
+            background: #adecf3
+        }
+    </style>
+@endpush
+
 @section('content')
     <!-- =============================
-                                                                                                                                    Start: Header Slider
-                                                                                                                                ============================= -->
+                                                                                                                                                Start: Header Slider
+                                                                                                                                            ============================= -->
     <div class="tg-sliderholder">
         <div id="tg-homeslider" class="tg-homeslider tg-haslayout" style="padding-bottom: 0!important">
             <div class="pogoSlider-slide" data-transition="expandReveal" data-duration="1000"
@@ -134,12 +367,12 @@
     </section>
 
     <!-- =============================
-                                                                                                                                    End: About Us
-                                                                                                                                ============================= -->
+                                                                                                                                                End: About Us
+                                                                                                                                            ============================= -->
 
     <!-- =============================
-                                                                                                                                    Start: service Part
-                                                                                                                                ============================= -->
+                                                                                                                                                Start: service Part
+                                                                                                                                            ============================= -->
 
     <section id="service" class="service section">
         <div class="container">
@@ -282,14 +515,14 @@
             </div>
 
             <!-- =============================
-                                                                                                                                            Start: Search
-                                                                                                                                        ============================= -->
+                                                                                                                                                        Start: Search
+                                                                                                                                                    ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         @foreach ($sicks as $sick)
                             <h4 style="display: inline-block; margin : 3px;"><span
-                                    class="badge badge-pill badge-primary">{{ $sick->label }}</span></h4>
+                                    class="tag tag-ios tag-lg">{{ '#' . $sick->label }}</span></h4>
                         @endforeach
 
                         @if ($sicks->count() == 0)
@@ -299,8 +532,8 @@
                 </div>
             </div>
             <!-- =============================
-                                                                                                                                            End: Search
-                                                                                                                                        ============================= -->
+                                                                                                                                                        End: Search
+                                                                                                                                                    ============================= -->
 
             <br>
             <br>
@@ -317,8 +550,8 @@
             </div>
 
             <!-- =============================
-                                                                                                                                            Start: Search
-                                                                                                                                        ============================= -->
+                                                                                                                                                        Start: Search
+                                                                                                                                                    ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -336,18 +569,18 @@
                 </div>
             </div>
             <!-- =============================
-                                                                                                                                            End: Search
-                                                                                                                                        ============================= -->
+                                                                                                                                                        End: Search
+                                                                                                                                                    ============================= -->
 
         </div>
     </section>
     <!-- =============================
-                                                                                                                                    End: service Part
-                                                                                                                                ============================= -->
+                                                                                                                                                End: service Part
+                                                                                                                                            ============================= -->
 
     <!-- =============================
-                                                                                                                                    Start: Experience Part
-                                                                                                                                ============================= -->
+                                                                                                                                                Start: Experience Part
+                                                                                                                                            ============================= -->
 
     <section id="experience" class="experience">
         <div class="container">
@@ -454,11 +687,11 @@
     </section>
 
     <!-- =============================
-                                                                                                                                    End: Experience Part
-                                                                                                                                ============================= -->
+                                                                                                                                                End: Experience Part
+                                                                                                                                            ============================= -->
     <!-- =============================
-                                                                                                                                    Start: Testimonial Part
-                                                                                                                                ============================= -->
+                                                                                                                                                Start: Testimonial Part
+                                                                                                                                            ============================= -->
     <section id="testimonial" class="testimonial section">
         <div class="container">
             <div class="row">
@@ -556,11 +789,11 @@
     </section>
 
     <!-- =============================
-                                                                                                                                    End: Testimonial Part
-                                                                                                                                ============================= -->
+                                                                                                                                                End: Testimonial Part
+                                                                                                                                            ============================= -->
     <!--========================
-                                                                                                                                 Team Part HTML Start
-                                                                                                                                ==========================-->
+                                                                                                                                             Team Part HTML Start
+                                                                                                                                            ==========================-->
     <section id="team" class="team section">
         <div class="container">
             <div class="row">
@@ -603,11 +836,11 @@
     </section>
 
     <!--======================
-                                                                                                                                 Team Part HTML End
-                                                                                                                                =======================-->
+                                                                                                                                             Team Part HTML End
+                                                                                                                                            =======================-->
     <!--======================
-                                                                                                                                    Latest Updates Part HTML Start
-                                                                                                                                =======================-->
+                                                                                                                                                Latest Updates Part HTML Start
+                                                                                                                                            =======================-->
 
     <section id="contactus" class="blog section">
         <div class="container">
@@ -667,8 +900,8 @@
     </section>
 
     <!--======================
-                                                                                                                                    Blog Part HTML End
-                                                                                                                                =======================-->
+                                                                                                                                                Blog Part HTML End
+                                                                                                                                            =======================-->
 @endsection
 
 @push('scripts')

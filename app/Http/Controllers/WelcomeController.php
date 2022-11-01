@@ -22,7 +22,7 @@ class WelcomeController extends Controller
         $services = Service::limit(4)->get();
         $countries = Country::all();
         $towns = Town::limit(6)->get();
-        $sicks = Sick::all();
+        $sicks = Sick::limit(10)->get();
         $towns->load(['country']);
         return view('welcome', [
             'services' => $services,
