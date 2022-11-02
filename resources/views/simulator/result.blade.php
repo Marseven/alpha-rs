@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                                                                                                                            Breadcrum Part HTML Start
-                                                                                                                            =======================-->
+                                                                                                                                Breadcrum Part HTML Start
+                                                                                                                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -78,6 +78,14 @@
 
                                 </tr>
                             @endforeach
+
+                            @if ($simulators->count() == 0)
+                                <tr>
+                                    <td><strong>Pas d'élément pour le moment !</strong></td>
+
+
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
