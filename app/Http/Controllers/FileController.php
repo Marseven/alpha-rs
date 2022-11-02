@@ -24,15 +24,14 @@ class FileController extends Controller
     {
         $result = [];
 
-        if($request != NULL) {
+        if ($request != NULL) {
 
             // On recupere les dimensions du fichier
             $infosImg = getimagesize($request->path());
 
             //dd($infosImg);
 
-            if(($infosImg[0] >= WIDTH_MIN) && ($infosImg[1] >= HEIGHT_MIN))
-            {
+            if (($infosImg[0] >= WIDTH_MIN) && ($infosImg[1] >= HEIGHT_MIN)) {
                 //get filename with extension
                 $filenamewithextension = $request->getClientOriginalName();
 
@@ -43,21 +42,21 @@ class FileController extends Controller
                 $extension = $request->getClientOriginalExtension();
 
                 //filename to store
-                $filenametostore = $filename.'_'.time().'_300x300.'.$extension;
+                $filenametostore = $filename . '_' . time() . '_300x300.' . $extension;
 
                 //Upload File
-                $request->move(public_path('/upload/picture/original/'),  $filename.'.'.$extension);
+                $request->move(public_path('/upload/picture/original/'),  $filename . '.' . $extension);
 
                 //Resize image here
-                $originalpath = public_path('/upload/picture/original/'. $filename.'.'.$extension);
-                $thumbnailpath = public_path('/upload/picture/traite/'.$filenametostore);
+                $originalpath = public_path('/upload/picture/original/' . $filename . '.' . $extension);
+                $thumbnailpath = public_path('/upload/picture/traite/' . $filenametostore);
 
-                $img = Image::make($originalpath)->fit(300, 300, function($constraint) {
+                $img = Image::make($originalpath)->fit(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->interlace(true);
                 $img->save($thumbnailpath);
 
-                $filePath_originale = '/upload/picture/original/' . $filename.'.'.$extension;
+                $filePath_originale = '/upload/picture/original/' . $filename . '.' . $extension;
                 $filePath_traite = '/upload/picture/traite/' . $filenametostore;
 
                 $result['state'] = true;
@@ -66,13 +65,13 @@ class FileController extends Controller
 
                 return $result;
                 //change the route as per your flow
-            }else{
+            } else {
                 $result['state'] = false;
                 $result['message'] = "Les dimensions de votre images sont trop petites, les dimensions minimales recommandées sont 300px X 300px.";
 
                 return $result;
             }
-        }else{
+        } else {
             $result['state'] = false;
             $result['message'] = "Image n\'a pas été uploadé";
 
@@ -84,15 +83,14 @@ class FileController extends Controller
     {
         $result = [];
 
-        if($request != NULL) {
+        if ($request != NULL) {
 
             // On recupere les dimensions du fichier
             $infosImg = getimagesize($request->path());
 
             //dd($infosImg);
 
-            if(($infosImg[0] >= WIDTH_MIN) && ($infosImg[1] >= HEIGHT_MIN))
-            {
+            if (($infosImg[0] >= WIDTH_MIN) && ($infosImg[1] >= HEIGHT_MIN)) {
                 //get filename with extension
                 $filenamewithextension = $request->getClientOriginalName();
 
@@ -103,21 +101,21 @@ class FileController extends Controller
                 $extension = $request->getClientOriginalExtension();
 
                 //filename to store
-                $filenametostore = $filename.'_'.time().'_300x300.'.$extension;
+                $filenametostore = $filename . '_' . time() . '_300x300.' . $extension;
 
                 //Upload File
-                $request->move(public_path('/upload/user/original/'),  $filename.'.'.$extension);
+                $request->move(public_path('/upload/user/original/'),  $filename . '.' . $extension);
 
                 //Resize image here
-                $originalpath = public_path('/upload/user/original/'. $filename.'.'.$extension);
-                $thumbnailpath = public_path('/upload/user/traite/'.$filenametostore);
+                $originalpath = public_path('/upload/user/original/' . $filename . '.' . $extension);
+                $thumbnailpath = public_path('/upload/user/traite/' . $filenametostore);
 
-                $img = Image::make($originalpath)->fit(300, 300, function($constraint) {
+                $img = Image::make($originalpath)->fit(300, 300, function ($constraint) {
                     $constraint->aspectRatio();
                 })->interlace(true);
                 $img->save($thumbnailpath);
 
-                $filePath_originale = '/upload/user/original/' . $filename.'.'.$extension;
+                $filePath_originale = '/upload/user/original/' . $filename . '.' . $extension;
                 $filePath_traite = '/upload/user/traite/' . $filenametostore;
 
                 $result['state'] = true;
@@ -126,13 +124,13 @@ class FileController extends Controller
 
                 return $result;
                 //change the route as per your flow
-            }else{
+            } else {
                 $result['state'] = false;
                 $result['message'] = "Les dimensions de votre images sont trop petites, les dimensions minimales recommandées sont 300px X 300px.";
 
                 return $result;
             }
-        }else{
+        } else {
             $result['state'] = false;
             $result['message'] = "Image n\'a pas été uploadé";
 
@@ -144,7 +142,7 @@ class FileController extends Controller
     {
         $result = [];
 
-        if($request != NULL) {
+        if ($request != NULL) {
 
             //get filename with extension
             $filenamewithextension = $request->getClientOriginalName();
@@ -156,7 +154,7 @@ class FileController extends Controller
             $extension = $request->getClientOriginalExtension();
 
             //filename to store
-            $filenametostore = $filename.'_'.time().'_shap.'.$extension;
+            $filenametostore = $filename . '_' . time() . '_alpha.' . $extension;
 
             //Upload File
             $request->move(public_path('/upload/documents/'),  $filenametostore);
@@ -169,7 +167,7 @@ class FileController extends Controller
 
             return $result;
             //change the route as per your flow
-        }else{
+        } else {
             $result['state'] = false;
             $result['message'] = "Le fichier n\'a pas été uploadé";
 
@@ -181,7 +179,7 @@ class FileController extends Controller
     {
         $result = [];
 
-        if($request != NULL) {
+        if ($request != NULL) {
 
             //get filename with extension
             $filenamewithextension = $request->getClientOriginalName();
@@ -193,7 +191,7 @@ class FileController extends Controller
             $extension = $request->getClientOriginalExtension();
 
             //filename to store
-            $filenametostore = $filename.'_'.time().'_shap.'.$extension;
+            $filenametostore = $filename . '_' . time() . '_alpha.' . $extension;
 
             //Upload File
             $request->move(public_path('/upload/quote/'),  $filenametostore);
@@ -206,7 +204,7 @@ class FileController extends Controller
 
             return $result;
             //change the route as per your flow
-        }else{
+        } else {
             $result['state'] = false;
             $result['message'] = "Le fichier n\'a pas été uploadé";
 
@@ -214,10 +212,9 @@ class FileController extends Controller
         }
     }
 
-   static function destroy($image)
-   {
-       Storage::disk('s3')->delete($image);
-       return back()->withSuccess('Image a été supprimé avec succès.');
-   }
-
+    static function destroy($image)
+    {
+        Storage::disk('s3')->delete($image);
+        return back()->withSuccess('Image a été supprimé avec succès.');
+    }
 }

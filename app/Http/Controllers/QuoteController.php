@@ -101,6 +101,7 @@ class QuoteController extends Controller
             if ($quote->save()) {
                 try {
                     $result = Mail::to($quote->user->email)->queue(new QuoteMessage($quote, "quote"));
+                    $result1 = Mail::to('reliefservices21@gmail.com')->queue(new QuoteAdminMessage($quote, "quote"));
                     foreach ($admins as $admin) {
                         $result = Mail::to($admin->email)->queue(new QuoteAdminMessage($quote, "quote"));
                     }
@@ -133,6 +134,7 @@ class QuoteController extends Controller
 
                         try {
                             $result = Mail::to($quote->user->email)->queue(new QuoteMessage($quote, "quote"));
+                            $result1 = Mail::to('reliefservices21@gmail.com')->queue(new QuoteAdminMessage($quote, "quote"));
                             foreach ($admins as $admin) {
                                 $result = Mail::to($admin->email)->queue(new QuoteAdminMessage($quote, "quote"));
                             }
