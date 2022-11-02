@@ -8,8 +8,8 @@
 
 @section('content')
     <!--=========================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Breadcrum Part HTML Start
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        =======================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Breadcrum Part HTML Start
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -90,13 +90,12 @@
                                                     </span>
                                                     <span class="label-text">{{ $sv->label }}</span>
                                                     <br>
-                                                    <div id="price{{ $sv->id }}" style="display: none">
-                                                        <span class="label-text"
-                                                            style="text-align: center;">{{ $sv->description }}</span>
+                                                    {{-- <div id="price{{ $sv->id }}" style="display: none">
+
                                                         <span
                                                             class="label-text">{{ number_format($sv->price, 0, ',', ' ') }}
                                                             XAF</span>
-                                                    </div>
+                                                    </div> --}}
 
                                                 </label>
                                             </div>
@@ -129,8 +128,8 @@
     </section>
 
     <!-- =============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            End: About Us
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ============================= -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                End: About Us
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ============================= -->
 @endsection
 
 @push('scripts')
