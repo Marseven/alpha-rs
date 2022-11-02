@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                            Breadcrum Part HTML Start
-                                                                                            =======================-->
+                                                                                                    Breadcrum Part HTML Start
+                                                                                                    =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                Breadcrum Part HTML End
-                                                                                            ======================-->
+                                                                                                        Breadcrum Part HTML End
+                                                                                                    ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                Start: Profil
-                                                                                            ============================= -->
+                                                                                                        Start: Profil
+                                                                                                    ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="main-body">
@@ -167,7 +167,7 @@
                                                                         data-target="#responseModal{{ $quote->id }}">R</a>
                                                                 @endif
 
-                                                                @if ($quote->folder == false && $quote->status > 1)
+                                                                @if ($quote->folder == false)
                                                                     <a class="btn btn-small" data-toggle="modal"
                                                                         data-target="#quoteModal{{ $quote->id }}"><i
                                                                             class="fa fa-upload"></i></a>
@@ -467,10 +467,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
-                        @if ($quote->status == 0)
-                            <a href="{{ url('/quote-pay/' . $quote->id) }}"><button type="submit"
-                                    class="btn btn-primary">Payer</button></a>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -550,8 +546,8 @@
     </div>
 
     <!-- =============================
-                                                                                                End: Profil
-                                                                                            ============================= -->
+                                                                                                        End: Profil
+                                                                                                    ============================= -->
 
 
     <div class="modal fade" id="folderModal">

@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\SickController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SimulatorController;
+use App\Models\User;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +78,22 @@ Route::get('503', function () {
 Route::get('404', function () {
     return 'Page non trouvée';
 });
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/profil');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::get('/email/verify', function () {
+    return redirect('/profil')->with('error', "Vous devez verifier votre email pour accéder à cette page.");
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verification-notification', function () {
+    $user = User::find(auth()->user()->id);
+    $user->sendEmailVerificationNotification();
+
+    return back()->with('success', 'Le lien de vérification a été envoyé. Consultez votre boîte mail (les spams également) pour valider votre email.');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 // users connect
 
