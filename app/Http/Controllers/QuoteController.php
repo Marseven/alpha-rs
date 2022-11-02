@@ -126,8 +126,6 @@ class QuoteController extends Controller
                         $request->only('email')
                     );
 
-                    //$user->sendEmailVerificationNotification();
-
                     if ($status === Password::RESET_LINK_SENT) {
                         $quote->user_id = $user->id;
                         $quote->save();
