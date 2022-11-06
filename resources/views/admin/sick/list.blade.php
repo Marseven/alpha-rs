@@ -171,12 +171,12 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="col-form-label">Libellé</label>
-                                <input type="text" class="form-control" name="label">
+                                <input type="text" class="form-control" name="label" value="{{ $sick->label }}">
                             </div>
 
                             <div class="mb-3">
                                 <label for="name" class="col-form-label">Description</label>
-                                <textarea class="form-control" name="description">Description...</textarea>
+                                <textarea class="form-control" name="description">{{ $sick->description }}</textarea>
                             </div>
 
                             <div class="mb-3">
