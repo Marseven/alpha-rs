@@ -139,7 +139,8 @@ class QuoteController extends Controller
                         } catch (Swift_TransportException $e) {
                             echo $e->getMessage();
                         }
-                        return back()->with('success', 'Le devis a été envoyé avec succès.');
+                        Auth::guard()->login($user);
+                        return redirect('profil')->with('success', 'Le devis a été envoyé avec succès.');
                     } else {
                         return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
                     }
