@@ -8,7 +8,8 @@
                     <div class="col-xl-12">
                         <div class="auth-form">
                             <div class="text-center mb-3">
-                                <a href="index-2.html"><img src="images/logo-full.png" alt=""></a>
+                                <a href="{{ route('home') }}"><img src="{{ asset('images/Alpha.png') }}" alt="Alpha"
+                                        style="width: 20%; height:auto;"></a>
                             </div>
                             <h4 class="text-center mb-4">Mot de passe oublié </h4>
                             @include('layouts.flash-admin')
