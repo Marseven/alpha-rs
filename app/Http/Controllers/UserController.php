@@ -82,6 +82,6 @@ class UserController extends Controller
         $user = User::where('email', $request->email)
             ->update(['password' => Hash::make($request->password)]);
 
-        return redirect('/profil')->with('message', 'Mot de Passe mis à jour !');
+        return back()->with('success', 'Mot de Passe mis à jour !');
     }
 }
