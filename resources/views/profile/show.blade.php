@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                        Breadcrum Part HTML Start
-                                                                                                        =======================-->
+                                                                                                            Breadcrum Part HTML Start
+                                                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                            Breadcrum Part HTML End
-                                                                                                        ======================-->
+                                                                                                                Breadcrum Part HTML End
+                                                                                                            ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                            Start: Profil
-                                                                                                        ============================= -->
+                                                                                                                Start: Profil
+                                                                                                            ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="main-body">
@@ -524,8 +524,6 @@
                     <form action="{{ url('/userpassword/' . $user->id) }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Ancien mot de passe</label>
-                            <input type="password" class="form-control" name="lastpassword">
                             <input type="hidden" class="form-control" name="email" value="{{ $user->email }}">
                         </div>
                         <div class="mb-3">
@@ -547,8 +545,8 @@
     </div>
 
     <!-- =============================
-                                                                                                            End: Profil
-                                                                                                        ============================= -->
+                                                                                                                End: Profil
+                                                                                                            ============================= -->
 
 
     <div class="modal fade" id="folderModal">
