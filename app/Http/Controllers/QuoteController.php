@@ -122,7 +122,9 @@ class QuoteController extends Controller
                 $user->email = $request->email;
 
                 if ($user->save()) {
-                    $status = Password::sendResetLink($user->email);
+                    $status = Password::sendResetLink(
+                        $request->only('email')
+                    );
 
                     if ($status === Password::RESET_LINK_SENT) {
                         $quote->user_id = $user->id;

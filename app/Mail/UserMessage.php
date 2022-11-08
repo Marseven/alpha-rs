@@ -32,9 +32,9 @@ class UserMessage extends Mailable
     public function build()
     {
 
-        return $this->from("contact@reliefservice.space") // L'expéditeur
-                    ->subject('Bienvenue sur Alpha') // Le sujet
-                    ->markdown('profile.mail')
-                    ->with('data',$this->data);
+        return $this->from("contact@reliefservice.net") // L'expéditeur
+            ->subject('Bienvenue sur Alpha') // Le sujet
+            ->markdown('profile.mail')
+            ->with('data', $this->data);
     }
 }
