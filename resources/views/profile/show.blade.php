@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                    Breadcrum Part HTML Start
-                                                                                                    =======================-->
+                                                                                                        Breadcrum Part HTML Start
+                                                                                                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                        Breadcrum Part HTML End
-                                                                                                    ======================-->
+                                                                                                            Breadcrum Part HTML End
+                                                                                                        ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                        Start: Profil
-                                                                                                    ============================= -->
+                                                                                                            Start: Profil
+                                                                                                        ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="main-body">
@@ -184,7 +184,7 @@
                             </div>
                         </div>
 
-                        <div class="row gutters-sm">
+                        {{-- <div class="row gutters-sm">
                             <div class="col-sm-12 mb-3">
                                 <div class="card h-100">
                                     <div class="card-body">
@@ -237,7 +237,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
@@ -526,6 +526,7 @@
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Ancien mot de passe</label>
                             <input type="password" class="form-control" name="lastpassword">
+                            <input type="hidden" class="form-control" name="email" value="{{ $user->email }}">
                         </div>
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Nouveau mot de passe</label>
@@ -533,7 +534,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Confirmé le mot de passe</label>
-                            <input type="password" class="form-control" name="password_confirmed">
+                            <input type="password" class="form-control" name="password_confirmation">
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -546,8 +547,8 @@
     </div>
 
     <!-- =============================
-                                                                                                        End: Profil
-                                                                                                    ============================= -->
+                                                                                                            End: Profil
+                                                                                                        ============================= -->
 
 
     <div class="modal fade" id="folderModal">

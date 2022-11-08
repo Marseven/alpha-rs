@@ -8,6 +8,8 @@ use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -71,8 +73,15 @@ class UserController extends Controller
 
     public function updatePassword(Request $request, User $user)
     {
-        $user->status = $request->status;
-        $user->save();
-        return redirect('/profil');
+        $request->validate([
+            'email' => 'required|email|exists:users',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required'
+        ]);
+
+        $user = User::where('email', $request->email)
+            ->update(['password' => Hash::make($request->password)]);
+
+        return redirect('/profil')->with('message', 'Mot de Passe mis à jour !');
     }
 }
