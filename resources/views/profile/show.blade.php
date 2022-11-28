@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                            Breadcrum Part HTML Start
-                                                                                                            =======================-->
+                                                                                                                        Breadcrum Part HTML Start
+                                                                                                                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                                Breadcrum Part HTML End
-                                                                                                            ======================-->
+                                                                                                                            Breadcrum Part HTML End
+                                                                                                                        ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                Start: Profil
-                                                                                                            ============================= -->
+                                                                                                                            Start: Profil
+                                                                                                                        ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="main-body">
@@ -110,39 +110,8 @@
                         </div>
 
                         <div class="row gutters-sm">
-                            <div class="col-sm-6 mb-3">
-                                <div class="card h-100">
-                                    <div class="card-header">
-                                        <h6 class="d-flex align-items-center mb-3">Dossier Médical</h6>
-                                        <button type="button" class="btn btn-success mb-2" data-toggle="modal"
-                                            data-target="#folderModal">Créer</button>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <tbody>
-                                                    @if ($user->folders->count() > 0)
-                                                        @foreach ($user->folders as $folder)
-                                                            <tr>
-                                                                <td>Dossier #{{ $folder->reference }}</td>
-                                                                <td>
-                                                                    <a class="btn btn-small" data-toggle="modal"
-                                                                        data-target="#folderModalView{{ $folder->id }}"><i
-                                                                            class="fa fa-eye"></i></a>
-                                                                    <a class="btn btn-small" data-toggle="modal"
-                                                                        data-target="#folderPay{{ $folder->id }}"
-                                                                        title="Payer">P</a>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    @endif
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 mb-3">
+
+                            <div class="col-sm-12 mb-3">
                                 <div class="card h-100">
                                     <div class="card-header">
                                         <h6 class="d-flex align-items-center mb-3">Demande de Devis</h6>
@@ -159,18 +128,11 @@
                                                             <td>Devi #{{ $quote->reference }}</td>
                                                             <td>
                                                                 <a class="btn btn-small" data-toggle="modal"
-                                                                    data-target="#quoteModalView{{ $quote->id }}"><i
-                                                                        class="fa fa-eye"></i></a>
+                                                                    data-target="#quoteModalView{{ $quote->id }}">Voir</a>
 
                                                                 @if ($quote->status > 1)
                                                                     <a class="btn btn-small" data-toggle="modal"
-                                                                        data-target="#responseModal{{ $quote->id }}">R</a>
-                                                                @endif
-
-                                                                @if ($quote->folder == false)
-                                                                    <a class="btn btn-small" data-toggle="modal"
-                                                                        data-target="#quoteModal{{ $quote->id }}"><i
-                                                                            class="fa fa-upload"></i></a>
+                                                                        data-target="#responseModal{{ $quote->id }}">Réponse</a>
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -463,6 +425,13 @@
                                 @endif
 
                             </div>
+                            <div class="col-12  mb-5">
+
+                                @if ($quote->devis != null)
+                                    <a class="btn btn-info" href="#">Payer les Frais de service</a>
+                                @endif
+
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -545,8 +514,8 @@
     </div>
 
     <!-- =============================
-                                                                                                                End: Profil
-                                                                                                            ============================= -->
+                                                                                                                            End: Profil
+                                                                                                                        ============================= -->
 
 
     <div class="modal fade" id="folderModal">
