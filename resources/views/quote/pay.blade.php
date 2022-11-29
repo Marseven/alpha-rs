@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                                                                                                                                                                Breadcrum Part HTML Start
-                                                                                                                                                                =======================-->
+                                                                                                                                                                    Breadcrum Part HTML Start
+                                                                                                                                                                    =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,7 +36,7 @@
 
                 <div class="col-12 ">
                     <div class="heading b-text text-center">
-                        <h2>Résultat de la Simulation</h2>
+                        <h2>Payer Les Frais de Service Relief Services</h2>
                     </div>
                 </div>
 
@@ -48,7 +48,7 @@
                     <div class="row text-center">
                         <div class="col-12">
                             <h3 class="mb-1">Frais de Service : {{ $service_id->label }}</h3>
-                            <span>{{ number_format($service_id->price, 0, ',', ' ') }} XAF</span>
+                            <h1>{{ number_format($service_id->price, 0, ',', ' ') }} XAF</h1>
                         </div>
                     </div>
                     <br><br>
