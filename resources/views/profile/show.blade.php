@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                        Breadcrum Part HTML Start
-                                                                                                                                                        =======================-->
+                                                                                                                                                                            Breadcrum Part HTML Start
+                                                                                                                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                                                                            Breadcrum Part HTML End
-                                                                                                                                                        ======================-->
+                                                                                                                                                                                Breadcrum Part HTML End
+                                                                                                                                                                            ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                            Start: Profil
-                                                                                                                                                        ============================= -->
+                                                                                                                                                                                Start: Profil
+                                                                                                                                                                            ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="main-body">
@@ -120,12 +120,33 @@
                                     <div class="card-body">
 
                                         <div class="table-responsive">
-                                            <table class="table">
+                                            <table id="example" class="display" style="min-width: 845px">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Nom Complet</th>
+                                                        <th>Date de Naissance</th>
+                                                        <th>Genre</th>
+                                                        <th>Téléphone</th>
+                                                        <th>Statut</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
                                                 <tbody>
 
                                                     @foreach ($quotes as $quote)
                                                         <tr>
-                                                            <td>Devi #{{ $quote->id }}</td>
+                                                            <td>{{ $quote->id }}</td>
+                                                            <td>{{ $quote->lastname . ' ' . $quote->firstname }}</td>
+                                                            <td>{{ $quote->birthday }}</td>
+                                                            <td>{{ $quote->gender }}</td>
+                                                            <td>{{ $quote->phone }}</td>
+                                                            @php
+                                                                $status = App\Http\Controllers\Controller::status($quote->status);
+                                                            @endphp
+                                                            <td> <span
+                                                                    class="badge-sm badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                                            </td>
                                                             <td>
                                                                 <a class="btn btn-small" data-toggle="modal"
                                                                     data-target="#quoteModalView{{ $quote->id }}">Voir</a>
@@ -139,6 +160,17 @@
                                                     @endforeach
 
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Nom Complet</th>
+                                                        <th>Date de Naissance</th>
+                                                        <th>Genre</th>
+                                                        <th>Téléphone</th>
+                                                        <th>Statut</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </div>
@@ -262,17 +294,13 @@
                                     $status = App\Http\Controllers\Controller::status($quote->status);
                                 @endphp
                                 <p class="mb-0"><span
-                                        class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                        class="badge-sm badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
-                        @if ($quote->status == 0)
-                            <a href="{{ url('/quote-pay/' . $quote->id) }}"><button type="submit"
-                                    class="btn btn-primary">Payer</button></a>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -417,7 +445,7 @@
                                     $status = App\Http\Controllers\Controller::status($quote->status);
                                 @endphp
                                 <p class="mb-0"><span
-                                        class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                        class="badge-sm badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
                                 </p>
                             </div>
                             <div class="col-12  mb-5">
@@ -519,8 +547,8 @@
     </div>
 
     <!-- =============================
-                                                                                                                                                            End: Profil
-                                                                                                                                                        ============================= -->
+                                                                                                                                                                                End: Profil
+                                                                                                                                                                            ============================= -->
 
 
     <div class="modal fade" id="folderModal">
