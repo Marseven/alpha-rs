@@ -225,4 +225,14 @@ class QuoteController extends Controller
     {
         return PaymentController::singpay('quote', $quote);
     }
+
+    public function payment(Quote $quote)
+    {
+        return view(
+            'quotes.pay',
+            [
+                'quote' => $quote,
+            ]
+        );
+    }
 }

@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                        Breadcrum Part HTML Start
-                                                                                                                        =======================-->
+                                                                                                                            Breadcrum Part HTML Start
+                                                                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                                            Breadcrum Part HTML End
-                                                                                                                        ======================-->
+                                                                                                                                Breadcrum Part HTML End
+                                                                                                                            ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                            Start: Profil
-                                                                                                                        ============================= -->
+                                                                                                                                Start: Profil
+                                                                                                                            ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="main-body">
@@ -428,7 +428,8 @@
                             <div class="col-12  mb-5">
 
                                 @if ($quote->devis != null)
-                                    <a class="btn btn-info" href="#">Payer les Frais de service</a>
+                                    <a class="btn btn-info" href="{{ url('quote/payment/' . $quote->id) }}">Payer les
+                                        Frais de service</a>
                                 @endif
 
                             </div>
@@ -514,8 +515,8 @@
     </div>
 
     <!-- =============================
-                                                                                                                            End: Profil
-                                                                                                                        ============================= -->
+                                                                                                                                End: Profil
+                                                                                                                            ============================= -->
 
 
     <div class="modal fade" id="folderModal">
