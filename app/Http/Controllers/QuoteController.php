@@ -229,7 +229,7 @@ class QuoteController extends Controller
     public function payment(Quote $quote)
     {
         return view(
-            'quotes.pay',
+            'quote.pay',
             [
                 'quote' => $quote,
             ]
