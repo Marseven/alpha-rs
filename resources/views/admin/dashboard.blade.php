@@ -86,7 +86,8 @@
                                                                 @php
                                                                     $status = App\Http\Controllers\Controller::status($quote->status);
                                                                 @endphp
-                                                                <h5 class="mt-0 mb-1 text-success">{{ $status }}</h5>
+                                                                <h5 class="mt-0 mb-1 text-success">{{ $status['message'] }}
+                                                                </h5>
                                                                 <small>{{ $quote->created_at }}</small>
                                                             </div>
                                                         </div>
