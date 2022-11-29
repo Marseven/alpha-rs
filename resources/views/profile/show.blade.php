@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                            Breadcrum Part HTML Start
-                                                                                                                            =======================-->
+                                                                                                                                                        Breadcrum Part HTML Start
+                                                                                                                                                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                                                Breadcrum Part HTML End
-                                                                                                                            ======================-->
+                                                                                                                                                            Breadcrum Part HTML End
+                                                                                                                                                        ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                Start: Profil
-                                                                                                                            ============================= -->
+                                                                                                                                                            Start: Profil
+                                                                                                                                                        ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="main-body">
@@ -125,7 +125,7 @@
 
                                                     @foreach ($quotes as $quote)
                                                         <tr>
-                                                            <td>Devi #{{ $quote->reference }}</td>
+                                                            <td>Devi #{{ $quote->id }}</td>
                                                             <td>
                                                                 <a class="btn btn-small" data-toggle="modal"
                                                                     data-target="#quoteModalView{{ $quote->id }}">Voir</a>
@@ -218,7 +218,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Devis N°{{ $quote->reference }}</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Devis N°{{ $quote->id }}</h5>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -261,7 +261,9 @@
                                 @php
                                     $status = App\Http\Controllers\Controller::status($quote->status);
                                 @endphp
-                                <p class="mb-0">{{ $status }}</p>
+                                <p class="mb-0"><span
+                                        class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -284,7 +286,7 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalCenterTitle">{{ $folder->reference }}</h5>
+                            <h5 class="modal-title" id="exampleModalCenterTitle">{{ $folder->id }}</h5>
                         </div>
                         <div class="modal-body">
                             <div class="row">
@@ -375,7 +377,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Devis N°{{ $quote->reference }}</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Devis N°{{ $quote->id }}</h5>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -414,7 +416,9 @@
                                 @php
                                     $status = App\Http\Controllers\Controller::status($quote->status);
                                 @endphp
-                                <p class="mb-0">{{ $status }}</p>
+                                <p class="mb-0"><span
+                                        class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                </p>
                             </div>
                             <div class="col-12  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Réponse</h6>
@@ -515,8 +519,8 @@
     </div>
 
     <!-- =============================
-                                                                                                                                End: Profil
-                                                                                                                            ============================= -->
+                                                                                                                                                            End: Profil
+                                                                                                                                                        ============================= -->
 
 
     <div class="modal fade" id="folderModal">
