@@ -65,7 +65,9 @@
                                                 @php
                                                     $status = App\Http\Controllers\Controller::status($town->status);
                                                 @endphp
-                                                <td>{{ $status }}</td>
+                                                <td><span
+                                                        class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                                </td>
                                                 <td>
                                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                                         data-target="#cardModalView{{ $town->id }}"><i
@@ -183,7 +185,8 @@
                         <h5 class="modal-title" id="exampleModalLabelOne">Modifier une ville</h5>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ url('admin/town/' . $town->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ url('admin/town/' . $town->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="label" class="col-form-label">Libellé</label>

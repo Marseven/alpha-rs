@@ -58,7 +58,9 @@
                                                 @php
                                                     $status = App\Http\Controllers\Controller::status($payment->status);
                                                 @endphp
-                                                <td>{{ $status }}</td>
+                                                <td><span
+                                                        class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                                </td>
                                             </tr>
                                         @endforeach
 

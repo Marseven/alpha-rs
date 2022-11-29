@@ -63,7 +63,9 @@
                                                 @php
                                                     $status = App\Http\Controllers\Controller::status($simulator->status);
                                                 @endphp
-                                                <td>{{ $status }}</td>
+                                                <td><span
+                                                        class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                                </td>
                                                 <td>
                                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                                         data-target="#cardModalView{{ $simulator->id }}"><i

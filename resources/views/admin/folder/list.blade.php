@@ -57,7 +57,9 @@
                                                 @php
                                                     $status = App\Http\Controllers\Controller::status($folder->status);
                                                 @endphp
-                                                <td>{{ $status }}</td>
+                                                <td><span
+                                                        class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                                </td>
                                                 <td>
                                                     <a href="{{ $folder->join_piece }}"><button type="button"
                                                             class="btn btn-info"><i class="fa fa-download"></i></button></a>
