@@ -228,6 +228,7 @@ class QuoteController extends Controller
 
     public function payment(Quote $quote)
     {
+        die('ici');
         return view(
             'quote.pay',
             [
