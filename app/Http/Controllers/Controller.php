@@ -56,37 +56,64 @@ class Controller extends BaseController
     {
         switch ($status) {
             case STATUT_RECEIVE:
-                return $message = "Reçu";
+                $message['type'] = "primary";
+                $message['message'] = "Reçue";
+                return $message;
                 break;
             case STATUT_PENDING:
-                return $message = "En cours de traitement";
+                $message['type'] = "warning";
+                $message['message'] = "En cours";
+                return $message;
                 break;
             case STATUT_APPROVE:
-                return $message = "Approuvé";
+                $message['type'] = "success";
+                $message['message'] = "Approuvée";
+                return $message;
                 break;
             case STATUT_REFUSED:
-                return $message = "Refusé";
+                $message['type'] = "danger";
+                $message['message'] = "Refusée";
+                return $message;
                 break;
             case STATUT_CANCEL:
-                return $message = "Annulé";
+                $message['type'] = "danger";
+                $message['message'] = "Annulée";
+                return $message;
                 break;
             case STATUT_PAID:
-                return $message = "Payé";
+                $message['type'] = "secondary";
+                $message['message'] = "Payée";
+                return $message;
                 break;
             case STATUT_DO:
-                return $message = "Traité";
+                $message['type'] = "success";
+                $message['message'] = "Traitée";
+                return $message;
                 break;
             case STATUT_ENABLE:
-                return $message = "Actif";
+                $message['type'] = "success";
+                $message['message'] = "Actif";
+                return $message;
                 break;
             case STATUT_DISABLE:
-                return $message = "Désactivé";
+                $message['type'] = "danger";
+                $message['message'] = "Désactivé";
+                return $message;
                 break;
             case STATUT_DELIVEDRED:
-                return $message = "Livré";
+                $message['type'] = "success";
+                $message['message'] = "Livrée";
+                return $message;
                 break;
             case STATUT_OUT_DELIVERED:
-                return $message = "Sans Livraison";
+                $message['type'] = "secondary";
+                $message['message'] = "Récupérée en Agence";
+                return $message;
+                break;
+            case STATUT_SIMULATOR:
+                $message['type'] = "info";
+                $message['message'] = "Simulation";
+                return $message;
                 break;
         }
     }
