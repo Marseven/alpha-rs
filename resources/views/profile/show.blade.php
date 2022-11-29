@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                Breadcrum Part HTML Start
-                                                                                                                                                                                =======================-->
+                                                                                                                                                                                            Breadcrum Part HTML Start
+                                                                                                                                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,16 +36,16 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                    Breadcrum Part HTML End
-                                                                                                                                                                                ======================-->
+                                                                                                                                                                                                Breadcrum Part HTML End
+                                                                                                                                                                                            ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                    Start: Profil
-                                                                                                                                                                                ============================= -->
+                                                                                                                                                                                                Start: Profil
+                                                                                                                                                                                            ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
-        <div class="full-width">
+        <div class="full-width" style="padding: 1.5%">
             <div class="main-body">
                 <div class="row gutters-sm">
                     <div class="col-md-4 mb-3">
@@ -114,8 +114,7 @@
                             <div class="col-sm-12 mb-3">
                                 <div class="card h-100">
                                     <div class="card-header">
-                                        <h6 class="d-flex align-items-center mb-3">Demande de Devis</h6>
-                                        <a href="{{ route('quote') }}" class="btn btn-success mb-2">Créer</a>
+                                        <h6 class="d-flex align-items-center mb-3">Mes Demandes de Devis</h6>
                                     </div>
                                     <div class="card-body">
 
@@ -145,7 +144,7 @@
                                                                 $status = App\Http\Controllers\Controller::status($quote->status);
                                                             @endphp
                                                             <td> <span
-                                                                    class="badge-sm badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                                                    class="badge badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
                                                             </td>
                                                             <td>
                                                                 <a class="btn btn-small" data-toggle="modal"
@@ -294,7 +293,7 @@
                                     $status = App\Http\Controllers\Controller::status($quote->status);
                                 @endphp
                                 <p class="mb-0"><span
-                                        class="badge-sm badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                        class="badge badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
                                 </p>
                             </div>
                         </div>
@@ -445,7 +444,7 @@
                                     $status = App\Http\Controllers\Controller::status($quote->status);
                                 @endphp
                                 <p class="mb-0"><span
-                                        class="badge-sm badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
+                                        class="badge badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
                                 </p>
                             </div>
                             <div class="col-12  mb-5">
@@ -547,8 +546,8 @@
     </div>
 
     <!-- =============================
-                                                                                                                                                                                    End: Profil
-                                                                                                                                                                                ============================= -->
+                                                                                                                                                                                                End: Profil
+                                                                                                                                                                                            ============================= -->
 
 
     <div class="modal fade" id="folderModal">
