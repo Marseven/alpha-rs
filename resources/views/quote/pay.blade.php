@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                                                                                                                                                        Breadcrum Part HTML Start
-                                                                                                                                                        =======================-->
+                                                                                                                                                                Breadcrum Part HTML Start
+                                                                                                                                                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -46,7 +46,6 @@
 
                 <div class="container">
                     <div class="row text-center">
-
                         <div class="col-12">
                             <h3 class="mb-1">Frais de Service : {{ $service_id->label }}</h3>
                             <span>{{ number_format($service_id->price, 0, ',', ' ') }} XAF</span>
@@ -56,34 +55,7 @@
                 </div>
                 <hr>
                 <div class="container">
-                    <table class="table">
-                        <thead>
-                            <th>Libellé</th>
-                            <th>Valeur</th>
 
-                        </thead>
-                        <tbody>
-
-                            @foreach ($simulators as $simulator)
-                                @php
-                                    $simulator->load(['item']);
-                                @endphp
-                                <tr>
-                                    <td><strong>{{ $simulator->item->label }}</strong></td>
-                                    <td>{{ $simulator->value }}
-                                        <span>{{ $simulator->note }}</span>
-                                    </td>
-
-                                </tr>
-                            @endforeach
-
-                            @if ($simulators->count() == 0)
-                                <tr>
-                                    <td><strong>Pas d'élément pour le moment !</strong></td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
                 </div>
             </div>
             <br><br>

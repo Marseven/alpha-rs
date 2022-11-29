@@ -228,10 +228,12 @@ class QuoteController extends Controller
 
     public function payment(Quote $quote)
     {
+        $service_id = Service::find($quote->service_id);
         return view(
             'quote.pay',
             [
                 'quote' => $quote,
+                'service_id' => $service_id,
             ]
         );
     }
