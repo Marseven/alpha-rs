@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                                        Breadcrum Part HTML Start
-                                                                                                                                                                                                        =======================-->
+                                                                                                                                                                                                                        Breadcrum Part HTML Start
+                                                                                                                                                                                                                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                                            Breadcrum Part HTML End
-                                                                                                                                                                                                        ======================-->
+                                                                                                                                                                                                                            Breadcrum Part HTML End
+                                                                                                                                                                                                                        ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                                            Start: Profil
-                                                                                                                                                                                                        ============================= -->
+                                                                                                                                                                                                                            Start: Profil
+                                                                                                                                                                                                                        ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="full-width" style="padding: 1.5%">
             <div class="main-body">
@@ -153,6 +153,9 @@
                                                                 @if ($quote->status > 1)
                                                                     <a class="btn btn-small" data-toggle="modal"
                                                                         data-target="#responseModal{{ $quote->id }}">Réponse</a>
+
+                                                                    <a class="btn btn-small" data-toggle="modal"
+                                                                        data-target="#payModal">Payer</a>
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -459,7 +462,7 @@
                             <div class="col-12 mb-5 text-center">
 
                                 @if ($quote->devis != null)
-                                    <a class="btn btn-success" href="{{ url('quote/payment/' . $quote->id) }}">Payer les
+                                    <a class="btn btn-small" data-toggle="modal" data-target="#payModal">Payer les
                                         Frais de service</a>
                                 @endif
 
@@ -546,8 +549,8 @@
     </div>
 
     <!-- =============================
-                                                                                                                                                                                                            End: Profil
-                                                                                                                                                                                                        ============================= -->
+                                                                                                                                                                                                                            End: Profil
+                                                                                                                                                                                                                        ============================= -->
 
 
     <div class="modal fade" id="folderModal">
@@ -666,6 +669,26 @@
             </div>
         </div>
     @endforeach
+
+    <div class="modal fade" id="payModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Paiement des Frais de Service</h5>
+                </div>
+                <div class="modal-body">
+                    Après réception du devis, souhaitez vous continuer la procédure d,assistance ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
+                    <a href="{{ url('quote/payment/' . $quote->id) }}"><button type="button"
+                            class="btn btn-success">Payer</button></a>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 

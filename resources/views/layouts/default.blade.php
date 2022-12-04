@@ -177,14 +177,15 @@
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="{{ route('home') }}"><span
                                     data-hover="Home">Accueil</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('simulator') }}"><span
-                                    data-hover="Simulateur">Simulateur</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('quote') }}"><span
-                                    data-hover="Devis">Devis</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#aboutus"><span
-                                    data-hover="About">À Propos</span></a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#service"><span
                                     data-hover="Services">Nos Services</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('quote') }}"><span
+                                    data-hover="Devis">Devis</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('simulator') }}"><span
+                                    data-hover="Simulateur">Simulateur</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#aboutus"><span
+                                    data-hover="About">À Propos</span></a></li>
+
                         <!--li class="nav-item dropdown">
                             <a href="{{ route('quote') }}" class="dropdown-toggle nav-link" data-toggle="dropdown"
                                 role="button" aria-haspopup="true" aria-expanded="false"><span data-hover="pages">Devis
