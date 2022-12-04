@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                                                                                                                                                                            Breadcrum Part HTML Start
-                                                                                                                                                                            =======================-->
+                                                                                                                                                                                Breadcrum Part HTML Start
+                                                                                                                                                                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -54,6 +54,8 @@
                     </div>
                     <br>
                     <div class="text-center">
+                        <p>Procéder au règlement de vos frais d'assistance pour la suite de la procédure.</p>
+                        <br>
                         <a class="btn btn-4 btn-ser" href="{{ url('quote/pay/' . $quote->id) }}">Payer</a>
                     </div>
                 </div>
