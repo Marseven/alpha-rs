@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                                                            Breadcrum Part HTML Start
-                                                                                                                                                                                                                            =======================-->
+                                                                                                                                                                                                                                    Breadcrum Part HTML Start
+                                                                                                                                                                                                                                    =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                                                                Breadcrum Part HTML End
-                                                                                                                                                                                                                            ======================-->
+                                                                                                                                                                                                                                        Breadcrum Part HTML End
+                                                                                                                                                                                                                                    ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                                                                Start: Profil
-                                                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                                        Start: Profil
+                                                                                                                                                                                                                                    ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="full-width" style="padding: 1.5%">
             <div class="main-body">
@@ -150,7 +150,7 @@
                                                                 <a class="btn btn-small" data-toggle="modal"
                                                                     data-target="#quoteModalView{{ $quote->id }}">Voir</a>
 
-                                                                @if ($quote->status > 1)
+                                                                @if ($quote->status > 1 && $quote->status != 5)
                                                                     <a class="btn btn-small" data-toggle="modal"
                                                                         data-target="#responseModal{{ $quote->id }}">Réponse</a>
 
@@ -461,7 +461,7 @@
                             </div>
                             <div class="col-12 mb-5 text-center">
 
-                                @if ($quote->devis != null)
+                                @if ($quote->devis != null && $quote->status != 5)
                                     <a class="btn btn-small" data-toggle="modal" data-target="#payModal">Payer les
                                         Frais de service</a>
                                 @endif
@@ -549,8 +549,8 @@
     </div>
 
     <!-- =============================
-                                                                                                                                                                                                                                End: Profil
-                                                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                                        End: Profil
+                                                                                                                                                                                                                                    ============================= -->
 
 
     <div class="modal fade" id="folderModal">

@@ -81,7 +81,7 @@ class Controller extends BaseController
                 return $message;
                 break;
             case STATUT_PAID:
-                $message['type'] = "secondary";
+                $message['type'] = "success";
                 $message['message'] = "Payée";
                 return $message;
                 break;
