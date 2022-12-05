@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                                                                            Breadcrum Part HTML Start
-                                                                                                                                                                                                                                            =======================-->
+                                                                                                                                                                                                                                                Breadcrum Part HTML Start
+                                                                                                                                                                                                                                                =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                                                                                Breadcrum Part HTML End
-                                                                                                                                                                                                                                            ======================-->
+                                                                                                                                                                                                                                                    Breadcrum Part HTML End
+                                                                                                                                                                                                                                                ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                                                                                Start: Profil
-                                                                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                                                    Start: Profil
+                                                                                                                                                                                                                                                ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="full-width" style="padding: 1.5%">
             <div class="main-body">
@@ -182,61 +182,62 @@
                             </div>
                         </div>
 
-                        {{-- <div class="row gutters-sm">
-                            <div class="col-sm-12 mb-3">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h6 class="d-flex align-items-center mb-3">Liste de mes Paiements</h6>
-                                        <div class="table-responsive">
-                                            <table id="example" class="display" style="min-width: 845px">
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Reference</th>
-                                                        <th>N° Produit</th>
-                                                        <th>Montant</th>
-                                                        <th>ID Transaction</th>
-                                                        <th>Opérateur</th>
-                                                        <th>Statut</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                    @foreach ($payments as $payment)
+                        @if ($payments->count() > 0)
+                            <div class="row gutters-sm">
+                                <div class="col-sm-12 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="d-flex align-items-center mb-3">Liste de mes Paiements</h6>
+                                            <div class="table-responsive">
+                                                <table id="example" class="display" style="min-width: 845px">
+                                                    <thead>
                                                         <tr>
-                                                            <td>{{ $payment->id }}</td>
-                                                            <td>{{ $payment->reference }}</td>
-                                                            <td>{{ $payment->folder_id ? 'DOSSIER' : 'DEVIS' }}</td>
-                                                            <td>{{ number_format($payment->amount, 0, ',', ' ') }} XAF
-                                                            </td>
-                                                            <td>{{ $payment->transaction_id }}</td>
-                                                            <td>{{ $payment->operator }}</td>
-                                                            @php
-                                                                $status = App\Http\Controllers\Controller::status($payment->status);
-                                                            @endphp
-                                                            <td>{{ $status }}</td>
+                                                            <th>#</th>
+                                                            <th>Reference</th>
+                                                            <th>N° Produit</th>
+                                                            <th>Montant</th>
+                                                            <th>ID Transaction</th>
+                                                            <th>Opérateur</th>
+                                                            <th>Statut</th>
                                                         </tr>
-                                                    @endforeach
+                                                    </thead>
+                                                    <tbody>
 
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Reference</th>
-                                                        <th>N° Produit</th>
-                                                        <th>Montant</th>
-                                                        <th>ID Transaction</th>
-                                                        <th>Opérateur</th>
-                                                        <th>Statut</th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
+                                                        @foreach ($payments as $payment)
+                                                            <tr>
+                                                                <td>{{ $payment->id }}</td>
+                                                                <td>{{ $payment->reference }}</td>
+                                                                <td>{{ $payment->folder_id ? 'DOSSIER' : 'DEVIS' }}</td>
+                                                                <td>{{ number_format($payment->amount, 0, ',', ' ') }} XAF
+                                                                </td>
+                                                                <td>{{ $payment->transaction_id }}</td>
+                                                                <td>{{ $payment->operator }}</td>
+                                                                @php
+                                                                    $status = App\Http\Controllers\Controller::status($payment->status);
+                                                                @endphp
+                                                                <td>{{ $status }}</td>
+                                                            </tr>
+                                                        @endforeach
+
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Reference</th>
+                                                            <th>N° Produit</th>
+                                                            <th>Montant</th>
+                                                            <th>ID Transaction</th>
+                                                            <th>Opérateur</th>
+                                                            <th>Statut</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div> --}}
-
+                        @endif
                     </div>
                 </div>
 
@@ -551,8 +552,8 @@
     </div>
 
     <!-- =============================
-                                                                                                                                                                                                                                                End: Profil
-                                                                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                                                    End: Profil
+                                                                                                                                                                                                                                                ============================= -->
 
 
     <div class="modal fade" id="folderModal">
