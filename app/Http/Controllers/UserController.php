@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+
     public function profil(User $user)
     {
         $user = User::find(Auth::user()->id);
@@ -20,6 +22,15 @@ class UserController extends Controller
         $somme = 0;
         foreach ($user->payments as $payment) {
             $somme += $payment->amount;
+        }
+
+        foreach ($user->payments as $payment) {
+            $delais = Controller::delais_hour($payment->created_at);
+            if ($delais >= 1) {
+                if ($payment->status == STATUT_PENDING) {
+                    $payment->delete();
+                }
+            }
         }
 
         $services = Service::all();

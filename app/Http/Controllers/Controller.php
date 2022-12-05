@@ -52,6 +52,14 @@ class Controller extends BaseController
         return false;
     }
 
+    static function delais_hour($date_create)
+    {
+        $firstDate  = new \DateTime(date('Y-m-d H:s:i'));
+        $secondDate = new \DateTime($date_create);
+        $result = $firstDate->diff($secondDate);
+        return $result->h;
+    }
+
     static function status($status)
     {
         switch ($status) {
