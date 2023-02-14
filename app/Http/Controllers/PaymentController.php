@@ -262,7 +262,7 @@ class PaymentController extends Controller
         } else {
             $data->load(['service']);
 
-            dd($data);
+
             // Fetch all data (including those not optional) from session
             $response = Http::withHeaders([
                 'x-wallet' => '61969004de1502d25d2e2de7',
@@ -279,6 +279,8 @@ class PaymentController extends Controller
                 "logoURL" => asset('images/LogoRSA.png'),
             ]);
         }
+
+        dd($response);
 
         $response = json_decode($response->body());
 
