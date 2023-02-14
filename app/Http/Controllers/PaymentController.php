@@ -271,7 +271,7 @@ class PaymentController extends Controller
             ])->post('https://gateway.singpay.ga/v1/ext', [
                 "amount" => $data->service->price,
                 "client_msisdn" => $data->phone,
-                "portefeuille" => env('SING_WALLET', "61969004de1502d25d2e2de7"),
+                "portefeuille" => env('SING_WALLET', "61968f70de15022d622e2ddd"),
                 "reference" => $eb_reference,
                 "redirect_success" => url('/callback-singpay/quote/' . $data->id . '/' . $eb_reference),
                 "redirect_error" => url('/callback-singpay/quote/' . $data->id . '/' . $eb_reference),
