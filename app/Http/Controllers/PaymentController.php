@@ -280,8 +280,6 @@ class PaymentController extends Controller
             ]);
         }
 
-        //dd($response);
-
         $response = json_decode($response->body());
 
         if ($type == 'folder') {
