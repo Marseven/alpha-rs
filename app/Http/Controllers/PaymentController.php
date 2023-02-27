@@ -280,7 +280,7 @@ class PaymentController extends Controller
             ]);
         }
 
-        //dd($response);
+        dd($response);
 
         $response = json_decode($response->body());
 
