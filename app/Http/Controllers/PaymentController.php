@@ -372,7 +372,7 @@ class PaymentController extends Controller
 
     public function notify_singpay(Request $request)
     {
-        if ($request->input('transaction.reference')) {
+        if ($request->input('transaction.reference') && $request->input('transaction.status') == 'success') {
             $payment = Payment::where('reference', $request->input('transaction.reference'))->first();
             if ($payment) {
                 $payment->status = STATUT_PAID;
