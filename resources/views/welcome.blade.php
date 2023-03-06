@@ -312,7 +312,7 @@
                         </div>
                         <div class="col-md-3 col-9">
                             <div class="fun-facts-item">
-                                <h3 class="title odometer" data-count="8">00</h3>
+                                <h3 class="title odometer" data-count="100">00</h3>
                                 <span>+ Clients</span>
                                 <p>Heureux</p>
                             </div>
