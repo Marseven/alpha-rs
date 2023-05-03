@@ -312,7 +312,7 @@
                         </div>
                         <div class="col-md-3 col-9">
                             <div class="fun-facts-item">
-                                <h3 class="title odometer" data-count="100">00</h3>
+                                <span class="title odometer" data-count="100">00</span>
                                 <span>+ Clients</span>
                                 <p>Heureux</p>
                             </div>
@@ -324,7 +324,7 @@
                         </div>
                         <div class="col-md-3 col-9">
                             <div class="fun-facts-item">
-                                <h3 class="title odometer" data-count="4">00</h3>
+                                <span class="title odometer" data-count="4">00</span>
                                 <span>+ Services</span>
                                 <p>de Qualitées</p>
                             </div>
@@ -336,7 +336,7 @@
                         </div>
                         <div class="col-md-3 col-9">
                             <div class="fun-facts-item">
-                                <h3 class="title odometer" data-count="4">00</h3>
+                                <span class="title odometer" data-count="4">00</span>
                                 <span>+ Années</span>
                                 <p>d'Expériences</p>
                             </div>
