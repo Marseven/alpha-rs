@@ -25,6 +25,7 @@ class HospitalController extends Controller
             'hospitals.list',
             [
                 'hospitals' => $hospitals,
+                'title' => 'Hôpital'
             ]
         );
     }

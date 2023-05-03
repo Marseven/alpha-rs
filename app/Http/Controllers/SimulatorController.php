@@ -28,6 +28,7 @@ class SimulatorController extends Controller
                 'countries' => $countries,
                 'sicks' => $sicks,
                 'items' => $items,
+                'title' => 'Simulateur'
             ]
         );
     }
@@ -40,6 +41,7 @@ class SimulatorController extends Controller
             'admin.simulator.items',
             [
                 'items' => $items,
+                'title' => 'Simulateur'
             ]
         );
     }
@@ -67,6 +69,7 @@ class SimulatorController extends Controller
                 'sick_id' => $sick_id,
                 'countries' => $countries,
                 'sicks' => $sicks,
+                'title' => 'Simulateur'
             ]
         );
     }

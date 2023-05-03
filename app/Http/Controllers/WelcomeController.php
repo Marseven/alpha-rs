@@ -29,22 +29,29 @@ class WelcomeController extends Controller
             'towns' => $towns,
             'sicks' => $sicks,
             'countries' => $countries,
+            'title' => 'Accueil'
         ]);
     }
 
     public function faq()
     {
-        return view('faq');
+        return view('faq', [
+            'title' => 'Foires aux Questions'
+        ]);
     }
 
     public function pc()
     {
-        return view('pc');
+        return view('pc', [
+            'title' => 'Politiques de Confidentialités'
+        ]);
     }
 
     public function cgu()
     {
-        return view('cgu');
+        return view('cgu', [
+            'title' => 'Conditions générales d\'utilisation'
+        ]);
     }
 
     public function contact(Request $request)
@@ -86,6 +93,7 @@ class WelcomeController extends Controller
         return view('search', [
             'towns' => $towns,
             'keyword' => $keyword,
+            'title' => 'Recherche'
         ]);
     }
 }

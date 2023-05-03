@@ -28,6 +28,7 @@ class QuoteController extends Controller
             'quotes.list',
             [
                 'quotes' => $user->quotes,
+                'title' => 'Devis'
             ]
         );
     }
@@ -54,6 +55,7 @@ class QuoteController extends Controller
                 'countries' => $countries,
                 'service_check' => $service_check,
                 'country_check' => $country_check,
+                'title' => 'Devis'
             ]
         );
     }
@@ -256,6 +258,7 @@ class QuoteController extends Controller
             [
                 'quote' => $quote,
                 'service_id' => $service_id,
+                'title' => 'Paiement'
             ]
         );
     }

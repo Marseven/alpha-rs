@@ -44,6 +44,7 @@ class UserController extends Controller
             'payments' => $user->payments,
             'services' => $services,
             'countries' => $countries,
+            'title' => 'Profil'
 
         ]);
     }

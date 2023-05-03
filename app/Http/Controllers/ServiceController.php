@@ -20,6 +20,7 @@ class ServiceController extends Controller
         return view('services.list',
         [
             'services' => $services,
+            'title' => 'Services'
         ]);
     }
 
