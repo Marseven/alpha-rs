@@ -671,6 +671,16 @@
         </div>
     </section>
 
+    <section class="experience">
+        <div class="container">
+            <div class="row">
+
+                <img class="img-fluid" src="images/VISUEL3.jpg" alt="about">
+
+            </div>
+        </div>
+    </section>
+
     <!-- =============================
                                                                                                                                                                 End: Experience Part
                                                                                                                                                             ============================= -->

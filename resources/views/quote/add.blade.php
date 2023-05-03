@@ -134,10 +134,23 @@
                                 <br>
                                 <ul>
                                     <li>- Copie de votre passeport</li>
+
+                                </ul>
+                                <input type="file" name="join_piece_passport" class="form-control"
+                                    value="{{ old('join_piece') }}" id="inputPjoin">
+
+                                <ul>
+
                                     <li>- Rapport Médical délivré par votre médecin traitant</li>
+
+                                </ul>
+                                <input type="file" name="join_piece_rapport" class="form-control"
+                                    value="{{ old('join_piece') }}" id="inputPjoin">
+                                <ul>
+
                                     <li>- Différents types d’examens effectués (IRM, Scan, radiographie Biopsies)</li>
                                 </ul>
-                                <input type="file" name="join_piece" class="form-control"
+                                <input type="file" name="join_piece_examen" class="form-control"
                                     value="{{ old('join_piece') }}" id="inputPjoin">
 
 
