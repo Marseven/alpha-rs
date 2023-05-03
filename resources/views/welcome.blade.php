@@ -660,15 +660,12 @@
                                 </div>
                                 <br>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
-
             </div>
-
         </div>
+        <br>
     </section>
 
     <section class="experience">

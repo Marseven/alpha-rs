@@ -77,13 +77,35 @@ class QuoteController extends Controller
 
         $quote->category = $request->category;
 
-        if ($request->file('join_piece') != null) {
-            $join_piece = FileController::quote_file($request->file('join_piece'));
-            if ($join_piece['state'] == false) {
-                return back()->with('error', $join_piece['message']);
+        if ($request->file('join_piece_passport') != null) {
+            $join_piece_passport = FileController::quote_file($request->file('join_piece_passport'));
+            if ($join_piece_passport['state'] == false) {
+                return back()->with('error', $join_piece_passport['message']);
             }
 
-            $quote->join_piece = $join_piece['url'];
+            $quote->join_piece_passport = $join_piece_passport['url'];
+        } else {
+            return back()->with('error', "Veuillez joindre le dossier médicale.");
+        }
+
+        if ($request->file('join_piece_rapport') != null) {
+            $join_piece_rapport = FileController::quote_file($request->file('join_piece_rapport'));
+            if ($join_piece_rapport['state'] == false) {
+                return back()->with('error', $join_piece_rapport['message']);
+            }
+
+            $quote->join_piece_rapport = $join_piece_rapport['url'];
+        } else {
+            return back()->with('error', "Veuillez joindre le dossier médicale.");
+        }
+
+        if ($request->file('join_piece_exam') != null) {
+            $join_piece_exam = FileController::quote_file($request->file('join_piece_exam'));
+            if ($join_piece_exam['state'] == false) {
+                return back()->with('error', $join_piece_exam['message']);
+            }
+
+            $quote->join_piece_exam = $join_piece_exam['url'];
         } else {
             return back()->with('error', "Veuillez joindre le dossier médicale.");
         }

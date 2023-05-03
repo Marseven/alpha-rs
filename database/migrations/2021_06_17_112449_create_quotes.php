@@ -23,7 +23,9 @@ class CreateQuotes extends Migration
             $table->char('gender');
             $table->string('email');
             $table->string('phone');
-            $table->string('join_piece');
+            $table->string('join_piece_passport');
+            $table->string('join_piece_rapport');
+            $table->string('join_piece_exam');
             $table->foreignId('country_id');
             $table->foreignId('town_id')->nullable();
             $table->foreignId('service_id');
