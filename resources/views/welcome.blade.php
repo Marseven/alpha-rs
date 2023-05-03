@@ -385,7 +385,7 @@
                                     class="badge badge-pill badge-info">{{ number_format($service->price, 0, ',', ' ') }}
                                     XAF</span></h5>
                             <p style="padding: 5px">{{ $service->description }}</p>
-                            <div><a class="btn btn-4 btn-ser" href="{{ url('quote/service/' . $service->id) }}">Devis</a>
+                            <div><a class="btn btn-4 btn-ser" href="{{ url('quote/') }}">Devis</a>
                             </div>
                         </div>
                     </div>
