@@ -78,13 +78,12 @@
                                 <div class="form-group col-md-6">
                                     <label for="inputBirthday">Date de Naissance</label>
                                     <input type="date" name="birthday" value="{{ old('birthday') }}" class="form-control"
-                                        id="inputBirthday">
+                                        id="inputBirthday" required>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="inputGender">Genre</label>
-                                    <select id="inputGender" class="form-control" name="gender">
-                                        <option selected>Choisir...</option>
-                                        <option value="M">Masculin</option>
+                                    <select id="inputGender" class="form-control" name="gender" required>
+                                        <option value="M" selected>Masculin</option>
                                         <option value="F">Féminin</option>
                                     </select>
                                 </div>
@@ -92,17 +91,17 @@
                             <div class="form-group">
                                 <label for="inputEmail">Email</label>
                                 <input type="email" name="email" class="form-control" id="inputEmail"
-                                    placeholder="nom.premon@domaine.com" value="{{ old('email') }}">
+                                    placeholder="nom.premon@domaine.com" value="{{ old('email') }}" required>
                             </div>
                             <div class="form-group">
                                 <label for="inputPhone">Téléphone</label>
                                 <input type="phone" name="phone" value="{{ old('phone') }}" class="form-control"
-                                    id="inputPhone" placeholder="074010203">
+                                    id="inputPhone" placeholder="074010203" required>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputCountry">Pays de destination</label>
-                                    <select name="country_id" id="inputCountry" class="form-control">
+                                    <select name="country_id" id="inputCountry" class="form-control" required>
                                         @if ($country_check)
                                             <option value="{{ $country_check->id }}">{{ $country_check->label }}
                                             </option>
@@ -116,7 +115,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputService">Service Sollicité</label>
-                                    <select name="service_id" id="inputService" class="form-control">
+                                    <select name="service_id" id="inputService" class="form-control" required>
                                         @if ($service_check)
                                             <option value="{{ $service_check->id }}">{{ $service_check->label }}
                                             </option>
@@ -136,19 +135,19 @@
                                     <li>- Copie de votre passeport</li>
                                 </ul>
                                 <input type="file" name="join_piece_passport" class="form-control"
-                                    value="{{ old('join_piece') }}" id="inputPjoin">
+                                    value="{{ old('join_piece') }}" id="inputPjoin" required>
                                 <br>
                                 <ul>
                                     <li>- Rapport Médical délivré par votre médecin traitant</li>
                                 </ul>
                                 <input type="file" name="join_piece_rapport" class="form-control"
-                                    value="{{ old('join_piece') }}" id="inputPjoin">
+                                    value="{{ old('join_piece') }}" id="inputPjoin" required>
                                 <br>
                                 <ul>
                                     <li>- Différents types d’examens effectués (IRM, Scan, radiographie Biopsies)</li>
                                 </ul>
                                 <input type="file" name="join_piece_examen" class="form-control"
-                                    value="{{ old('join_piece') }}" id="inputPjoin">
+                                    value="{{ old('join_piece') }}" id="inputPjoin" required>
 
 
                             </div>
