@@ -286,9 +286,10 @@
                             <ul>
                                 <li><a href="https://www.facebook.com/profile.php?id=100077711215507&mibextid=ZbWKwL"><i
                                             class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                <li><a href="https://www.instagram.com/cheronehyldia/?hl=fr"><i
+                                            class="fab fa-instagram"></i></a></li>
+                                {{-- <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li> --}}
                             </ul>
                         </div>
                     </div>
