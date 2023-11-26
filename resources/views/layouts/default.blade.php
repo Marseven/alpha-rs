@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Alpha - {{$title}}</title>
+    <title>Alpha - {{ $title }}</title>
     <meta name="description" content="Assistance de santé, Évacuation sanitaire, Gabon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!---Favicon Icon-->
@@ -281,8 +281,10 @@
                                 d'une évacuation sanitaire ou pour un bilan de santé.
                             </p>
                             <ul>
-                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="https://www.facebook.com/profile.php?id=100077711215507&mibextid=ZbWKwL"><i
+                                            class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="#"><i class="fab fa-x"></i></a></li>
                                 <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
                             </ul>
                         </div>
