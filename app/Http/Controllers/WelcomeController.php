@@ -29,7 +29,7 @@ class WelcomeController extends Controller
             'towns' => $towns,
             'sicks' => $sicks,
             'countries' => $countries,
-            'title' => 'Accueil'
+            'title' => 'Se faire soigner à l’étranger'
         ]);
     }
 
