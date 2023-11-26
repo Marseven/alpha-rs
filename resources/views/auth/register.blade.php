@@ -9,7 +9,7 @@
                         <div class="auth-form">
                             <div class="text-center mb-3">
                                 <a href="{{ route('home') }}"><img src="{{ asset('images/Alpha.png') }}" alt="Alpha"
-                                        style="width: 20%; height:auto;"></a>
+                                        style="width: 20%; height:auto;" loading="lazy"></a>
                             </div>
                             <h4 class="text-center mb-4">Créer votre compte</h4>
                             @include('layouts.flash-admin')

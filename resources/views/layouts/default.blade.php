@@ -116,7 +116,8 @@
                     <div class="col-lg-1 col-md-1 col-1 pr0 logo-pad">
                         <div class="logo">
                             <a class="navbar-brand" href="{{ route('home') }}"><img
-                                    src="{{ asset('images/LogoRSA.png') }}" class="img-fluid" alt="logo"></a>
+                                    src="{{ asset('images/LogoRSA.png') }}" class="img-fluid" alt="logo"
+                                    loading="lazy"></a>
                         </div>
                     </div>
 
@@ -222,7 +223,8 @@
         <nav id='cssmenu' class="hidden mobile">
             <div class="logo">
                 <a href="{{ route('home') }}" class="logo">
-                    <img src="{{ asset('images/LogoRSA.png') }}" class="img-responsive" alt="">
+                    <img src="{{ asset('images/LogoRSA.png') }}" class="img-responsive" alt=""
+                        loading="lazy">
                 </a>
             </div>
             <div id="head-mobile"></div>
@@ -273,7 +275,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="cont-logo" style="text-align: center">
                             <a href="#aboutus"><img src="images/AlphaWhite.png" alt="footer logo"
-                                    style="width: 40%; height:auto;"></a>
+                                    style="width: 40%; height:auto;" loading="lazy"></a>
                         </div>
                         <div class="cont-txt">
                             <p class="cont-gap">

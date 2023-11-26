@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-    Breadcrum Part HTML Start
-    =======================-->
+        Breadcrum Part HTML Start
+        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -29,12 +29,12 @@
     </section>
 
     <!--====================
-        Breadcrum Part HTML End
-    ======================-->
+            Breadcrum Part HTML End
+        ======================-->
 
     <!-- =============================
-        Start: About Us
-    ============================= -->
+            Start: About Us
+        ============================= -->
     <section id="service" class="service section">
         <div class="container">
             <div class="row">
@@ -49,8 +49,8 @@
             </div>
 
             <!-- =============================
-                Start: Search
-            ============================= -->
+                    Start: Search
+                ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -66,8 +66,8 @@
                 </div>
             </div>
             <!-- =============================
-                End: Search
-            ============================= -->
+                    End: Search
+                ============================= -->
 
             <br><br>
 
@@ -79,12 +79,13 @@
                     <div class="col-md-4">
                         <div class="team-inner">
                             <div class="team-img text-center">
-                                <img src="{{ $town->picture }}" class="img-fluid" alt="team">
+                                <img src="{{ $town->picture }}" class="img-fluid" alt="team" loading="lazy">
                             </div>
                             <div class="team-txt text-center">
                                 <h4>{{ $town->label }}</h4>
                                 <p class="team-border">{{ $town->country->label }}</p>
-                                <div><a class="btn btn-4 btn-ser" href="{{ url('quote/town/' . $town->id) }}">Devis</a></div>
+                                <div><a class="btn btn-4 btn-ser" href="{{ url('quote/town/' . $town->id) }}">Devis</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -105,6 +106,6 @@
     </section>
 
     <!-- =============================
-        End: About Us
-    ============================= -->
+            End: About Us
+        ============================= -->
 @endsection

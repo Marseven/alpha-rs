@@ -220,8 +220,8 @@
 
 @section('content')
     <!-- =============================
-                                                                                                                                                                                        Start: Header Slider
-                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                        Start: Header Slider
+                                                                                                                                                                                                    ============================= -->
     <div class="tg-sliderholder">
         <div id="tg-homeslider" class="tg-homeslider tg-haslayout" style="padding-bottom: 0!important">
             <div class="pogoSlider-slide" data-transition="expandReveal" data-duration="1000"
@@ -279,7 +279,7 @@
             <div class="row">
                 <div class="col-lg-5 col-md-12 text-center no-padding">
                     <div class="about-col">
-                        <img class="img-fluid about-img" src="images/about-image.png" alt="about">
+                        <img class="img-fluid about-img" src="images/about-image.png" alt="about" loading="lazy">
                     </div>
 
                 </div>
@@ -352,12 +352,12 @@
     </section>
 
     <!-- =============================
-                                                                                                                                                                                        End: About Us
-                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                        End: About Us
+                                                                                                                                                                                                    ============================= -->
 
     <!-- =============================
-                                                                                                                                                                                        Start: service Part
-                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                        Start: service Part
+                                                                                                                                                                                                    ============================= -->
 
     <section id="service" class="service section">
         <div class="container">
@@ -500,8 +500,8 @@
             </div>
 
             <!-- =============================
-                                                                                                                                                                                                Start: Search
-                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                Start: Search
+                                                                                                                                                                                                            ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -517,8 +517,8 @@
                 </div>
             </div>
             <!-- =============================
-                                                                                                                                                                                                End: Search
-                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                End: Search
+                                                                                                                                                                                                            ============================= -->
 
             <br>
             <br>
@@ -535,8 +535,8 @@
             </div>
 
             <!-- =============================
-                                                                                                                                                                                                Start: Search
-                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                Start: Search
+                                                                                                                                                                                                            ============================= -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -554,29 +554,29 @@
                 </div>
             </div>
             <!-- =============================
-                                                                                                                                                                                                End: Search
-                                                                                                                                                                                            ============================= -->
+                                                                                                                                                                                                                End: Search
+                                                                                                                                                                                                            ============================= -->
 
         </div>
     </section>
     <!-- =============================
-                                                                                                                                                                                        End: service Part
-                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                        End: service Part
+                                                                                                                                                                                                    ============================= -->
 
     <!-- =============================
-                                                                                                                                                                                        Start: Experience Part
-                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                        Start: Experience Part
+                                                                                                                                                                                                    ============================= -->
 
     <section id="experience" class="experience">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-12 text-center">
-                    <img class="img-fluid" src="images/why-choose-us-image.png" alt="about">
+                    <img class="img-fluid" src="images/why-choose-us-image.png" alt="about" loading="lazy">
                 </div>
                 <div class="col-lg-7 exp-pad pl0">
                     <div class="row exp-in">
                         <div class="col-lg-3 col-md-12 text-center">
-                            <img src="images/experience.png" class="img-fluid exp" alt="experienced" />
+                            <img src="images/experience.png" class="img-fluid exp" alt="experienced" loading="lazy" />
                         </div>
                         <div class="col-lg-9 col-md-12 pl0">
                             <div class="exp-text">
@@ -672,18 +672,18 @@
         <div class="container">
             <div class="row">
 
-                <img class="img-fluid" src="images/VISUEL3.jpg" alt="about">
+                <img class="img-fluid" src="images/VISUEL3.jpg" alt="about" loading="lazy">
 
             </div>
         </div>
     </section>
 
     <!-- =============================
-                                                                                                                                                                                        End: Experience Part
-                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                        End: Experience Part
+                                                                                                                                                                                                    ============================= -->
     <!-- =============================
-                                                                                                                                                                                        Start: Testimonial Part
-                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                        Start: Testimonial Part
+                                                                                                                                                                                                    ============================= -->
     <section id="testimonial" class="testimonial section">
         <div class="container">
             <div class="row">
@@ -702,7 +702,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="test-img">
-                                    <img src="images/hubert.jpeg" class="img-fluid" alt="testimonial" />
+                                    <img src="images/hubert.jpeg" class="img-fluid" alt="testimonial" loading="lazy" />
                                 </div>
 
                             </div>
@@ -729,7 +729,8 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="test-img">
-                                    <img src="images/testimonial-image-4.png" class="img-fluid" alt="testimonial" />
+                                    <img src="images/testimonial-image-4.png" class="img-fluid" alt="testimonial"
+                                        loading="lazy" />
                                 </div>
 
                             </div>
@@ -754,7 +755,8 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="test-img">
-                                    <img src="images/testimonial-image-3.png" class="img-fluid" alt="testimonial" />
+                                    <img src="images/testimonial-image-3.png" class="img-fluid" alt="testimonial"
+                                        loading="lazy" />
                                 </div>
 
                             </div>
@@ -781,11 +783,11 @@
     </section>
 
     <!-- =============================
-                                                                                                                                                                                        End: Testimonial Part
-                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                        End: Testimonial Part
+                                                                                                                                                                                                    ============================= -->
     <!--========================
-                                                                                                                                                                                     Team Part HTML Start
-                                                                                                                                                                                    ==========================-->
+                                                                                                                                                                                                     Team Part HTML Start
+                                                                                                                                                                                                    ==========================-->
     <section id="team" class="team section">
         <div class="container">
             <div class="row">
@@ -804,7 +806,7 @@
                     <div class="col-md-4">
                         <div class="team-inner">
                             <div class="team-img text-center">
-                                <img src="{{ asset($town->picture) }}" class="img-fluid" alt="team">
+                                <img src="{{ asset($town->picture) }}" class="img-fluid" alt="team" loading="lazy">
                             </div>
                             <div class="team-txt text-center">
                                 <h4>{{ $town->label }}</h4>
@@ -828,11 +830,11 @@
     </section>
 
     <!--======================
-                                                                                                                                                                                     Team Part HTML End
-                                                                                                                                                                                    =======================-->
+                                                                                                                                                                                                     Team Part HTML End
+                                                                                                                                                                                                    =======================-->
     <!--======================
-                                                                                                                                                                                        Latest Updates Part HTML Start
-                                                                                                                                                                                    =======================-->
+                                                                                                                                                                                                        Latest Updates Part HTML Start
+                                                                                                                                                                                                    =======================-->
 
     <section id="contactus" class="blog section">
         <div class="container">
@@ -897,8 +899,8 @@
     </section>
 
     <!--======================
-                                                                                                                                                                                        Blog Part HTML End
-                                                                                                                                                                                    =======================-->
+                                                                                                                                                                                                        Blog Part HTML End
+                                                                                                                                                                                                    =======================-->
 @endsection
 
 @push('scripts')
