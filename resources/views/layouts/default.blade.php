@@ -284,7 +284,7 @@
                                 <li><a href="https://www.facebook.com/profile.php?id=100077711215507&mibextid=ZbWKwL"><i
                                             class="fab fa-facebook-f"></i></a></li>
                                 <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                <li><a href="#"><i class="fab fa-x"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
                             </ul>
                         </div>
@@ -336,7 +336,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-center">
-                            <p>Copyright © 2022. Tous Droits Réservés à Relief Service. Réaliser par <a
+                            <p>Copyright © 2023. Tous Droits Réservés à Relief Service. Réaliser par <a
                                     href="https://mebodorichard.tech">@aristidemebodo</a></p>
                         </div>
 
