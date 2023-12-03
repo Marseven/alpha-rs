@@ -117,8 +117,8 @@
                             @php
                                 $status = App\Http\Controllers\Controller::status($country->status);
                             @endphp
-                            <a class="btn btn-outline-primary btn-rounded mt-3 px-5"
-                                href="javascript:void(0)">{{ $status }}</a>
+                            <a class="btn btn-outline-{{ $status['type'] }} btn-rounded mt-3 px-5"
+                                href="javascript:void(0)">{{ $status['message'] }}</a>
                         </div>
                     </div>
                     <div class="modal-footer">
