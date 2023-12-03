@@ -123,8 +123,8 @@
                             @php
                                 $status = App\Http\Controllers\Controller::status($hospital->status);
                             @endphp
-                            <a class="btn btn-outline-primary btn-rounded mt-3 px-5"
-                                href="javascript:void(0)">{{ $status }}</a>
+                            <a class="btn btn-outline-{{ $status['type'] }} btn-rounded mt-3 px-5"
+                                href="javascript:void(0)">{{ $status['message'] }}</a>
                             <div class="row">
                                 <div class="col-6 pt-3 pb-3 border-right">
                                     <h3 class="mb-1">{{ $hospital->country->label }}</h3><span>Pays</span>
