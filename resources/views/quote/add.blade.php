@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                                                                                    Breadcrum Part HTML Start
-                                                                                    =======================-->
+                                                                                        Breadcrum Part HTML Start
+                                                                                        =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -29,14 +29,14 @@
     </section>
 
     <!--====================
-                                                                                        Breadcrum Part HTML End
-                                                                                    ======================-->
+                                                                                            Breadcrum Part HTML End
+                                                                                        ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                        Start: About Us
-                                                                                    ============================= -->
+                                                                                            Start: About Us
+                                                                                        ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="row about-page-para">
@@ -135,19 +135,19 @@
                                     <li>- Copie de votre passeport</li>
                                 </ul>
                                 <input type="file" name="join_piece_passport" class="form-control"
-                                    value="{{ old('join_piece') }}" id="inputPjoin" required>
+                                    value="{{ old('join_piece') }}" required>
                                 <br>
                                 <ul>
                                     <li>- Rapport Médical délivré par votre médecin traitant</li>
                                 </ul>
                                 <input type="file" name="join_piece_rapport" class="form-control"
-                                    value="{{ old('join_piece') }}" id="inputPjoin" required>
+                                    value="{{ old('join_piece') }}" required>
                                 <br>
                                 <ul>
                                     <li>- Différents types d’examens effectués (IRM, Scan, radiographie Biopsies)</li>
                                 </ul>
                                 <input type="file" name="join_piece_examen" class="form-control"
-                                    value="{{ old('join_piece') }}" id="inputPjoin" required>
+                                    value="{{ old('join_piece') }}" required>
 
 
                             </div>
@@ -192,6 +192,6 @@
     </section>
 
     <!-- =============================
-                                                                                        End: About Us
-                                                                                    ============================= -->
+                                                                                            End: About Us
+                                                                                        ============================= -->
 @endsection

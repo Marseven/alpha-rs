@@ -101,8 +101,8 @@ class QuoteController extends Controller
             return back()->with('error', "Veuillez joindre le dossier médicale.");
         }
 
-        if ($request->file('join_piece_exam') != null) {
-            $join_piece_exam = FileController::quote_file($request->file('join_piece_exam'));
+        if ($request->file('join_piece_examen') != null) {
+            $join_piece_exam = FileController::quote_file($request->file('join_piece_examen'));
             if ($join_piece_exam['state'] == false) {
                 return back()->with('error', $join_piece_exam['message']);
             }
@@ -124,10 +124,10 @@ class QuoteController extends Controller
             $quote->user_id = auth()->user()->id;
             if ($quote->save()) {
                 try {
-                    $result = Mail::to($quote->user->email)->queue(new QuoteMessage($quote, "quote"));
-                    $result1 = Mail::to('reliefservices21@gmail.com')->queue(new QuoteAdminMessage($quote, "quote"));
+                    $result = Mail::to($quote->user->email)->queue(new QuoteMessage($quote));
+                    $result1 = Mail::to('reliefservices21@gmail.com')->queue(new QuoteAdminMessage($quote));
                     foreach ($admins as $admin) {
-                        $result = Mail::to($admin->email)->queue(new QuoteAdminMessage($quote, "quote"));
+                        $result = Mail::to($admin->email)->queue(new QuoteAdminMessage($quote));
                     }
                 } catch (Swift_TransportException $e) {
                     echo $e->getMessage();
@@ -155,10 +155,10 @@ class QuoteController extends Controller
                         $quote->save();
 
                         try {
-                            $result = Mail::to($quote->user->email)->queue(new QuoteMessage($quote, "quote"));
-                            $result1 = Mail::to('reliefservices21@gmail.com')->queue(new QuoteAdminMessage($quote, "quote"));
+                            $result = Mail::to($quote->user->email)->queue(new QuoteMessage($quote));
+                            $result1 = Mail::to('reliefservices21@gmail.com')->queue(new QuoteAdminMessage($quote));
                             foreach ($admins as $admin) {
-                                $result = Mail::to($admin->email)->queue(new QuoteAdminMessage($quote, "quote"));
+                                $result = Mail::to($admin->email)->queue(new QuoteAdminMessage($quote));
                             }
                         } catch (Swift_TransportException $e) {
                             echo $e->getMessage();
