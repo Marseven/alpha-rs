@@ -138,9 +138,17 @@
                                 <p class="mb-0">{{ $quote->country->label }}</p>
                             </div>
                             <hr>
-                            <div class="col-12 mb-5">
-                                <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe</h6>
-                                <a href="{{ $quote->join_piece }}">Download</a>
+                            <div class="col-6 mb-5">
+                                <h6 class="text-uppercase fs-5 ls-2">Passport</h6>
+                                <a href="{{ asset($quote->join_piece_passport) }}" target="_blank">Télécharger</a>
+                            </div>
+                            <div class="col-6 mb-5">
+                                <h6 class="text-uppercase fs-5 ls-2">Examen</h6>
+                                <a href="{{ asset($quote->join_piece_exam) }}" target="_blank">Télécharger</a>
+                            </div>
+                            <div class="col-6 mb-5">
+                                <h6 class="text-uppercase fs-5 ls-2">Rappor</h6>
+                                <a href="{{ asset($quote->join_piece_rapport) }}" target="_blank">Télécharger</a>
                             </div>
                             <div class="col-12 mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Réponse</h6>
