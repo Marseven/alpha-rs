@@ -61,8 +61,9 @@
                                                         class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
                                                 </td>
                                                 <td>
-                                                    <a href="{{ asset($quote->devis) }}"><button type="button"
-                                                            class="btn btn-info"><i class="fa fa-download"></i></button></a>
+                                                    <a href="{{ asset($quote->devis) }}" target="_blank"><button
+                                                            type="button" class="btn btn-info"><i
+                                                                class="fa fa-download"></i></button></a>
                                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                                         data-target="#cardModalView{{ $quote->id }}"><i
                                                             class="fa fa-eye"></i></button>
