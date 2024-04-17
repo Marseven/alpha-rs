@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                                                                                                                                                                                Breadcrum Part HTML Start
-                                                                                                                                                                                =======================-->
+                                                                                                                                                                                    Breadcrum Part HTML Start
+                                                                                                                                                                                    =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -47,9 +47,9 @@
                 <div class="container">
                     <div class="row text-center">
                         <div class="col-12">
-                            <h3 class="mb-1">Frais de Service : {{ $service_id->label }}</h3>
+                            <h3 class="mb-1">Frais de Service : {{ $service->label }}</h3>
                             <br>
-                            <h1>{{ number_format($service_id->price, 0, ',', ' ') }} XAF</h1>
+                            <h1>{{ number_format($service->price, 0, ',', ' ') }} XAF</h1>
                         </div>
                     </div>
                     <br>
