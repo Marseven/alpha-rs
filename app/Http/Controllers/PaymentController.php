@@ -25,6 +25,7 @@ class PaymentController extends Controller
             'payment.list',
             [
                 'payments' => $user->payments,
+                'title' => 'Paiement'
             ]
         );
     }
@@ -37,6 +38,7 @@ class PaymentController extends Controller
             'payment.list',
             [
                 'payments' => $user->payments,
+                'title' => 'Paiement'
             ]
         );
     }
@@ -334,6 +336,7 @@ class PaymentController extends Controller
                     [
                         'folder' => $folder,
                         'payment' => $payment,
+                        'title' => 'Paiement'
                     ]
                 )->with('success', 'Votre paiment a bien été reçu.');
             } else {
@@ -362,6 +365,7 @@ class PaymentController extends Controller
                     [
                         'quote' => $quote,
                         'payment' => $payment,
+                        'title' => 'Paiement'
                     ]
                 )->with('success', "Votre paiment a bien été reçu.");
             } else {
