@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Relief Services Alpha - {{ $title }}</title>
+    <title>Relief Services Alpha - {{ $title ?? '' }}</title>
     <meta name="description"
         content="Vous avez besoin d’effectuer une consultation médicale à l’étranger ou  vous souhaiter  vous faire évacuer  pour  des  soins.  Relief  Services Al pha est là pour vous, une agence spécialisée dans l’assistance sanitaire.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
