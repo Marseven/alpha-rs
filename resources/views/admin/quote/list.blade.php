@@ -147,7 +147,7 @@
                                 <a href="{{ asset($quote->join_piece_exam) }}" target="_blank">Télécharger</a>
                             </div>
                             <div class="col-6 mb-5">
-                                <h6 class="text-uppercase fs-5 ls-2">Rappor</h6>
+                                <h6 class="text-uppercase fs-5 ls-2">Rapport</h6>
                                 <a href="{{ asset($quote->join_piece_rapport) }}" target="_blank">Télécharger</a>
                             </div>
                             <div class="col-12 mb-5">
