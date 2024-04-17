@@ -253,7 +253,6 @@ class QuoteController extends Controller
     public function payment(Quote $quote)
     {
         $service = Service::find($quote->service_id);
-        dd($service);
         return view(
             'quote.pay',
             [

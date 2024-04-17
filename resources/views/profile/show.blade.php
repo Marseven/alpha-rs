@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                                                                                                    Breadcrum Part HTML Start
-                                                                                                                                                                                                                                                                    =======================-->
+                                                                                                                                                                                                                                                                            Breadcrum Part HTML Start
+                                                                                                                                                                                                                                                                            =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                                                                                                        Breadcrum Part HTML End
-                                                                                                                                                                                                                                                                    ======================-->
+                                                                                                                                                                                                                                                                                Breadcrum Part HTML End
+                                                                                                                                                                                                                                                                            ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                                                                                                        Start: Profil
-                                                                                                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                                                                                                Start: Profil
+                                                                                                                                                                                                                                                                            ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="full-width" style="padding: 1.5%">
             <div class="main-body">
@@ -158,7 +158,7 @@
 
                                                                     @if ($quote->status != 5)
                                                                         <a class="btn btn-small" data-toggle="modal"
-                                                                            data-target="#payModal">Payer</a>
+                                                                            data-target="#payModal{{ $quote->id }}">Payer</a>
                                                                     @endif
                                                                 @endif
                                                             </td>
@@ -571,8 +571,8 @@
     </div>
 
     <!-- =============================
-                                                                                                                                                                                                                                                                        End: Profil
-                                                                                                                                                                                                                                                                    ============================= -->
+                                                                                                                                                                                                                                                                                End: Profil
+                                                                                                                                                                                                                                                                            ============================= -->
 
 
     <div class="modal fade" id="folderModal">
@@ -691,7 +691,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="payModal">
+        <div class="modal fade" id="payModal{{ $quote->id }}">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
