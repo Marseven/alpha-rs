@@ -103,7 +103,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">{{ $quote->reference }}</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Devis N°{{ $quote->id }}</h5>
                     </div>
                     <div class="modal-body">
                         <div class="row">

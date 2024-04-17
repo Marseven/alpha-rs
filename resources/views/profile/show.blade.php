@@ -9,8 +9,8 @@
 @section('content')
 
     <!--=========================
-                                                                                                                                                                                                                                                        Breadcrum Part HTML Start
-                                                                                                                                                                                                                                                        =======================-->
+                                                                                                                                                                                                                                                                    Breadcrum Part HTML Start
+                                                                                                                                                                                                                                                                    =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -36,14 +36,14 @@
     </section>
 
     <!--====================
-                                                                                                                                                                                                                                                            Breadcrum Part HTML End
-                                                                                                                                                                                                                                                        ======================-->
+                                                                                                                                                                                                                                                                        Breadcrum Part HTML End
+                                                                                                                                                                                                                                                                    ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                                                                                                                                                                                            Start: Profil
-                                                                                                                                                                                                                                                        ============================= -->
+                                                                                                                                                                                                                                                                        Start: Profil
+                                                                                                                                                                                                                                                                    ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="full-width" style="padding: 1.5%">
             <div class="main-body">
@@ -141,7 +141,9 @@
                                                             <td>{{ $quote->gender }}</td>
                                                             <td>{{ $quote->phone }}</td>
                                                             @php
-                                                                $status = App\Http\Controllers\Controller::status($quote->status);
+                                                                $status = App\Http\Controllers\Controller::status(
+                                                                    $quote->status,
+                                                                );
                                                             @endphp
                                                             <td> <span
                                                                     class="badge badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
@@ -213,7 +215,9 @@
                                                                 <td>{{ $payment->transaction_id }}</td>
                                                                 <td>{{ $payment->operator }}</td>
                                                                 @php
-                                                                    $status = App\Http\Controllers\Controller::status($payment->status);
+                                                                    $status = App\Http\Controllers\Controller::status(
+                                                                        $payment->status,
+                                                                    );
                                                                 @endphp
                                                                 <td><span
                                                                         class="badge badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
@@ -292,8 +296,19 @@
                                 <p class="mb-0">{{ $quote->country->label }}</p>
                             </div>
                             <div class="col-6  mb-5">
-                                <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe</h6>
-                                <a class="btn btn-info" href="{{ asset($quote->join_piece) }}">Télécharger</a>
+                                <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe : Passeport</h6>
+                                <a class="btn btn-info" href="{{ asset($quote->join_piece_passport) }}"
+                                    target="_blank">Télécharger</a>
+                            </div>
+                            <div class="col-6  mb-5">
+                                <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe : Exam</h6>
+                                <a class="btn btn-info" href="{{ asset($quote->join_piece_exam) }}"
+                                    target="_blank">Télécharger</a>
+                            </div>
+                            <div class="col-6  mb-5">
+                                <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe : Rapport</h6>
+                                <a class="btn btn-info" href="{{ asset($quote->join_piece_rapport) }}"
+                                    target="_blank">Télécharger</a>
                             </div>
                             <div class="col-6  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Statut</h6>
@@ -358,7 +373,8 @@
                                 <hr>
                                 <div class="col-6 mb-5">
                                     <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe</h6>
-                                    <a class="btn btn-info" href="{{ asset($folder->join_piece) }}">Download</a>
+                                    <a class="btn btn-info" href="{{ asset($folder->join_piece) }}"
+                                        target="_blank">Télécharger</a>
                                 </div>
                                 <div class="col-6  mb-5">
                                     <h6 class="text-uppercase fs-5 ls-2">Montant total à payer</h6>
@@ -460,7 +476,8 @@
                                 <p>{{ $quote->response ?? 'Aucune Réponse Pour le Moment' }}</p>
                                 <br>
                                 @if ($quote->devis != null)
-                                    <a class="btn btn-info" href="{{ asset($quote->devis) }}">Télécharger Devis</a>
+                                    <a class="btn btn-info" href="{{ asset($quote->devis) }}"
+                                        target="_blank">Télécharger Devis</a>
                                 @endif
 
                             </div>
@@ -554,8 +571,8 @@
     </div>
 
     <!-- =============================
-                                                                                                                                                                                                                                                            End: Profil
-                                                                                                                                                                                                                                                        ============================= -->
+                                                                                                                                                                                                                                                                        End: Profil
+                                                                                                                                                                                                                                                                    ============================= -->
 
 
     <div class="modal fade" id="folderModal">
