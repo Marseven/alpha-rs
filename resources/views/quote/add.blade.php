@@ -2,8 +2,8 @@
 
 @section('content')
     <!--=========================
-                                                                                        Breadcrum Part HTML Start
-                                                                                        =======================-->
+                                                                                                    Breadcrum Part HTML Start
+                                                                                                    =======================-->
     <section id="breadcrun" class="breadcrun-banner">
         <div class="container">
             <div class="row">
@@ -29,14 +29,14 @@
     </section>
 
     <!--====================
-                                                                                            Breadcrum Part HTML End
-                                                                                        ======================-->
+                                                                                                        Breadcrum Part HTML End
+                                                                                                    ======================-->
 
     @include('layouts.flash')
 
     <!-- =============================
-                                                                                            Start: About Us
-                                                                                        ============================= -->
+                                                                                                        Start: About Us
+                                                                                                    ============================= -->
     <section id="aboutus" class="aboutus aboutpage section">
         <div class="container">
             <div class="row about-page-para">
@@ -105,8 +105,6 @@
                                         @if ($country_check)
                                             <option value="{{ $country_check->id }}">{{ $country_check->label }}
                                             </option>
-                                        @else
-                                            <option selected>Choisir...</option>
                                         @endif
                                         @foreach ($countries as $country)
                                             <option value="{{ $country->id }}">{{ $country->label }}</option>
@@ -119,8 +117,6 @@
                                         @if ($service_check)
                                             <option value="{{ $service_check->id }}">{{ $service_check->label }}
                                             </option>
-                                        @else
-                                            <option selected>Choisir...</option>
                                         @endif
                                         @foreach ($services as $service)
                                             <option value="{{ $service->id }}">{{ $service->label }}</option>
@@ -192,6 +188,6 @@
     </section>
 
     <!-- =============================
-                                                                                            End: About Us
-                                                                                        ============================= -->
+                                                                                                        End: About Us
+                                                                                                    ============================= -->
 @endsection
