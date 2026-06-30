@@ -60,6 +60,8 @@ use function trim;
  * If a body consists of multiple lines then this factory will also remove any superfluous whitespace at the beginning
  * of each line while maintaining any indentation that is used. This will prevent formatting parsers from tripping
  * over unexpected spaces as can be observed with tag descriptions.
+ *
+ * @internal
  */
 class DescriptionFactory extends BaseDescriptionFactory
 {
@@ -124,8 +126,9 @@ class DescriptionFactory extends BaseDescriptionFactory
 
         return Utils::pregSplit(
             '/\{
-                # "{@}" is not a valid inline tag. This ensures that we do not treat it as one, but treat it literally.
-                (?!@\})
+                # "{@}" and "{@*}" are not a valid inline tags. This ensures that we do not treat them as one, but treat
+                # them literally.
+                (?!(?:@\}|@\*\}) )
                 # We want to capture the whole tag line, but without the inline tag delimiters.
                 (\@
                     # Match everything up to the next delimiter.

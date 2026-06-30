@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Cache;
 
+use Psr\Cache\CacheItemInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Exception\InvalidArgumentException;
 use Symfony\Component\Cache\Exception\LogicException;
@@ -22,6 +23,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 final class CacheItem implements ItemInterface
 {
     private const METADATA_EXPIRY_OFFSET = 1527506807;
+    private const VALUE_WRAPPER = "\xA9";
 
     protected string $key;
     protected mixed $value = null;
@@ -29,37 +31,26 @@ final class CacheItem implements ItemInterface
     protected float|int|null $expiry = null;
     protected array $metadata = [];
     protected array $newMetadata = [];
-    protected $innerItem = null;
+    protected ?CacheItemInterface $innerItem = null;
     protected ?string $poolHash = null;
     protected bool $isTaggable = false;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get(): mixed
     {
         return $this->value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isHit(): bool
     {
         return $this->isHit;
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return $this
      */
     public function set($value): static
@@ -70,8 +61,6 @@ final class CacheItem implements ItemInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return $this
      */
     public function expiresAt(?\DateTimeInterface $expiration): static
@@ -82,8 +71,6 @@ final class CacheItem implements ItemInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return $this
      */
     public function expiresAfter(mixed $time): static
@@ -91,30 +78,27 @@ final class CacheItem implements ItemInterface
         if (null === $time) {
             $this->expiry = null;
         } elseif ($time instanceof \DateInterval) {
-            $this->expiry = microtime(true) + \DateTime::createFromFormat('U', 0)->add($time)->format('U.u');
+            $this->expiry = microtime(true) + \DateTimeImmutable::createFromFormat('U', 0)->add($time)->format('U.u');
         } elseif (\is_int($time)) {
             $this->expiry = $time + microtime(true);
         } else {
-            throw new InvalidArgumentException(sprintf('Expiration date must be an integer, a DateInterval or null, "%s" given.', get_debug_type($time)));
+            throw new InvalidArgumentException(\sprintf('Expiration date must be an integer, a DateInterval or null, "%s" given.', get_debug_type($time)));
         }
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function tag(mixed $tags): static
     {
         if (!$this->isTaggable) {
-            throw new LogicException(sprintf('Cache item "%s" comes from a non tag-aware pool: you cannot tag it.', $this->key));
+            throw new LogicException(\sprintf('Cache item "%s" comes from a non tag-aware pool: you cannot tag it.', $this->key));
         }
-        if (!is_iterable($tags)) {
+        if (!\is_array($tags) && !$tags instanceof \Traversable) { // don't use is_iterable(), it's slow
             $tags = [$tags];
         }
         foreach ($tags as $tag) {
             if (!\is_string($tag) && !$tag instanceof \Stringable) {
-                throw new InvalidArgumentException(sprintf('Cache tag must be string or object that implements __toString(), "%s" given.', get_debug_type($tag)));
+                throw new InvalidArgumentException(\sprintf('Cache tag must be string or object that implements __toString(), "%s" given.', get_debug_type($tag)));
             }
             $tag = (string) $tag;
             if (isset($this->newMetadata[self::METADATA_TAGS][$tag])) {
@@ -124,7 +108,7 @@ final class CacheItem implements ItemInterface
                 throw new InvalidArgumentException('Cache tag length must be greater than zero.');
             }
             if (false !== strpbrk($tag, self::RESERVED_CHARACTERS)) {
-                throw new InvalidArgumentException(sprintf('Cache tag "%s" contains reserved characters "%s".', $tag, self::RESERVED_CHARACTERS));
+                throw new InvalidArgumentException(\sprintf('Cache tag "%s" contains reserved characters "%s".', $tag, self::RESERVED_CHARACTERS));
             }
             $this->newMetadata[self::METADATA_TAGS][$tag] = $tag;
         }
@@ -132,9 +116,6 @@ final class CacheItem implements ItemInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMetadata(): array
     {
         return $this->metadata;
@@ -150,13 +131,13 @@ final class CacheItem implements ItemInterface
     public static function validateKey($key): string
     {
         if (!\is_string($key)) {
-            throw new InvalidArgumentException(sprintf('Cache key must be string, "%s" given.', get_debug_type($key)));
+            throw new InvalidArgumentException(\sprintf('Cache key must be string, "%s" given.', get_debug_type($key)));
         }
         if ('' === $key) {
             throw new InvalidArgumentException('Cache key length must be greater than zero.');
         }
         if (false !== strpbrk($key, self::RESERVED_CHARACTERS)) {
-            throw new InvalidArgumentException(sprintf('Cache key "%s" contains reserved characters "%s".', $key, self::RESERVED_CHARACTERS));
+            throw new InvalidArgumentException(\sprintf('Cache key "%s" contains reserved characters "%s".', $key, self::RESERVED_CHARACTERS));
         }
 
         return $key;
@@ -167,18 +148,58 @@ final class CacheItem implements ItemInterface
      *
      * @internal
      */
-    public static function log(?LoggerInterface $logger, string $message, array $context = [])
+    public static function log(?LoggerInterface $logger, string $message, array $context = []): void
     {
         if ($logger) {
             $logger->warning($message, $context);
         } else {
             $replace = [];
             foreach ($context as $k => $v) {
-                if (is_scalar($v)) {
+                if (\is_scalar($v)) {
                     $replace['{'.$k.'}'] = $v;
                 }
             }
             @trigger_error(strtr($message, $replace), \E_USER_WARNING);
         }
     }
+
+    private function pack(): mixed
+    {
+        if (!$m = $this->newMetadata) {
+            return $this->value;
+        }
+        $valueWrapper = self::VALUE_WRAPPER;
+
+        if ($this->value instanceof $valueWrapper) {
+            return new $valueWrapper($this->value->value, $m + ['expiry' => $this->expiry] + $this->value->metadata);
+        }
+
+        return new $valueWrapper($this->value, $m + ['expiry' => $this->expiry]);
+    }
+
+    private function unpack(): bool
+    {
+        $v = $this->value;
+        $valueWrapper = self::VALUE_WRAPPER;
+
+        if ($v instanceof $valueWrapper) {
+            $this->value = $v->value;
+            $this->metadata = $v->metadata;
+
+            return true;
+        }
+
+        if (!\is_array($v) || 1 !== \count($v) || 10 !== \strlen($k = (string) array_key_first($v)) || "\x9D" !== $k[0] || "\0" !== $k[5] || "\x5F" !== $k[9]) {
+            return false;
+        }
+
+        // BC with pools populated before v6.1
+        $this->value = $v[$k];
+        $this->metadata = unpack('Vexpiry/Nctime', substr($k, 1, -1));
+        $this->metadata['expiry'] += self::METADATA_EXPIRY_OFFSET;
+
+        return true;
+    }
 }
+
+// @php-cs-fixer-ignore protected_to_private Friend-level scope access relies on protected properties

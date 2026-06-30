@@ -1,7 +1,7 @@
 {
     "name": "kreait/laravel-firebase",
     "description": "A Laravel package for the Firebase PHP Admin SDK",
-    "keywords": ["laravel", "firebase", "fcm", "gcm"],
+    "keywords": ["laravel", "firebase", "firebase", "sdk", "api", "database", "fcm", "gcm"],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -11,15 +11,15 @@
         }
     ],
     "require": {
-        "php": "^7.2|^8.0",
-        "kreait/firebase-php": "^5.24",
-        "illuminate/contracts": "^6.0|^7.0|^8.0",
-        "illuminate/support": "^6.0|^7.0|^8.0",
-        "symfony/cache": "^5.4|^6.0"
+        "php": "^7.4 || ^8.0",
+        "kreait/firebase-php": "^6.7",
+        "illuminate/contracts": "^8.0 || ^9.0",
+        "illuminate/support": "^8.0 || ^9.0",
+        "symfony/cache": "^5.4 || ^6.1.2"
     },
     "require-dev": {
-        "orchestra/testbench": "^4.0|^5.0|^6.0",
-        "friendsofphp/php-cs-fixer": "^2.16"
+        "orchestra/testbench": "^6.0 || 7.0",
+        "symplify/easy-coding-standard": "^10.3.3"
     },
     "autoload": {
         "psr-4": {
@@ -40,14 +40,7 @@
                 "Kreait\\Laravel\\Firebase\\ServiceProvider"
             ],
             "aliases": {
-                "Firebase": "Kreait\\Laravel\\Firebase\\Facades\\Firebase",
-                "FirebaseAuth": "Kreait\\Laravel\\Firebase\\Facades\\FirebaseAuth",
-                "FirebaseDatabase": "Kreait\\Laravel\\Firebase\\Facades\\FirebaseDatabase",
-                "FirebaseDynamicLinks": "Kreait\\Laravel\\Firebase\\Facades\\FirebaseDynamicLinks",
-                "FirebaseFirestore": "Kreait\\Laravel\\Firebase\\Facades\\FirebaseFirestore",
-                "FirebaseMessaging": "Kreait\\Laravel\\Firebase\\Facades\\FirebaseMessaging",
-                "FirebaseRemoteConfig": "Kreait\\Laravel\\Firebase\\Facades\\FirebaseRemoteConfig",
-                "FirebaseStorage": "Kreait\\Laravel\\Firebase\\Facades\\FirebaseStorage"
+                "Firebase": "Kreait\\Laravel\\Firebase\\Facades\\Firebase"
             }
         }
     }

@@ -13,7 +13,7 @@ use Psr\Http\Message\UriInterface;
  * Request redirect middleware.
  *
  * Apply this middleware like other middleware using
- * {@see \GuzzleHttp\Middleware::redirect()}.
+ * {@see Middleware::redirect()}.
  *
  * @final
  */
@@ -27,10 +27,10 @@ class RedirectMiddleware
      * @var array
      */
     public static $defaultSettings = [
-        'max'             => 5,
-        'protocols'       => ['http', 'https'],
-        'strict'          => false,
-        'referer'         => false,
+        'max' => 5,
+        'protocols' => ['http', 'https'],
+        'strict' => false,
+        'referer' => false,
         'track_redirects' => false,
     ];
 
@@ -166,19 +166,20 @@ class RedirectMiddleware
         // not forcing RFC compliance, but rather emulating what all browsers
         // would do.
         $statusCode = $response->getStatusCode();
-        if ($statusCode == 303 ||
-            ($statusCode <= 302 && !$options['allow_redirects']['strict'])
+        if ($statusCode == 303
+            || ($statusCode <= 302 && !$options['allow_redirects']['strict'])
         ) {
-            $safeMethods = ['GET', 'HEAD', 'OPTIONS'];
             $requestMethod = $request->getMethod();
 
-            $modify['method'] = in_array($requestMethod, $safeMethods) ? $requestMethod : 'GET';
-            $modify['body'] = '';
+            if ($requestMethod !== 'QUERY' || !\in_array($statusCode, [301, 302], true)) {
+                $modify['method'] = \in_array($requestMethod, ['GET', 'HEAD', 'OPTIONS'], true) ? $requestMethod : 'GET';
+                $modify['body'] = '';
+            }
         }
 
         $uri = self::redirectUri($request, $response, $protocols);
-        if (isset($options['idn_conversion']) && ($options['idn_conversion'] !== false)) {
-            $idnOptions = ($options['idn_conversion'] === true) ? \IDNA_DEFAULT : $options['idn_conversion'];
+        $idnOptions = Utils::normalizeIdnConversionOption($options['idn_conversion'] ?? null);
+        if ($idnOptions !== null) {
             $uri = Utils::idnUriConvert($uri, $idnOptions);
         }
 

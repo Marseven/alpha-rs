@@ -29,8 +29,8 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
  */
 class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
 {
-    private $stderr;
-    private $consoleSectionOutputs = [];
+    private OutputInterface $stderr;
+    private array $consoleSectionOutputs = [];
 
     /**
      * @param int                           $verbosity The verbosity level (one of the VERBOSITY constants in OutputInterface)
@@ -65,7 +65,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function setDecorated(bool $decorated)
     {
@@ -74,7 +74,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function setFormatter(OutputFormatterInterface $formatter)
     {
@@ -83,7 +83,7 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function setVerbosity(int $level)
     {
@@ -91,16 +91,13 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
         $this->stderr->setVerbosity($level);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getErrorOutput()
+    public function getErrorOutput(): OutputInterface
     {
         return $this->stderr;
     }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     public function setErrorOutput(OutputInterface $error)
     {
@@ -110,10 +107,8 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     /**
      * Returns true if current environment supports writing console output to
      * STDOUT.
-     *
-     * @return bool
      */
-    protected function hasStdoutSupport()
+    protected function hasStdoutSupport(): bool
     {
         return false === $this->isRunningOS400();
     }
@@ -121,10 +116,8 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
     /**
      * Returns true if current environment supports writing console output to
      * STDERR.
-     *
-     * @return bool
      */
-    protected function hasStderrSupport()
+    protected function hasStderrSupport(): bool
     {
         return false === $this->isRunningOS400();
     }
@@ -149,12 +142,27 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
      */
     private function openOutputStream()
     {
+        static $stdout;
+
+        if ($stdout) {
+            return $stdout;
+        }
+
         if (!$this->hasStdoutSupport()) {
-            return fopen('php://output', 'w');
+            return $stdout = fopen('php://output', 'w');
         }
 
         // Use STDOUT when possible to prevent from opening too many file descriptors
-        return \defined('STDOUT') ? \STDOUT : (@fopen('php://stdout', 'w') ?: fopen('php://output', 'w'));
+        if (!\defined('STDOUT')) {
+            return $stdout = @fopen('php://stdout', 'w') ?: fopen('php://output', 'w');
+        }
+
+        // On Windows, STDOUT is opened in text mode; reopen in binary mode to prevent \n to \r\n conversion
+        if ('\\' === \DIRECTORY_SEPARATOR) {
+            return $stdout = @fopen('php://stdout', 'w') ?: \STDOUT;
+        }
+
+        return $stdout = \STDOUT;
     }
 
     /**
@@ -162,11 +170,26 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
      */
     private function openErrorStream()
     {
+        static $stderr;
+
+        if ($stderr) {
+            return $stderr;
+        }
+
         if (!$this->hasStderrSupport()) {
-            return fopen('php://output', 'w');
+            return $stderr = fopen('php://output', 'w');
         }
 
         // Use STDERR when possible to prevent from opening too many file descriptors
-        return \defined('STDERR') ? \STDERR : (@fopen('php://stderr', 'w') ?: fopen('php://output', 'w'));
+        if (!\defined('STDERR')) {
+            return $stderr = @fopen('php://stderr', 'w') ?: fopen('php://output', 'w');
+        }
+
+        // On Windows, STDERR is opened in text mode; reopen in binary mode to prevent \n → \r\n conversion
+        if ('\\' === \DIRECTORY_SEPARATOR) {
+            return $stderr = @fopen('php://stderr', 'w') ?: \STDERR;
+        }
+
+        return $stderr ??= \STDERR;
     }
 }

@@ -181,19 +181,12 @@ return [
                 /*
                  * Set the maximum amount of seconds (float) that can pass before
                  * a request is considered timed out
-                 * (default: indefinitely)
+                 *
+                 * The default time out can be reviewed at
+                 * https://github.com/kreait/firebase-php/blob/6.x/src/Firebase/Http/HttpClientOptions.php
                  */
                 'timeout' => env('FIREBASE_HTTP_CLIENT_TIMEOUT'),
             ],
-
-            /*
-             * ------------------------------------------------------------------------
-             * Debug (deprecated)
-             * ------------------------------------------------------------------------
-             *
-             * Enable debugging of HTTP requests made directly from the SDK.
-             */
-            'debug' => env('FIREBASE_ENABLE_DEBUG', false),
         ],
     ],
 ];

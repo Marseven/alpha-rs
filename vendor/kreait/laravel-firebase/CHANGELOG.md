@@ -2,6 +2,36 @@
 
 ## Unreleased
 
+## 4.2.0 - 2022-07-28
+
+* Bumped dependencies, the minimum version of the underlying SDK is now 6.7.0.
+* Updated comment in `config/firebase.php` to reference the default HTTP timeout
+  * With `kreait/firebase` 6.7.0, the default was changed from ∞ to 30 seconds.
+
+## 4.1.0 - 2022-02-08
+
+* Added support for Laravel 9 ([#118](https://github.com/kreait/laravel-firebase/pull/118))
+
+## 4.0.0 - 2022-01-09
+
+This is a release with breaking changes. Please review the following changes and adapt your application where needed.
+
+### Changes
+
+* Added support for `kreait/firebase-php` ^6.0
+* Dropped support for `kreait/firebase-php` <6.0
+* Dropped support for Laravel/Lumen <8.0
+* Removed deprecated Facades - use the `Kreait\Laravel\Firebase\Facades\Firebase` facade instead 
+  * `Kreait\Laravel\Firebase\Facades\FirebaseAuth`
+  * `Kreait\Laravel\Firebase\Facades\FirebaseDatabase`
+  * `Kreait\Laravel\Firebase\Facades\FirebaseDynamicLinks`
+  * `Kreait\Laravel\Firebase\Facades\FirebaseFirestore`
+  * `Kreait\Laravel\Firebase\Facades\FirebaseMessaging`
+  * `Kreait\Laravel\Firebase\Facades\FirebaseRemoteConfig`
+  * `Kreait\Laravel\Firebase\Facades\FirebaseStorage`
+* Removed support deprecated config options and environment variables
+  * `$config['debug']`/`FIREBASE_ENABLE_DEBUG`, use the `http_debug_log_channel` config option instead
+
 ## 3.4.0 - 2021-12-04
 ### Added
 * Added support for caching the authentication tokens used for connecting to the Firebase servers.
@@ -29,12 +59,9 @@
 
 ## 3.0.0 - 2020-11-01 
 ### Added
-* Support for multiple firebase projects
-  (thanks to [@dododedodonl](https://github.com/dododedodonl)).
-  See "upgrading to version 3" section in [UPGRADE.md](UPGRADE.md)
+* Support for multiple firebase projects (thanks to [@dododedodonl](https://github.com/dododedodonl)).
 * `\Kreait\Laravel\Firebase\Facades\Firebase` facade
-* HTTP Client Options are now configurable 
-  (thanks to [@kakajansh](https://github.com/kakajansh))
+* HTTP Client Options are now configurable (thanks to [@kakajansh](https://github.com/kakajansh))
 
 ### Changed
 * [config/firebase.php](config/firebase.php) has a new format to support multiple projects
