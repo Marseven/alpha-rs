@@ -64,9 +64,19 @@ anti-régression, notamment pendant la migration Laravel 12.
 
 ## Sécurité
 
-Voir [`SECURITY.md`](SECURITY.md) : gestion et rotation des secrets,
-fonctionnement des webhooks signés, contrôle d'accès (Policies + RBAC),
-validation des uploads, et points résiduels à traiter.
+Voir [`SECURITY.md`](SECURITY.md) : rotation des secrets, webhooks signés +
+inquiry serveur-à-serveur, contrôle d'accès (Policies + RBAC), **stockage privé
+des documents** et téléchargement contrôlé (`/files/quotes|folders/{id}/{field}`).
+
+Migration des documents existants vers le stockage privé :
+
+```bash
+php artisan sensitive-files:migrate          # copie (non destructif)
+php artisan sensitive-files:migrate --delete # supprime les originaux publics
+```
+
+Détails de durcissement : [`docs/HARDENING_REPORT.md`](docs/HARDENING_REPORT.md).
+Déploiement et bascule `vendor/` : [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
 ## Déploiement
 

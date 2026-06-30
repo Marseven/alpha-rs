@@ -38,10 +38,14 @@ attendu est calculé côté serveur ; le montant du payload doit correspondre et
 peut jamais l'écraser. Seule la transition `PENDING → PAID` est permise
 (idempotente sur rejeu).
 
-**Résiduel :** aligner l'en-tête / le schéma de signature
-(`X-Webhook-Signature`) avec ce que le PSP envoie réellement. Si un PSP ne signe
-pas ses notifications, ajouter une vérification serveur-à-serveur (inquiry) avant
-de valider le paiement — ne jamais faire confiance au seul payload entrant.
+En complément, une **vérification serveur-à-serveur (inquiry)** peut être exigée
+via `PAYMENT_REQUIRE_PROVIDER_INQUIRY=true` : le webhook n'est validé qu'après
+confirmation du statut **et** du montant par le PSP (`SingpayProvider` /
+`EbillingProvider`), en *fail-closed* si l'inquiry n'est pas configurée.
+
+**Résiduel :** aligner l'en-tête/le schéma de signature (`X-Webhook-Signature`)
+et confirmer les endpoints d'inquiry réels (`SINGPAY_INQUIRY_URL`,
+`EBILLING_INQUIRY_URL`) + le format de réponse avec les PSP.
 
 ## Contrôle d'accès
 
@@ -55,13 +59,17 @@ de valider le paiement — ne jamais faire confiance au seul payload entrant.
 ## Uploads
 
 Les documents uploadés sont restreints (extensions `pdf/jpg/jpeg/png`, MIME réel
-vérifié, 10 Mo max) et stockés sous un nom généré côté serveur. Un `.htaccess`
-dans `public/upload` bloque l'exécution de scripts et l'accès aux extensions
-sensibles.
+vérifié, 10 Mo max) et stockés sous un nom généré côté serveur, **sur le disque
+privé** `storage/app/private/*` (plus jamais sous `public/`). Ils ne sont
+servis que via des routes authentifiées et contrôlées par Policy :
+`GET /files/quotes/{quote}/{field}` et `GET /files/folders/{folder}/{field}`
+(champs whitelistés, chemin lu sur le modèle, jamais sur la requête).
+Un `.htaccess` dans `public/upload` reste en défense en profondeur pour les
+fichiers legacy non encore migrés.
 
-**Résiduel recommandé :** déplacer les documents sensibles vers
-`storage/app/private` et les servir via une route de téléchargement authentifiée
-(les PDF/images restent aujourd'hui accessibles par URL directe).
+**Migration des fichiers existants :** `php artisan sensitive-files:migrate`
+(puis `--delete` après vérification) déplace les anciens fichiers publics vers
+le stockage privé.
 
 ## Signaler une vulnérabilité
 
