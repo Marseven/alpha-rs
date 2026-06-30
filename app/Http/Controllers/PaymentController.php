@@ -116,8 +116,8 @@ class PaymentController extends Controller
             ];
 
         $content = json_encode($global_array);
-        $curl = curl_init(env('SERVER_URL'));
-        curl_setopt($curl, CURLOPT_USERPWD, env('USER_NAME') . ":" . env('SHARED_KEY'));
+        $curl = curl_init(config('services.ebilling.base_url'));
+        curl_setopt($curl, CURLOPT_USERPWD, config('services.ebilling.username') . ":" . config('services.ebilling.shared_key'));
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
@@ -168,7 +168,7 @@ class PaymentController extends Controller
         PaymentController::create($type, $data);
 
         // Redirect to E-Billing portal
-        echo "<form action='" . env('POST_URL') . "' method='post' name='frm'>";
+        echo "<form action='" . config('services.ebilling.post_url') . "' method='post' name='frm'>";
         echo "<input type='hidden' name='invoice_number' value='" . $bill_id . "'>";
         echo "<input type='hidden' name='eb_callbackurl' value='" . $eb_callbackurl . "'>";
         echo "</form>";
@@ -238,49 +238,40 @@ class PaymentController extends Controller
         }
     }
 
+    /**
+     * Build the request to the Singpay gateway. Credentials come from
+     * config/services.php (env-backed), never from hardcoded values.
+     */
+    private static function singpayRequest($type, $data, $eb_reference)
+    {
+        $callback = url('/callback-singpay/' . $type . '/' . $data->id . '/' . $eb_reference);
+
+        return Http::withHeaders([
+            'x-wallet' => config('services.singpay.wallet_id'),
+            'x-client-id' => config('services.singpay.client_id'),
+            'x-client-secret' => config('services.singpay.client_secret'),
+        ])->post(config('services.singpay.base_url'), [
+            "amount" => $data->service->price,
+            "client_msisdn" => $data->phone,
+            "portefeuille" => config('services.singpay.wallet_id'),
+            "reference" => $eb_reference,
+            "redirect_success" => $callback,
+            "redirect_error" => $callback,
+            "disbursement" => config('services.singpay.disbursement_wallet_id'),
+            "logoURL" => asset('images/LogoRSA.png'),
+        ]);
+    }
+
     static function singpay($type, $data)
     {
 
         $eb_reference = Controller::str_random_pay(8);
 
-
-
-        if ($type == 'folder') {
-            // Fetch all data (including those not optional) from session
-            $response = Http::withHeaders([
-                'x-wallet' => '61968f70de15022d622e2ddd',
-                'x-client-id' => '7fbdcd94-7fa2-45d9-9db4-c165d8200364',
-                'x-client-secret' => 'ce88eefaf3f18d65c83187d8197d3a3566515a9dd59dca701f327818e3d8946b'
-            ])->post('https://gateway.singpay.ga/v1/ext', [
-                "amount" => $data->service->price,
-                "client_msisdn" => $data->phone,
-                "portefeuille" => env('SING_WALLET', "61968f70de15022d622e2ddd"),
-                "reference" => $eb_reference,
-                "redirect_success" => url('/callback-singpay/folder/' . $data->id . '/' . $eb_reference),
-                "redirect_error" => url('/callback-singpay/folder/' . $data->id . '/' . $eb_reference),
-                "disbursement" => "61969004de1502d25d2e2de7",
-                "logoURL" => asset('images/LogoRSA.png'),
-            ]);
-        } else {
+        if ($type != 'folder') {
             $data->load(['service']);
-
-
-            // Fetch all data (including those not optional) from session
-            $response = Http::withHeaders([
-                'x-wallet' => '61968f70de15022d622e2ddd',
-                'x-client-id' => '7fbdcd94-7fa2-45d9-9db4-c165d8200364',
-                'x-client-secret' => 'ce88eefaf3f18d65c83187d8197d3a3566515a9dd59dca701f327818e3d8946b'
-            ])->post('https://gateway.singpay.ga/v1/ext', [
-                "amount" => $data->service->price,
-                "client_msisdn" => $data->phone,
-                "portefeuille" => env('SING_WALLET', "61968f70de15022d622e2ddd"),
-                "reference" => $eb_reference,
-                "redirect_success" => url('/callback-singpay/quote/' . $data->id . '/' . $eb_reference),
-                "redirect_error" => url('/callback-singpay/quote/' . $data->id . '/' . $eb_reference),
-                "disbursement" => "61969004de1502d25d2e2de7",
-                "logoURL" => asset('images/LogoRSA.png'),
-            ]);
         }
+
+        $response = self::singpayRequest($type, $data, $eb_reference);
 
         $response = json_decode($response->body());
 

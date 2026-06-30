@@ -30,4 +30,24 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'singpay' => [
+        'base_url' => env('SINGPAY_BASE_URL', 'https://gateway.singpay.ga/v1/ext'),
+        'client_id' => env('SINGPAY_CLIENT_ID'),
+        'client_secret' => env('SINGPAY_CLIENT_SECRET'),
+        'wallet_id' => env('SINGPAY_WALLET_ID'),
+        'disbursement_wallet_id' => env('SINGPAY_DISBURSEMENT_WALLET_ID'),
+    ],
+
+    'ebilling' => [
+        'base_url' => env('EBILLING_BASE_URL', env('SERVER_URL')),
+        'post_url' => env('EBILLING_POST_URL', env('POST_URL')),
+        'username' => env('EBILLING_USERNAME', env('USER_NAME')),
+        'shared_key' => env('EBILLING_SHARED_KEY', env('SHARED_KEY')),
+    ],
+
+    // Shared secret used to authenticate incoming payment webhooks (HMAC).
+    'payment' => [
+        'webhook_secret' => env('PAYMENT_WEBHOOK_SECRET'),
+    ],
+
 ];
