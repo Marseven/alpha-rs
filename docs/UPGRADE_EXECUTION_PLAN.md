@@ -1,5 +1,11 @@
 # Plan d'exécution — Migration Laravel 8 → 12
 
+> **STATUT (réalisé) :** paliers 1→4 faits sur `upgrade/laravel-12-prep`
+> (PR [#2](https://github.com/Marseven/alpha-rs/pull/2)) : **Laravel 12.62**,
+> Livewire 3, Jetstream 5, Sanctum 4, PHPUnit 11. Suite 73 verts / 6 skip.
+> **Restant :** migration squelette `bootstrap/app.php` (optionnelle) et
+> **Mix → Vite** (build front). PHP 8.3+ requis pour `kreait/laravel-firebase` ^7.
+
 > Complète `docs/MIGRATION-L12.md` (analyse) avec l'ordre exact des PRs, les
 > commandes et les stratégies. **Ne pas exécuter** tant que la suite n'est pas
 > 100 % verte et que paiements/documents ne sont pas stabilisés (c'est le cas

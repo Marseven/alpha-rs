@@ -5,10 +5,12 @@ marché gabonais : site public, demande de devis avec pièces justificatives,
 espace client, back-office d'administration, simulateur, annuaire d'hôpitaux et
 paiement en ligne (**Singpay**, **E-Billing CGI**).
 
-- **Framework :** Laravel 8 (PHP 8.2) — migration Laravel 12 planifiée, voir
-  [`docs/MIGRATION-L12.md`](docs/MIGRATION-L12.md).
-- **Front :** Blade, Livewire 2, Alpine.js 2, Tailwind 2 (Laravel Mix).
-- **Auth :** Jetstream / Fortify / Sanctum.
+- **Framework :** Laravel 12 (PHP 8.2+). Migration 8→12 réalisée par paliers,
+  voir [`docs/UPGRADE_EXECUTION_PLAN.md`](docs/UPGRADE_EXECUTION_PLAN.md).
+- **Front :** Blade (couche de vue), Livewire 3, Alpine.js, Tailwind 3,
+  build **Vite**.
+- **Auth :** Jetstream 5 / Fortify / Sanctum 4.
+- **Tests :** PHPUnit 11 ; `vendor/` non versionné (`composer install` requis).
 
 ## Installation
 
@@ -24,7 +26,7 @@ php artisan key:generate
 php artisan migrate
 
 npm install
-npm run dev        # ou: npm run prod
+npm run build      # ou: npm run dev (serveur de dev Vite)
 php artisan serve
 ```
 
@@ -84,7 +86,7 @@ Déploiement et bascule `vendor/` : [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 2. `.env` de production (`APP_DEBUG=false`, secrets de paiement renseignés).
 3. `php artisan migrate --force`
 4. `php artisan config:cache route:cache view:cache`
-5. `npm ci && npm run prod`
+5. `npm ci && npm run build`
 6. S'assurer que `public/upload/.htaccess` est déployé (blocage d'exécution).
 
 ## CI

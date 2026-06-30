@@ -29,6 +29,16 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build front-end assets (Vite)
+        run: |
+          npm ci
+          npm run build
+
       - name: Run the test suite (in-memory SQLite)
         env:
           DB_CONNECTION: sqlite

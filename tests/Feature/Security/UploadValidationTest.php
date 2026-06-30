@@ -4,6 +4,7 @@ namespace Tests\Feature\Security;
 
 use App\Http\Controllers\FileController;
 use Illuminate\Http\UploadedFile;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**
@@ -13,7 +14,7 @@ use Tests\TestCase;
  */
 class UploadValidationTest extends TestCase
 {
-    /** @dataProvider dangerousFiles */
+    #[DataProvider('dangerousFiles')]
     public function test_dangerous_document_uploads_are_rejected(string $name): void
     {
         $file = UploadedFile::fake()->create($name, 10, 'application/octet-stream');

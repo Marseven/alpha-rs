@@ -9,7 +9,7 @@ php artisan migrate --force
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-npm ci && npm run prod   # si le build d'assets se fait sur le serveur
+npm ci && npm run build   # si le build d'assets se fait sur le serveur
 ```
 
 Pré-requis : PHP 8.2, Composer disponibles sur l'hôte (Hostinger : via SSH /
