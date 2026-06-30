@@ -185,20 +185,20 @@
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 col-form-label text-alert">Mot de passe actuel</label>
                                 <div class="col-lg-9 col-xl-6">
-                                    <input type="password" class="form-control form-control-lg form-control-solid mb-2" value="" placeholder="Current password" />
+                                    <input type="password" name="current_password" class="form-control form-control-lg form-control-solid mb-2" value="" placeholder="Current password" />
                                     <a href="#" class="text-sm font-weight-bold">Mot de passe oublié ?</a>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 col-form-label text-alert">Nouveau mot de passe</label>
                                 <div class="col-lg-9 col-xl-6">
-                                    <input type="password" class="form-control form-control-lg form-control-solid" value="" placeholder="New password" />
+                                    <input type="password" name="password" class="form-control form-control-lg form-control-solid" value="" placeholder="New password" />
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 col-form-label text-alert">Confimer le mot de passe</label>
                                 <div class="col-lg-9 col-xl-6">
-                                    <input type="password" class="form-control form-control-lg form-control-solid" value="" placeholder="Verify password" />
+                                    <input type="password" name="password_confirmation" class="form-control form-control-lg form-control-solid" value="" placeholder="Verify password" />
                                 </div>
                             </div>
                         </div>
