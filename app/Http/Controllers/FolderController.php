@@ -76,6 +76,7 @@ class FolderController extends Controller
 
     public function quote(Quote $quote)
     {
+        $this->authorize('convert', $quote);
 
         $folder = new Folder();
 
@@ -92,7 +93,13 @@ class FolderController extends Controller
         $folder->phone = $quote->phone;
 
         $folder->category = $quote->category;
-        $folder->join_piece = $quote->join_piece;
+        // A quote stores three documents; the medical report is the most
+        // relevant one to carry over to the folder. (The legacy code copied
+        // $quote->join_piece, a column that does not exist on quotes, which
+        // produced a NULL and crashed on the NOT NULL folders.join_piece.)
+        $folder->join_piece = $quote->join_piece_rapport
+            ?? $quote->join_piece_passport
+            ?? $quote->join_piece_exam;
 
 
         $folder->status = STATUT_RECEIVE;
@@ -114,17 +121,16 @@ class FolderController extends Controller
 
     public function pay(Folder $folder)
     {
+        $this->authorize('pay', $folder);
 
         return PaymentController::singpay('folder', $folder);
     }
 
     public function edit(Folder $folder)
     {
-        if (auth()->user()->id == $folder->user_id) {
-            return view('edit', compact('folder'));
-        } else {
-            return back();
-        }
+        $this->authorize('view', $folder);
+
+        return view('edit', compact('folder'));
     }
 
     public function update(Request $request, Folder $folder)

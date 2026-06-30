@@ -177,11 +177,9 @@ class QuoteController extends Controller
 
     public function edit(Quote $quote)
     {
-        if (auth()->user()->id == $quote->user_id) {
-            return view('edit', compact('quote'));
-        } else {
-            return back();
-        }
+        $this->authorize('view', $quote);
+
+        return view('edit', compact('quote'));
     }
 
     public function update(Request $request, Quote $quote)
@@ -247,11 +245,15 @@ class QuoteController extends Controller
 
     public function pay(Quote $quote)
     {
+        $this->authorize('pay', $quote);
+
         return PaymentController::singpay('quote', $quote);
     }
 
     public function payment(Quote $quote)
     {
+        $this->authorize('view', $quote);
+
         $service = Service::find($quote->service_id);
         return view(
             'quote.pay',
