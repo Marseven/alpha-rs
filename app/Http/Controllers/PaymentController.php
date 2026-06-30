@@ -9,8 +9,14 @@ use App\Models\Folder;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\Quote;
+use App\Services\PaymentAmountResolver;
+use App\Services\PaymentWebhookVerifier;
+use App\Services\Payments\EbillingProvider;
+use App\Services\Payments\PaymentProviderInterface;
+use App\Services\Payments\SingpayProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Swift_TransportException;
 
@@ -68,8 +74,8 @@ class PaymentController extends Controller
 
         if ($type == 'folder') {
             // Fetch all data (including those not optional) from session
-            $data->load(['service']);
-            $eb_amount = $data->service->price;
+            $data->loadMissing(['service']);
+            $eb_amount = PaymentAmountResolver::forFolder($data);
             $eb_shortdescription = 'Paiement pour le dossier médical N° ' . $data->reference;
             $eb_reference = $data->reference;
             $eb_email = auth()->user()->email;
@@ -78,7 +84,7 @@ class PaymentController extends Controller
             $eb_name = $data->firstname . ' ' . $data->lastname;
         } else {
             // Fetch all data (including those not optional) from session
-            $eb_amount = 50000;
+            $eb_amount = PaymentAmountResolver::forQuote($data);
             $eb_shortdescription = 'Frais de demande de devis.';
             $eb_reference = $data->reference;
             $eb_email = $data->email;
@@ -116,8 +122,8 @@ class PaymentController extends Controller
             ];
 
         $content = json_encode($global_array);
-        $curl = curl_init(env('SERVER_URL'));
-        curl_setopt($curl, CURLOPT_USERPWD, env('USER_NAME') . ":" . env('SHARED_KEY'));
+        $curl = curl_init(config('services.ebilling.base_url'));
+        curl_setopt($curl, CURLOPT_USERPWD, config('services.ebilling.username') . ":" . config('services.ebilling.shared_key'));
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
@@ -168,7 +174,7 @@ class PaymentController extends Controller
         PaymentController::create($type, $data);
 
         // Redirect to E-Billing portal
-        echo "<form action='" . env('POST_URL') . "' method='post' name='frm'>";
+        echo "<form action='" . config('services.ebilling.post_url') . "' method='post' name='frm'>";
         echo "<input type='hidden' name='invoice_number' value='" . $bill_id . "'>";
         echo "<input type='hidden' name='eb_callbackurl' value='" . $eb_callbackurl . "'>";
         echo "</form>";
@@ -182,8 +188,9 @@ class PaymentController extends Controller
     public function callback_ebilling($type, $entity)
     {
         if ($type == 'folder') {
-            $folder = Folder::find($entity);
-            $payment = Payment::all()->where('reference', $folder->reference);
+            $folder = Folder::findOrFail($entity);
+            $this->authorize('view', $folder);
+            $payment = Payment::where('reference', $folder->reference)->first();
             if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 $folder->status = STATUT_PAID;
                 $folder->save();
@@ -198,8 +205,9 @@ class PaymentController extends Controller
                 return redirect('/profil')->with('error', "Une erreur s'est produite, Veuillez réessayer !");;
             }
         } else {
-            $quote = Quote::find($entity);
-            $payment = Payment::all()->where('reference', $quote->reference);
+            $quote = Quote::findOrFail($entity);
+            $this->authorize('view', $quote);
+            $payment = Payment::where('reference', $quote->reference)->first();
             if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 Mail::to('m.cherone@reliefservices.net')->queue(new QuoteMessage($quote));
                 Mail::to($quote->email)->queue(new QuoteMessage($quote));
@@ -215,27 +223,49 @@ class PaymentController extends Controller
         }
     }
 
-    public function notify_ebilling()
+    public function notify_ebilling(Request $request, PaymentWebhookVerifier $verifier, EbillingProvider $provider)
     {
-        if (isset($_POST['reference'])) {
-            $payment = Payment::where('reference', $_POST['reference'])->first();
-            if ($payment) {
-                $payment->status = STATUT_PAID;
-                $payment->transaction_id = $_POST['transactionid'];
-                $payment->operator = $_POST['paymentsystem'];
-                $payment->amount = $_POST['amount'];
-                $payment->paid_at = date('Y-m-d H:i');
-                if ($payment->save()) {
-                    return http_response_code(200);
-                } else {
-                    return http_response_code(403);
-                }
-            } else {
-                return http_response_code(402);
-            }
-        } else {
-            return http_response_code(401);
+        if (! $verifier->verify($request)) {
+            return response('Invalid signature', 401);
         }
+
+        if (! $request->input('reference')) {
+            return response('Bad request', 400);
+        }
+
+        return $this->settlePayment(
+            $request->input('reference'),
+            (float) $request->input('amount'),
+            [
+                'transaction_id' => $request->input('transactionid'),
+                'operator' => $request->input('paymentsystem'),
+            ],
+            $provider
+        );
+    }
+
+    /**
+     * Build the request to the Singpay gateway. Credentials come from
+     * config/services.php (env-backed), never from hardcoded values.
+     */
+    private static function singpayRequest($type, $data, $eb_reference, $amount)
+    {
+        $callback = url('/callback-singpay/' . $type . '/' . $data->id . '/' . $eb_reference);
+
+        return Http::withHeaders([
+            'x-wallet' => config('services.singpay.wallet_id'),
+            'x-client-id' => config('services.singpay.client_id'),
+            'x-client-secret' => config('services.singpay.client_secret'),
+        ])->post(config('services.singpay.base_url'), [
+            "amount" => $amount,
+            "client_msisdn" => $data->phone,
+            "portefeuille" => config('services.singpay.wallet_id'),
+            "reference" => $eb_reference,
+            "redirect_success" => $callback,
+            "redirect_error" => $callback,
+            "disbursement" => config('services.singpay.disbursement_wallet_id'),
+            "logoURL" => asset('images/LogoRSA.png'),
+        ]);
     }
 
     static function singpay($type, $data)
@@ -243,50 +273,17 @@ class PaymentController extends Controller
 
         $eb_reference = Controller::str_random_pay(8);
 
+        $data->loadMissing(['service']);
 
+        // Single authoritative amount: charged at the gateway AND stored, so
+        // the webhook amount-check is consistent across providers.
+        $eb_amount = PaymentAmountResolver::for($type, $data);
 
-        if ($type == 'folder') {
-            // Fetch all data (including those not optional) from session
-            $response = Http::withHeaders([
-                'x-wallet' => '61968f70de15022d622e2ddd',
-                'x-client-id' => '7fbdcd94-7fa2-45d9-9db4-c165d8200364',
-                'x-client-secret' => 'ce88eefaf3f18d65c83187d8197d3a3566515a9dd59dca701f327818e3d8946b'
-            ])->post('https://gateway.singpay.ga/v1/ext', [
-                "amount" => $data->service->price,
-                "client_msisdn" => $data->phone,
-                "portefeuille" => env('SING_WALLET', "61968f70de15022d622e2ddd"),
-                "reference" => $eb_reference,
-                "redirect_success" => url('/callback-singpay/folder/' . $data->id . '/' . $eb_reference),
-                "redirect_error" => url('/callback-singpay/folder/' . $data->id . '/' . $eb_reference),
-                "disbursement" => "61969004de1502d25d2e2de7",
-                "logoURL" => asset('images/LogoRSA.png'),
-            ]);
-        } else {
-            $data->load(['service']);
-
-
-            // Fetch all data (including those not optional) from session
-            $response = Http::withHeaders([
-                'x-wallet' => '61968f70de15022d622e2ddd',
-                'x-client-id' => '7fbdcd94-7fa2-45d9-9db4-c165d8200364',
-                'x-client-secret' => 'ce88eefaf3f18d65c83187d8197d3a3566515a9dd59dca701f327818e3d8946b'
-            ])->post('https://gateway.singpay.ga/v1/ext', [
-                "amount" => $data->service->price,
-                "client_msisdn" => $data->phone,
-                "portefeuille" => env('SING_WALLET', "61968f70de15022d622e2ddd"),
-                "reference" => $eb_reference,
-                "redirect_success" => url('/callback-singpay/quote/' . $data->id . '/' . $eb_reference),
-                "redirect_error" => url('/callback-singpay/quote/' . $data->id . '/' . $eb_reference),
-                "disbursement" => "61969004de1502d25d2e2de7",
-                "logoURL" => asset('images/LogoRSA.png'),
-            ]);
-        }
+        $response = self::singpayRequest($type, $data, $eb_reference, $eb_amount);
 
         $response = json_decode($response->body());
 
         if ($type == 'folder') {
-            $data->load(['service']);
-            $eb_amount = $data->service->price + $data->price;
             $eb_shortdescription = 'Paiement pour le dossier médical N° ' . $data->reference;
             $data = [
                 'folder_id' => $data->id,
@@ -296,10 +293,8 @@ class PaymentController extends Controller
                 'status' => STATUT_PENDING,
                 'time_out' => 30,
                 'customer_id' => Auth::user()->id,
-                'description' => $eb_shortdescription,
             ];
         } else {
-            $eb_amount = 100;
             $eb_shortdescription = 'Frais de demande de devis.';
             $data = [
                 'quote_id' => $data->id,
@@ -309,7 +304,6 @@ class PaymentController extends Controller
                 'status' => STATUT_PENDING,
                 'time_out' => 30,
                 'customer_id' => $data->user_id,
-                'description' => $eb_shortdescription,
             ];
         }
 
@@ -325,8 +319,9 @@ class PaymentController extends Controller
     public function callback_singpay($type, $entity, $payment)
     {
         if ($type == 'folder') {
-            $folder = Folder::find($entity);
-            $payment = Payment::all()->where('reference', $payment)->first();
+            $folder = Folder::findOrFail($entity);
+            $this->authorize('view', $folder);
+            $payment = Payment::where('reference', $payment)->first();
             if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 $folder->status = STATUT_PAID;
                 $folder->save();
@@ -343,8 +338,9 @@ class PaymentController extends Controller
                 return redirect('/profil')->with('error', "Une erreur s'est produite, Veuillez réessayer !");;
             }
         } else {
-            $quote = Quote::find($entity);
-            $payment = Payment::all()->where('reference',  $payment)->first();
+            $quote = Quote::findOrFail($entity);
+            $this->authorize('view', $quote);
+            $payment = Payment::where('reference',  $payment)->first();
             if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 $quote->status = STATUT_PAID;
                 $quote->save();
@@ -374,26 +370,85 @@ class PaymentController extends Controller
         }
     }
 
-    public function notify_singpay(Request $request)
+    public function notify_singpay(Request $request, PaymentWebhookVerifier $verifier, SingpayProvider $provider)
     {
-        if ($request->input('transaction.reference') && $request->input('transaction.result') == 'Success') {
-            $payment = Payment::where('reference', $request->input('transaction.reference'))->first();
-            if ($payment) {
-                $payment->status = STATUT_PAID;
-                $payment->transaction_id = $request->input('transaction.id');
-                $payment->operator = "airtelmoney";
-                $payment->amount = $request->input('transaction.amount');
-                $payment->paid_at = date('Y-m-d H:i');
-                if ($payment->save()) {
-                    return http_response_code(200);
-                } else {
-                    return http_response_code(403);
-                }
-            } else {
-                return http_response_code(402);
-            }
-        } else {
-            return http_response_code(401);
+        if (! $verifier->verify($request)) {
+            return response('Invalid signature', 401);
         }
+
+        if (! $request->input('transaction.reference') || $request->input('transaction.result') !== 'Success') {
+            return response('Bad request', 400);
+        }
+
+        return $this->settlePayment(
+            $request->input('transaction.reference'),
+            (float) $request->input('transaction.amount'),
+            [
+                'transaction_id' => $request->input('transaction.id'),
+                'operator' => 'airtelmoney',
+            ],
+            $provider
+        );
+    }
+
+    /**
+     * Apply a verified payment notification:
+     *  - the payment must exist,
+     *  - the reported amount must match the amount we computed server-side
+     *    (we never let the payload set the price),
+     *  - only PENDING -> PAID is allowed; an already-paid payment is a no-op
+     *    (idempotent), anything else is refused.
+     */
+    private function settlePayment(string $reference, float $reportedAmount, array $meta, ?PaymentProviderInterface $provider = null)
+    {
+        $payment = Payment::where('reference', $reference)->first();
+
+        if (! $payment) {
+            Log::warning('Payment webhook: unknown reference ' . $reference);
+            return response('Unknown reference', 402);
+        }
+
+        if ((int) $payment->status === STATUT_PAID) {
+            return response('Already processed', 200); // idempotent replay
+        }
+
+        if ((int) $payment->status !== STATUT_PENDING) {
+            Log::warning('Payment webhook: invalid state transition for ' . $reference);
+            return response('Invalid state', 409);
+        }
+
+        if (round((float) $payment->amount, 2) !== round($reportedAmount, 2)) {
+            Log::warning("Payment webhook: amount mismatch for {$reference} (expected {$payment->amount}, got {$reportedAmount})");
+            return response('Amount mismatch', 422);
+        }
+
+        // Server-to-server confirmation: never trust the payload alone when
+        // inquiry is required. Fails closed when the provider cannot confirm.
+        if (config('services.payment.require_provider_inquiry')) {
+            if (! $provider) {
+                Log::critical("Payment webhook: inquiry required but no provider for {$reference}.");
+                return response('Inquiry unavailable', 422);
+            }
+
+            $result = $provider->verify($reference);
+            if (! $result->successful) {
+                Log::warning("Payment webhook: provider inquiry not confirmed for {$reference} ({$result->status}).");
+                return response('Inquiry not confirmed', 422);
+            }
+            if (round($result->amount, 2) !== round((float) $payment->amount, 2)) {
+                Log::warning("Payment webhook: inquiry amount mismatch for {$reference} (expected {$payment->amount}, got {$result->amount}).");
+                return response('Inquiry amount mismatch', 422);
+            }
+        }
+
+        $payment->status = STATUT_PAID;
+        $payment->transaction_id = $meta['transaction_id'] ?? null;
+        $payment->operator = $meta['operator'] ?? null;
+        $payment->paid_at = date('Y-m-d H:i:s');
+        $payment->save();
+
+        Log::info('Payment settled via webhook: ' . $reference);
+
+        return response('OK', 200);
     }
 }

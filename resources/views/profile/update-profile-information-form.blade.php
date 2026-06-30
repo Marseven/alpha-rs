@@ -1,3 +1,4 @@
+@php($user = $user ?? auth()->user())
 @extends('layouts.default')
 
 @section('content')

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SecurityPermissionController;
 use App\Http\Controllers\Admin\SecurityRoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\AdminUserController;
 use Illuminate\Support\Facades\Auth;
@@ -51,12 +52,13 @@ Route::post('/quote', [QuoteController::class, 'create']);
 //hospital
 Route::get('/list-hospitals', [HospitalController::class, 'index'])->name('list-hospitals');
 
-//ebilling
-Route::get('/callback-ebilling/{type}/{entity}', [PaymentController::class, 'callback_ebilling'])->name('ebilling-payment');
+//ebilling — the user-facing callback requires an authenticated session and
+// only reflects state already confirmed by the signed webhook below.
+Route::get('/callback-ebilling/{type}/{entity}', [PaymentController::class, 'callback_ebilling'])->middleware('auth')->name('ebilling-payment');
 Route::post('/notify/ebilling', [PaymentController::class, 'notify_ebilling'])->name('notify-ebilling-payments');
 
 //singpay
-Route::get('/callback-singpay/{type}/{entity}/{payment}', [PaymentController::class, 'callback_singpay'])->name('singpay');
+Route::get('/callback-singpay/{type}/{entity}/{payment}', [PaymentController::class, 'callback_singpay'])->middleware('auth')->name('singpay');
 Route::post('/notify/singpay', [PaymentController::class, 'notify_singpay'])->name('notify-singpay');
 
 
@@ -109,6 +111,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/quote/pay/{quote}', [QuoteController::class, 'pay']);
     Route::get('/quote/payment/{quote}', [QuoteController::class, 'payment']);
+
+    //secure document downloads (auth + policy + field whitelist)
+    Route::get('/files/quotes/{quote}/{field}', [FileController::class, 'downloadQuote'])->name('files.quote');
+    Route::get('/files/folders/{folder}/{field}', [FileController::class, 'downloadFolder'])->name('files.folder');
 
     //query
     Route::get('/list-quotes', [QuoteController::class, 'index'])->name('list-quotes');

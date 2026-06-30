@@ -1,53 +1,94 @@
-## About Laravel
+# Relief Services (alpha-rs)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Application Laravel d'assurance / assistance / évacuation sanitaire pour le
+marché gabonais : site public, demande de devis avec pièces justificatives,
+espace client, back-office d'administration, simulateur, annuaire d'hôpitaux et
+paiement en ligne (**Singpay**, **E-Billing CGI**).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Framework :** Laravel 8 (PHP 8.2) — migration Laravel 12 planifiée, voir
+  [`docs/MIGRATION-L12.md`](docs/MIGRATION-L12.md).
+- **Front :** Blade, Livewire 2, Alpine.js 2, Tailwind 2 (Laravel Mix).
+- **Auth :** Jetstream / Fortify / Sanctum.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+```bash
+git clone https://github.com/Marseven/alpha-rs.git
+cd alpha-rs
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+composer install
+cp .env.example .env
+php artisan key:generate
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Configurer la base de données et les passerelles de paiement dans .env
+php artisan migrate
 
-## Laravel Sponsors
+npm install
+npm run dev        # ou: npm run prod
+php artisan serve
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+> Sous MAMP, utiliser un binaire PHP 8.2 (`/Applications/MAMP/bin/php/php8.2.x/bin/php`).
 
-### Premium Partners
+## Variables d'environnement
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+Outre les variables Laravel standard (`APP_*`, `DB_*`, `MAIL_*`), configurer :
 
-## Contributing
+| Variable | Rôle |
+|---|---|
+| `SINGPAY_BASE_URL` / `SINGPAY_CLIENT_ID` / `SINGPAY_CLIENT_SECRET` | API Singpay |
+| `SINGPAY_WALLET_ID` / `SINGPAY_DISBURSEMENT_WALLET_ID` | Portefeuilles Singpay |
+| `EBILLING_BASE_URL` / `EBILLING_POST_URL` | Endpoints E-Billing |
+| `EBILLING_USERNAME` / `EBILLING_SHARED_KEY` | Identifiants E-Billing |
+| `PAYMENT_WEBHOOK_SECRET` | Secret HMAC de vérification des webhooks de paiement |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Toutes ces clés sont **obligatoires en production** et ne doivent jamais être
+commitées. Voir [`SECURITY.md`](SECURITY.md) pour la rotation des secrets.
 
-## Code of Conduct
+## Tests
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+La suite tourne sur SQLite en mémoire (configuré dans `phpunit.xml`).
 
-## Security Vulnerabilities
+```bash
+php artisan test                       # toute la suite
+php artisan test tests/Feature/Security # tests de sécurité / non-régression
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Les tests de `tests/Feature/Security` couvrent : IDOR sur devis/dossiers,
+changement de mot de passe, accès back-office + RBAC, signature et montant des
+webhooks de paiement, validation des uploads. Ils servent de filet
+anti-régression, notamment pendant la migration Laravel 12.
 
-## License
+> Remarque : certains tests de scaffolding Jetstream sont rouges (vues
+> personnalisées) — voir le palier A de [`docs/MIGRATION-L12.md`](docs/MIGRATION-L12.md).
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Sécurité
+
+Voir [`SECURITY.md`](SECURITY.md) : rotation des secrets, webhooks signés +
+inquiry serveur-à-serveur, contrôle d'accès (Policies + RBAC), **stockage privé
+des documents** et téléchargement contrôlé (`/files/quotes|folders/{id}/{field}`).
+
+Migration des documents existants vers le stockage privé :
+
+```bash
+php artisan sensitive-files:migrate          # copie (non destructif)
+php artisan sensitive-files:migrate --delete # supprime les originaux publics
+```
+
+Détails de durcissement : [`docs/HARDENING_REPORT.md`](docs/HARDENING_REPORT.md).
+Déploiement et bascule `vendor/` : [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
+
+## Déploiement
+
+1. `composer install --no-dev --optimize-autoloader`
+2. `.env` de production (`APP_DEBUG=false`, secrets de paiement renseignés).
+3. `php artisan migrate --force`
+4. `php artisan config:cache route:cache view:cache`
+5. `npm ci && npm run prod`
+6. S'assurer que `public/upload/.htaccess` est déployé (blocage d'exécution).
+
+## CI
+
+Le workflow [`.github/workflows/tests.yml`](.github/workflows/tests.yml) installe
+PHP 8.2, les dépendances Composer, génère une clé et exécute `php artisan test`
+sur SQLite à chaque push / pull request.
