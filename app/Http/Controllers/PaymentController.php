@@ -9,6 +9,7 @@ use App\Models\Folder;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\Quote;
+use App\Exceptions\PaymentException;
 use App\Services\PaymentAmountResolver;
 use App\Services\PaymentWebhookVerifier;
 use App\Services\Payments\EbillingProvider;
@@ -136,7 +137,15 @@ class PaymentController extends Controller
 
         // Check status <> 200
         if ($status < 200  || $status > 299) {
-            die("Error: call to URL failed with status $status, response $json_response, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
+            $context = [
+                'status' => $status,
+                'reference' => $eb_reference,
+                'curl_errno' => curl_errno($curl),
+                'curl_error' => curl_error($curl),
+            ];
+            Log::error('E-Billing invoice creation failed', $context);
+            curl_close($curl);
+            throw new PaymentException('La création de la facture E-Billing a échoué.', $context);
         }
 
         curl_close($curl);

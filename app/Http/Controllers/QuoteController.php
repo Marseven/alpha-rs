@@ -60,7 +60,7 @@ class QuoteController extends Controller
         );
     }
 
-    public function create(Request $request)
+    public function create(\App\Http\Requests\StoreQuoteRequest $request)
     {
 
         $quote = new Quote();
