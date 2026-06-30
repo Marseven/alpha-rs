@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     public function hospitals()
     {
-    	return $this->hasMany(Hospitals::class, 'user_id');
+    	return $this->hasMany(Hospital::class, 'user_id');
     }
 
     public function folders()

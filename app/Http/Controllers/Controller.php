@@ -54,10 +54,12 @@ class Controller extends BaseController
 
     static function delais_hour($date_create)
     {
-        $firstDate  = new \DateTime(date('Y-m-d H:s:i'));
-        $secondDate = new \DateTime($date_create);
-        $result = $firstDate->diff($secondDate);
-        return $result->h;
+        // Whole hours elapsed between $date_create and now.
+        // (The previous implementation used the format 'H:s:i' — seconds and
+        // minutes were swapped — which produced an incorrect "now", breaking
+        // the pending-payment purge near hour boundaries.)
+        return (int) \Illuminate\Support\Carbon::parse($date_create)
+            ->diffInHours(\Illuminate\Support\Carbon::now());
     }
 
     static function status($status)

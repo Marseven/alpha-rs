@@ -221,7 +221,7 @@ class QuoteController extends Controller
 
     public function updateState(Request $request, $quote)
     {
-        $quote = Quote::find($quote);
+        $quote = Quote::findOrFail($quote);
         $devis = FileController::quote_file($request->file('devis'));
         if ($devis['state'] == false) {
             return back()->with('error', $devis['message']);

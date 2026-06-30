@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Hospital;
-use App\Models\Hospitals;
 use Illuminate\Http\Request;
 
 use App\Models\Payment;
@@ -125,20 +124,16 @@ class HospitalController extends Controller
     public function sick(Request $request)
     {
 
-        $sicks = Sick::all();
+        $hospital = Hospital::findOrFail($request->get('hospital'));
 
-        foreach ($sicks as $sick) {
-            if ($request->get('sick-' . $sick->id) == "on") {
-                DB::table('hospital_sick')->where([
-                    'hospital_id' => $request->get('hospital'),
-                    'sick_id' => $sick->id
-                ])->delete();
-                DB::table('hospital_sick')->insert([
-                    'hospital_id' => $request->get('hospital'),
-                    'sick_id' => $sick->id,
-                ]);
-            }
-        }
+        // Collect the checked diseases and sync() the pivot in one shot:
+        // idempotent, no duplicate rows, no delete/insert race condition.
+        $selected = Sick::all()
+            ->filter(fn ($sick) => $request->get('sick-' . $sick->id) === 'on')
+            ->pluck('id')
+            ->all();
+
+        $hospital->sicks()->sync($selected);
 
         return redirect()->back()->with('success', 'Maladies affectées !');
     }

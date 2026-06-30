@@ -174,7 +174,7 @@ class FolderController extends Controller
 
     public function updateState(Request $request, $folder)
     {
-        $folder = Folder::find($folder);
+        $folder = Folder::findOrFail($folder);
         $folder->status = $request->status;
         $folder->price = $request->price;
         $folder->load(['user']);
