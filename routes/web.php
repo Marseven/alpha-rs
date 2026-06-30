@@ -33,6 +33,22 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
+// health check (used by uptime monitors / load balancers)
+Route::get('/up', function () {
+    try {
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
+        $db = 'ok';
+    } catch (\Throwable $e) {
+        $db = 'down';
+    }
+
+    return response()->json([
+        'status' => $db === 'ok' ? 'ok' : 'degraded',
+        'database' => $db,
+        'time' => now()->toIso8601String(),
+    ], $db === 'ok' ? 200 : 503);
+})->name('health');
+
 // visitor or prospect
 
 //home

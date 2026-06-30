@@ -67,28 +67,19 @@ class WelcomeController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->q;
-        $sicks = Sick::where('label', 'LIKE', '%' . $keyword . '%')->paginate(10);
 
-        $towns = [];
+        // Eager-load the whole chain to avoid the previous N+1 (one query per
+        // hospital and per town): sick -> hospitals -> town -> country.
+        $sicks = Sick::where('label', 'LIKE', '%' . $keyword . '%')
+            ->with('hospitals.town.country')
+            ->paginate(10);
 
-        if ($sicks->count() > 0) {
-            $i = 0;
-            foreach ($sicks as $sick) {
-                $sql = DB::table('hospital_sick')->where([
-                    'sick_id' => $sick->id
-                ])->get();
-
-                foreach ($sql as $t) {
-                    $hospital = Hospital::find($t->hospital_id);
-                    $town = Town::find($hospital->town_id);
-                    $town->load(['country']);
-                    if (!in_array($town, $towns)) {
-                        $towns[$i] = $town;
-                        $i++;
-                    }
-                }
-            }
-        }
+        $towns = $sicks
+            ->flatMap(fn ($sick) => $sick->hospitals)
+            ->map(fn ($hospital) => $hospital->town)
+            ->filter()
+            ->unique('id')
+            ->values();
 
         return view('search', [
             'towns' => $towns,

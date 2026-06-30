@@ -11,6 +11,11 @@ class Simulator extends Model
 
     protected $table = 'simulators';
 
+    protected $fillable = [
+        'value', 'note', 'simulator_item_id', 'country_id', 'sick_id',
+        'service_id', 'user_id', 'status',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
