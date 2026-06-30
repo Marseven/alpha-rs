@@ -1,62 +1,138 @@
-# Déploiement
+# Déploiement — Hostinger (sans Docker)
 
-## Option A — Recommandée (Composer sur le serveur)
+Application Laravel 12 déployée sur un hébergement **Hostinger** (mutualisé ou
+VPS) **sans Docker**. `vendor/` et `public/build` ne sont pas versionnés : on
+exécute `composer install` et `npm run build` au déploiement.
+
+## Pré-requis Hostinger
+
+- **PHP 8.2+** : dans hPanel → *Avancé → Configuration PHP*, sélectionner PHP 8.2
+  (ou 8.3) et activer les extensions : `bcmath`, `ctype`, `curl`, `dom`,
+  `fileinfo`, `gd`, `mbstring`, `openssl`, `pdo`, `pdo_mysql`, `tokenizer`, `xml`,
+  `zip`, `intl`.
+- **Composer** : disponible via SSH (`composer` ou `php8.2 /usr/local/bin/composer`).
+- **Node.js** : pour builder les assets. Si Node n'est pas dispo sur l'hôte,
+  builder en local (`npm run build`) et **uploader `public/build/`** (voir §B).
+- **Base MySQL** : créée dans hPanel → *Bases de données MySQL* (récupérer nom,
+  utilisateur, mot de passe, hôte).
+- **Accès SSH** activé (hPanel → *Avancé → SSH*) — recommandé.
+
+## Document root
+
+Hostinger sert par défaut `public_html/`. Laravel doit exposer **`public/`**, pas
+la racine du projet. Deux options :
+
+- **Option recommandée (VPS / SSH)** : cloner le projet hors web root (ex.
+  `~/alpha-rs`) et faire pointer le domaine sur `~/alpha-rs/public` (vhost VPS),
+  ou créer un lien : `ln -s ~/alpha-rs/public ~/public_html`.
+- **Mutualisé sans contrôle du vhost** : placer le contenu de `public/` dans
+  `public_html/` et le reste du projet dans un dossier parent, puis adapter les
+  chemins dans `public_html/index.php` :
+  ```php
+  require __DIR__.'/../alpha-rs/vendor/autoload.php';
+  $app = require_once __DIR__.'/../alpha-rs/bootstrap/app.php';
+  ```
+  Copier aussi `public/.htaccess` et `public/build/` (+ `public/upload/.htaccess`).
+
+## A. Déploiement par SSH + Git (recommandé)
 
 ```bash
-git pull
+# 1. Récupérer le code
+cd ~/alpha-rs && git pull origin main      # (ou develop selon l'environnement)
+
+# 2. Dépendances PHP (prod)
 composer install --no-dev --optimize-autoloader
+
+# 3. Assets front (si Node dispo sur l'hôte)
+npm ci && npm run build
+
+# 4. Environnement
+#    (créer .env une seule fois, voir §Variables ; ne jamais le committer)
+php artisan key:generate          # uniquement au premier déploiement
+
+# 5. Base de données
 php artisan migrate --force
+
+# 6. Caches de production
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-npm ci && npm run build   # si le build d'assets se fait sur le serveur
+
+# 7. Lien de stockage public
+php artisan storage:link
 ```
 
-Pré-requis : PHP 8.2, Composer disponibles sur l'hôte (Hostinger : via SSH /
-Terminal). Vérifier `php -v` et `composer --version`.
+## B. Déploiement sans Node sur l'hôte
 
-## Option B — Legacy temporaire (vendor versionné)
-
-Tant que l'on n'a pas confirmé que `composer install` fonctionne sur l'hôte,
-`vendor/` reste **committé** dans le dépôt et le déploiement peut se faire par
-simple `git pull`. C'est l'état actuel.
-
-> `/vendor` est déjà listé dans `.gitignore` comme marqueur, mais le dossier
-> reste **suivi** par Git (un ajout dans `.gitignore` ne dé-suit pas un fichier
-> déjà versionné). La bascule réelle est la checklist ci-dessous.
-
-## Checklist de cutover `vendor/` (à exécuter une fois Composer confirmé)
-
-1. Confirmer sur l'hôte :
-   ```bash
-   php -v            # 8.2+
-   composer --version
-   composer install --no-dev --optimize-autoloader   # doit réussir
-   ```
-2. Dé-suivre `vendor/` (il est déjà dans `.gitignore`) :
-   ```bash
-   git rm -r --cached vendor
-   git commit -m "chore: stop tracking vendor dependencies"
-   git push
-   ```
-3. Mettre à jour le process de déploiement pour inclure `composer install`
-   (Option A) — sinon le serveur n'aura plus de dépendances après le pull.
-4. Vérifier un déploiement de bout en bout sur un environnement de staging
-   avant la production.
-
-## Migration des documents sensibles (une fois par environnement)
-
-Les anciens documents stockés sous `public/upload/*` doivent être déplacés vers
-le stockage privé :
+Builder les assets en local puis les transférer :
 
 ```bash
-php artisan sensitive-files:migrate          # copie, ne supprime pas l'original
-# après vérification :
-php artisan sensitive-files:migrate --delete # supprime les originaux publics
+# en local
+npm ci && npm run build          # génère public/build/
+# transférer public/build/ vers l'hôte (SFTP/rsync)
+rsync -az public/build/ user@host:~/alpha-rs/public/build/
 ```
 
-## Variables d'environnement
+Le reste (composer install, migrate, caches) se fait comme en §A.
 
-Voir `.env.example`. En production : `APP_DEBUG=false`, secrets de paiement
-renseignés, `PAYMENT_WEBHOOK_SECRET` défini, et `public/upload/.htaccess`
-déployé.
+## Variables d'environnement (.env de production)
+
+Copier `.env.example` puis renseigner :
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://votre-domaine.tld
+
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_DATABASE=...        # base créée dans hPanel
+DB_USERNAME=...
+DB_PASSWORD=...
+
+SESSION_DRIVER=database     # ou redis si dispo
+QUEUE_CONNECTION=database   # voir §Tâches planifiées / files
+
+# Paiements (obligatoire) + secret webhook — cf. SECURITY.md
+SINGPAY_CLIENT_ID=... ; SINGPAY_CLIENT_SECRET=... ; SINGPAY_WALLET_ID=...
+EBILLING_USERNAME=... ; EBILLING_SHARED_KEY=...
+PAYMENT_WEBHOOK_SECRET=...
+QUOTE_PAYMENT_AMOUNT=50000
+```
+
+> `APP_DEBUG=false` en production est impératif.
+
+## Tâches planifiées & files d'attente
+
+- **Scheduler** : ajouter un cron Hostinger (hPanel → *Tâches Cron*) :
+  ```
+  * * * * * cd ~/alpha-rs && php artisan schedule:run >> /dev/null 2>&1
+  ```
+- **Queues** (si `QUEUE_CONNECTION=database`) : créer la table une fois
+  (`php artisan queue:table && php artisan migrate --force`) puis lancer un
+  worker. Sur mutualisé sans worker persistant, utiliser un cron :
+  ```
+  * * * * * cd ~/alpha-rs && php artisan queue:work --stop-when-empty >> /dev/null 2>&1
+  ```
+
+## Permissions
+
+```bash
+chmod -R ug+rw storage bootstrap/cache
+```
+
+## Sécurité au déploiement (rappel)
+
+- `public/upload/.htaccess` présent (blocage exécution + extensions sensibles).
+- Documents sensibles servis via routes authentifiées (`storage/app/private`) —
+  migrer les anciens fichiers : `php artisan sensitive-files:migrate`.
+- Secrets uniquement dans `.env`. Rotation des secrets historiquement exposés et
+  purge de l'historique Git : voir [`SECURITY.md`](../SECURITY.md).
+
+## Checklist post-déploiement
+
+- [ ] `https://domaine/` répond (page d'accueil)
+- [ ] `php artisan about` montre `Environment=production`, `Debug=OFF`
+- [ ] Connexion client + back-office OK
+- [ ] Webhooks `/notify/*` joignables par le PSP (HTTPS)
+- [ ] Aucun fichier sensible accessible (`/upload/quote/*.sql` → 403)
