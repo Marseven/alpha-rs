@@ -297,17 +297,17 @@
                             </div>
                             <div class="col-6  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe : Passeport</h6>
-                                <a class="btn btn-info" href="{{ asset($quote->join_piece_passport) }}"
+                                <a class="btn btn-info" href="{{ route('files.quote', ['quote' => $quote->id, 'field' => 'passport']) }}"
                                     target="_blank">Télécharger</a>
                             </div>
                             <div class="col-6  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe : Exam</h6>
-                                <a class="btn btn-info" href="{{ asset($quote->join_piece_exam) }}"
+                                <a class="btn btn-info" href="{{ route('files.quote', ['quote' => $quote->id, 'field' => 'exam']) }}"
                                     target="_blank">Télécharger</a>
                             </div>
                             <div class="col-6  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe : Rapport</h6>
-                                <a class="btn btn-info" href="{{ asset($quote->join_piece_rapport) }}"
+                                <a class="btn btn-info" href="{{ route('files.quote', ['quote' => $quote->id, 'field' => 'rapport']) }}"
                                     target="_blank">Télécharger</a>
                             </div>
                             <div class="col-6  mb-5">
@@ -373,7 +373,7 @@
                                 <hr>
                                 <div class="col-6 mb-5">
                                     <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe</h6>
-                                    <a class="btn btn-info" href="{{ asset($folder->join_piece) }}"
+                                    <a class="btn btn-info" href="{{ route('files.folder', ['folder' => $folder->id, 'field' => 'piece']) }}"
                                         target="_blank">Télécharger</a>
                                 </div>
                                 <div class="col-6  mb-5">
@@ -476,7 +476,7 @@
                                 <p>{{ $quote->response ?? 'Aucune Réponse Pour le Moment' }}</p>
                                 <br>
                                 @if ($quote->devis != null)
-                                    <a class="btn btn-info" href="{{ asset($quote->devis) }}"
+                                    <a class="btn btn-info" href="{{ route('files.quote', ['quote' => $quote->id, 'field' => 'devis']) }}"
                                         target="_blank">Télécharger Devis</a>
                                 @endif
 

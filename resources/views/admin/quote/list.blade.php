@@ -61,7 +61,7 @@
                                                         class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
                                                 </td>
                                                 <td>
-                                                    <a href="{{ asset($quote->devis) }}" target="_blank"><button
+                                                    <a href="{{ route('files.quote', ['quote' => $quote->id, 'field' => 'devis']) }}" target="_blank"><button
                                                             type="button" class="btn btn-info"><i
                                                                 class="fa fa-download"></i></button></a>
                                                     <button type="button" class="btn btn-info" data-toggle="modal"
@@ -140,15 +140,15 @@
                             <hr>
                             <div class="col-6 mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Passport</h6>
-                                <a href="{{ asset($quote->join_piece_passport) }}" target="_blank">Télécharger</a>
+                                <a href="{{ route('files.quote', ['quote' => $quote->id, 'field' => 'passport']) }}" target="_blank">Télécharger</a>
                             </div>
                             <div class="col-6 mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Examen</h6>
-                                <a href="{{ asset($quote->join_piece_exam) }}" target="_blank">Télécharger</a>
+                                <a href="{{ route('files.quote', ['quote' => $quote->id, 'field' => 'exam']) }}" target="_blank">Télécharger</a>
                             </div>
                             <div class="col-6 mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Rapport</h6>
-                                <a href="{{ asset($quote->join_piece_rapport) }}" target="_blank">Télécharger</a>
+                                <a href="{{ route('files.quote', ['quote' => $quote->id, 'field' => 'rapport']) }}" target="_blank">Télécharger</a>
                             </div>
                             <div class="col-12 mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Réponse</h6>

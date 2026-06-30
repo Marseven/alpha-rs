@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SecurityPermissionController;
 use App\Http\Controllers\Admin\SecurityRoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\AdminUserController;
 use Illuminate\Support\Facades\Auth;
@@ -110,6 +111,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/quote/pay/{quote}', [QuoteController::class, 'pay']);
     Route::get('/quote/payment/{quote}', [QuoteController::class, 'payment']);
+
+    //secure document downloads (auth + policy + field whitelist)
+    Route::get('/files/quotes/{quote}/{field}', [FileController::class, 'downloadQuote'])->name('files.quote');
+    Route::get('/files/folders/{folder}/{field}', [FileController::class, 'downloadFolder'])->name('files.folder');
 
     //query
     Route::get('/list-quotes', [QuoteController::class, 'index'])->name('list-quotes');

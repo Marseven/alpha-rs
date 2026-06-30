@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Folder;
+use App\Models\Quote;
+use App\Services\SensitiveFileStorage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -184,20 +187,21 @@ class FileController extends Controller
 
     static function folder_file(UploadedFile $request)
     {
-        return self::storeDocument($request, '/upload/documents/');
+        return self::storeDocument($request, 'documents');
     }
 
     static function quote_file(UploadedFile $request)
     {
-        return self::storeDocument($request, '/upload/quote/');
+        return self::storeDocument($request, 'quotes');
     }
 
     /**
-     * Validate and store an uploaded document under public/ using a
+     * Validate and store an uploaded document on the PRIVATE disk using a
      * server-generated filename. Dangerous files are rejected before any
-     * write happens.
+     * write happens. The returned path (e.g. "private/quotes/ab..pdf") is not
+     * web-accessible and must be served through a download route.
      */
-    protected static function storeDocument(?UploadedFile $request, string $relativeDir): array
+    protected static function storeDocument(?UploadedFile $request, string $category): array
     {
         if ($request == null) {
             return ['state' => false, 'message' => "Le fichier n'a pas été uploadé"];
@@ -207,14 +211,45 @@ class FileController extends Controller
             return ['state' => false, 'message' => $error];
         }
 
-        $filenametostore = self::safeFilename($request);
-        $request->move(public_path($relativeDir), $filenametostore);
+        $path = SensitiveFileStorage::store($request, $category, self::safeFilename($request));
 
         return [
             'state' => true,
-            'url' => rtrim($relativeDir, '/') . '/' . $filenametostore,
+            'url' => $path,
             'message' => "Fichier uploadé avec succès!",
         ];
+    }
+
+    /**
+     * Authenticated, policy-checked download of a quote document.
+     * Only whitelisted fields are downloadable; the path never comes from the
+     * request (it is read from the model column).
+     */
+    public function downloadQuote(Quote $quote, string $field)
+    {
+        $this->authorize('view', $quote);
+
+        $map = [
+            'passport' => 'join_piece_passport',
+            'rapport' => 'join_piece_rapport',
+            'exam' => 'join_piece_exam',
+            'devis' => 'devis',
+            'piece' => 'join_piece',
+        ];
+        abort_unless(isset($map[$field]), 404);
+
+        return SensitiveFileStorage::download($quote->{$map[$field]});
+    }
+
+    /** Authenticated, policy-checked download of a folder document. */
+    public function downloadFolder(Folder $folder, string $field)
+    {
+        $this->authorize('view', $folder);
+
+        $map = ['piece' => 'join_piece'];
+        abort_unless(isset($map[$field]), 404);
+
+        return SensitiveFileStorage::download($folder->{$map[$field]});
     }
 
     static function destroy($image)

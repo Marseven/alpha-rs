@@ -61,7 +61,7 @@
                                                         class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
                                                 </td>
                                                 <td>
-                                                    <a href="{{ $folder->join_piece }}"><button type="button"
+                                                    <a href="{{ route('files.folder', ['folder' => $folder->id, 'field' => 'piece']) }}"><button type="button"
                                                             class="btn btn-info"><i class="fa fa-download"></i></button></a>
                                                     <button type="button" class="btn btn-info" data-toggle="modal"
                                                         data-target="#cardModalView{{ $folder->id }}"><i
@@ -139,7 +139,7 @@
                             <hr>
                             <div class="col-12">
                                 <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe</h6>
-                                <a href="{{ $folder->join_piece }}">Download</a>
+                                <a href="{{ route('files.folder', ['folder' => $folder->id, 'field' => 'piece']) }}">Download</a>
                             </div>
                         </div>
                     </div>
