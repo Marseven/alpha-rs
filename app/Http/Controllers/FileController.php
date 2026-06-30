@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Folder;
 use App\Models\Quote;
 use App\Services\SensitiveFileStorage;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
@@ -98,10 +98,9 @@ class FileController extends Controller
                 $originalpath = public_path('/upload/picture/original/' . $filename . '.' . $extension);
                 $thumbnailpath = public_path('/upload/picture/traite/' . $filenametostore);
 
-                $img = Image::make($originalpath)->fit(300, 300, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->interlace(true);
-                $img->save($thumbnailpath);
+                // intervention/image v3: cover() = crop to fill the target box
+                // (the v2 equivalent of fit() with aspect ratio).
+                Image::read($originalpath)->cover(300, 300)->save($thumbnailpath);
 
                 $filePath_originale = '/upload/picture/original/' . $filename . '.' . $extension;
                 $filePath_traite = '/upload/picture/traite/' . $filenametostore;
@@ -157,10 +156,8 @@ class FileController extends Controller
                 $originalpath = public_path('/upload/user/original/' . $filename . '.' . $extension);
                 $thumbnailpath = public_path('/upload/user/traite/' . $filenametostore);
 
-                $img = Image::make($originalpath)->fit(300, 300, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->interlace(true);
-                $img->save($thumbnailpath);
+                // intervention/image v3: cover() = crop to fill the target box.
+                Image::read($originalpath)->cover(300, 300)->save($thumbnailpath);
 
                 $filePath_originale = '/upload/user/original/' . $filename . '.' . $extension;
                 $filePath_traite = '/upload/user/traite/' . $filenametostore;
