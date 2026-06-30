@@ -9,8 +9,10 @@ use App\Models\Folder;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\Quote;
+use App\Services\PaymentWebhookVerifier;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Swift_TransportException;
 
@@ -182,8 +184,9 @@ class PaymentController extends Controller
     public function callback_ebilling($type, $entity)
     {
         if ($type == 'folder') {
-            $folder = Folder::find($entity);
-            $payment = Payment::all()->where('reference', $folder->reference);
+            $folder = Folder::findOrFail($entity);
+            $this->authorize('view', $folder);
+            $payment = Payment::where('reference', $folder->reference)->first();
             if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 $folder->status = STATUT_PAID;
                 $folder->save();
@@ -198,8 +201,9 @@ class PaymentController extends Controller
                 return redirect('/profil')->with('error', "Une erreur s'est produite, Veuillez réessayer !");;
             }
         } else {
-            $quote = Quote::find($entity);
-            $payment = Payment::all()->where('reference', $quote->reference);
+            $quote = Quote::findOrFail($entity);
+            $this->authorize('view', $quote);
+            $payment = Payment::where('reference', $quote->reference)->first();
             if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 Mail::to('m.cherone@reliefservices.net')->queue(new QuoteMessage($quote));
                 Mail::to($quote->email)->queue(new QuoteMessage($quote));
@@ -215,27 +219,24 @@ class PaymentController extends Controller
         }
     }
 
-    public function notify_ebilling()
+    public function notify_ebilling(Request $request, PaymentWebhookVerifier $verifier)
     {
-        if (isset($_POST['reference'])) {
-            $payment = Payment::where('reference', $_POST['reference'])->first();
-            if ($payment) {
-                $payment->status = STATUT_PAID;
-                $payment->transaction_id = $_POST['transactionid'];
-                $payment->operator = $_POST['paymentsystem'];
-                $payment->amount = $_POST['amount'];
-                $payment->paid_at = date('Y-m-d H:i');
-                if ($payment->save()) {
-                    return http_response_code(200);
-                } else {
-                    return http_response_code(403);
-                }
-            } else {
-                return http_response_code(402);
-            }
-        } else {
-            return http_response_code(401);
+        if (! $verifier->verify($request)) {
+            return response('Invalid signature', 401);
         }
+
+        if (! $request->input('reference')) {
+            return response('Bad request', 400);
+        }
+
+        return $this->settlePayment(
+            $request->input('reference'),
+            (float) $request->input('amount'),
+            [
+                'transaction_id' => $request->input('transactionid'),
+                'operator' => $request->input('paymentsystem'),
+            ]
+        );
     }
 
     /**
@@ -316,8 +317,9 @@ class PaymentController extends Controller
     public function callback_singpay($type, $entity, $payment)
     {
         if ($type == 'folder') {
-            $folder = Folder::find($entity);
-            $payment = Payment::all()->where('reference', $payment)->first();
+            $folder = Folder::findOrFail($entity);
+            $this->authorize('view', $folder);
+            $payment = Payment::where('reference', $payment)->first();
             if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 $folder->status = STATUT_PAID;
                 $folder->save();
@@ -334,8 +336,9 @@ class PaymentController extends Controller
                 return redirect('/profil')->with('error', "Une erreur s'est produite, Veuillez réessayer !");;
             }
         } else {
-            $quote = Quote::find($entity);
-            $payment = Payment::all()->where('reference',  $payment)->first();
+            $quote = Quote::findOrFail($entity);
+            $this->authorize('view', $quote);
+            $payment = Payment::where('reference',  $payment)->first();
             if (isset($payment->status) && $payment->status == STATUT_PAID) {
                 $quote->status = STATUT_PAID;
                 $quote->save();
@@ -365,26 +368,65 @@ class PaymentController extends Controller
         }
     }
 
-    public function notify_singpay(Request $request)
+    public function notify_singpay(Request $request, PaymentWebhookVerifier $verifier)
     {
-        if ($request->input('transaction.reference') && $request->input('transaction.result') == 'Success') {
-            $payment = Payment::where('reference', $request->input('transaction.reference'))->first();
-            if ($payment) {
-                $payment->status = STATUT_PAID;
-                $payment->transaction_id = $request->input('transaction.id');
-                $payment->operator = "airtelmoney";
-                $payment->amount = $request->input('transaction.amount');
-                $payment->paid_at = date('Y-m-d H:i');
-                if ($payment->save()) {
-                    return http_response_code(200);
-                } else {
-                    return http_response_code(403);
-                }
-            } else {
-                return http_response_code(402);
-            }
-        } else {
-            return http_response_code(401);
+        if (! $verifier->verify($request)) {
+            return response('Invalid signature', 401);
         }
+
+        if (! $request->input('transaction.reference') || $request->input('transaction.result') !== 'Success') {
+            return response('Bad request', 400);
+        }
+
+        return $this->settlePayment(
+            $request->input('transaction.reference'),
+            (float) $request->input('transaction.amount'),
+            [
+                'transaction_id' => $request->input('transaction.id'),
+                'operator' => 'airtelmoney',
+            ]
+        );
+    }
+
+    /**
+     * Apply a verified payment notification:
+     *  - the payment must exist,
+     *  - the reported amount must match the amount we computed server-side
+     *    (we never let the payload set the price),
+     *  - only PENDING -> PAID is allowed; an already-paid payment is a no-op
+     *    (idempotent), anything else is refused.
+     */
+    private function settlePayment(string $reference, float $reportedAmount, array $meta)
+    {
+        $payment = Payment::where('reference', $reference)->first();
+
+        if (! $payment) {
+            Log::warning('Payment webhook: unknown reference ' . $reference);
+            return response('Unknown reference', 402);
+        }
+
+        if ((int) $payment->status === STATUT_PAID) {
+            return response('Already processed', 200); // idempotent replay
+        }
+
+        if ((int) $payment->status !== STATUT_PENDING) {
+            Log::warning('Payment webhook: invalid state transition for ' . $reference);
+            return response('Invalid state', 409);
+        }
+
+        if (round((float) $payment->amount, 2) !== round($reportedAmount, 2)) {
+            Log::warning("Payment webhook: amount mismatch for {$reference} (expected {$payment->amount}, got {$reportedAmount})");
+            return response('Amount mismatch', 422);
+        }
+
+        $payment->status = STATUT_PAID;
+        $payment->transaction_id = $meta['transaction_id'] ?? null;
+        $payment->operator = $meta['operator'] ?? null;
+        $payment->paid_at = date('Y-m-d H:i:s');
+        $payment->save();
+
+        Log::info('Payment settled via webhook: ' . $reference);
+
+        return response('OK', 200);
     }
 }

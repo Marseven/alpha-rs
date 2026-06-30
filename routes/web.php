@@ -51,12 +51,13 @@ Route::post('/quote', [QuoteController::class, 'create']);
 //hospital
 Route::get('/list-hospitals', [HospitalController::class, 'index'])->name('list-hospitals');
 
-//ebilling
-Route::get('/callback-ebilling/{type}/{entity}', [PaymentController::class, 'callback_ebilling'])->name('ebilling-payment');
+//ebilling — the user-facing callback requires an authenticated session and
+// only reflects state already confirmed by the signed webhook below.
+Route::get('/callback-ebilling/{type}/{entity}', [PaymentController::class, 'callback_ebilling'])->middleware('auth')->name('ebilling-payment');
 Route::post('/notify/ebilling', [PaymentController::class, 'notify_ebilling'])->name('notify-ebilling-payments');
 
 //singpay
-Route::get('/callback-singpay/{type}/{entity}/{payment}', [PaymentController::class, 'callback_singpay'])->name('singpay');
+Route::get('/callback-singpay/{type}/{entity}/{payment}', [PaymentController::class, 'callback_singpay'])->middleware('auth')->name('singpay');
 Route::post('/notify/singpay', [PaymentController::class, 'notify_singpay'])->name('notify-singpay');
 
 
