@@ -165,25 +165,25 @@ class Controller extends BaseController
                     case 'look':
                         if ($permission->look != "on") {
 
-                            return redirect('logout')->with('error', "Vous n'avez pas le droit de faire cette action.");
+                            abort(403, "Vous n'avez pas le droit de faire cette action.");
                         }
                         break;
                     case 'creat':
                         if ($permission->creat != "on") {
 
-                            return redirect('logout')->with('error', "Vous n'avez pas le droit de faire cette action.");
+                            abort(403, "Vous n'avez pas le droit de faire cette action.");
                         }
                         break;
                     case 'updat':
                         if ($permission->updat != "on") {
 
-                            return redirect('logout')->with('error', "Vous n'avez pas le droit de faire cette action.");
+                            abort(403, "Vous n'avez pas le droit de faire cette action.");
                         }
                         break;
                     case 'del':
                         if ($permission->del != "on") {
 
-                            return redirect('logout')->with('error', "Vous n'avez pas le droit de faire cette action.");
+                            abort(403, "Vous n'avez pas le droit de faire cette action.");
                         }
                         break;
                 }
