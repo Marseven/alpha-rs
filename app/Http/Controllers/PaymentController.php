@@ -11,6 +11,9 @@ use App\Models\Payment;
 use App\Models\Quote;
 use App\Services\PaymentAmountResolver;
 use App\Services\PaymentWebhookVerifier;
+use App\Services\Payments\EbillingProvider;
+use App\Services\Payments\PaymentProviderInterface;
+use App\Services\Payments\SingpayProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -220,7 +223,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function notify_ebilling(Request $request, PaymentWebhookVerifier $verifier)
+    public function notify_ebilling(Request $request, PaymentWebhookVerifier $verifier, EbillingProvider $provider)
     {
         if (! $verifier->verify($request)) {
             return response('Invalid signature', 401);
@@ -236,7 +239,8 @@ class PaymentController extends Controller
             [
                 'transaction_id' => $request->input('transactionid'),
                 'operator' => $request->input('paymentsystem'),
-            ]
+            ],
+            $provider
         );
     }
 
@@ -366,7 +370,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function notify_singpay(Request $request, PaymentWebhookVerifier $verifier)
+    public function notify_singpay(Request $request, PaymentWebhookVerifier $verifier, SingpayProvider $provider)
     {
         if (! $verifier->verify($request)) {
             return response('Invalid signature', 401);
@@ -382,7 +386,8 @@ class PaymentController extends Controller
             [
                 'transaction_id' => $request->input('transaction.id'),
                 'operator' => 'airtelmoney',
-            ]
+            ],
+            $provider
         );
     }
 
@@ -394,7 +399,7 @@ class PaymentController extends Controller
      *  - only PENDING -> PAID is allowed; an already-paid payment is a no-op
      *    (idempotent), anything else is refused.
      */
-    private function settlePayment(string $reference, float $reportedAmount, array $meta)
+    private function settlePayment(string $reference, float $reportedAmount, array $meta, ?PaymentProviderInterface $provider = null)
     {
         $payment = Payment::where('reference', $reference)->first();
 
@@ -415,6 +420,25 @@ class PaymentController extends Controller
         if (round((float) $payment->amount, 2) !== round($reportedAmount, 2)) {
             Log::warning("Payment webhook: amount mismatch for {$reference} (expected {$payment->amount}, got {$reportedAmount})");
             return response('Amount mismatch', 422);
+        }
+
+        // Server-to-server confirmation: never trust the payload alone when
+        // inquiry is required. Fails closed when the provider cannot confirm.
+        if (config('services.payment.require_provider_inquiry')) {
+            if (! $provider) {
+                Log::critical("Payment webhook: inquiry required but no provider for {$reference}.");
+                return response('Inquiry unavailable', 422);
+            }
+
+            $result = $provider->verify($reference);
+            if (! $result->successful) {
+                Log::warning("Payment webhook: provider inquiry not confirmed for {$reference} ({$result->status}).");
+                return response('Inquiry not confirmed', 422);
+            }
+            if (round($result->amount, 2) !== round((float) $payment->amount, 2)) {
+                Log::warning("Payment webhook: inquiry amount mismatch for {$reference} (expected {$payment->amount}, got {$result->amount}).");
+                return response('Inquiry amount mismatch', 422);
+            }
         }
 
         $payment->status = STATUT_PAID;

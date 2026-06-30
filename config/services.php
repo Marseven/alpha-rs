@@ -32,6 +32,7 @@ return [
 
     'singpay' => [
         'base_url' => env('SINGPAY_BASE_URL', 'https://gateway.singpay.ga/v1/ext'),
+        'inquiry_url' => env('SINGPAY_INQUIRY_URL'),
         'client_id' => env('SINGPAY_CLIENT_ID'),
         'client_secret' => env('SINGPAY_CLIENT_SECRET'),
         'wallet_id' => env('SINGPAY_WALLET_ID'),
@@ -40,6 +41,7 @@ return [
 
     'ebilling' => [
         'base_url' => env('EBILLING_BASE_URL', env('SERVER_URL')),
+        'inquiry_url' => env('EBILLING_INQUIRY_URL'),
         'post_url' => env('EBILLING_POST_URL', env('POST_URL')),
         'username' => env('EBILLING_USERNAME', env('USER_NAME')),
         'shared_key' => env('EBILLING_SHARED_KEY', env('SHARED_KEY')),
@@ -50,6 +52,9 @@ return [
         'webhook_secret' => env('PAYMENT_WEBHOOK_SECRET'),
         // Flat fee charged for a quote (devis) request, in FCFA.
         'quote_amount' => (float) env('QUOTE_PAYMENT_AMOUNT', 50000),
+        // When true, settle a webhook only after a server-to-server inquiry
+        // confirms the transaction (do not trust the payload alone).
+        'require_provider_inquiry' => (bool) env('PAYMENT_REQUIRE_PROVIDER_INQUIRY', false),
     ],
 
 ];
