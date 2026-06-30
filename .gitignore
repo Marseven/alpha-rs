@@ -11,4 +11,19 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-.env
+
+# Sensitive / dumped files must never be committed (esp. under public/)
+*.sql
+*.dump
+*.bak
+*.zip
+*.tar
+*.gz
+*.sqlite
+public/upload/**/*.sql
+public/upload/**/*.php
+public/upload/**/*.env
+
+# but allow our protective .htaccess files to be tracked
+!public/.htaccess
+!public/**/.htaccess

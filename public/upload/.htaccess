@@ -1,0 +1,20 @@
+# Defense-in-depth for the uploads directory.
+# Sensitive documents should ideally live outside public/ (storage/app/private)
+# and be served through an authenticated controller. Until that migration is
+# complete, this prevents the two worst outcomes: script execution and direct
+# download of dumped / executable / config files.
+
+# 1) Never execute uploaded code as a script.
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .phps .pht .cgi .pl .py .sh
+RemoveType .php .phtml .php3 .php4 .php5 .php7 .phps .pht
+
+# 2) Block direct access to dangerous / sensitive extensions.
+<FilesMatch "(?i)\.(php[0-9]?|phtml|phps|pht|cgi|pl|py|sh|bat|exe|sql|dump|bak|env|zip|tar|gz|ini|log|htaccess|conf)$">
+    Require all denied
+</FilesMatch>
