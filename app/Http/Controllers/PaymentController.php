@@ -9,6 +9,7 @@ use App\Models\Folder;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\Quote;
+use App\Services\PaymentAmountResolver;
 use App\Services\PaymentWebhookVerifier;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -70,8 +71,8 @@ class PaymentController extends Controller
 
         if ($type == 'folder') {
             // Fetch all data (including those not optional) from session
-            $data->load(['service']);
-            $eb_amount = $data->service->price;
+            $data->loadMissing(['service']);
+            $eb_amount = PaymentAmountResolver::forFolder($data);
             $eb_shortdescription = 'Paiement pour le dossier médical N° ' . $data->reference;
             $eb_reference = $data->reference;
             $eb_email = auth()->user()->email;
@@ -80,7 +81,7 @@ class PaymentController extends Controller
             $eb_name = $data->firstname . ' ' . $data->lastname;
         } else {
             // Fetch all data (including those not optional) from session
-            $eb_amount = 50000;
+            $eb_amount = PaymentAmountResolver::forQuote($data);
             $eb_shortdescription = 'Frais de demande de devis.';
             $eb_reference = $data->reference;
             $eb_email = $data->email;
@@ -243,7 +244,7 @@ class PaymentController extends Controller
      * Build the request to the Singpay gateway. Credentials come from
      * config/services.php (env-backed), never from hardcoded values.
      */
-    private static function singpayRequest($type, $data, $eb_reference)
+    private static function singpayRequest($type, $data, $eb_reference, $amount)
     {
         $callback = url('/callback-singpay/' . $type . '/' . $data->id . '/' . $eb_reference);
 
@@ -252,7 +253,7 @@ class PaymentController extends Controller
             'x-client-id' => config('services.singpay.client_id'),
             'x-client-secret' => config('services.singpay.client_secret'),
         ])->post(config('services.singpay.base_url'), [
-            "amount" => $data->service->price,
+            "amount" => $amount,
             "client_msisdn" => $data->phone,
             "portefeuille" => config('services.singpay.wallet_id'),
             "reference" => $eb_reference,
@@ -268,17 +269,17 @@ class PaymentController extends Controller
 
         $eb_reference = Controller::str_random_pay(8);
 
-        if ($type != 'folder') {
-            $data->load(['service']);
-        }
+        $data->loadMissing(['service']);
 
-        $response = self::singpayRequest($type, $data, $eb_reference);
+        // Single authoritative amount: charged at the gateway AND stored, so
+        // the webhook amount-check is consistent across providers.
+        $eb_amount = PaymentAmountResolver::for($type, $data);
+
+        $response = self::singpayRequest($type, $data, $eb_reference, $eb_amount);
 
         $response = json_decode($response->body());
 
         if ($type == 'folder') {
-            $data->load(['service']);
-            $eb_amount = $data->service->price + $data->price;
             $eb_shortdescription = 'Paiement pour le dossier médical N° ' . $data->reference;
             $data = [
                 'folder_id' => $data->id,
@@ -288,10 +289,8 @@ class PaymentController extends Controller
                 'status' => STATUT_PENDING,
                 'time_out' => 30,
                 'customer_id' => Auth::user()->id,
-                'description' => $eb_shortdescription,
             ];
         } else {
-            $eb_amount = 100;
             $eb_shortdescription = 'Frais de demande de devis.';
             $data = [
                 'quote_id' => $data->id,
@@ -301,7 +300,6 @@ class PaymentController extends Controller
                 'status' => STATUT_PENDING,
                 'time_out' => 30,
                 'customer_id' => $data->user_id,
-                'description' => $eb_shortdescription,
             ];
         }
 

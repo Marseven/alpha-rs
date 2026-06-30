@@ -48,6 +48,8 @@ return [
     // Shared secret used to authenticate incoming payment webhooks (HMAC).
     'payment' => [
         'webhook_secret' => env('PAYMENT_WEBHOOK_SECRET'),
+        // Flat fee charged for a quote (devis) request, in FCFA.
+        'quote_amount' => (float) env('QUOTE_PAYMENT_AMOUNT', 50000),
     ],
 
 ];
