@@ -5,10 +5,12 @@ marché gabonais : site public, demande de devis avec pièces justificatives,
 espace client, back-office d'administration, simulateur, annuaire d'hôpitaux et
 paiement en ligne (**Singpay**, **E-Billing CGI**).
 
-- **Framework :** Laravel 8 (PHP 8.2) — migration Laravel 12 planifiée, voir
-  [`docs/MIGRATION-L12.md`](docs/MIGRATION-L12.md).
-- **Front :** Blade, Livewire 2, Alpine.js 2, Tailwind 2 (Laravel Mix).
-- **Auth :** Jetstream / Fortify / Sanctum.
+- **Framework :** Laravel 12 (PHP 8.2+). Migration 8→12 réalisée par paliers,
+  voir [`docs/UPGRADE_EXECUTION_PLAN.md`](docs/UPGRADE_EXECUTION_PLAN.md).
+- **Front :** Blade, Livewire 3, Alpine.js, Tailwind (Laravel Mix — migration
+  Vite restante).
+- **Auth :** Jetstream 5 / Fortify / Sanctum 4.
+- **Tests :** PHPUnit 11 ; `vendor/` non versionné (`composer install` requis).
 
 ## Installation
 
