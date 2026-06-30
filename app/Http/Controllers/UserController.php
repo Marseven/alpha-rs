@@ -52,7 +52,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $user = Auth::user();
-        return view('profile.update-profile-information-form', compact('user'));
+        return view('profile.edit-information', compact('user'));
     }
 
     public function update(Request $request, User $user)
@@ -92,7 +92,7 @@ class UserController extends Controller
     public function editPassword(User $user)
     {
         $user = Auth::user();
-        return view('profile.update-password-form', compact('user'));
+        return view('profile.edit-password', compact('user'));
     }
 
     public function updatePassword(Request $request, User $user)
