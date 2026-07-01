@@ -15,6 +15,9 @@
     <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/../../cdn.lineicons.com/2.0/LineIcons.css') }}" rel="stylesheet">
 
+    <!-- Unified brand layer (loaded last so it wins) -->
+    <link href="{{ asset('css/brand.css') }}" rel="stylesheet">
+
     @stack('styles')
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -289,7 +292,8 @@
     <!-- Dashboard 1 -->
     <script src="{{ asset('admin/js/dashboard/dashboard-1.js') }}"></script>
 
-    <script src="{{ asset('admin/js/styleSwitcher.js') }}"></script>
+    {{-- Removed the DexignZone "Pick your style" theme switcher (admin/js/styleSwitcher.js):
+         it exposed a demo theme customizer panel/gear to end users in production. --}}
 
     @stack('scripts')
 
