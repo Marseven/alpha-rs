@@ -4,12 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Folder extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'folders';
+
+    protected $fillable = [
+        'reference', 'category', 'firstname', 'lastname', 'birthday', 'gender',
+        'email', 'phone', 'price', 'join_piece', 'country_id', 'town_id',
+        'service_id', 'user_id', 'status',
+    ];
 
     public function user()
     {

@@ -31,7 +31,7 @@ class FolderController extends Controller
         return view('folders.add');
     }
 
-    public function create(Request $request)
+    public function create(\App\Http\Requests\StoreFolderRequest $request)
     {
 
         $folder = new Folder();

@@ -9,6 +9,8 @@ class Country extends Model
 {
     protected $table = 'countries';
 
+    protected $fillable = ['label', 'code', 'flag', 'status', 'user_id'];
+
     public function user()
     {
     	return $this->belongsTo(User::class, 'user_id');
