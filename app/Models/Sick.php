@@ -11,6 +11,8 @@ class Sick extends Model
 
     protected $table = 'sicks';
 
+    protected $fillable = ['label', 'description', 'status', 'user_id'];
+
     public function user()
     {
     	return $this->belongsTo(User::class, 'user_id');

@@ -11,6 +11,11 @@ class Hospital extends Model
 
     protected $table = 'hospitals';
 
+    protected $fillable = [
+        'label', 'description', 'country_id', 'town_id', 'picture_1',
+        'picture_2', 'status', 'user_id',
+    ];
+
     public function user()
     {
     	return $this->belongsTo(User::class, 'user_id');

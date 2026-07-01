@@ -60,7 +60,7 @@ class QuoteController extends Controller
         );
     }
 
-    public function create(Request $request)
+    public function create(\App\Http\Requests\StoreQuoteRequest $request)
     {
 
         $quote = new Quote();
@@ -177,11 +177,9 @@ class QuoteController extends Controller
 
     public function edit(Quote $quote)
     {
-        if (auth()->user()->id == $quote->user_id) {
-            return view('edit', compact('quote'));
-        } else {
-            return back();
-        }
+        $this->authorize('view', $quote);
+
+        return view('edit', compact('quote'));
     }
 
     public function update(Request $request, Quote $quote)
@@ -223,7 +221,7 @@ class QuoteController extends Controller
 
     public function updateState(Request $request, $quote)
     {
-        $quote = Quote::find($quote);
+        $quote = Quote::findOrFail($quote);
         $devis = FileController::quote_file($request->file('devis'));
         if ($devis['state'] == false) {
             return back()->with('error', $devis['message']);
@@ -247,11 +245,15 @@ class QuoteController extends Controller
 
     public function pay(Quote $quote)
     {
+        $this->authorize('pay', $quote);
+
         return PaymentController::singpay('quote', $quote);
     }
 
     public function payment(Quote $quote)
     {
+        $this->authorize('view', $quote);
+
         $service = Service::find($quote->service_id);
         return view(
             'quote.pay',

@@ -52,13 +52,25 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $user = Auth::user();
-        return view('profile.update-profile-information-form', compact('user'));
+        return view('profile.edit-information', compact('user'));
     }
 
     public function update(Request $request, User $user)
     {
+        // Always operate on the authenticated user (the {user} route param was
+        // an IDOR vector allowing edits to any account).
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:30',
+        ]);
+
         $user->name = $request->name;
-        $email_exist = User::where('email', $request->email)->count();
+        $email_exist = User::where('email', $request->email)
+            ->where('id', '!=', $user->id)
+            ->count();
         if ($email_exist > 0) {
             return back()->with('error', "Cette email existe déjà.");
         } else {
@@ -80,19 +92,30 @@ class UserController extends Controller
     public function editPassword(User $user)
     {
         $user = Auth::user();
-        return view('profile.update-password-form', compact('user'));
+        return view('profile.edit-password', compact('user'));
     }
 
     public function updatePassword(Request $request, User $user)
     {
+        // The password can only ever be changed for the authenticated user.
+        // The {user} route parameter is intentionally ignored as a source of
+        // identity (it was the IDOR vector: any account could be targeted by
+        // posting its email).
+        $current = Auth::user();
+
         $request->validate([
-            'email' => 'required|email|exists:users',
+            'current_password' => 'required|string',
             'password' => 'required|string|min:6|confirmed',
-            'password_confirmation' => 'required'
         ]);
 
-        $user = User::where('email', $request->email)
-            ->update(['password' => Hash::make($request->password)]);
+        if (! Hash::check($request->current_password, $current->password)) {
+            return back()->withErrors([
+                'current_password' => 'Le mot de passe actuel est incorrect.',
+            ]);
+        }
+
+        $current->password = Hash::make($request->password);
+        $current->save();
 
         return back()->with('success', 'Mot de Passe mis à jour !');
     }

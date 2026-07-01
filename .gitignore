@@ -1,4 +1,5 @@
 /node_modules
+/public/build
 /public/hot
 /public/storage
 /storage/*.key
@@ -6,9 +7,25 @@
 .env
 .env.backup
 .phpunit.result.cache
-docker-compose.override.yml
-Homestead.json
-Homestead.yaml
 npm-debug.log
 yarn-error.log
-.env
+
+# Sensitive / dumped files must never be committed (esp. under public/)
+*.sql
+*.dump
+*.bak
+*.zip
+*.tar
+*.gz
+*.sqlite
+public/upload/**/*.sql
+public/upload/**/*.php
+public/upload/**/*.env
+
+# but allow our protective .htaccess files to be tracked
+!public/.htaccess
+!public/**/.htaccess
+
+# Dependencies are not versioned — run `composer install` on deploy
+# (see docs/DEPLOYMENT.md).
+/vendor

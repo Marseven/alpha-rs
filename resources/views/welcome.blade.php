@@ -236,7 +236,7 @@
                                     <span>Assistance</span>
                                     Évacuation Sanitaire
                                 </h1>
-                                <p>Nous sommes là pour vous car votre santé est importante pous nous.</p>
+                                <p>Nous sommes là pour vous car votre santé est importante pour nous.</p>
 
                                 <a class="btn-shape btn banner-btn btn-4" data-in="slideUp" data-out="slideDown"
                                     data-duration="800" data-delay="300" href="{{ route('quote') }}">Demander un Devis</a>
@@ -326,7 +326,7 @@
                             <div class="fun-facts-item">
                                 <span class="title odometer" data-count="4">00</span>
                                 <span>+ Services</span>
-                                <p>de Qualitées</p>
+                                <p>de Qualité</p>
                             </div>
                         </div>
                         <div class="col-md-1 col-3 no-padding">
@@ -527,7 +527,7 @@
 
                     <div class="col-12 ">
                         <div class="heading b-text text-center">
-                            <h5>Quel maladie souhatez-vous soignée ?</h5>
+                            <h5>Quelle maladie souhaitez-vous soigner ?</h5>
                             <h2>Trouver une Destination</h2>
                         </div>
                     </div>

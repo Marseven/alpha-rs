@@ -31,6 +31,9 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
+    <!-- Unified brand layer (loaded last so it wins) -->
+    <link href="{{ asset('css/brand.css') }}" rel="stylesheet">
+
     <style>
         .float {
             position: fixed;
