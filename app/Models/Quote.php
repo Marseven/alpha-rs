@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Quote extends Model
 {
-    use HasFactory, SoftDeletes;
+    // SoftDeletes intentionally disabled: production deploys via git-pull only
+    // and cannot run migrations, so the deleted_at column is not present.
+    // Re-add `use SoftDeletes` once the add_soft_deletes migration can be run.
+    use HasFactory;
 
     protected $table = 'quotes';
 

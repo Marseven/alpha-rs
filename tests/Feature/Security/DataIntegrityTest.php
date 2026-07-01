@@ -7,7 +7,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Health endpoint + soft-delete behaviour on business models.
+ * Health endpoint + delete behaviour on business models.
+ *
+ * NB: SoftDeletes is currently disabled on Quote/Folder/Payment because the
+ * production host deploys via git-pull and cannot run the deleted_at migration
+ * (see the models). Deletes are therefore hard deletes for now.
  */
 class DataIntegrityTest extends TestCase
 {
@@ -20,16 +24,13 @@ class DataIntegrityTest extends TestCase
             ->assertJson(['status' => 'ok', 'database' => 'ok']);
     }
 
-    public function test_deleting_a_quote_is_soft(): void
+    public function test_deleting_a_quote_removes_it(): void
     {
         $quote = $this->makeQuote($this->makeUser());
 
         $quote->delete();
 
-        // Excluded from default queries…
         $this->assertSame(0, Quote::count());
-        // …but still present (recoverable) with the deleted_at timestamp.
-        $this->assertSoftDeleted('quotes', ['id' => $quote->id]);
-        $this->assertSame(1, Quote::withTrashed()->count());
+        $this->assertDatabaseMissing('quotes', ['id' => $quote->id]);
     }
 }
