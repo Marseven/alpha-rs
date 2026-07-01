@@ -130,12 +130,12 @@
                             <div class="col-6 mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Service
                                 </h6>
-                                <p class="mb-0">{{ $quote->service->label }}</p>
+                                <p class="mb-0">{{ $quote->service?->label ?? '—' }}</p>
                             </div>
                             <div class="col-6 mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Pays
                                 </h6>
-                                <p class="mb-0">{{ $quote->country->label }}</p>
+                                <p class="mb-0">{{ $quote->country?->label ?? '—' }}</p>
                             </div>
                             <hr>
                             <div class="col-6 mb-5">

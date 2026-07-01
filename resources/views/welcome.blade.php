@@ -810,7 +810,7 @@
                             </div>
                             <div class="team-txt text-center">
                                 <h4>{{ $town->label }}</h4>
-                                <p class="team-border">{{ $town->country->label }}</p>
+                                <p class="team-border">{{ $town->country?->label }}</p>
                             </div>
                         </div>
                     </div>

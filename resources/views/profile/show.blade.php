@@ -288,12 +288,12 @@
                             <div class="col-6  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Service
                                 </h6>
-                                <p class="mb-0">{{ $quote->service->label }}</p>
+                                <p class="mb-0">{{ $quote->service?->label }}</p>
                             </div>
                             <div class="col-6  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Pays
                                 </h6>
-                                <p class="mb-0">{{ $quote->country->label }}</p>
+                                <p class="mb-0">{{ $quote->country?->label }}</p>
                             </div>
                             <div class="col-6  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Pièce Jointe : Passeport</h6>
@@ -363,12 +363,12 @@
                                 <div class="col-6 mb-5">
                                     <h6 class="text-uppercase fs-5 ls-2">Service
                                     </h6>
-                                    <p class="mb-0 mb-5">{{ $folder->service->label }}</p>
+                                    <p class="mb-0 mb-5">{{ $folder->service?->label }}</p>
                                 </div>
                                 <div class="col-6 mb-5">
                                     <h6 class="text-uppercase fs-5 ls-2">Pays
                                     </h6>
-                                    <p class="mb-0 mb-5">{{ $folder->country->label }}</p>
+                                    <p class="mb-0 mb-5">{{ $folder->country?->label }}</p>
                                 </div>
                                 <hr>
                                 <div class="col-6 mb-5">
@@ -379,7 +379,7 @@
                                 <div class="col-6  mb-5">
                                     <h6 class="text-uppercase fs-5 ls-2">Montant total à payer</h6>
                                     <p class="mb-0">
-                                        {{ number_format($folder->price + $folder->service->price, 0, ',', ' ') }} XAF
+                                        {{ number_format($folder->price + $folder->service?->price, 0, ',', ' ') }} XAF
                                     </p>
                                 </div>
                             </div>
@@ -455,12 +455,12 @@
                             <div class="col-6  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Service
                                 </h6>
-                                <p class="mb-0">{{ $quote->service->label }}</p>
+                                <p class="mb-0">{{ $quote->service?->label }}</p>
                             </div>
                             <div class="col-6  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Pays
                                 </h6>
-                                <p class="mb-0">{{ $quote->country->label }}</p>
+                                <p class="mb-0">{{ $quote->country?->label }}</p>
                             </div>
                             <div class="col-6  mb-5">
                                 <h6 class="text-uppercase fs-5 ls-2">Statut</h6>

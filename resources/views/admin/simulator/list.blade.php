@@ -55,11 +55,11 @@
                                                 <td>
                                                     {{ $simulator->id }}
                                                 </td>
-                                                <td>{{ $simulator->item->label }}</td>
+                                                <td>{{ $simulator->item?->label }}</td>
                                                 <td>{{ $simulator->value }}</td>
-                                                <td>{{ $simulator->sick->label }}</td>
-                                                <td>{{ $simulator->service->label }}</td>
-                                                <td>{{ $simulator->country->label }}</td>
+                                                <td>{{ $simulator->sick?->label }}</td>
+                                                <td>{{ $simulator->service?->label }}</td>
+                                                <td>{{ $simulator->country?->label }}</td>
                                                 @php
                                                     $status = App\Http\Controllers\Controller::status($simulator->status);
                                                 @endphp
@@ -211,7 +211,7 @@
                             <div class="mb-3">
                                 <label for="country" class="col-form-label">Pays</label>
                                 <select id="selectOne" name="country_id" class="form-control">
-                                    <option value="{{ $simulator->country_id }}">{{ $simulator->country->label }}
+                                    <option value="{{ $simulator->country_id }}">{{ $simulator->country?->label }}
                                     </option>
                                     @foreach ($countries as $country)
                                         <option value="{{ $country->id }}">{{ $country->label }}</option>
@@ -222,7 +222,7 @@
                             <div class="mb-3">
                                 <label for="service" class="col-form-label">Service</label>
                                 <select id="selectOne" name="service_id" class="form-control">
-                                    <option value="{{ $simulator->service_id }}">{{ $simulator->service->label }}
+                                    <option value="{{ $simulator->service_id }}">{{ $simulator->service?->label }}
                                     </option>
                                     @foreach ($services as $service)
                                         <option value="{{ $service->id }}">{{ $service->label }}</option>
@@ -233,7 +233,7 @@
                             <div class="mb-3">
                                 <label for="sick" class="col-form-label">Pathologie</label>
                                 <select id="selectOne" name="sick_id" class="form-control">
-                                    <option value="{{ $simulator->sick_id }}">{{ $simulator->sick->label }}</option>
+                                    <option value="{{ $simulator->sick_id }}">{{ $simulator->sick?->label }}</option>
                                     @foreach ($sicks as $sick)
                                         <option value="{{ $sick->id }}">{{ $sick->label }}</option>
                                     @endforeach
@@ -243,7 +243,7 @@
                             <div class="mb-3">
                                 <label for="item_id" class="col-form-label">Élément</label>
                                 <select id="selectOne" name="item_id" class="form-control">
-                                    <option value="{{ $simulator->simulator_item_id }}">{{ $simulator->item->label }}
+                                    <option value="{{ $simulator->simulator_item_id }}">{{ $simulator->item?->label }}
                                     </option>
                                     @foreach ($items as $item)
                                         <option value="{{ $item->id }}">{{ $item->label }}</option>

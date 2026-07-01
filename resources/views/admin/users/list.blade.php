@@ -53,7 +53,7 @@
                                                 <td>{{ $user->id }}</td>
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
-                                                <td>{{ $user->role ? $user->role->name : 'Client' }}</td>
+                                                <td>{{ $user->role ? $user->role?->name : 'Client' }}</td>
                                                 @php
                                                     $status = App\Http\Controllers\Controller::status($user->status);
                                                 @endphp

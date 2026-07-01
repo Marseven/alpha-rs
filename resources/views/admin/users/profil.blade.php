@@ -37,7 +37,7 @@
                             <div class="profile-details">
                                 <div class="profile-name px-3 pt-2">
                                     <h4 class="text-primary mb-0">{{$user->name}}</h4>
-                                    <p>{{$user->role ? $user->role->name : "Aucun"}}</p>
+                                    <p>{{$user->role ? $user->role?->name : "Aucun"}}</p>
                                 </div>
                                 <div class="profile-email px-2 pt-2">
                                     <h4 class="text-muted mb-0">{{$user->email}}</h4>

@@ -61,7 +61,7 @@
                                                 </td>
                                                 <td>{{ $town->label }}</td>
                                                 <td>{{ $town->code }}</td>
-                                                <td>{{ $town->country->label }}</td>
+                                                <td>{{ $town->country?->label }}</td>
                                                 @php
                                                     $status = App\Http\Controllers\Controller::status($town->status);
                                                 @endphp
@@ -116,7 +116,7 @@
                                 <img src="{{ asset($town->picture) }}" width="100" class="img-fluid rounded-circle"
                                     alt="">
                             </div>
-                            <p>{{ $town->country->label }}</p>
+                            <p>{{ $town->country?->label }}</p>
                             @php
                                 $status = App\Http\Controllers\Controller::status($town->status);
                             @endphp

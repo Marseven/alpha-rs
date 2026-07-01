@@ -71,7 +71,7 @@
                                     $simulator->load(['item']);
                                 @endphp
                                 <tr>
-                                    <td><strong>{{ $simulator->item->label }}</strong></td>
+                                    <td><strong>{{ $simulator->item?->label }}</strong></td>
                                     <td>{{ $simulator->value }}
                                         <span>{{ $simulator->note }}</span>
                                     </td>

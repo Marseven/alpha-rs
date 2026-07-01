@@ -3,8 +3,8 @@
 
     Nous souhaitons avoir un devis pour les informations suivante :
     Catégorie : {{ $data->category }}
-    Service : {{ $data->service->label }}
-    Pays : {{ $data->country->label }}
+    Service : {{ $data->service?->label }}
+    Pays : {{ $data->country?->label }}
 
     --
 

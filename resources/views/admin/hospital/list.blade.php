@@ -60,8 +60,8 @@
                                                     </div>
                                                 </td>
                                                 <td>{{ $hospital->label }}</td>
-                                                <td>{{ $hospital->country->label }}</td>
-                                                <td>{{ $hospital->town->label }}</td>
+                                                <td>{{ $hospital->country?->label }}</td>
+                                                <td>{{ $hospital->town?->label }}</td>
                                                 @php
                                                     $status = App\Http\Controllers\Controller::status($hospital->status);
                                                 @endphp
@@ -127,10 +127,10 @@
                                 href="javascript:void(0)">{{ $status['message'] }}</a>
                             <div class="row">
                                 <div class="col-6 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">{{ $hospital->country->label }}</h3><span>Pays</span>
+                                    <h3 class="mb-1">{{ $hospital->country?->label }}</h3><span>Pays</span>
                                 </div>
                                 <div class="col-6 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">{{ $hospital->town->label }}</h3><span>Ville</span>
+                                    <h3 class="mb-1">{{ $hospital->town?->label }}</h3><span>Ville</span>
                                 </div>
                             </div>
                         </div>

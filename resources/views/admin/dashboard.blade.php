@@ -76,8 +76,8 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <p class="mb-0">{{ $quote->country->label }}</p>
-                                                        <h5 class="my-0 text-primary">{{ $quote->service->label }}</h5>
+                                                        <p class="mb-0">{{ $quote->country?->label }}</p>
+                                                        <h5 class="my-0 text-primary">{{ $quote->service?->label }}</h5>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex align-items-center">
