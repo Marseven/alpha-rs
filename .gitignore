@@ -7,9 +7,6 @@
 .env
 .env.backup
 .phpunit.result.cache
-docker-compose.override.yml
-Homestead.json
-Homestead.yaml
 npm-debug.log
 yarn-error.log
 
@@ -29,7 +26,6 @@ public/upload/**/*.env
 !public/.htaccess
 !public/**/.htaccess
 
-# Dependencies should not be versioned. vendor/ is still tracked for now to
-# avoid breaking a git-pull deployment; see docs/DEPLOYMENT.md for the safe
-# cutover (git rm -r --cached vendor once `composer install` is confirmed).
+# Dependencies are not versioned — run `composer install` on deploy
+# (see docs/DEPLOYMENT.md).
 /vendor
