@@ -1,0 +1,103 @@
+/* ==========================================================================
+   Relief Services — Unified brand layer
+   Loaded LAST in every layout (public / admin / login / auth) to give the
+   three legacy themes one coherent identity without rewriting them:
+   distinctive typography, a single blue brand (red reserved for danger),
+   accessible focus states, hero contrast, and reduced-motion support.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+    --brand: #1b73d3;
+    --brand-strong: #0f5bb0;
+    --brand-dark: #0c4a8f;
+    --brand-50: #eef5fd;
+    --ink: #10243a;
+    --muted: #5b6b7d;
+    --danger: #e23744;
+    --success: #2fa36b;
+    --radius: 10px;
+    --font-display: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+    --font-body: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+}
+
+/* ---- Typography (no !important on body so icon fonts keep their family;
+   `html body` raises specificity to beat the themes' own body rule) -------- */
+html body,
+body p, body li, body label, body td, body th,
+.form-control, .btn, input, select, textarea, .nav-link, .navbar-nav {
+    font-family: var(--font-body);
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: var(--font-display) !important;
+    letter-spacing: -0.015em;
+}
+
+/* ---- Unify accent colour: blue brand everywhere; red = danger only -------
+   The admin/login (DexignZone) theme ships a red primary. Re-point its
+   primary tokens and concrete utilities to the brand blue. ----------------- */
+:root,
+[data-primary] {
+    --primary: var(--brand);
+    --primary-hover: var(--brand-strong);
+    --primary-dark: var(--brand-dark);
+    --rgba-primary-1: rgba(27, 115, 211, 0.08);
+    --rgba-primary-2: rgba(27, 115, 211, 0.16);
+    --rgba-primary-3: rgba(27, 115, 211, 0.32);
+}
+.btn-primary,
+.bg-primary {
+    background-color: var(--brand) !important;
+    border-color: var(--brand) !important;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--brand-strong) !important;
+    border-color: var(--brand-strong) !important;
+}
+.text-primary { color: var(--brand) !important; }
+a { color: var(--brand); }
+a:hover { color: var(--brand-strong); }
+/* keep destructive actions red */
+.btn-danger, .bg-danger { background-color: var(--danger) !important; border-color: var(--danger) !important; }
+
+/* ---- Hero contrast: dark gradient scrim under the slider text ------------
+   NB: do NOT set position on .pogoSlider-slide — pogoSlider manages it
+   (overriding it to relative collapses the slider). The slide is already
+   positioned, so the ::before anchors to it correctly. ---------------------- */
+#tg-homeslider .pogoSlider-slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(8, 28, 51, 0.66) 0%, rgba(8, 28, 51, 0.38) 50%, rgba(8, 28, 51, 0) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+#tg-homeslider .container { position: relative; z-index: 2; }
+.tg-slidercontent p { color: #f3f7fb; }
+
+/* ---- Accessible, visible focus states ----------------------------------- */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ---- Respect reduced-motion --------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}

@@ -11,6 +11,9 @@
     <link href="{{ asset('admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/css/style.css') }}" rel="stylesheet">
 
+    <!-- Unified brand layer (loaded last so it wins) -->
+    <link href="{{ asset('css/brand.css') }}" rel="stylesheet">
+
 </head>
 
 <body class="h-100">
@@ -31,7 +34,7 @@
     <script src="{{ asset('admin/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('admin/js/custom.min.js') }}"></script>
     <script src="{{ asset('admin/js/deznav-init.js') }}"></script>
-    <script src="{{ asset('admin/js/styleSwitcher.js') }}"></script>
+    {{-- Removed admin/js/styleSwitcher.js (exposed the demo theme customizer to users). --}}
 </body>
 
 <!-- Mirrored from mediqu.dexignzone.com/xhtml/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 14 Jul 2021 09:26:37 GMT -->
