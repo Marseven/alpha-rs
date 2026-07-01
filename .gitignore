@@ -1,5 +1,4 @@
 /node_modules
-/public/build
 /public/hot
 /public/storage
 /storage/*.key
@@ -25,7 +24,3 @@ public/upload/**/*.env
 # but allow our protective .htaccess files to be tracked
 !public/.htaccess
 !public/**/.htaccess
-
-# Dependencies are not versioned — run `composer install` on deploy
-# (see docs/DEPLOYMENT.md).
-/vendor
