@@ -78,7 +78,7 @@ class HospitalController extends Controller
     {
         Controller::he_can('hospitals', 'updat');
 
-        if (isset($_POST['delete'])) {
+        if ($request->has('delete')) {
             if ($hospital->delete()) {
                 return back()->with('success', "L'hôpital a bien été supprimée !");
             } else {

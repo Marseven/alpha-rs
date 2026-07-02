@@ -67,7 +67,7 @@ class CountryController extends Controller
 
         Controller::he_can('Countries', 'updat');
 
-        if (isset($_POST['delete'])) {
+        if ($request->has('delete')) {
             if ($country->delete()) {
                 return back()->with('success', "Le pays a bien été supprimé !");
             } else {
@@ -123,7 +123,7 @@ class CountryController extends Controller
 
         Controller::he_can('Countries', 'updat');
 
-        if (isset($_POST['delete'])) {
+        if ($request->has('delete')) {
             if ($town->delete()) {
                 return back()->with('success', "La ville a bien été supprimée !");
             } else {

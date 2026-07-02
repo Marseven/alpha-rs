@@ -66,7 +66,7 @@ class AdminUserController extends Controller
     public function update(Request $request, User $user)
     {
 
-        if (isset($_POST['delete'])) {
+        if ($request->has('delete')) {
             if ($user->delete()) {
                 return  back()->with('success', "L'utilisateur a bien été supprimé !");
             } else {

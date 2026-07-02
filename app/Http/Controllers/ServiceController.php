@@ -55,7 +55,7 @@ class ServiceController extends Controller
     {
         Controller::he_can('Services', 'updat');
 
-    	if(isset($_POST['delete'])) {
+    	if($request->has('delete')) {
     		if($service->delete()){
                 return back()->with('success', "Le service bien été supprimée !");
             }else{

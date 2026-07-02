@@ -43,7 +43,7 @@ class SickController extends Controller
 
         Controller::he_can('Sicks', 'updat');
 
-        if(isset($_POST['delete'])) {
+        if($request->has('delete')) {
     		if($sick->delete()){
                 return  back()->with('success', "La maladie a bien été supprimée !");
             }else{

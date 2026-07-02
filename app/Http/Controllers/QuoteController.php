@@ -186,7 +186,7 @@ class QuoteController extends Controller
     {
         Controller::he_can('Quotes', 'updat');
 
-        if (isset($_POST['delete'])) {
+        if ($request->has('delete')) {
             if ($quote->delete()) {
                 return back()->with('success', 'Le devis a été supprimée.');
             } else {

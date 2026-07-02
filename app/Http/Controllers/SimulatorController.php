@@ -107,7 +107,7 @@ class SimulatorController extends Controller
 
     public function update(Request $request, Simulator $simulator)
     {
-        if (isset($_POST['delete'])) {
+        if ($request->has('delete')) {
             if ($simulator->delete()) {
                 return back()->with('success', "L'élément a bien été supprimée !");
             } else {
@@ -146,7 +146,7 @@ class SimulatorController extends Controller
 
     public function update_item(Request $request, SimulatorItem $item)
     {
-        if (isset($_POST['delete'])) {
+        if ($request->has('delete')) {
             if ($item->delete()) {
                 return back()->with('success', "L'élément a bien été supprimée !");
             } else {

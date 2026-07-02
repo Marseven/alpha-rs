@@ -137,7 +137,7 @@ class FolderController extends Controller
     {
         Controller::he_can('Folders', 'updat');
 
-        if (isset($_POST['delete'])) {
+        if ($request->has('delete')) {
             if ($folder->delete()) {
                 return back()->with('success', 'Le dossier a été supprimée.');
             } else {
