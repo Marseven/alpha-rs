@@ -9,6 +9,24 @@ Le serveur ne peut pas lancer `php artisan migrate`. Appliquer **une fois** le
 script SQL dans phpMyAdmin : [`docs/PROD_SQL_2024_05.sql`](PROD_SQL_2024_05.sql).
 En local/CI, les migrations Laravel suffisent (`php artisan migrate`).
 
+## Migration des données existantes (prod)
+
+Après avoir appliqué le schéma SQL, migrer les données existantes avec les
+commandes Artisan (utiliser le binaire PHP 8.2 sur le serveur) :
+
+```bash
+# 1) Rendre les dossiers (folders) existants suivables (crée un dossier de
+#    workflow par folder ; idempotent). Vérifier d'abord à blanc :
+/opt/alt/php82/usr/bin/php artisan workflow:backfill-cases --dry-run
+/opt/alt/php82/usr/bin/php artisan workflow:backfill-cases
+
+# 2) Assigner les rôles workflow aux comptes concernés :
+/opt/alt/php82/usr/bin/php artisan users:set-role medecin@exemple.com doctor
+/opt/alt/php82/usr/bin/php artisan users:set-role cnamgs@exemple.com pharmacy
+```
+
+Les deux commandes sont idempotentes/sûres et peuvent être relancées.
+
 ---
 
 ## 1. Changer les images du site
