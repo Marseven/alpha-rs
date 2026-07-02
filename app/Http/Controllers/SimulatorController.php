@@ -48,11 +48,20 @@ class SimulatorController extends Controller
 
     public function search(Request $request)
     {
+        $request->validate([
+            'service_id' => 'required|exists:services,id',
+            'country_id' => 'required|exists:countries,id',
+            'sick_id' => 'required|exists:sicks,id',
+        ]);
 
-        $simulators = Simulator::where('service_id', $request->service_id)->where('country_id', $request->country_id)->where('sick_id', $request->sick_id)->get();
-        $service_id = Service::find($request->service_id);
-        $country_id = Country::find($request->country_id);
-        $sick_id = Sick::find($request->sick_id);
+        $simulators = Simulator::where('service_id', $request->service_id)
+            ->where('country_id', $request->country_id)
+            ->where('sick_id', $request->sick_id)
+            ->with(['item', 'service', 'country', 'sick'])
+            ->get();
+        $service_id = Service::findOrFail($request->service_id);
+        $country_id = Country::findOrFail($request->country_id);
+        $sick_id = Sick::findOrFail($request->sick_id);
 
         $services = Service::all();
         $countries = Country::all();
