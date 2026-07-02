@@ -32,23 +32,23 @@ class MedicalWorkflowTest extends TestCase
         $this->actingAs($client)->get('/doctor/cases')->assertForbidden();
     }
 
-    public function test_doctor_can_send_assigned_case_to_pharmacy(): void
+    public function test_doctor_can_send_assigned_case_to_cnamgs(): void
     {
         $doctor = $this->makeDoctor();
-        $pharmacy = $this->makePharmacy();
+        $cnamgs = $this->makeCnamgs();
         $case = $this->makeCase(['doctor_id' => $doctor->id]);
 
         $this->actingAs($doctor)
-            ->post('/doctor/cases/' . $case->id . '/send-to-pharmacy', ['pharmacy_id' => $pharmacy->id])
+            ->post('/doctor/cases/' . $case->id . '/send-to-cnamgs', ['cnamgs_id' => $cnamgs->id])
             ->assertRedirect();
 
         $case->refresh();
-        $this->assertSame(MedicalCaseWorkflow::SENT_TO_PHARMACY, $case->status);
-        $this->assertSame($pharmacy->id, (int) $case->pharmacy_id);
-        $this->assertNotNull($case->sent_to_pharmacy_at);
+        $this->assertSame(MedicalCaseWorkflow::SENT_TO_CNAMGS, $case->status);
+        $this->assertSame($cnamgs->id, (int) $case->cnamgs_id);
+        $this->assertNotNull($case->sent_to_cnamgs_at);
         $this->assertDatabaseHas('medical_case_status_histories', [
             'medical_case_workflow_id' => $case->id,
-            'new_status' => MedicalCaseWorkflow::SENT_TO_PHARMACY,
+            'new_status' => MedicalCaseWorkflow::SENT_TO_CNAMGS,
         ]);
     }
 
@@ -56,38 +56,38 @@ class MedicalWorkflowTest extends TestCase
     {
         $doctor = $this->makeDoctor();
         $other = $this->makeDoctor();
-        $pharmacy = $this->makePharmacy();
+        $cnamgs = $this->makeCnamgs();
         $case = $this->makeCase(['doctor_id' => $other->id]);
 
         $this->actingAs($doctor)
-            ->post('/doctor/cases/' . $case->id . '/send-to-pharmacy', ['pharmacy_id' => $pharmacy->id])
+            ->post('/doctor/cases/' . $case->id . '/send-to-cnamgs', ['cnamgs_id' => $cnamgs->id])
             ->assertForbidden();
 
         $this->assertSame(MedicalCaseWorkflow::DRAFT, $case->fresh()->status);
     }
 
-    // ---- Pharmacy (CNAMGS) ----
+    // ---- CNAMGS ----
 
-    public function test_pharmacy_sees_only_cases_sent_to_them(): void
+    public function test_cnamgs_sees_only_cases_sent_to_them(): void
     {
-        $pharmacy = $this->makePharmacy();
-        $other = $this->makePharmacy();
-        $mine = $this->makeCase(['pharmacy_id' => $pharmacy->id, 'status' => MedicalCaseWorkflow::SENT_TO_PHARMACY]);
-        $theirs = $this->makeCase(['pharmacy_id' => $other->id, 'status' => MedicalCaseWorkflow::SENT_TO_PHARMACY]);
+        $cnamgs = $this->makeCnamgs();
+        $other = $this->makeCnamgs();
+        $mine = $this->makeCase(['cnamgs_id' => $cnamgs->id, 'status' => MedicalCaseWorkflow::SENT_TO_CNAMGS]);
+        $theirs = $this->makeCase(['cnamgs_id' => $other->id, 'status' => MedicalCaseWorkflow::SENT_TO_CNAMGS]);
 
-        $this->actingAs($pharmacy)->get('/pharmacy/cases/' . $mine->id)->assertOk();
-        $this->actingAs($pharmacy)->get('/pharmacy/cases/' . $theirs->id)->assertForbidden();
+        $this->actingAs($cnamgs)->get('/cnamgs/cases/' . $mine->id)->assertOk();
+        $this->actingAs($cnamgs)->get('/cnamgs/cases/' . $theirs->id)->assertForbidden();
     }
 
-    public function test_pharmacy_can_update_status_and_history_is_recorded(): void
+    public function test_cnamgs_can_update_status_and_history_is_recorded(): void
     {
-        $pharmacy = $this->makePharmacy();
-        $case = $this->makeCase(['pharmacy_id' => $pharmacy->id, 'status' => MedicalCaseWorkflow::SENT_TO_PHARMACY]);
+        $cnamgs = $this->makeCnamgs();
+        $case = $this->makeCase(['cnamgs_id' => $cnamgs->id, 'status' => MedicalCaseWorkflow::SENT_TO_CNAMGS]);
 
-        $this->actingAs($pharmacy)
-            ->post('/pharmacy/cases/' . $case->id . '/update-status', [
+        $this->actingAs($cnamgs)
+            ->post('/cnamgs/cases/' . $case->id . '/update-status', [
                 'status' => MedicalCaseWorkflow::IN_REVIEW,
-                'pharmacy_note' => 'Traitement en cours',
+                'cnamgs_note' => 'Traitement en cours',
             ])->assertRedirect();
 
         $case->refresh();
@@ -96,13 +96,13 @@ class MedicalWorkflowTest extends TestCase
             ->where('new_status', MedicalCaseWorkflow::IN_REVIEW)->count());
     }
 
-    public function test_pharmacy_cannot_set_an_invalid_status(): void
+    public function test_cnamgs_cannot_set_an_invalid_status(): void
     {
-        $pharmacy = $this->makePharmacy();
-        $case = $this->makeCase(['pharmacy_id' => $pharmacy->id, 'status' => MedicalCaseWorkflow::SENT_TO_PHARMACY]);
+        $cnamgs = $this->makeCnamgs();
+        $case = $this->makeCase(['cnamgs_id' => $cnamgs->id, 'status' => MedicalCaseWorkflow::SENT_TO_CNAMGS]);
 
-        $this->actingAs($pharmacy)
-            ->post('/pharmacy/cases/' . $case->id . '/update-status', ['status' => 'hacked'])
+        $this->actingAs($cnamgs)
+            ->post('/cnamgs/cases/' . $case->id . '/update-status', ['status' => 'hacked'])
             ->assertSessionHasErrors('status');
     }
 }

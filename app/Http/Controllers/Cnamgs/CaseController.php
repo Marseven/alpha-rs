@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Pharmacy;
+namespace App\Http\Controllers\Cnamgs;
 
 use App\Http\Controllers\Controller;
 use App\Models\MedicalCaseWorkflow;
@@ -9,15 +9,15 @@ use Illuminate\Validation\Rule;
 
 class CaseController extends Controller
 {
-    /** Cases received by the authenticated CNAMGS/pharmacy. */
+    /** Cases received by the authenticated CNAMGS. */
     public function index()
     {
-        $cases = MedicalCaseWorkflow::where('pharmacy_id', auth()->id())
+        $cases = MedicalCaseWorkflow::where('cnamgs_id', auth()->id())
             ->with('doctor')
             ->latest()
             ->paginate(20);
 
-        return view('pharmacy.cases.index', ['cases' => $cases, 'title' => 'Dossiers reçus']);
+        return view('cnamgs.cases.index', ['cases' => $cases, 'title' => 'Dossiers reçus']);
     }
 
     public function show(MedicalCaseWorkflow $case)
@@ -25,7 +25,7 @@ class CaseController extends Controller
         $this->authorize('view', $case);
         $case->load(['doctor', 'statusHistories.changedBy', 'folder']);
 
-        return view('pharmacy.cases.show', compact('case') + ['title' => $case->tracking_number]);
+        return view('cnamgs.cases.show', compact('case') + ['title' => $case->tracking_number]);
     }
 
     public function updateStatus(Request $request, MedicalCaseWorkflow $case)
@@ -33,14 +33,14 @@ class CaseController extends Controller
         $this->authorize('updateStatus', $case);
 
         $data = $request->validate([
-            'status' => ['required', Rule::in(MedicalCaseWorkflow::PHARMACY_STATUSES)],
-            'pharmacy_note' => 'nullable|string|max:2000',
+            'status' => ['required', Rule::in(MedicalCaseWorkflow::CNAMGS_STATUSES)],
+            'cnamgs_note' => 'nullable|string|max:2000',
         ]);
 
-        if (! empty($data['pharmacy_note'])) {
-            $case->pharmacy_note = $data['pharmacy_note'];
+        if (! empty($data['cnamgs_note'])) {
+            $case->cnamgs_note = $data['cnamgs_note'];
         }
-        $case->changeStatus($data['status'], auth()->id(), $data['pharmacy_note'] ?? null);
+        $case->changeStatus($data['status'], auth()->id(), $data['cnamgs_note'] ?? null);
 
         return back()->with('success', "Statut du dossier {$case->tracking_number} mis à jour.");
     }

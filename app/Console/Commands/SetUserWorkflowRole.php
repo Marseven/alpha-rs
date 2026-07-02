@@ -10,7 +10,7 @@ use Illuminate\Console\Command;
  *
  * Usage:
  *   php artisan users:set-role medecin@example.com doctor
- *   php artisan users:set-role cnamgs@example.com pharmacy
+ *   php artisan users:set-role cnamgs@example.com cnamgs
  *   php artisan users:set-role admin@example.com admin
  *   php artisan users:set-role someone@example.com none   # clear the role
  */
@@ -18,15 +18,15 @@ class SetUserWorkflowRole extends Command
 {
     protected $signature = 'users:set-role {email} {role}';
 
-    protected $description = 'Set (or clear) the workflow role of a user by email (doctor|pharmacy|admin|none)';
+    protected $description = 'Set (or clear) the workflow role of a user by email (doctor|cnamgs|admin|none)';
 
     public function handle(): int
     {
         $email = $this->argument('email');
         $role = strtolower($this->argument('role'));
 
-        if (! in_array($role, ['doctor', 'pharmacy', 'admin', 'none'], true)) {
-            $this->error('Role invalide. Valeurs : doctor, pharmacy, admin, none.');
+        if (! in_array($role, ['doctor', 'cnamgs', 'admin', 'none'], true)) {
+            $this->error('Role invalide. Valeurs : doctor, cnamgs, admin, none.');
             return self::FAILURE;
         }
 

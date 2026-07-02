@@ -5,7 +5,7 @@
 -- Charset utf8mb4 to match the app.
 -- ---------------------------------------------------------------------------
 
--- 1) users.workflow_role (doctor|pharmacy|admin). Guarded add.
+-- 1) users.workflow_role (doctor|cnamgs|admin). Guarded add.
 SET @col := (SELECT COUNT(*) FROM information_schema.columns
   WHERE table_schema = DATABASE() AND table_name = 'users' AND column_name = 'workflow_role');
 SET @sql := IF(@col = 0,
@@ -21,13 +21,13 @@ CREATE TABLE IF NOT EXISTS `medical_case_workflows` (
   `patient_name` VARCHAR(255) NOT NULL,
   `patient_phone` VARCHAR(255) NULL,
   `doctor_id` BIGINT UNSIGNED NULL,
-  `pharmacy_id` BIGINT UNSIGNED NULL,
+  `cnamgs_id` BIGINT UNSIGNED NULL,
   `status` VARCHAR(255) NOT NULL DEFAULT 'draft',
   `doctor_note` TEXT NULL,
-  `pharmacy_note` TEXT NULL,
+  `cnamgs_note` TEXT NULL,
   `patient_note` TEXT NULL,
-  `sent_to_pharmacy_at` TIMESTAMP NULL,
-  `received_by_pharmacy_at` TIMESTAMP NULL,
+  `sent_to_cnamgs_at` TIMESTAMP NULL,
+  `received_by_cnamgs_at` TIMESTAMP NULL,
   `processed_at` TIMESTAMP NULL,
   `completed_at` TIMESTAMP NULL,
   `created_at` TIMESTAMP NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `medical_case_workflows` (
   KEY `mcw_folder_id_index` (`folder_id`),
   KEY `mcw_patient_phone_index` (`patient_phone`),
   KEY `mcw_doctor_id_index` (`doctor_id`),
-  KEY `mcw_pharmacy_id_index` (`pharmacy_id`),
+  KEY `mcw_cnamgs_id_index` (`cnamgs_id`),
   KEY `mcw_status_index` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -98,7 +98,39 @@ CREATE TABLE IF NOT EXISTS `site_settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------------
+-- 7) LEGACY FIX — run ONLY if a previous deploy created the workflow with the
+--    old "pharmacy_*" naming. Renames the columns and migrates the stored
+--    status/role values to CNAMGS. Guarded + idempotent: every step is a no-op
+--    on a fresh (cnamgs_*) schema, so it is always safe to run.
+-- ---------------------------------------------------------------------------
+SET @db := DATABASE();
+-- 7a) pharmacy_id -> cnamgs_id
+SET @c := (SELECT COUNT(*) FROM information_schema.columns
+  WHERE table_schema = @db AND table_name = 'medical_case_workflows' AND column_name = 'pharmacy_id');
+SET @sql := IF(@c = 1, 'ALTER TABLE `medical_case_workflows` CHANGE `pharmacy_id` `cnamgs_id` BIGINT UNSIGNED NULL', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+-- 7b) pharmacy_note -> cnamgs_note
+SET @c := (SELECT COUNT(*) FROM information_schema.columns
+  WHERE table_schema = @db AND table_name = 'medical_case_workflows' AND column_name = 'pharmacy_note');
+SET @sql := IF(@c = 1, 'ALTER TABLE `medical_case_workflows` CHANGE `pharmacy_note` `cnamgs_note` TEXT NULL', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+-- 7c) sent_to_pharmacy_at -> sent_to_cnamgs_at
+SET @c := (SELECT COUNT(*) FROM information_schema.columns
+  WHERE table_schema = @db AND table_name = 'medical_case_workflows' AND column_name = 'sent_to_pharmacy_at');
+SET @sql := IF(@c = 1, 'ALTER TABLE `medical_case_workflows` CHANGE `sent_to_pharmacy_at` `sent_to_cnamgs_at` TIMESTAMP NULL', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+-- 7d) received_by_pharmacy_at -> received_by_cnamgs_at
+SET @c := (SELECT COUNT(*) FROM information_schema.columns
+  WHERE table_schema = @db AND table_name = 'medical_case_workflows' AND column_name = 'received_by_pharmacy_at');
+SET @sql := IF(@c = 1, 'ALTER TABLE `medical_case_workflows` CHANGE `received_by_pharmacy_at` `received_by_cnamgs_at` TIMESTAMP NULL', 'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+-- 7e) stored status + role values (legacy rows only)
+UPDATE `medical_case_workflows` SET `status` = 'sent_to_cnamgs'     WHERE `status` = 'sent_to_pharmacy';
+UPDATE `medical_case_workflows` SET `status` = 'received_by_cnamgs' WHERE `status` = 'received_by_pharmacy';
+UPDATE `users` SET `workflow_role` = 'cnamgs' WHERE `workflow_role` = 'pharmacy';
+
+-- ---------------------------------------------------------------------------
 -- Assign roles to existing users (adapt the emails):
---   UPDATE `users` SET `workflow_role` = 'doctor'   WHERE email = 'medecin@example.com';
---   UPDATE `users` SET `workflow_role` = 'pharmacy' WHERE email = 'cnamgs@example.com';
+--   UPDATE `users` SET `workflow_role` = 'doctor' WHERE email = 'medecin@example.com';
+--   UPDATE `users` SET `workflow_role` = 'cnamgs' WHERE email = 'cnamgs@example.com';
 -- ---------------------------------------------------------------------------

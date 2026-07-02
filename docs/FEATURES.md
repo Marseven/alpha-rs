@@ -22,7 +22,7 @@ commandes Artisan (utiliser le binaire PHP 8.2 sur le serveur) :
 
 # 2) Assigner les rôles workflow aux comptes concernés :
 /opt/alt/php82/usr/bin/php artisan users:set-role medecin@exemple.com doctor
-/opt/alt/php82/usr/bin/php artisan users:set-role cnamgs@exemple.com pharmacy
+/opt/alt/php82/usr/bin/php artisan users:set-role cnamgs@exemple.com cnamgs
 ```
 
 Les deux commandes sont idempotentes/sûres et peuvent être relancées.
@@ -66,23 +66,23 @@ Les deux commandes sont idempotentes/sûres et peuvent être relancées.
 ## 3. Workflow médical (médecin → CNAMGS → patient)
 
 ### Rôles
-Colonne `users.workflow_role` : `doctor`, `pharmacy` (= CNAMGS), `admin`.
+Colonne `users.workflow_role` : `doctor`, `cnamgs` (la CNAMGS), `admin`.
 Assigner via SQL/admin :
 ```sql
 UPDATE users SET workflow_role='doctor'   WHERE email='...';
-UPDATE users SET workflow_role='pharmacy' WHERE email='...';
+UPDATE users SET workflow_role='cnamgs' WHERE email='...';
 ```
 (Les admins existants — rôle sécurité « admin » — ont accès à tout.)
 
 ### Médecin — `/doctor/cases`
 - Voit **uniquement** ses dossiers (`doctor_id`).
 - Ouvre un dossier, ajoute une note, choisit une CNAMGS, **envoie le dossier**.
-- À l'envoi : statut `sent_to_pharmacy`, horodatage, entrée d'historique, et
+- À l'envoi : statut `sent_to_cnamgs`, horodatage, entrée d'historique, et
   email de notification à la CNAMGS.
 
-### CNAMGS / Pharmacie — `/pharmacy/cases`
-- Voit **uniquement** les dossiers qui lui sont envoyés (`pharmacy_id`).
-- Met à jour le statut : `received_by_pharmacy`, `in_review`,
+### CNAMGS — `/cnamgs/cases`
+- Voit **uniquement** les dossiers qui lui sont envoyés (`cnamgs_id`).
+- Met à jour le statut : `received_by_cnamgs`, `in_review`,
   `missing_information`, `ready`, `completed`, `cancelled` (+ note).
 - Chaque changement est **historisé** (`medical_case_status_histories`).
 
@@ -94,8 +94,8 @@ UPDATE users SET workflow_role='pharmacy' WHERE email='...';
   ne révèle rien.
 
 ### Sécurité
-- `MedicalCaseWorkflowPolicy` : médecin ↔ `doctor_id`, CNAMGS ↔ `pharmacy_id` ;
-  admins via `Gate::before`. Middleware `workflow_role:doctor|pharmacy`.
+- `MedicalCaseWorkflowPolicy` : médecin ↔ `doctor_id`, CNAMGS ↔ `cnamgs_id` ;
+  admins via `Gate::before`. Middleware `workflow_role:doctor|cnamgs`.
 - Statuts validés côté serveur ; toutes les transitions sont journalisées.
 
 ### Créer un dossier de workflow

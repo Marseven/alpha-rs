@@ -11,24 +11,24 @@
                     <p><strong>Patient :</strong> {{ $case->patient_name }}</p>
                     <p><strong>Téléphone :</strong> {{ $case->patient_phone ?? '—' }}</p>
                     <p><strong>Statut :</strong> <span class="badge bg-secondary">{{ $case->status }}</span></p>
-                    <p><strong>CNAMGS :</strong> {{ $case->pharmacy?->name ?? '—' }}</p>
+                    <p><strong>CNAMGS :</strong> {{ $case->cnamgs?->name ?? '—' }}</p>
                     @if ($case->doctor_note)<p><strong>Note médecin :</strong> {{ $case->doctor_note }}</p>@endif
                 </div>
             </div>
         </div>
 
         <div class="col-md-6">
-            @can('sendToPharmacy', $case)
+            @can('sendToCnamgs', $case)
                 <div class="card shadow-sm">
                     <div class="card-header">Envoyer à la CNAMGS</div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('doctor.cases.send', $case) }}">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label">CNAMGS / Pharmacie</label>
-                                <select name="pharmacy_id" class="form-select" required>
+                                <label class="form-label">CNAMGS</label>
+                                <select name="cnamgs_id" class="form-select" required>
                                     <option value="">— Choisir —</option>
-                                    @foreach ($pharmacies as $p)
+                                    @foreach ($cnamgsList as $p)
                                         <option value="{{ $p->id }}">{{ $p->name }}</option>
                                     @endforeach
                                 </select>

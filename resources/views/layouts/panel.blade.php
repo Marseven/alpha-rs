@@ -14,7 +14,7 @@
             <a class="navbar-brand text-white fw-bold" href="{{ url('/') }}">{{ config('relief.name') }}</a>
             <div class="d-flex align-items-center gap-3">
                 <span class="text-white-50 small">{{ auth()->user()->name ?? '' }}
-                    @if(auth()->user()?->isDoctor()) · Médecin @elseif(auth()->user()?->isPharmacy()) · CNAMGS @endif
+                    @if(auth()->user()?->isDoctor()) · Médecin @elseif(auth()->user()?->isCnamgs()) · CNAMGS @endif
                 </span>
                 <form method="POST" action="{{ route('logout') }}">@csrf
                     <button class="btn btn-sm btn-light">Déconnexion</button>

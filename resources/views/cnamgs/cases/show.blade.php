@@ -1,7 +1,7 @@
 @extends('layouts.panel')
 
 @section('content')
-    <a href="{{ route('pharmacy.cases') }}" class="btn btn-sm btn-outline-secondary mb-3">&larr; Dossiers reçus</a>
+    <a href="{{ route('cnamgs.cases') }}" class="btn btn-sm btn-outline-secondary mb-3">&larr; Dossiers reçus</a>
 
     <div class="row g-4">
         <div class="col-md-6">
@@ -21,19 +21,19 @@
             <div class="card shadow-sm">
                 <div class="card-header">Mettre à jour le statut</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('pharmacy.cases.status', $case) }}">
+                    <form method="POST" action="{{ route('cnamgs.cases.status', $case) }}">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Nouveau statut</label>
                             <select name="status" class="form-select" required>
-                                @foreach (\App\Models\MedicalCaseWorkflow::PHARMACY_STATUSES as $s)
+                                @foreach (\App\Models\MedicalCaseWorkflow::CNAMGS_STATUSES as $s)
                                     <option value="{{ $s }}" @selected($case->status === $s)>{{ $s }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Note (optionnel)</label>
-                            <textarea name="pharmacy_note" class="form-control" rows="3">{{ $case->pharmacy_note }}</textarea>
+                            <textarea name="cnamgs_note" class="form-control" rows="3">{{ $case->cnamgs_note }}</textarea>
                         </div>
                         <button class="btn btn-primary">Enregistrer</button>
                     </form>

@@ -98,14 +98,14 @@ Auth::routes();
 Route::middleware(['auth', 'workflow_role:doctor'])->prefix('doctor')->group(function () {
     Route::get('/cases', [\App\Http\Controllers\Doctor\CaseController::class, 'index'])->name('doctor.cases');
     Route::get('/cases/{case}', [\App\Http\Controllers\Doctor\CaseController::class, 'show'])->name('doctor.cases.show');
-    Route::post('/cases/{case}/send-to-pharmacy', [\App\Http\Controllers\Doctor\CaseController::class, 'sendToPharmacy'])->name('doctor.cases.send');
+    Route::post('/cases/{case}/send-to-cnamgs', [\App\Http\Controllers\Doctor\CaseController::class, 'sendToCnamgs'])->name('doctor.cases.send');
 });
 
-// Medical workflow — CNAMGS / Pharmacy space
-Route::middleware(['auth', 'workflow_role:pharmacy'])->prefix('pharmacy')->group(function () {
-    Route::get('/cases', [\App\Http\Controllers\Pharmacy\CaseController::class, 'index'])->name('pharmacy.cases');
-    Route::get('/cases/{case}', [\App\Http\Controllers\Pharmacy\CaseController::class, 'show'])->name('pharmacy.cases.show');
-    Route::post('/cases/{case}/update-status', [\App\Http\Controllers\Pharmacy\CaseController::class, 'updateStatus'])->name('pharmacy.cases.status');
+// Medical workflow — CNAMGS space
+Route::middleware(['auth', 'workflow_role:cnamgs'])->prefix('cnamgs')->group(function () {
+    Route::get('/cases', [\App\Http\Controllers\Cnamgs\CaseController::class, 'index'])->name('cnamgs.cases');
+    Route::get('/cases/{case}', [\App\Http\Controllers\Cnamgs\CaseController::class, 'show'])->name('cnamgs.cases.show');
+    Route::post('/cases/{case}/update-status', [\App\Http\Controllers\Cnamgs\CaseController::class, 'updateStatus'])->name('cnamgs.cases.status');
 });
 
 Route::get('logout', [LoginController::class, 'logout']);

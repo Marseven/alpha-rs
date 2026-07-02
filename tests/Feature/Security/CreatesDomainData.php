@@ -44,9 +44,9 @@ trait CreatesDomainData
         return $this->makeUser(['workflow_role' => 'doctor']);
     }
 
-    protected function makePharmacy(): User
+    protected function makeCnamgs(): User
     {
-        return $this->makeUser(['workflow_role' => 'pharmacy']);
+        return $this->makeUser(['workflow_role' => 'cnamgs']);
     }
 
     protected function makeCase(array $attrs = []): \App\Models\MedicalCaseWorkflow

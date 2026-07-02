@@ -102,9 +102,9 @@ class User extends Authenticatable
         return $this->workflow_role === 'doctor';
     }
 
-    public function isPharmacy(): bool
+    public function isCnamgs(): bool
     {
-        return $this->workflow_role === 'pharmacy';
+        return $this->workflow_role === 'cnamgs';
     }
 
     public function doctorCases()
@@ -112,9 +112,9 @@ class User extends Authenticatable
         return $this->hasMany(MedicalCaseWorkflow::class, 'doctor_id');
     }
 
-    public function pharmacyCases()
+    public function cnamgsCases()
     {
-        return $this->hasMany(MedicalCaseWorkflow::class, 'pharmacy_id');
+        return $this->hasMany(MedicalCaseWorkflow::class, 'cnamgs_id');
     }
 
     public function payments()

@@ -17,7 +17,7 @@
                             <td>{{ $case->patient_name }}</td>
                             <td>{{ $case->patient_phone }}</td>
                             <td><span class="badge bg-secondary">{{ $case->status }}</span></td>
-                            <td>{{ $case->pharmacy?->name ?? '—' }}</td>
+                            <td>{{ $case->cnamgs?->name ?? '—' }}</td>
                             <td>{{ $case->updated_at?->format('d/m/Y H:i') }}</td>
                             <td><a class="btn btn-sm btn-primary" href="{{ route('doctor.cases.show', $case) }}">Ouvrir</a></td>
                         </tr>

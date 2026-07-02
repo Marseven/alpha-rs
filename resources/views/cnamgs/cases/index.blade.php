@@ -17,8 +17,8 @@
                             <td>{{ $case->patient_name }}</td>
                             <td>{{ $case->doctor?->name ?? '—' }}</td>
                             <td><span class="badge bg-secondary">{{ $case->status }}</span></td>
-                            <td>{{ $case->received_by_pharmacy_at?->format('d/m/Y H:i') ?? $case->sent_to_pharmacy_at?->format('d/m/Y H:i') ?? '—' }}</td>
-                            <td><a class="btn btn-sm btn-primary" href="{{ route('pharmacy.cases.show', $case) }}">Traiter</a></td>
+                            <td>{{ $case->received_by_cnamgs_at?->format('d/m/Y H:i') ?? $case->sent_to_cnamgs_at?->format('d/m/Y H:i') ?? '—' }}</td>
+                            <td><a class="btn btn-sm btn-primary" href="{{ route('cnamgs.cases.show', $case) }}">Traiter</a></td>
                         </tr>
                     @empty
                         <tr><td colspan="6" class="text-center text-muted">Aucun dossier reçu.</td></tr>

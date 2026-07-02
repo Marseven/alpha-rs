@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 
 /**
- * Restricts a route to users with a given workflow role (doctor|pharmacy).
+ * Restricts a route to users with a given workflow role (doctor|cnamgs).
  * Platform admins always pass. Usage: ->middleware('workflow_role:doctor')
  */
 class EnsureUserHasRole

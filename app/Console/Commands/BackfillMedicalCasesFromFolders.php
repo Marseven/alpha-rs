@@ -45,7 +45,7 @@ class BackfillMedicalCasesFromFolders extends Command
                 'patient_name' => $name,
                 'patient_phone' => $folder->phone,
                 'doctor_id' => null,
-                'pharmacy_id' => null,
+                'cnamgs_id' => null,
                 'status' => MedicalCaseWorkflow::DRAFT,
             ]);
             $created++;

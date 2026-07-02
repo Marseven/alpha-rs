@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Medical case workflow (doctor -> CNAMGS/pharmacy -> patient).
+ * Medical case workflow (doctor -> CNAMGS -> patient).
  * Additive and defensive: guarded so it can run against the existing DB.
  */
 return new class extends Migration
@@ -16,7 +16,7 @@ return new class extends Migration
         // security_role_id + role() relationship — hence NOT named "role").
         if (Schema::hasTable('users') && ! Schema::hasColumn('users', 'workflow_role')) {
             Schema::table('users', function (Blueprint $t) {
-                $t->string('workflow_role')->nullable()->index()->after('security_role_id'); // doctor|pharmacy|admin
+                $t->string('workflow_role')->nullable()->index()->after('security_role_id'); // doctor|cnamgs|admin
             });
         }
 
@@ -28,13 +28,13 @@ return new class extends Migration
                 $t->string('patient_name');
                 $t->string('patient_phone')->nullable()->index();
                 $t->unsignedBigInteger('doctor_id')->nullable()->index();
-                $t->unsignedBigInteger('pharmacy_id')->nullable()->index();
+                $t->unsignedBigInteger('cnamgs_id')->nullable()->index();
                 $t->string('status')->default('draft')->index();
                 $t->text('doctor_note')->nullable();
-                $t->text('pharmacy_note')->nullable();
+                $t->text('cnamgs_note')->nullable();
                 $t->text('patient_note')->nullable();
-                $t->timestamp('sent_to_pharmacy_at')->nullable();
-                $t->timestamp('received_by_pharmacy_at')->nullable();
+                $t->timestamp('sent_to_cnamgs_at')->nullable();
+                $t->timestamp('received_by_cnamgs_at')->nullable();
                 $t->timestamp('processed_at')->nullable();
                 $t->timestamp('completed_at')->nullable();
                 $t->timestamps();

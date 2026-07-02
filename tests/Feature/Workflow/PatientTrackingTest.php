@@ -48,7 +48,7 @@ class PatientTrackingTest extends TestCase
             'patient_phone' => '077123456',
             'doctor_id' => $doctor->id,
             'doctor_note' => 'SECRET-DOCTOR-NOTE',
-            'pharmacy_note' => 'SECRET-PHARMACY-NOTE',
+            'cnamgs_note' => 'SECRET-CNAMGS-NOTE',
             'status' => MedicalCaseWorkflow::IN_REVIEW,
         ]);
 
@@ -58,6 +58,6 @@ class PatientTrackingTest extends TestCase
         ])->assertOk()->getContent();
 
         $this->assertStringNotContainsString('SECRET-DOCTOR-NOTE', $html);
-        $this->assertStringNotContainsString('SECRET-PHARMACY-NOTE', $html);
+        $this->assertStringNotContainsString('SECRET-CNAMGS-NOTE', $html);
     }
 }

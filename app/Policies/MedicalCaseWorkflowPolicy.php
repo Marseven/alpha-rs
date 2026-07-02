@@ -14,23 +14,23 @@ class MedicalCaseWorkflowPolicy
 {
     use HandlesAuthorization;
 
-    /** Doctor sees only their cases; pharmacy sees only cases sent to them. */
+    /** Doctor sees only their cases; cnamgs sees only cases sent to them. */
     public function view(User $user, MedicalCaseWorkflow $case): bool
     {
-        return $this->ownsAsDoctor($user, $case) || $this->ownsAsPharmacy($user, $case);
+        return $this->ownsAsDoctor($user, $case) || $this->ownsAsCnamgs($user, $case);
     }
 
     /** Only the assigned doctor may send, and only from a sendable status. */
-    public function sendToPharmacy(User $user, MedicalCaseWorkflow $case): bool
+    public function sendToCnamgs(User $user, MedicalCaseWorkflow $case): bool
     {
         return $this->ownsAsDoctor($user, $case)
             && in_array($case->status, [MedicalCaseWorkflow::DRAFT, MedicalCaseWorkflow::MISSING_INFORMATION], true);
     }
 
-    /** Only the receiving pharmacy may update status, once the case was sent. */
+    /** Only the receiving cnamgs may update status, once the case was sent. */
     public function updateStatus(User $user, MedicalCaseWorkflow $case): bool
     {
-        return $this->ownsAsPharmacy($user, $case)
+        return $this->ownsAsCnamgs($user, $case)
             && $case->status !== MedicalCaseWorkflow::DRAFT;
     }
 
@@ -39,8 +39,8 @@ class MedicalCaseWorkflowPolicy
         return $user->isDoctor() && (int) $case->doctor_id === (int) $user->id;
     }
 
-    private function ownsAsPharmacy(User $user, MedicalCaseWorkflow $case): bool
+    private function ownsAsCnamgs(User $user, MedicalCaseWorkflow $case): bool
     {
-        return $user->isPharmacy() && (int) $case->pharmacy_id === (int) $user->id;
+        return $user->isCnamgs() && (int) $case->cnamgs_id === (int) $user->id;
     }
 }

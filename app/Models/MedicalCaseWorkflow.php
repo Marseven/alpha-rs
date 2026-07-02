@@ -12,17 +12,17 @@ class MedicalCaseWorkflow extends Model
 
     // Workflow statuses
     public const DRAFT = 'draft';
-    public const SENT_TO_PHARMACY = 'sent_to_pharmacy';
-    public const RECEIVED_BY_PHARMACY = 'received_by_pharmacy';
+    public const SENT_TO_CNAMGS = 'sent_to_cnamgs';
+    public const RECEIVED_BY_CNAMGS = 'received_by_cnamgs';
     public const IN_REVIEW = 'in_review';
     public const MISSING_INFORMATION = 'missing_information';
     public const READY = 'ready';
     public const COMPLETED = 'completed';
     public const CANCELLED = 'cancelled';
 
-    /** Statuses a pharmacy (CNAMGS) is allowed to set. */
-    public const PHARMACY_STATUSES = [
-        self::RECEIVED_BY_PHARMACY,
+    /** Statuses the CNAMGS is allowed to set. */
+    public const CNAMGS_STATUSES = [
+        self::RECEIVED_BY_CNAMGS,
         self::IN_REVIEW,
         self::MISSING_INFORMATION,
         self::READY,
@@ -32,14 +32,14 @@ class MedicalCaseWorkflow extends Model
 
     protected $fillable = [
         'tracking_number', 'folder_id', 'patient_name', 'patient_phone',
-        'doctor_id', 'pharmacy_id', 'status', 'doctor_note', 'pharmacy_note',
-        'patient_note', 'sent_to_pharmacy_at', 'received_by_pharmacy_at',
+        'doctor_id', 'cnamgs_id', 'status', 'doctor_note', 'cnamgs_note',
+        'patient_note', 'sent_to_cnamgs_at', 'received_by_cnamgs_at',
         'processed_at', 'completed_at',
     ];
 
     protected $casts = [
-        'sent_to_pharmacy_at' => 'datetime',
-        'received_by_pharmacy_at' => 'datetime',
+        'sent_to_cnamgs_at' => 'datetime',
+        'received_by_cnamgs_at' => 'datetime',
         'processed_at' => 'datetime',
         'completed_at' => 'datetime',
     ];
@@ -72,8 +72,8 @@ class MedicalCaseWorkflow extends Model
 
         $this->status = $newStatus;
         match ($newStatus) {
-            self::SENT_TO_PHARMACY => $this->sent_to_pharmacy_at ??= now(),
-            self::RECEIVED_BY_PHARMACY => $this->received_by_pharmacy_at ??= now(),
+            self::SENT_TO_CNAMGS => $this->sent_to_cnamgs_at ??= now(),
+            self::RECEIVED_BY_CNAMGS => $this->received_by_cnamgs_at ??= now(),
             self::COMPLETED => $this->completed_at ??= now(),
             default => null,
         };
@@ -95,8 +95,8 @@ class MedicalCaseWorkflow extends Model
     {
         return [
             self::DRAFT => 'Dossier en préparation.',
-            self::SENT_TO_PHARMACY => 'Votre dossier a été envoyé à la CNAMGS.',
-            self::RECEIVED_BY_PHARMACY => 'Votre dossier a été reçu par la CNAMGS.',
+            self::SENT_TO_CNAMGS => 'Votre dossier a été envoyé à la CNAMGS.',
+            self::RECEIVED_BY_CNAMGS => 'Votre dossier a été reçu par la CNAMGS.',
             self::IN_REVIEW => 'Votre dossier est en cours de traitement par la CNAMGS.',
             self::MISSING_INFORMATION => 'Votre dossier nécessite des informations complémentaires. Relief Services vous contactera.',
             self::READY => 'Votre dossier est prêt.',
@@ -115,9 +115,9 @@ class MedicalCaseWorkflow extends Model
         return $this->belongsTo(User::class, 'doctor_id');
     }
 
-    public function pharmacy()
+    public function cnamgs()
     {
-        return $this->belongsTo(User::class, 'pharmacy_id');
+        return $this->belongsTo(User::class, 'cnamgs_id');
     }
 
     public function statusHistories()
