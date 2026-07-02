@@ -50,6 +50,37 @@ class User extends Authenticatable
         return $this->belongsTo(SecurityRole::class,'security_role_id');
     }
 
+    /** @var array<string,object>|null Memoized fine-grained permissions (per instance). */
+    private ?array $permissionCache = null;
+
+    /**
+     * Fine-grained back-office permissions for this user's security role,
+     * keyed by lowercased object name. Loaded once per instance.
+     */
+    public function securityPermissions(): array
+    {
+        if ($this->permissionCache !== null) {
+            return $this->permissionCache;
+        }
+
+        if (! $this->security_role_id) {
+            return $this->permissionCache = [];
+        }
+
+        $rows = \Illuminate\Support\Facades\DB::table('security_role_permission')
+            ->join('security_permissions', 'security_permissions.id', '=', 'security_role_permission.security_permission_id')
+            ->where('security_role_permission.security_role_id', $this->security_role_id)
+            ->select('security_role_permission.*', 'security_permissions.name')
+            ->get();
+
+        $map = [];
+        foreach ($rows as $row) {
+            $map[mb_strtolower((string) $row->name)] = $row;
+        }
+
+        return $this->permissionCache = $map;
+    }
+
     /** True when the user's security role maps to the "admin" space. */
     public function isPlatformAdmin(): bool
     {

@@ -150,46 +150,13 @@ class Controller extends BaseController
         print '<option value="' . STATUT_DO . '">Traité</option>';
     }
 
+    /**
+     * Fine-grained back-office permission gate. Delegates to the Rbac service
+     * (fail-safe, case-insensitive, admin bypass, per-request cache). Aborts
+     * 403 when the current user is not allowed.
+     */
     static function he_can($controller, $action)
     {
-        $user = Auth::user();
-        $rolepermissions = DB::table('security_role_permission')
-            ->join('security_permissions', 'security_permissions.id', '=', 'security_role_permission.security_permission_id')
-            ->select('security_role_permission.*', 'security_permissions.*')
-            ->where('security_role_permission.security_role_id', $user->security_role_id)
-            ->get();
-
-        foreach ($rolepermissions as $permission) {
-
-            if ($permission->name == $controller) {
-
-                switch ($action) {
-                    case 'look':
-                        if ($permission->look != "on") {
-
-                            abort(403, "Vous n'avez pas le droit de faire cette action.");
-                        }
-                        break;
-                    case 'creat':
-                        if ($permission->creat != "on") {
-
-                            abort(403, "Vous n'avez pas le droit de faire cette action.");
-                        }
-                        break;
-                    case 'updat':
-                        if ($permission->updat != "on") {
-
-                            abort(403, "Vous n'avez pas le droit de faire cette action.");
-                        }
-                        break;
-                    case 'del':
-                        if ($permission->del != "on") {
-
-                            abort(403, "Vous n'avez pas le droit de faire cette action.");
-                        }
-                        break;
-                }
-            }
-        }
+        \App\Services\Rbac::authorize(Auth::user(), $controller, $action);
     }
 }
