@@ -7,7 +7,7 @@ use App\Models\SecurityObject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class SecurityObjectController extends GenericController
+class SecurityObjectController extends ResourceController
 {
     public function __construct()
     {

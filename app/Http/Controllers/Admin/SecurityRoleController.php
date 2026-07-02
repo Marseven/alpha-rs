@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Opis\Closure\SecurityProvider;
 
-class SecurityRoleController extends GenericController
+class SecurityRoleController extends ResourceController
 {
     public function __construct()
     {
