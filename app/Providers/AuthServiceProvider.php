@@ -18,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         \App\Models\Quote::class => \App\Policies\QuotePolicy::class,
         \App\Models\Folder::class => \App\Policies\FolderPolicy::class,
+        \App\Models\MedicalCaseWorkflow::class => \App\Policies\MedicalCaseWorkflowPolicy::class,
     ];
 
     /**
@@ -33,23 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         // granted every ability, so admins can manage/download any resource
         // while clients remain restricted to their own (see Quote/FolderPolicy).
         Gate::before(function (User $user, string $ability) {
-            return $this->isAdmin($user) ? true : null;
+            return $user->isPlatformAdmin() ? true : null;
         });
-    }
-
-    private function isAdmin(User $user): bool
-    {
-        if (! $user->security_role_id) {
-            return false;
-        }
-
-        $role = SecurityRole::find($user->security_role_id);
-        if (! $role) {
-            return false;
-        }
-
-        $object = SecurityObject::find($role->security_object_id);
-
-        return $object && strtolower((string) $object->name) === 'admin';
     }
 }

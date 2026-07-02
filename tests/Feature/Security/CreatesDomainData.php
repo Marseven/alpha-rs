@@ -30,10 +30,32 @@ trait CreatesDomainData
         if (array_key_exists('security_role_id', $overrides)) {
             $user->security_role_id = $overrides['security_role_id'];
         }
+        if (array_key_exists('workflow_role', $overrides)) {
+            $user->workflow_role = $overrides['workflow_role'];
+        }
         $user->email_verified_at = now();
         $user->save();
 
         return $user;
+    }
+
+    protected function makeDoctor(): User
+    {
+        return $this->makeUser(['workflow_role' => 'doctor']);
+    }
+
+    protected function makePharmacy(): User
+    {
+        return $this->makeUser(['workflow_role' => 'pharmacy']);
+    }
+
+    protected function makeCase(array $attrs = []): \App\Models\MedicalCaseWorkflow
+    {
+        return \App\Models\MedicalCaseWorkflow::create(array_merge([
+            'patient_name' => 'Jean Dupont',
+            'patient_phone' => '077000111',
+            'status' => \App\Models\MedicalCaseWorkflow::DRAFT,
+        ], $attrs));
     }
 
     /** Build a user whose role maps to the "admin" security object. */

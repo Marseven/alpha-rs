@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Controllers\Pharmacy;
+
+use App\Http\Controllers\Controller;
+use App\Models\MedicalCaseWorkflow;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
+class CaseController extends Controller
+{
+    /** Cases received by the authenticated CNAMGS/pharmacy. */
+    public function index()
+    {
+        $cases = MedicalCaseWorkflow::where('pharmacy_id', auth()->id())
+            ->with('doctor')
+            ->latest()
+            ->paginate(20);
+
+        return view('pharmacy.cases.index', ['cases' => $cases, 'title' => 'Dossiers reçus']);
+    }
+
+    public function show(MedicalCaseWorkflow $case)
+    {
+        $this->authorize('view', $case);
+        $case->load(['doctor', 'statusHistories.changedBy', 'folder']);
+
+        return view('pharmacy.cases.show', compact('case') + ['title' => $case->tracking_number]);
+    }
+
+    public function updateStatus(Request $request, MedicalCaseWorkflow $case)
+    {
+        $this->authorize('updateStatus', $case);
+
+        $data = $request->validate([
+            'status' => ['required', Rule::in(MedicalCaseWorkflow::PHARMACY_STATUSES)],
+            'pharmacy_note' => 'nullable|string|max:2000',
+        ]);
+
+        if (! empty($data['pharmacy_note'])) {
+            $case->pharmacy_note = $data['pharmacy_note'];
+        }
+        $case->changeStatus($data['status'], auth()->id(), $data['pharmacy_note'] ?? null);
+
+        return back()->with('success', "Statut du dossier {$case->tracking_number} mis à jour.");
+    }
+}

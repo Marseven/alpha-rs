@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'workflow_role',
     ];
 
     /**
@@ -47,6 +48,42 @@ class User extends Authenticatable
 
     public function role(){
         return $this->belongsTo(SecurityRole::class,'security_role_id');
+    }
+
+    /** True when the user's security role maps to the "admin" space. */
+    public function isPlatformAdmin(): bool
+    {
+        if ($this->workflow_role === 'admin') {
+            return true;
+        }
+        if (! $this->security_role_id) {
+            return false;
+        }
+        $role = SecurityRole::find($this->security_role_id);
+        $object = $role ? SecurityObject::find($role->security_object_id) : null;
+
+        return $object && strtolower((string) $object->name) === 'admin';
+    }
+
+    // --- Medical workflow role helpers (uses the workflow_role column) ---
+    public function isDoctor(): bool
+    {
+        return $this->workflow_role === 'doctor';
+    }
+
+    public function isPharmacy(): bool
+    {
+        return $this->workflow_role === 'pharmacy';
+    }
+
+    public function doctorCases()
+    {
+        return $this->hasMany(MedicalCaseWorkflow::class, 'doctor_id');
+    }
+
+    public function pharmacyCases()
+    {
+        return $this->hasMany(MedicalCaseWorkflow::class, 'pharmacy_id');
     }
 
     public function payments()
