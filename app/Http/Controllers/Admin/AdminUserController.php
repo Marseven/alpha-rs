@@ -43,6 +43,13 @@ class AdminUserController extends Controller
 
     public function create(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'phone' => 'required|string|max:32',
+            'security_role_id' => 'required|exists:security_roles,id',
+        ]);
+
         $user = new User();
 
         $user->name = $request->name;
@@ -73,6 +80,14 @@ class AdminUserController extends Controller
                 return back()->with('error', "Une erreur s'est produite.");
             }
         }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:32',
+            'security_role_id' => 'required|exists:security_roles,id',
+            'picture' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+        ]);
 
         $user->name = $request->name;
         $user->email = $request->email;

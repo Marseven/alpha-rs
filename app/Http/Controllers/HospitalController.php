@@ -31,13 +31,20 @@ class HospitalController extends Controller
 
     public function create(Request $request)
     {
+        $request->validate([
+            'label' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'town_id' => 'required|exists:towns,id',
+            'picture_1' => 'required|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'picture_2' => 'required|image|mimes:jpg,jpeg,png,webp|max:4096',
+        ]);
 
         $hospital = new Hospital();
 
         $hospital->label = $request->label;
         $hospital->description = $request->description;
         $hospital->town_id = $request->town_id;
-        $country = Town::find($request->town_id);
+        $country = Town::findOrFail($request->town_id);
         $hospital->country_id = $country->country_id;
 
         $picture_1 = FileController::picture($request->file('picture_1'));
@@ -85,11 +92,19 @@ class HospitalController extends Controller
                 return back()->with('error', "Une erreur s'est produite.");
             }
         } else {
+            $request->validate([
+                'label' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'town_id' => 'required|exists:towns,id',
+                'status' => 'required|string|max:32',
+                'picture_1' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+                'picture_2' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            ]);
             $hospital->label = $request->label;
             $hospital->description = $request->description;
 
             $hospital->town_id = $request->town_id;
-            $town = Town::find($request->town_id);
+            $town = Town::findOrFail($request->town_id);
             $hospital->country_id = $town->country_id;
 
             if ($request->file('picture_1')) {

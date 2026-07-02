@@ -22,6 +22,11 @@ class SickController extends Controller
 
     public function create(Request $request)
     {
+        $request->validate([
+            'label' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'status' => 'required|string|max:32',
+        ]);
 
     	$sick = new Sick();
 
@@ -50,6 +55,11 @@ class SickController extends Controller
                 return back()->with('error', "Une erreur s'est produite.");
             }
     	}else{
+            $request->validate([
+                'label' => 'required|string|max:255',
+                'description' => 'nullable|string|max:255',
+                'status' => 'required|string|max:32',
+            ]);
             $sick->label = $request->label;
             $sick->description = $request->description;
     		$sick->status = $request->status;

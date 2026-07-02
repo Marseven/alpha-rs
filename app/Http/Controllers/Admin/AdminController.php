@@ -27,11 +27,13 @@ class AdminController extends Controller
     //
     public function index()
     {
-        $hospitals = Hospital::all()->count();
-        $folders = Folder::all()->count();
-        $countries = Country::all()->count();
-        $quotes = Quote::limit(10)->get();
-        $users = User::all()->where('secure_role_id', '<>', 1)->count();
+        $hospitals = Hospital::count();
+        $folders = Folder::count();
+        $countries = Country::count();
+        $quotes = Quote::with(['service', 'country'])->limit(10)->get();
+        // NB: was ->where('secure_role_id', ...) on a collection — a typo'd,
+        // non-existent column that matched nobody; use the real column + a query.
+        $users = User::where('security_role_id', '<>', 1)->count();
 
         $folders_end = Folder::where('status', STATUT_DO)->count();
         $folders_pending = Folder::where('status', STATUT_PENDING)->count();
@@ -85,7 +87,9 @@ class AdminController extends Controller
     {
         Controller::he_can('Folders', 'look');
         $folders = Folder::all();
+        $folders->load(['service', 'country']);
         $quotes = Quote::all();
+        $quotes->load(['service', 'country']);
         return view('admin.folder.list', [
             'quotes' => $quotes,
             'folders' => $folders,
@@ -96,6 +100,7 @@ class AdminController extends Controller
     {
         Controller::he_can('Quotes', 'look');
         $quotes = Quote::all();
+        $quotes->load(['service', 'country']);
         return view('admin.quote.list', compact('quotes'));
     }
 
@@ -133,6 +138,7 @@ class AdminController extends Controller
     public function listSimulators()
     {
         $simulators = Simulator::all();
+        $simulators->load(['country', 'service', 'sick', 'item']);
         $services = Service::all();
         $countries = Country::all();
         $sicks = Sick::where('status', STATUT_SIMULATOR)->get();

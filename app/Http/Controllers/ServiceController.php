@@ -27,6 +27,16 @@ class ServiceController extends Controller
     public function create(Request $request)
     {
         Controller::he_can('Services', 'creat');
+        $request->validate([
+            'label' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'price_promo' => 'nullable|numeric|min:0',
+            'begin_promo' => 'nullable|string|max:255',
+            'end_promo' => 'nullable|string|max:255',
+            'status' => 'required|string|max:32',
+            'picture' => 'required|image|mimes:jpg,jpeg,png,webp|max:4096',
+        ]);
     	$service = new Service();
         $service->label = $request->label;
         $service->description = $request->description;
@@ -62,6 +72,16 @@ class ServiceController extends Controller
                 return back()->with('error', "Une erreur s'est produite.");
             }
     	}else{
+            $request->validate([
+                'label' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'price' => 'required|numeric|min:0',
+                'price_promo' => 'nullable|numeric|min:0',
+                'begin_promo' => 'nullable|string|max:255',
+                'end_promo' => 'nullable|string|max:255',
+                'status' => 'required|string|max:32',
+                'picture' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            ]);
             $service->label = $request->label;
             $service->description = $request->description;
             $service->price = $request->price;

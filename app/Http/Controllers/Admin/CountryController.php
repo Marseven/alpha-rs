@@ -41,6 +41,11 @@ class CountryController extends Controller
 
     public function create(Request $request)
     {
+        $request->validate([
+            'label' => 'required|string|max:255',
+            'code' => 'required|string|max:16',
+            'flag' => 'required|image|mimes:jpg,jpeg,png,webp|max:4096',
+        ]);
 
         $country = new Country();
 
@@ -74,6 +79,11 @@ class CountryController extends Controller
                 return back()->with('error', "Une erreur s'est produite.");
             }
         } else {
+            $request->validate([
+                'label' => 'required|string|max:255',
+                'code' => 'required|string|max:16',
+                'flag' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            ]);
             $country->label = $request->label;
             $country->code = $request->code;
             if ($request->file('flag')) {
@@ -97,6 +107,12 @@ class CountryController extends Controller
 
     public function createTown(Request $request)
     {
+        $request->validate([
+            'label' => 'required|string|max:255',
+            'code' => 'required|string|max:16',
+            'picture' => 'required|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'country_id' => 'required|exists:countries,id',
+        ]);
 
         $town = new Town();
 
@@ -130,6 +146,12 @@ class CountryController extends Controller
                 return back()->with('error', "Une erreur s'est produite.");
             }
         } else {
+            $request->validate([
+                'label' => 'required|string|max:255',
+                'code' => 'required|string|max:16',
+                'status' => 'required|string|max:32',
+                'country_id' => 'required|exists:countries,id',
+            ]);
             $town->label = $request->label;
             $town->code = $request->code;
             $town->status = $request->status;

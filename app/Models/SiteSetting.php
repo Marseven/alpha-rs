@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 
 class SiteSetting extends Model
@@ -20,19 +21,28 @@ class SiteSetting extends Model
         'contact_banner_image' => "Bannière contact",
     ];
 
-    public static function get(string $key, ?string $default = null): ?string
+    private const CACHE_KEY = 'site_settings.map';
+
+    /** All settings as [key => value], cached (invalidated on set). */
+    public static function cachedMap(): array
     {
         // Defensive: the table may not exist yet on an un-migrated environment.
         if (! Schema::hasTable('site_settings')) {
-            return $default;
+            return [];
         }
 
-        return static::query()->where('key', $key)->value('value') ?: $default;
+        return Cache::rememberForever(self::CACHE_KEY, fn () => static::pluck('value', 'key')->all());
+    }
+
+    public static function get(string $key, ?string $default = null): ?string
+    {
+        return (self::cachedMap()[$key] ?? null) ?: $default;
     }
 
     public static function set(string $key, ?string $value): void
     {
         static::updateOrCreate(['key' => $key], ['value' => $value]);
+        Cache::forget(self::CACHE_KEY);
     }
 
     /**

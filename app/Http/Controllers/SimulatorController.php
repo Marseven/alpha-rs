@@ -76,6 +76,14 @@ class SimulatorController extends Controller
 
     public function create(Request $request)
     {
+        $request->validate([
+            'value' => 'required|string|max:255',
+            'note' => 'nullable|string',
+            'country_id' => 'required|exists:countries,id',
+            'service_id' => 'required|exists:services,id',
+            'sick_id' => 'required|exists:sicks,id',
+            'item_id' => 'required|exists:simulator_items,id',
+        ]);
 
         $simulator = new Simulator();
 
@@ -130,12 +138,15 @@ class SimulatorController extends Controller
 
     public function create_item(Request $request)
     {
+        $request->validate([
+            'label' => 'required|string|max:255',
+        ]);
 
         $item = new SimulatorItem();
 
         $item->label = $request->label;
         $item->status = STATUT_ENABLE;
-        $item->user_id = auth()->user()->id;
+        // NB: simulator_items has no user_id column (removed a broken assignment).
 
         if ($item->save()) {
             return back()->with('success', "L'élément a bien été créé !");
