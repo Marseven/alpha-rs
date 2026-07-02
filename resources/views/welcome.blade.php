@@ -225,7 +225,7 @@
     <div class="tg-sliderholder">
         <div id="tg-homeslider" class="tg-homeslider tg-haslayout" style="padding-bottom: 0!important">
             <div class="pogoSlider-slide" data-transition="expandReveal" data-duration="1000"
-                style="background:url(images/slider2.png) no-repeat scroll center center;">
+                style="background:url({{ \App\Models\SiteSetting::image('home_hero_image', 'images/slider2.png') }}) no-repeat scroll center center;">
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
@@ -279,7 +279,7 @@
             <div class="row">
                 <div class="col-lg-5 col-md-12 text-center no-padding">
                     <div class="about-col">
-                        <img class="img-fluid about-img" src="images/about-image.png" alt="about" loading="lazy">
+                        <img class="img-fluid about-img" src="{{ \App\Models\SiteSetting::image('about_image', 'images/about-image.png') }}" alt="À propos de Relief Services" loading="lazy">
                     </div>
 
                 </div>

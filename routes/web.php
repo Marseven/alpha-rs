@@ -193,6 +193,10 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group(function 
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin-dashboard');
 
+    //site images (settings)
+    Route::get('/site-images', [\App\Http\Controllers\Admin\SiteSettingController::class, 'index'])->name('admin-site-images');
+    Route::post('/site-images', [\App\Http\Controllers\Admin\SiteSettingController::class, 'update']);
+
     //Services
     Route::get('/list-services', [AdminController::class, 'listServices'])->name('admin-list-services');
     Route::post('/service', [ServiceController::class, 'create']);
