@@ -14,9 +14,9 @@ use App\Services\PaymentAmountResolver;
 use App\Services\PaymentWebhookVerifier;
 use App\Services\Payments\EbillingProvider;
 use App\Services\Payments\PaymentProviderInterface;
+use App\Services\Payments\SingpayGateway;
 use App\Services\Payments\SingpayProvider;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Swift_TransportException;
@@ -254,75 +254,19 @@ class PaymentController extends Controller
     }
 
     /**
-     * Build the request to the Singpay gateway. Credentials come from
-     * config/services.php (env-backed), never from hardcoded values.
+     * Initiate a Singpay charge. The gateway HTTP call + pending-payment
+     * persistence live in App\Services\Payments\SingpayGateway; this stays a
+     * thin adapter that maps the result to a redirect or an error.
      */
-    private static function singpayRequest($type, $data, $eb_reference, $amount)
-    {
-        $callback = url('/callback-singpay/' . $type . '/' . $data->id . '/' . $eb_reference);
-
-        return Http::withHeaders([
-            'x-wallet' => config('services.singpay.wallet_id'),
-            'x-client-id' => config('services.singpay.client_id'),
-            'x-client-secret' => config('services.singpay.client_secret'),
-        ])->post(config('services.singpay.base_url'), [
-            "amount" => $amount,
-            "client_msisdn" => $data->phone,
-            "portefeuille" => config('services.singpay.wallet_id'),
-            "reference" => $eb_reference,
-            "redirect_success" => $callback,
-            "redirect_error" => $callback,
-            "disbursement" => config('services.singpay.disbursement_wallet_id'),
-            "logoURL" => asset('images/LogoRSA.png'),
-        ]);
-    }
-
     static function singpay($type, $data)
     {
+        $result = (new SingpayGateway())->initiate($type, $data);
 
-        $eb_reference = Controller::str_random_pay(8);
-
-        $data->loadMissing(['service']);
-
-        // Single authoritative amount: charged at the gateway AND stored, so
-        // the webhook amount-check is consistent across providers.
-        $eb_amount = PaymentAmountResolver::for($type, $data);
-
-        $response = self::singpayRequest($type, $data, $eb_reference, $eb_amount);
-
-        $response = json_decode($response->body());
-
-        if ($type == 'folder') {
-            $eb_shortdescription = 'Paiement pour le dossier médical N° ' . $data->reference;
-            $data = [
-                'folder_id' => $data->id,
-                'amount' => $eb_amount,
-                'description' => $eb_shortdescription,
-                'reference' => $eb_reference,
-                'status' => STATUT_PENDING,
-                'time_out' => 30,
-                'customer_id' => Auth::user()->id,
-            ];
-        } else {
-            $eb_shortdescription = 'Frais de demande de devis.';
-            $data = [
-                'quote_id' => $data->id,
-                'amount' => $eb_amount,
-                'description' => $eb_shortdescription,
-                'reference' => $eb_reference,
-                'status' => STATUT_PENDING,
-                'time_out' => 30,
-                'customer_id' => $data->user_id,
-            ];
+        if ($result['ok']) {
+            return redirect($result['link']);
         }
 
-        PaymentController::create($type, $data);
-
-        if ($response != null) {
-            return redirect($response->link);
-        } else {
-            return back()->with('error', "Une erreur s'est produite, veuillez réessayer plus tard.")->withInput();
-        }
+        return back()->with('error', "Une erreur s'est produite, veuillez réessayer plus tard.")->withInput();
     }
 
     public function callback_singpay($type, $entity, $payment)
