@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\QueryMessage;
-use App\Mail\QuoteMessage;
-use App\Mail\QuoteAdminMessage;
-use App\Mail\StatusMessage;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Models\Quote;
 use App\Models\Service;
 use App\Models\Town;
 use App\Models\User;
+use App\Services\QuoteNotifier;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
-use PHPUnit\Framework\Constraint\Count;
-use Swift_TransportException;
 
 class QuoteController extends Controller
 {
@@ -118,20 +112,11 @@ class QuoteController extends Controller
         $quote->service_id = $request->service_id;
         $quote->country_id = $request->country_id;
 
-        $admins = User::where('security_role_id', '<=', 2)->get();
-
         if (Auth::user()) {
             $quote->user_id = auth()->user()->id;
             if ($quote->save()) {
-                try {
-                    $result = Mail::to($quote->user->email)->queue(new QuoteMessage($quote));
-                    $result1 = Mail::to('reliefservices21@gmail.com')->queue(new QuoteAdminMessage($quote));
-                    foreach ($admins as $admin) {
-                        $result = Mail::to($admin->email)->queue(new QuoteAdminMessage($quote));
-                    }
-                } catch (Swift_TransportException $e) {
-                    echo $e->getMessage();
-                }
+                (new QuoteNotifier())->notifyCreated($quote);
+
                 return back()->with('success', 'Le devis a été envoyé avec succès.');
             } else {
                 return back()->with('error', 'Une erreur s\'est produite, Veuillez réessayer !');
@@ -154,15 +139,8 @@ class QuoteController extends Controller
                         $quote->user_id = $user->id;
                         $quote->save();
 
-                        try {
-                            $result = Mail::to($quote->user->email)->queue(new QuoteMessage($quote));
-                            $result1 = Mail::to('reliefservices21@gmail.com')->queue(new QuoteAdminMessage($quote));
-                            foreach ($admins as $admin) {
-                                $result = Mail::to($admin->email)->queue(new QuoteAdminMessage($quote));
-                            }
-                        } catch (Swift_TransportException $e) {
-                            echo $e->getMessage();
-                        }
+                        (new QuoteNotifier())->notifyCreated($quote);
+
                         Auth::guard()->login($user);
                         return redirect('profil')->with('success', 'Le devis a été envoyé avec succès.');
                     } else {
@@ -232,11 +210,8 @@ class QuoteController extends Controller
         $quote->response = $request->response;
         $quote->load(['user']);
         if ($quote->save()) {
-            try {
-                $result = Mail::to($quote->user->email)->queue(new StatusMessage($quote, "quote"));
-            } catch (Swift_TransportException $e) {
-                echo $e->getMessage();
-            }
+            (new QuoteNotifier())->notifyStatusChanged($quote);
+
             return back()->with('success', "Le status du devis a bien été mis à jour !");
         } else {
             return back()->with('error', "Une erreur s'est produite.");
