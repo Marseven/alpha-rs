@@ -21,7 +21,7 @@ class HospitalController extends Controller
     {
         $hospitals = Hospital::all();
         return view(
-            'hospitals.list',
+            'hospital.list',
             [
                 'hospitals' => $hospitals,
                 'title' => 'Hôpital'

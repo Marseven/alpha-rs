@@ -58,6 +58,7 @@ Route::get('/pc', [WelcomeController::class, 'pc'])->name('pc');
 Route::get('/cgu', [WelcomeController::class, 'cgu'])->name('cgu');
 
 //form contact classic
+Route::get('/contact', [WelcomeController::class, 'contactForm'])->name('contact.form');
 Route::post('/contact', [WelcomeController::class, 'contact'])->name('contact');
 Route::post('/search', [WelcomeController::class, 'search'])->name('search');
 

@@ -1,183 +1,115 @@
-@extends('layouts.default')
+@extends('layouts.public')
 
-@push('styles')
-    <!-- Main Style Css -->
-    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/bd-wizard.css') }}" />
-@endpush
+@section('title', 'Simulateur de prise en charge')
 
 @section('content')
-    <!--=========================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Breadcrum Part HTML Start
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            =======================-->
-    <section id="breadcrun" class="breadcrun-banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div class="bread-inner">
-                        <h1 class="heading-font">SIMULATEUR</h1>
-                        <ul class="breadcrumb">
-                            <li>
-                                <a href="{{ route('home') }}">
-                                    <p>Accueil</p>
-                                </a>
-                            </li>
-                            <li><i class="fas fa-angle-right"></i></li>
-                            <li>
-                                <p>Simulateur</p>
-                            </li>
-                        </ul>
-                        <div class="clr"></div>
-                    </div>
-                </div>
+
+    {{-- ================= HERO ================= --}}
+    <section class="bg-gradient-to-b from-primary-50/60 to-white">
+        <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
+            <div class="mx-auto max-w-2xl text-center">
+                <span class="eyebrow">Simulateur de prise en charge</span>
+                <h1 class="mt-3 font-display text-4xl font-extrabold leading-[1.12] tracking-tight text-ink sm:text-5xl">
+                    Estimez votre prise en charge
+                </h1>
+                <p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-ink-muted">
+                    Choisissez votre destination, le service souhaité et la pathologie concernée.
+                    Nous vous présentons une estimation indicative des montants pris en charge.
+                </p>
             </div>
-        </div>
-    </section>
 
+            {{-- ================= FORMULAIRE ================= --}}
+            <div class="mx-auto mt-10 max-w-3xl">
+                @if ($errors->any())
+                    <x-ui.alert type="danger" class="mb-6">
+                        <ul class="list-inside list-disc space-y-1">
+                            @foreach ($errors->all() as $e)<li>{{ $e }}</li>@endforeach
+                        </ul>
+                    </x-ui.alert>
+                @endif
 
-    @include('layouts.flash')
+                <form method="POST" action="{{ route('simulate') }}">
+                    @csrf
+                    <x-ui.card padding="p-6 sm:p-8">
+                        <div class="grid gap-5 sm:grid-cols-3">
+                            <div>
+                                <label for="country_id" class="mb-1.5 block text-sm font-semibold text-ink">
+                                    Pays de destination <span class="text-accent-600">*</span>
+                                </label>
+                                <select name="country_id" id="country_id" required
+                                        class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                    <option value="" disabled {{ old('country_id') ? '' : 'selected' }}>Sélectionnez un pays</option>
+                                    @foreach ($countries as $ct)
+                                        <option value="{{ $ct->id }}" @selected(old('country_id') == $ct->id)>{{ $ct->label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-    <section class="aboutus aboutpage section" style="padding-top: 0px;">
-        <div class="container">
-            <div class="row about-page-para">
+                            <div>
+                                <label for="service_id" class="mb-1.5 block text-sm font-semibold text-ink">
+                                    Service <span class="text-accent-600">*</span>
+                                </label>
+                                <select name="service_id" id="service_id" required
+                                        class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                    <option value="" disabled {{ old('service_id') ? '' : 'selected' }}>Sélectionnez un service</option>
+                                    @foreach ($services as $sv)
+                                        <option value="{{ $sv->id }}" @selected(old('service_id') == $sv->id)>{{ $sv->label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 ">
-                            <div class="heading b-text text-center">
-                                <h5>Obtenez des estimations</h5>
-                                <h2>Faites une simulation</h2>
+                            <div>
+                                <label for="sick_id" class="mb-1.5 block text-sm font-semibold text-ink">
+                                    Pathologie <span class="text-accent-600">*</span>
+                                </label>
+                                <select name="sick_id" id="sick_id" required
+                                        class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                    <option value="" disabled {{ old('sick_id') ? '' : 'selected' }}>Sélectionnez une pathologie</option>
+                                    @foreach ($sicks as $sc)
+                                        <option value="{{ $sc->id }}" @selected(old('sick_id') == $sc->id)>{{ $sc->label }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="d-flex align-items-center">
-                    <div class="container">
-                        <form action="{{ route('simulate') }}" id="form" method="POST">
-                            @csrf
-                            <div id="wizard">
-                                <h3>1</h3>
-                                <section>
-                                    <h5 class="bd-wizard-step-title">Étape 1</h5>
-                                    <h2 class="section-heading">Choisissez le Pays de destination </h2>
-
-                                    <div class="form-group">
-                                        <label for="country_id" class="sr-only">Pays</label>
-                                        <select name="country_id" class="form-control" style="padding: 0.375rem 0.75rem;">
-                                            @foreach ($countries as $ct)
-                                                <option value="{{ $ct->id }}">{{ $ct->label }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </section>
-                                <h3>2</h3>
-                                <section>
-                                    <h5 class="bd-wizard-step-title">Étape 2</h5>
-                                    <h2 class="section-heading">Choisissez le Service</h2>
-                                    <div class="purpose-radios-wrapper">
-                                        @foreach ($services as $sv)
-                                            <div class="purpose-radio" id="purpose{{ $sv->id }}">
-                                                <input type="radio" name="service_id" id="{{ $sv->label }}"
-                                                    class="purpose-radio-input" value="{{ $sv->id }}">
-                                                <label for="{{ $sv->label }}" class="purpose-radio-label">
-                                                    <span class="label-icon">
-                                                        <i class="flaticon-medical-insurance"></i>
-                                                        {{-- <img src="assets/images/icon_branding.svg" alt="{{ $sv->label }}"
-                                                            class="label-icon-default">
-                                                        <img src="assets/images/icon_branding_green.svg"
-                                                            alt="{{ $sv->label }}" class="label-icon-active"> --}}
-                                                    </span>
-                                                    <span class="label-text">{{ $sv->label }}</span>
-                                                    <br>
-                                                    {{-- <div id="price{{ $sv->id }}" style="display: none">
-
-                                                        <span
-                                                            class="label-text">{{ number_format($sv->price, 0, ',', ' ') }}
-                                                            XAF</span>
-                                                    </div> --}}
-
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-
-                                </section>
-                                <h3>3</h3>
-                                <section>
-                                    <h5 class="bd-wizard-step-title">Étape 3</h5>
-                                    <h2 class="section-heading mb-5">Choisissez la Pathologie</h2>
-                                    <div class="form-group">
-                                        <label for="sick_id" class="sr-only">Pathologie</label>
-                                        <select name="sick_id" class="form-control" style="padding: 0.375rem 0.75rem;">
-                                            @foreach ($sicks as $sc)
-                                                <option value="{{ $sc->id }}">{{ $sc->label }}</option>
-                                            @endforeach
-                                        </select>
-
-                                    </div>
-
-                                </section>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
+                        <div class="mt-6 flex flex-col items-center gap-3 border-t border-line pt-6 sm:flex-row sm:justify-between">
+                            <p class="text-sm text-ink-muted">Estimation indicative, sans engagement.</p>
+                            <x-ui.button type="submit" variant="accent" class="w-full sm:w-auto">
+                                Lancer la simulation
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </x-ui.button>
+                        </div>
+                    </x-ui.card>
+                </form>
             </div>
         </div>
     </section>
 
-    <!-- =============================
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                End: About Us
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ============================= -->
+    {{-- ================= COMMENT ÇA MARCHE ================= --}}
+    <section class="bg-canvas">
+        <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
+            <div class="mb-10 max-w-2xl">
+                <span class="eyebrow">Comment ça marche</span>
+                <h2 class="mt-3 font-display text-3xl font-extrabold text-ink sm:text-[38px]">Une estimation en trois étapes</h2>
+                <p class="mt-3 text-ink-muted">
+                    Le simulateur croise vos choix pour afficher les montants pris en charge correspondants.
+                    Pour une évaluation détaillée, demandez un devis personnalisé.
+                </p>
+            </div>
+            <div class="grid gap-6 sm:grid-cols-3">
+                @foreach ([
+                    ['01', 'Choisissez la destination', 'Le pays où la prise en charge médicale est envisagée.'],
+                    ['02', 'Sélectionnez le service', 'Le niveau d\'accompagnement Relief Services adapté à votre besoin.'],
+                    ['03', 'Précisez la pathologie', 'La nature des soins concernés pour affiner l\'estimation.'],
+                ] as [$num, $t, $d])
+                    <x-ui.card padding="p-6">
+                        <div class="font-mono text-2xl font-semibold text-primary-300">{{ $num }}</div>
+                        <h3 class="mt-3 font-display text-lg font-bold text-ink">{{ $t }}</h3>
+                        <p class="mt-2 text-sm leading-relaxed text-ink-muted">{{ $d }}</p>
+                    </x-ui.card>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
 @endsection
-
-@push('scripts')
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="{{ asset('assets/js/jquery.steps.min.js') }}"></script>
-    <script src="{{ asset('assets/js/bd-wizard.js') }}"></script>
-
-    <script language="JavaScript">
-        $(function() {
-
-            @foreach ($services as $sv)
-                let d{{ $sv->id }} = document.getElementById("purpose{{ $sv->id }}");
-                let p{{ $sv->id }} = document.getElementById("price{{ $sv->id }}");
-
-                d{{ $sv->id }}.addEventListener("mouseover", () => {
-                    p{{ $sv->id }}.style.display = "block";
-                });
-                d{{ $sv->id }}.addEventListener("mouseout", () => {
-                    p{{ $sv->id }}.style.display = "none";
-                });
-            @endforeach
-
-            $('#service_id').change(function() {
-                var service1 = document.getElementById("service1");
-                var service2 = document.getElementById("service2");
-                var service3 = document.getElementById("service3");
-
-                var valeur = document.getElementById("service_id").value;
-
-                if (valeur == 1) {
-                    service1.style.display = "block";
-                    service2.style.display = "none";
-                    service3.style.display = "none";
-                }
-
-                if (valeur == 2) {
-                    service1.style.display = "none";
-                    service2.style.display = "block";
-                    service3.style.display = "none";
-                }
-
-                if (valeur == 3) {
-                    service1.style.display = "none";
-                    service2.style.display = "none";
-                    service3.style.display = "block";
-                }
-            });
-        });
-    </script>
-@endpush

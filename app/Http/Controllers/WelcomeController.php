@@ -54,6 +54,13 @@ class WelcomeController extends Controller
         ]);
     }
 
+    public function contactForm()
+    {
+        return view('contact', [
+            'title' => 'Contact'
+        ]);
+    }
+
     public function contact(Request $request)
     {
         try {

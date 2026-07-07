@@ -52,7 +52,7 @@
                 <a href="{{ route('home') }}#services" class="hover:text-primary-600">Nos services</a>
                 <a href="{{ route('simulator') }}" class="hover:text-primary-600">Simulateur</a>
                 <a href="{{ route('list-hospitals') }}" class="hover:text-primary-600">Hôpitaux</a>
-                <a href="{{ route('home') }}#contact" class="hover:text-primary-600">Contact</a>
+                <a href="{{ route('contact.form') }}" class="hover:text-primary-600">Contact</a>
             </div>
 
             <div class="flex items-center gap-3">
@@ -77,7 +77,7 @@
                 <a href="{{ route('home') }}#services" class="py-2.5">Nos services</a>
                 <a href="{{ route('simulator') }}" class="py-2.5">Simulateur</a>
                 <a href="{{ route('list-hospitals') }}" class="py-2.5">Hôpitaux</a>
-                <a href="{{ route('home') }}#contact" class="py-2.5">Contact</a>
+                <a href="{{ route('contact.form') }}" class="py-2.5">Contact</a>
                 <a href="{{ auth()->check() ? route('profil') : route('login') }}" class="py-2.5 text-primary-600">{{ auth()->check() ? 'Mon espace' : 'Espace client' }}</a>
             </div>
         </div>

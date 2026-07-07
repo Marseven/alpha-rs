@@ -1,110 +1,94 @@
-@extends('layouts.default')
+@extends('layouts.public')
+
+@section('title', 'Foire aux questions')
 
 @section('content')
-    <!--=========================
-                Breadcrum Part HTML Start
-                =======================-->
-    <section id="breadcrun" class="breadcrun-banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div class="bread-inner">
-                        <h1 class="heading-font">Foire Aux Questions</h1>
-                        <ul class="breadcrumb">
-                            <li>
-                                <a href="{{ route('home') }}">
-                                    <p>Accueil</p>
-                                </a>
-                            </li>
-                            <li><i class="fas fa-angle-right"></i></li>
-                            <li>
-                                <p>FAQ</p>
-                            </li>
-                        </ul>
-                        <div class="clr"></div>
-                    </div>
-                </div>
-            </div>
+    {{-- ================= EN-TÊTE ================= --}}
+    <section class="border-b border-line bg-gradient-to-b from-primary-50/60 to-white">
+        <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
+            <span class="eyebrow">Foire aux questions</span>
+            <h1 class="mt-3 font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
+                Vos questions, nos réponses
+            </h1>
+            <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-muted">
+                L'essentiel pour comprendre comment obtenir un devis, suivre votre dossier et joindre nos équipes.
+            </p>
         </div>
     </section>
 
-    <!--====================
-                    Breadcrum Part HTML End
-                ======================-->
+    {{-- ================= ACCORDÉON ================= --}}
+    <section class="bg-canvas">
+        <div class="mx-auto max-w-3xl px-4 py-16 lg:px-6 lg:py-20">
+            <div class="space-y-4">
+                <x-ui.card padding="p-0">
+                    <details class="group">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-display text-[17px] font-bold text-ink">
+                            Comment obtenir un devis ?
+                            <svg class="h-5 w-5 shrink-0 text-primary-600 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </summary>
+                        <div class="border-t border-line px-6 py-5 text-[15px] leading-relaxed text-ink-muted">
+                            Veuillez renseigner la rubrique devis en téléversant les documents demandés.
+                        </div>
+                    </details>
+                </x-ui.card>
 
-    <!-- =============================
-                    Start: About Us
-                ============================= -->
-    <section id="faq" class="faq section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="nav nav-pills faq-nav" id="faq-tabs" role="tablist" aria-orientation="vertical">
-                        <a href="#tab1" class="nav-link active" data-toggle="pill" role="tab" aria-controls="tab1"
-                            aria-selected="true">
-                            Comment Obtenir un devis ?
-                        </a>
-                        <a href="#tab2" class="nav-link" data-toggle="pill" role="tab" aria-controls="tab2"
-                            aria-selected="false">
-                            Après combien de temps dois-je rentrer en possession de devis ?
-                        </a>
-                        <a href="#tab3" class="nav-link" data-toggle="pill" role="tab" aria-controls="tab3"
-                            aria-selected="false">
-                            Avec l’utilisation du simulateur peut-on obtenir le coût du séjour ?
-                        </a>
-                        <a href="#tab4" class="nav-link" data-toggle="pill" role="tab" aria-controls="tab4"
-                            aria-selected="false">
-                            Quel avantage d’utiliser le compte Espace Client ?
-                        </a>
-                        <a href="#tab5" class="nav-link" data-toggle="pill" role="tab" aria-controls="tab5"
-                            aria-selected="false">
+                <x-ui.card padding="p-0">
+                    <details class="group">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-display text-[17px] font-bold text-ink">
+                            Après combien de temps dois-je rentrer en possession du devis ?
+                            <svg class="h-5 w-5 shrink-0 text-primary-600 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </summary>
+                        <div class="border-t border-line px-6 py-5 text-[15px] leading-relaxed text-ink-muted">
+                            72H.
+                        </div>
+                    </details>
+                </x-ui.card>
+
+                <x-ui.card padding="p-0">
+                    <details class="group">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-display text-[17px] font-bold text-ink">
+                            Avec l'utilisation du simulateur peut-on obtenir le coût du séjour ?
+                            <svg class="h-5 w-5 shrink-0 text-primary-600 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </summary>
+                        <div class="border-t border-line px-6 py-5 text-[15px] leading-relaxed text-ink-muted">
+                            Tout dépendra des pathologies renseignées dans le moteur de recherche.
+                        </div>
+                    </details>
+                </x-ui.card>
+
+                <x-ui.card padding="p-0">
+                    <details class="group">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-display text-[17px] font-bold text-ink">
+                            Quel avantage d'utiliser le compte Espace Client ?
+                            <svg class="h-5 w-5 shrink-0 text-primary-600 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </summary>
+                        <div class="border-t border-line px-6 py-5 text-[15px] leading-relaxed text-ink-muted">
+                            Avoir un compte Espace Client permettra aux clients de suivre la procédure administrative de leur dossier.
+                        </div>
+                    </details>
+                </x-ui.card>
+
+                <x-ui.card padding="p-0">
+                    <details class="group">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-display text-[17px] font-bold text-ink">
                             Comment entrer en contact avec un responsable ?
-                        </a>
+                            <svg class="h-5 w-5 shrink-0 text-primary-600 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </summary>
+                        <div class="border-t border-line px-6 py-5 text-[15px] leading-relaxed text-ink-muted">
+                            Nous avons mis en place un numéro WhatsApp pour des discussions instantanées.
+                        </div>
+                    </details>
+                </x-ui.card>
+            </div>
 
-                    </div>
+            {{-- Aide complémentaire --}}
+            <div class="mt-10 flex flex-col items-start gap-4 rounded-2xl border border-line bg-white p-6 shadow-card sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h2 class="font-display text-lg font-bold text-ink">Vous ne trouvez pas votre réponse ?</h2>
+                    <p class="mt-1 text-[15px] text-ink-muted">Notre équipe vous répond du devis jusqu'au retour.</p>
                 </div>
-                <div class="col-md-8">
-                    <div class="tab-content" id="faq-tab-content">
-                        <div class="tab-pane show active" id="tab1" role="tabpanel" aria-labelledby="tab1">
-                            <div class="faq-inner">
-                                <p> Veuillez renseigner la rubrique devis en téléversant les documents demandés.
-
-                                </p>
-
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="tab2">
-                            <div class="faq-inner">
-                                <p> 72H
-                                </p>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="tab3">
-                            <div class="faq-inner">
-                                <p> Tout dépendra des pathologies renseigner dans le moteur recherche
-                                </p>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="tab4">
-                            <div class="faq-inner">
-                                <p> Avoir un compte Espace Client permettra aux clients de suivre la procédure
-                                    administrative de son dossier
-                                </p>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab5" role="tabpanel" aria-labelledby="tab4">
-                            <div class="faq-inner">
-                                <p> Nous avons mis en place un numéro WhatsApp pour des discussions instantanées</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+                <x-ui.button variant="accent" href="{{ route('home') }}#contact">Nous contacter</x-ui.button>
             </div>
         </div>
     </section>
-
-    <!-- =============================
-                    End: About Us
-                ============================= -->
 @endsection
