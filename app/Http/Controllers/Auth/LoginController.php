@@ -57,11 +57,23 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('profil');
+            return redirect()->intended($this->homeFor(Auth::user()));
         }
 
         return back()->with('error', 'Email ou Mot de passe incorrect !');
     }
 
+    /** Landing page after login, based on the user's role/space. */
+    private function homeFor($user): string
+    {
+        if ($user->isPlatformAdmin()) {
+            return '/admin/dashboard';
+        }
 
+        return match ($user->workflow_role) {
+            'doctor' => '/doctor/cases',
+            'cnamgs' => '/cnamgs/cases',
+            default => '/profil',
+        };
+    }
 }

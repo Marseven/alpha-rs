@@ -1,4 +1,4 @@
-@extends('layouts.client')
+@extends('layouts.medical')
 
 @section('title', 'Dossiers reçus')
 @section('page_title', 'Espace CNAMGS')

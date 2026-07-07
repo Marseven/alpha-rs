@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Espace client') — Relief Services</title>
+    <title>@yield('title', 'Espace médical') — Relief Services</title>
 
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/LogoRSA.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,22 +16,26 @@
 <body class="min-h-screen bg-canvas text-ink">
 
     @php
+        $role = auth()->check() ? auth()->user()->workflow_role : null;
+        $isCnamgs = $role === 'cnamgs';
+        $spaceName = $isCnamgs ? 'Espace CNAMGS' : 'Espace médecin';
+        $casesRoute = $isCnamgs ? 'cnamgs.cases' : 'doctor.cases';
+        $casesLabel = $isCnamgs ? 'Dossiers reçus' : 'Mes dossiers';
         $navItems = [
-            ['route' => 'list-folder', 'label' => 'Mes dossiers', 'icon' => 'M9 12h6m-6 4h6M9 8h6M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z'],
-            ['route' => 'list-quotes', 'label' => 'Mes devis', 'icon' => 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Zm0 0v6h6'],
-            ['route' => 'payments', 'label' => 'Paiements', 'icon' => 'M3 10h18M7 15h1m4 0h1M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z'],
-            ['route' => 'profil', 'label' => 'Mon profil', 'icon' => 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z'],
+            ['route' => $casesRoute, 'label' => $casesLabel, 'icon' => 'M9 12h6m-6 4h6M9 8h6M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z'],
+            ['route' => 'medical.profile', 'label' => 'Mon profil', 'icon' => 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z'],
         ];
-        // Medical staff (doctor/cnamgs) have their own dedicated space (layouts.medical),
-        // not a link inside the client area.
     @endphp
 
     <div class="flex min-h-screen">
         {{-- Sidebar --}}
-        <aside id="client-sidebar" class="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-primary-900 text-primary-100 lg:flex">
-            <a href="{{ route('home') }}" class="flex items-center gap-3 border-b border-white/10 px-5 py-4">
+        <aside id="medical-sidebar" class="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-primary-900 text-primary-100 lg:flex">
+            <a href="{{ Route::has($casesRoute) ? route($casesRoute) : '#' }}" class="flex items-center gap-3 border-b border-white/10 px-5 py-4">
                 <img src="{{ asset('images/LogoRSA.png') }}" alt="Relief Services" class="h-9 w-auto">
-                <span class="font-display text-base font-extrabold text-white">Relief Services</span>
+                <div class="leading-tight">
+                    <div class="font-display text-sm font-extrabold text-white">Relief Services</div>
+                    <div class="font-mono text-[10px] uppercase tracking-[0.14em] text-primary-400">{{ $spaceName }}</div>
+                </div>
             </a>
 
             <nav class="flex-1 space-y-1 px-3 py-5">
@@ -53,7 +57,7 @@
                     </div>
                     <div class="min-w-0">
                         <div class="truncate text-sm font-semibold text-white">{{ auth()->user()->name ?? '' }}</div>
-                        <div class="truncate text-xs text-primary-300">{{ auth()->user()->email ?? '' }}</div>
+                        <div class="truncate text-xs text-primary-300">{{ $isCnamgs ? 'CNAMGS' : 'Médecin' }}</div>
                     </div>
                 </div>
                 <form method="POST" action="{{ route('logout') }}" class="mt-1">
@@ -68,20 +72,14 @@
 
         {{-- Main --}}
         <div class="flex min-h-screen flex-1 flex-col lg:pl-64">
-            {{-- Topbar --}}
             <header class="sticky top-0 z-30 flex items-center justify-between border-b border-line bg-white/95 px-4 py-3 backdrop-blur lg:px-8">
                 <div class="flex items-center gap-3">
-                    <button type="button" onclick="document.getElementById('client-sidebar').classList.toggle('hidden');document.getElementById('client-sidebar').classList.toggle('flex')" class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line-strong text-ink lg:hidden" aria-label="Menu">
+                    <button type="button" onclick="document.getElementById('medical-sidebar').classList.toggle('hidden');document.getElementById('medical-sidebar').classList.toggle('flex')" class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line-strong text-ink lg:hidden" aria-label="Menu">
                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
-                    <h1 class="font-display text-lg font-bold text-ink">@yield('page_title', 'Espace client')</h1>
+                    <h1 class="font-display text-lg font-bold text-ink">@yield('page_title', $spaceName)</h1>
                 </div>
-                <div class="flex items-center gap-2">
-                    @if (auth()->check() && auth()->user()->isPlatformAdmin())
-                        <a href="{{ url('/admin/dashboard') }}" class="hidden sm:block"><x-ui.button variant="outline">Espace admin</x-ui.button></a>
-                    @endif
-                    <a href="{{ route('quote') }}" class="hidden sm:block"><x-ui.button variant="accent">Nouvelle demande</x-ui.button></a>
-                </div>
+                <span class="hidden rounded-full border border-line bg-canvas px-3 py-1 text-xs font-semibold text-ink-muted sm:inline-flex">{{ $spaceName }}</span>
             </header>
 
             @include('layouts.flash')

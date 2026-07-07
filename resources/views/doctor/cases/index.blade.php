@@ -1,4 +1,4 @@
-@extends('layouts.client')
+@extends('layouts.medical')
 
 @section('title', 'Mes dossiers')
 @section('page_title', 'Espace médecin')

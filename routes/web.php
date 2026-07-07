@@ -116,6 +116,12 @@ Route::middleware(['auth', 'workflow_role:cnamgs'])->prefix('cnamgs')->group(fun
     Route::post('/cases/{case}/update-status', [\App\Http\Controllers\Cnamgs\CaseController::class, 'updateStatus'])->name('cnamgs.cases.status');
 });
 
+// Medical staff shared profile (doctor + cnamgs)
+Route::middleware('auth')->group(function () {
+    Route::get('/espace-medical/profil', [\App\Http\Controllers\MedicalController::class, 'profile'])->name('medical.profile');
+    Route::post('/espace-medical/profil', [\App\Http\Controllers\MedicalController::class, 'updateProfile'])->name('medical.profile.update');
+});
+
 Route::get('logout', [LoginController::class, 'logout']);
 Route::post('login', [LoginController::class, 'authenticate']);
 Route::get('503', function () {
@@ -204,6 +210,16 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group(function 
     //site images (settings)
     Route::get('/site-images', [\App\Http\Controllers\Admin\SiteSettingController::class, 'index'])->name('admin-site-images');
     Route::post('/site-images', [\App\Http\Controllers\Admin\SiteSettingController::class, 'update']);
+
+    //assistant IA — base de connaissances (FAQ)
+    Route::get('/assistant-knowledge', [\App\Http\Controllers\Admin\KnowledgeController::class, 'index'])->name('admin-assistant-knowledge');
+    Route::post('/assistant-knowledge', [\App\Http\Controllers\Admin\KnowledgeController::class, 'store']);
+    Route::post('/assistant-knowledge/{entry}', [\App\Http\Controllers\Admin\KnowledgeController::class, 'update']);
+
+    //personnel médical (médecins + CNAMGS)
+    Route::get('/staff', [\App\Http\Controllers\Admin\StaffController::class, 'index'])->name('admin-staff');
+    Route::post('/staff', [\App\Http\Controllers\Admin\StaffController::class, 'store']);
+    Route::post('/staff/{user}', [\App\Http\Controllers\Admin\StaffController::class, 'update']);
 
     //Services
     Route::get('/list-services', [AdminController::class, 'listServices'])->name('admin-list-services');

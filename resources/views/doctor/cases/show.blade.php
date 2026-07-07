@@ -1,4 +1,4 @@
-@extends('layouts.client')
+@extends('layouts.medical')
 
 @section('title', $case->tracking_number)
 @section('page_title', 'Espace médecin')

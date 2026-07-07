@@ -34,6 +34,8 @@
             ]],
             ['label' => 'Administration', 'items' => [
                 ['url' => url('admin/list-users'), 'match' => 'admin/list-users', 'label' => 'Utilisateurs', 'icon' => 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm14 10v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75'],
+                ['url' => url('admin/staff'), 'match' => 'admin/staff', 'label' => 'Personnel médical', 'icon' => 'M11 2v2M5 2v2M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1M8 15a6 6 0 0 0 12 0v-3'],
+                ['url' => url('admin/assistant-knowledge'), 'match' => 'admin/assistant-knowledge', 'label' => 'Assistant IA', 'icon' => 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'],
                 ['url' => url('admin/security-role'), 'match' => 'admin/security-*', 'label' => 'Rôles & droits', 'icon' => 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z'],
                 ['url' => url('admin/site-images'), 'match' => 'admin/site-images', 'label' => 'Réglages du site', 'icon' => 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7.4-3a7.4 7.4 0 0 0-.14-1.42l2.1-1.65-2-3.46-2.49 1a7.3 7.3 0 0 0-2.46-1.42L14 2h-4l-.41 2.63A7.3 7.3 0 0 0 7.13 6l-2.49-1-2 3.46 2.1 1.65a7.4 7.4 0 0 0 0 2.84l-2.1 1.65 2 3.46 2.49-1a7.3 7.3 0 0 0 2.46 1.42L10 22h4l.41-2.63a7.3 7.3 0 0 0 2.46-1.42l2.49 1 2-3.46-2.1-1.65c.09-.46.14-.94.14-1.42Z'],
             ]],
@@ -94,8 +96,32 @@
                 </div>
                 <div class="flex items-center gap-3">
                     <a href="{{ route('home') }}" class="hidden text-sm font-semibold text-ink-muted hover:text-primary-600 sm:block">Voir le site →</a>
-                    <div class="flex h-9 w-9 items-center justify-center rounded-full bg-primary-600 font-display text-sm font-bold text-white">
-                        {{ strtoupper(mb_substr(auth()->user()->name ?? 'A', 0, 1)) }}
+                    <div class="relative" id="admin-user-dropdown">
+                        <button type="button" onclick="document.getElementById('admin-user-menu').classList.toggle('hidden')"
+                                class="flex h-9 w-9 items-center justify-center rounded-full bg-primary-600 font-display text-sm font-bold text-white ring-2 ring-transparent transition hover:ring-primary-200" aria-label="Menu du compte">
+                            {{ strtoupper(mb_substr(auth()->user()->name ?? 'A', 0, 1)) }}
+                        </button>
+                        <div id="admin-user-menu" class="absolute right-0 z-40 mt-2 hidden w-60 overflow-hidden rounded-2xl border border-line bg-white py-1.5 shadow-card-lg">
+                            <div class="border-b border-line px-4 py-3">
+                                <div class="truncate text-sm font-bold text-ink">{{ auth()->user()->name }}</div>
+                                <div class="truncate text-xs text-ink-muted">{{ auth()->user()->email }}</div>
+                            </div>
+                            <a href="{{ route('admin-profil') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-ink hover:bg-canvas">
+                                <svg class="h-4 w-4 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg>
+                                Mon profil
+                            </a>
+                            <a href="{{ route('admin-site-images') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-ink hover:bg-canvas">
+                                <svg class="h-4 w-4 text-ink-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+                                Réglages de la plateforme
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}" class="border-t border-line">
+                                @csrf
+                                <button type="submit" class="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-accent-600 hover:bg-accent-50">
+                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                                    Se déconnecter
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -110,6 +136,14 @@
     </div>
 
     <x-chatbot />
+
+    <script>
+        document.addEventListener('click', function (e) {
+            const dd = document.getElementById('admin-user-dropdown');
+            const menu = document.getElementById('admin-user-menu');
+            if (dd && menu && ! dd.contains(e.target)) menu.classList.add('hidden');
+        });
+    </script>
 
     @stack('scripts')
 </body>

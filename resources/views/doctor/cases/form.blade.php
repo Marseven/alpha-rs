@@ -1,4 +1,4 @@
-@extends('layouts.client')
+@extends('layouts.medical')
 
 @section('title', $title ?? 'Dossier')
 @section('page_title', $case->exists ? 'Modifier le dossier' : 'Nouveau dossier')
