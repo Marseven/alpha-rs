@@ -152,6 +152,46 @@
         </div>
     </section>
 
+    {{-- ================= OUTILS EN LIGNE ================= --}}
+    <section class="bg-white">
+        <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
+            <div class="mb-10 max-w-2xl">
+                <span class="eyebrow">Vos outils en ligne</span>
+                <h2 class="mt-3 font-display text-3xl font-extrabold text-ink sm:text-[38px]">Un suivi digital, du début à la fin</h2>
+                <p class="mt-3 text-ink-muted">Médecins, patients et CNAMGS collaborent sur une même plateforme — et notre assistant répond à vos questions à toute heure.</p>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-3">
+                <x-ui.card padding="p-7" class="flex flex-col">
+                    <span class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-primary-600">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2v2M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg>
+                    </span>
+                    <h3 class="font-display text-lg font-bold text-ink">Espace médecin</h3>
+                    <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">Les médecins suivent leurs dossiers et les transmettent à la CNAMGS en ligne, étape par étape, en toute confidentialité.</p>
+                    <a href="{{ route('login') }}" class="mt-4 font-semibold text-primary-600 hover:text-primary-700">Accéder à mon espace →</a>
+                </x-ui.card>
+
+                <x-ui.card padding="p-7" class="flex flex-col">
+                    <span class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-success-50 text-success-600">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+                    </span>
+                    <h3 class="font-display text-lg font-bold text-ink">Suivi en temps réel</h3>
+                    <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">Suivez l'avancement de votre prise en charge avec votre numéro de dossier — de la transmission CNAMGS jusqu'à l'évacuation.</p>
+                    <a href="{{ route('track.form') }}" class="mt-4 font-semibold text-primary-600 hover:text-primary-700">Suivre mon dossier →</a>
+                </x-ui.card>
+
+                <x-ui.card padding="p-7" class="flex flex-col">
+                    <span class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-50 text-accent-600">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>
+                    </span>
+                    <h3 class="font-display text-lg font-bold text-ink">Assistant en ligne 24/7</h3>
+                    <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">Une question sur nos services, un devis ou une destination ? Notre assistant vous répond immédiatement.</p>
+                    <button type="button" onclick="if(window.rsChatOpen){rsChatOpen()}else{location.href='{{ route('assistant.form') }}'}" class="mt-4 text-left font-semibold text-primary-600 hover:text-primary-700">Discuter maintenant →</button>
+                </x-ui.card>
+            </div>
+        </div>
+    </section>
+
     {{-- ================= SPÉCIALITÉS ================= --}}
     <section class="bg-canvas">
         <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">

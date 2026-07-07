@@ -89,6 +89,8 @@
         </div>
     </div>
 
+    <x-chatbot />
+
     @stack('scripts')
 </body>
 </html>

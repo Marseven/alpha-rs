@@ -139,6 +139,8 @@
         </div>
     </footer>
 
+    <x-chatbot />
+
     @stack('scripts')
 </body>
 </html>
