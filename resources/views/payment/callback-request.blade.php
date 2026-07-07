@@ -1,153 +1,88 @@
-@extends('layouts.default')
+@extends('layouts.public')
+
+@section('title', 'Paiement confirmé')
 
 @section('content')
+    @php $payment = $payment ?? null; @endphp
 
-<!--=========================
-Breadcrum Part HTML Start
-=======================-->
-<section id="breadcrun" class="breadcrun-banner">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <div class="bread-inner">
-                    <h1 class="heading-font">Espace Client</h1>
-                    <ul class="breadcrumb">
-                        <li>
-                            <a href="{{route('home')}}">
-                                <p>Accueil</p>
-                            </a>
-                        </li>
-                        <li><i class="fas fa-angle-right"></i></li>
-                        <li>
-                            <p>FACTURE</p>
-                        </li>
-                    </ul>
-                    <div class="clr"></div>
+    <section class="bg-canvas">
+        <div class="mx-auto max-w-2xl px-4 py-16 lg:py-20">
+            <span class="eyebrow">Espace client · Paiement</span>
+            <h1 class="mt-3 font-display text-3xl font-extrabold text-ink sm:text-4xl">Paiement confirmé</h1>
+            <p class="mt-3 text-ink-muted">Votre paiement pour la demande de devis a bien été reçu. Un reçu récapitulatif est disponible ci-dessous.</p>
+
+            @if (session('success'))
+                <x-ui.alert type="success" class="mt-6">{{ session('success') }}</x-ui.alert>
+            @endif
+
+            <x-ui.card class="mt-6" padding="p-0">
+                {{-- En-tête reçu --}}
+                <div class="flex flex-col gap-4 border-b border-line p-6 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-success-50 text-success-600">
+                            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                        </div>
+                        <div>
+                            <div class="font-display text-lg font-bold text-ink">Devis N°{{ $quote->id }}</div>
+                            <div class="font-mono text-[13px] text-primary-600">{{ $quote->reference }}</div>
+                        </div>
+                    </div>
+                    <div class="sm:text-right">
+                        <div class="text-sm font-semibold text-ink">{{ $quote->firstname }} {{ $quote->lastname }}</div>
+                        <div class="text-sm text-ink-muted">{{ $quote->email }}</div>
+                    </div>
                 </div>
+
+                {{-- Détails --}}
+                <div class="grid gap-6 p-6 sm:grid-cols-3">
+                    <div>
+                        <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint">Date</div>
+                        <div class="mt-1 text-sm font-semibold text-ink">{{ $quote->created_at }}</div>
+                    </div>
+                    <div>
+                        <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint">Référence</div>
+                        <div class="mt-1 font-mono text-sm font-semibold text-ink">{{ $quote->reference }}</div>
+                    </div>
+                    <div>
+                        <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint">Statut</div>
+                        <div class="mt-1"><x-ui.badge status="COMPLETED" label="Payé" /></div>
+                    </div>
+                </div>
+
+                {{-- Ligne facturée --}}
+                <div class="border-t border-line px-6 py-5">
+                    <div class="flex items-center justify-between gap-4">
+                        <span class="text-sm text-ink-muted">{{ $payment?->description ?? 'Demande de devis N°' . $quote->reference }}</span>
+                        <span class="font-display text-lg font-bold text-ink">{{ $payment?->amount }} XAF</span>
+                    </div>
+                </div>
+
+                {{-- Transaction --}}
+                <div class="grid gap-6 border-t border-line bg-canvas p-6 sm:grid-cols-4">
+                    <div>
+                        <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint">Opérateur</div>
+                        <div class="mt-1 text-sm font-semibold text-ink">{{ $payment?->operator ?? '—' }}</div>
+                    </div>
+                    <div>
+                        <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint">N° transaction</div>
+                        <div class="mt-1 font-mono text-sm font-semibold text-ink">{{ $payment?->transaction_id ?? '—' }}</div>
+                    </div>
+                    <div>
+                        <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint">Payé le</div>
+                        <div class="mt-1 text-sm font-semibold text-ink">{{ $payment?->paid_at ?? '—' }}</div>
+                    </div>
+                    <div>
+                        <div class="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint">Total</div>
+                        <div class="mt-1 font-display text-base font-extrabold text-ink">{{ $payment?->amount }} XAF</div>
+                    </div>
+                </div>
+            </x-ui.card>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+                <x-ui.button variant="primary" href="{{ route('profil') }}">Retour à mon espace</x-ui.button>
+                <button type="button" onclick="window.print();"
+                    class="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-canvas px-5 text-[15px] font-bold text-ink-muted transition-colors hover:bg-line-subtle">Imprimer le reçu</button>
             </div>
         </div>
-    </div>
-</section>
-
-<!--====================
-    Breadcrum Part HTML End
-======================-->
-
-@include('layouts.flash')
-
-<!-- =============================
-    Start: Profil
-============================= -->
-<section id="aboutus" class="aboutus aboutpage section">
-    <div class="container">
-
-    <!--begin::Entry-->
-    <div class="d-flex flex-column-fluid">
-        <!--begin::Container-->
-        <div class="container">
-            <!-- begin::Card-->
-            <div class="card card-custom overflow-hidden">
-                <div class="card-body p-0">
-                    <!-- begin: Invoice-->
-                    <!-- begin: Invoice header-->
-                    <div class="row justify-content-center py-8 px-8 py-md-27 px-md-0">
-                        <div class="col-md-9">
-                            <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
-                                <h3 class="display-4 font-weight-boldest mb-10">PAIMENT DE DEVIS N°{{$quote->id}}</h3>
-                                <div class="d-flex flex-column align-items-md-end px-0">
-                                    <!--begin::Logo-->
-                                    <a href="#" class="mb-5">
-                                        <img src="assets/media/logos/logo-dark.png" alt="" />
-                                    </a>
-                                    <!--end::Logo-->
-                                    <span class="d-flex flex-column align-items-md-end opacity-70">
-                                        <span>{{$quote->firstname}} {{$quote->lastname}}</span>
-                                        <span>{{$quote->email}}</span>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="border-bottom w-100"></div>
-                            <div class="d-flex justify-content-between pt-6">
-                                <div class="d-flex flex-column flex-root">
-                                    <span class="font-weight-bolder mb-2">DATE</span>
-                                    <span class="opacity-70">{{$quote->created_at}}</span>
-                                </div>
-                                <div class="d-flex flex-column flex-root">
-                                    <span class="font-weight-bolder mb-2">REFERENCE N°.</span>
-                                    <span class="opacity-70">{{$quote->reference}}</span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end: Invoice header-->
-                    <!-- begin: Invoice body-->
-                    <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
-                        <div class="col-md-9">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th class="pl-0 font-weight-bold text-muted text-uppercase">Description</th>
-                                            <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Montant</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="font-weight-boldest">
-                                            <td class="pl-0 pt-7">{{$payment->description}}</td>
-                                            <td class="text-danger pr-0 pt-7 text-right">{{$payment->amount}} XAF</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end: Invoice body-->
-                    <!-- begin: Invoice footer-->
-                    <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
-                        <div class="col-md-9">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th class="font-weight-bold text-muted text-uppercase">OPERATEUR</th>
-                                            <th class="font-weight-bold text-muted text-uppercase">NO. TRANSACTION</th>
-                                            <th class="font-weight-bold text-muted text-uppercase">DATE DE PAIEMENT</th>
-                                            <th class="font-weight-bold text-muted text-uppercase">TOTAL</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="font-weight-bolder">
-                                            <td>{{$payment->operator}}</td>
-                                            <td>{{$payment->transaction_id}}</td>
-                                            <td>{{$payment->paid_at}}</td>
-                                            <td class="text-danger font-size-h3 font-weight-boldest">{{$payment->amount}} XAF</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end: Invoice footer-->
-                    <!-- begin: Invoice action-->
-                    <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
-                        <div class="col-md-9">
-                            <div class="d-flex justify-content-between">
-                                <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">Imprimer</button>
-                            </div>
-                        </div>
-                    </div>
-                    <br><br>
-                    <!-- end: Invoice action-->
-                    <!-- end: Invoice-->
-                </div>
-            </div>
-            <!-- end::Card-->
-        </div>
-        <!--end::Container-->
-    </div>
-    <!--end::Entry-->
-
-    </div>
-</section>
+    </section>
 @endsection
