@@ -1,306 +1,240 @@
-@extends('layouts.admin')
+@extends('layouts.backoffice')
 
-@push('styles')
-    <!-- Datatable -->
-    <link href="{{ asset('admin/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
-@endpush
+@section('title', 'Services')
+@section('page_title', 'Services')
 
 @section('content')
-    <div class="content-body">
-        <div class="container-fluid">
-            <div class="row page-titles mx-0">
-                <div class="col-sm-6 p-md-0">
-                    <div class="welcome-text">
-                        <h4>Services</h4>
-                        <span>Gestion des Services</span>
-                    </div>
-                </div>
-                <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('admin-dashboard') }}">Tableau de Bord</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Services</a></li>
-                    </ol>
-                </div>
-            </div>
-            <!-- row -->
-            @include('layouts.flash-admin')
-            <br>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Liste des Services</h4>
-                            <button type="button" class="btn btn-success mb-2" data-toggle="modal"
-                                data-target="#securityModal">Ajouter</button>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="example" class="display" style="min-width: 845px">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Libellé</th>
-                                            <th>Description</th>
-                                            <th>Prix</th>
-                                            <th>Statut</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+    <div class="mx-auto max-w-[1400px] space-y-8">
 
-                                        @foreach ($services as $service)
-                                            <tr>
-                                                <td>
-                                                    <div class="media d-flex align-items-center">
-                                                        <div class="avatar avatar-xl mr-2">
-                                                            <img class="rounded-circle img-fluid"
-                                                                src="{{ asset($service->picture) }}" alt=""
-                                                                width="30">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>{{ $service->label }}</td>
-                                                <td>{{ $service->description }}</td>
-                                                <td>{{ $service->price }}</td>
-                                                @php
-                                                    $status = App\Http\Controllers\Controller::status($service->status);
-                                                @endphp
-                                                <td><span
-                                                        class="badge-rounded badge-{{ $status['type'] }}">{{ $status['message'] }}</span>
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-info" data-toggle="modal"
-                                                        data-target="#cardModalView{{ $service->id }}"><i
-                                                            class="fa fa-eye"></i></button>
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                        data-target="#cardModal{{ $service->id }}"><i
-                                                            class="fa fa-edit"></i></button>
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                        data-target="#cardModalCenter{{ $service->id }}">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Libellé</th>
-                                            <th>Description</th>
-                                            <th>Prix</th>
-                                            <th>Statut</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        {{-- En-tête --}}
+        <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+                <span class="eyebrow">Catalogue</span>
+                <h2 class="mt-2 font-display text-2xl font-extrabold text-ink">Services</h2>
+                <p class="mt-1 text-sm text-ink-muted">Gestion des services proposés par Relief Services.</p>
             </div>
         </div>
-    </div>
 
-    @foreach ($services as $service)
-        <div class="modal fade" id="cardModalView{{ $service->id }}">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">{{ $service->label }}</h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="text-center">
-                            <div class="profile-photo">
-                                <img src="{{ asset($service->picture) }}" width="100" class="img-fluid rounded-circle"
-                                    alt="">
-                            </div>
-                            <p class="text-muted">{{ $service->description }}</p>
-                            <a class="btn btn-outline-primary btn-rounded mt-3 px-5"
-                                href="javascript:void(0)">{{ $service->price }} XAF</a>
-                            <div class="row">
-                                <div class="col-4 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">{{ $service->price_promo }}</h3><span>Prix Promo</span>
-                                </div>
-                                <div class="col-4 pt-3 pb-3 border-right">
-                                    <h3 class="mb-1">{{ $service->begin_promo }}</h3><span>Début</span>
-                                </div>
-                                <div class="col-4 pt-3 pb-3">
-                                    <h3 class="mb-1">{{ $service->end_promo }}</h3><span>Fin</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
+        {{-- Flash & erreurs --}}
+        @if ($message = session('success'))
+            <x-ui.alert type="success">{{ $message }}</x-ui.alert>
+        @endif
+        @if ($message = session('error'))
+            <x-ui.alert type="danger">{{ $message }}</x-ui.alert>
+        @endif
+        @if ($message = session('warning'))
+            <x-ui.alert type="warning">{{ $message }}</x-ui.alert>
+        @endif
+        @if ($errors->any())
+            <x-ui.alert type="danger">
+                <ul class="space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </x-ui.alert>
+        @endif
 
-
-    <div class="modal fade" id="securityModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabelOne">Créer un service</h5>
-                </div>
-                <div class="modal-body">
+        {{-- Ajouter --}}
+        <div class="rounded-2xl border border-line bg-white shadow-card">
+            <details class="group">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-display text-base font-bold text-ink">
+                    <span class="flex items-center gap-2">
+                        <svg class="h-5 w-5 text-primary-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                        Ajouter un service
+                    </span>
+                    <svg class="h-5 w-5 shrink-0 text-primary-600 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </summary>
+                <div class="border-t border-line px-6 py-5">
                     <form action="{{ url('admin/service') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="mb-3">
-                            <label for="name" class="col-form-label">Libellé</label>
-                            <input type="text" class="form-control" name="label">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="name" class="col-form-label">Description</label>
-                            <textarea class="form-control" name="description">Description...</textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="price" class="col-form-label">Prix</label>
-                            <input type="text" class="form-control" name="price">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="price_promo" class="col-form-label">Prix de promo</label>
-                            <input type="text" class="form-control" name="price_promo">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="begin_promo" class="col-form-label">Début de la Promo</label>
-                            <input type="date" class="form-control" name="begin_promo">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="end_promo" class="col-form-label">Fin de la Promo</label>
-                            <input type="date" class="form-control" name="end_promo">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="picture" class="col-form-label">Image</label>
-                            <input type="file" class="form-control" name="picture">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="name" class="col-form-label">Activé ?</label>
-                            <select id="selectOne" name="status" class="form-control">
-                                @php
-                                    App\Http\Controllers\Controller::enable_status();
-                                @endphp
-                            </select>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    @foreach ($services as $service)
-        <div class="modal fade" id="cardModal{{ $service->id }}">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabelOne">Modifier un service</h5>
-                    </div>
-                    <form action="{{ url('admin/service/' . $service->id) }}" method="POST"
-                        enctype="multipart/form-data">
-                        <div class="modal-body">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="name" class="col-form-label">Libellé</label>
-                                <input type="text" class="form-control" name="label"
-                                    value="{{ $service->label }}">
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <div class="sm:col-span-2">
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Libellé</label>
+                                <input type="text" name="label" value="{{ old('label') }}"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
                             </div>
-
-                            <div class="mb-3">
-                                <label for="name" class="col-form-label">Description</label>
-                                <textarea class="form-control" name="description">{{ $service->description }}</textarea>
+                            <div class="sm:col-span-2">
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Description</label>
+                                <textarea name="description"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">Description...</textarea>
                             </div>
-
-                            <div class="mb-3">
-                                <label for="price" class="col-form-label">Prix</label>
-                                <input type="text" class="form-control" name="price"
-                                    value="{{ $service->price }}">
+                            <div>
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Prix</label>
+                                <input type="text" name="price" value="{{ old('price') }}"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
                             </div>
-
-                            <div class="mb-3">
-                                <label for="price_promo" class="col-form-label">Prix de promo</label>
-                                <input type="text" class="form-control" name="price_promo"
-                                    value="{{ $service->price_promo }}">
+                            <div>
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Prix de promo</label>
+                                <input type="text" name="price_promo" value="{{ old('price_promo') }}"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
                             </div>
-
-                            <div class="mb-3">
-                                <label for="begin_promo" class="col-form-label">Début de la Promo</label>
-                                <input type="date" class="form-control" name="begin_promo"
-                                    value="{{ $service->begin_promo }}">
+                            <div>
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Début de la Promo</label>
+                                <input type="date" name="begin_promo" value="{{ old('begin_promo') }}"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
                             </div>
-
-                            <div class="mb-3">
-                                <label for="end_promo" class="col-form-label">Fin de la Promo</label>
-                                <input type="date" class="form-control" name="end_promo"
-                                    value="{{ $service->end_promo }}">
+                            <div>
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Fin de la Promo</label>
+                                <input type="date" name="end_promo" value="{{ old('end_promo') }}"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
                             </div>
-
-                            <div class="mb-3">
-                                <label for="picture" class="col-form-label">Image</label>
-                                <input type="file" class="form-control" name="picture"
-                                    value="{{ $service->picture }}">
+                            <div>
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Image</label>
+                                <input type="file" name="picture"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2 text-[15px] text-ink file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-primary-700 focus:border-primary-600">
                             </div>
-
-                            <div class="mb-3">
-                                <label for="name" class="col-form-label">Activé ?</label>
-                                <select id="selectOne" name="status" class="form-control">
-                                    @php
-                                        App\Http\Controllers\Controller::enable_status();
-                                    @endphp
+                            <div>
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Activé ?</label>
+                                <select name="status"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                    @php App\Http\Controllers\Controller::enable_status(); @endphp
                                 </select>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
-                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <div class="mt-5">
+                            <x-ui.button type="submit" variant="primary">Enregistrer</x-ui.button>
                         </div>
                     </form>
                 </div>
+            </details>
+        </div>
+
+        {{-- Liste --}}
+        <div class="rounded-2xl border border-line bg-white shadow-card">
+            <div class="flex items-center justify-between border-b border-line px-6 py-4">
+                <h3 class="font-display text-base font-bold text-ink">Liste des Services</h3>
+                <span class="text-sm text-ink-muted">{{ count($services) }} service(s)</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="border-b border-line bg-canvas text-[11.5px] uppercase tracking-wide text-ink-muted">
+                            <th class="px-6 py-3 font-semibold">#</th>
+                            <th class="px-6 py-3 font-semibold">Libellé</th>
+                            <th class="px-6 py-3 font-semibold">Description</th>
+                            <th class="px-6 py-3 font-semibold">Prix</th>
+                            <th class="px-6 py-3 font-semibold">Statut</th>
+                            <th class="px-6 py-3 text-right font-semibold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($services as $service)
+                            @php
+                                $status = App\Http\Controllers\Controller::status($service->status);
+                                $pill = [
+                                    'success' => 'text-success-700 bg-success-50 border-success-200',
+                                    'warning' => 'text-warning-700 bg-warning-50 border-warning-200',
+                                    'danger' => 'text-accent-700 bg-accent-50 border-accent-100',
+                                    'primary' => 'text-primary-700 bg-primary-50 border-primary-200',
+                                    'info' => 'text-primary-700 bg-primary-50 border-primary-200',
+                                    'secondary' => 'text-ink-muted bg-canvas border-line',
+                                ][$status['type'] ?? 'secondary'] ?? 'text-ink-muted bg-canvas border-line';
+                            @endphp
+                            <tr class="border-b border-line-subtle last:border-0 hover:bg-canvas">
+                                <td class="px-6 py-3.5">
+                                    <img src="{{ asset($service->picture) }}" alt="" class="h-9 w-9 rounded-full border border-line">
+                                </td>
+                                <td class="px-6 py-3.5 font-medium text-ink">{{ $service->label }}</td>
+                                <td class="px-6 py-3.5 text-ink-muted">{{ \Illuminate\Support\Str::limit($service->description, 60) }}</td>
+                                <td class="px-6 py-3.5 text-ink-muted">{{ $service->price }}</td>
+                                <td class="px-6 py-3.5">
+                                    <span class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-bold {{ $pill }}">{{ $status['message'] ?? '—' }}</span>
+                                </td>
+                                <td class="px-6 py-3.5 text-right">
+                                    <a href="#edit-service-{{ $service->id }}" class="text-sm font-semibold text-primary-600 hover:text-primary-700">Gérer</a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr><td colspan="6" class="px-6 py-8 text-center text-ink-muted">Aucun service pour le moment.</td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
-    @endforeach
 
-    @foreach ($services as $service)
-        <!-- Modal -->
-        <div class="modal fade" id="cardModalCenter{{ $service->id }}">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Suppression</h5>
-                    </div>
-                    <div class="modal-body">
-                        Êtes-vous sûr de vouloir supprimer ce service ?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermé</button>
-                        <form action="{{ url('admin/service/' . $service->id) }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="delete" value="true">
-                            <button type="submit" class="btn btn-danger">Supprimer</button>
-                        </form>
-                    </div>
+        {{-- Modifier / Supprimer --}}
+        @if (count($services))
+            <div class="rounded-2xl border border-line bg-white shadow-card">
+                <div class="border-b border-line px-6 py-4">
+                    <h3 class="font-display text-base font-bold text-ink">Modifier / supprimer</h3>
+                </div>
+                <div>
+                    @foreach ($services as $service)
+                        <details id="edit-service-{{ $service->id }}" class="group border-b border-line-subtle last:border-0">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4">
+                                <span class="flex items-center gap-3">
+                                    <img src="{{ asset($service->picture) }}" alt="" class="h-8 w-8 rounded-full border border-line">
+                                    <span class="font-semibold text-ink">{{ $service->label }}</span>
+                                </span>
+                                <svg class="h-5 w-5 shrink-0 text-primary-600 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                            </summary>
+                            <div class="space-y-5 border-t border-line-subtle bg-canvas px-6 py-5">
+                                <form action="{{ url('admin/service/' . $service->id) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="grid gap-4 sm:grid-cols-2">
+                                        <div class="sm:col-span-2">
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Libellé</label>
+                                            <input type="text" name="label" value="{{ $service->label }}"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                        </div>
+                                        <div class="sm:col-span-2">
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Description</label>
+                                            <textarea name="description"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">{{ $service->description }}</textarea>
+                                        </div>
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Prix</label>
+                                            <input type="text" name="price" value="{{ $service->price }}"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                        </div>
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Prix de promo</label>
+                                            <input type="text" name="price_promo" value="{{ $service->price_promo }}"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                        </div>
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Début de la Promo</label>
+                                            <input type="date" name="begin_promo" value="{{ $service->begin_promo }}"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                        </div>
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Fin de la Promo</label>
+                                            <input type="date" name="end_promo" value="{{ $service->end_promo }}"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                        </div>
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Image</label>
+                                            <input type="file" name="picture" value="{{ $service->picture }}"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2 text-[15px] text-ink file:mr-3 file:rounded-md file:border-0 file:bg-primary-50 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-primary-700 focus:border-primary-600">
+                                        </div>
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Activé ?</label>
+                                            <select name="status"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                                @php App\Http\Controllers\Controller::enable_status(); @endphp
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mt-5">
+                                        <x-ui.button type="submit" variant="primary">Enregistrer</x-ui.button>
+                                    </div>
+                                </form>
+
+                                <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line bg-white px-4 py-3">
+                                    <p class="text-sm text-ink-muted">Êtes-vous sûr de vouloir supprimer ce service ?</p>
+                                    <form action="{{ url('admin/service/' . $service->id) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="delete" value="true">
+                                        <button type="submit" class="inline-flex min-h-[40px] items-center justify-center rounded-lg bg-accent-600 px-4 text-sm font-bold text-white transition-colors hover:bg-accent-700">Supprimer</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </details>
+                    @endforeach
                 </div>
             </div>
-        </div>
-    @endforeach
-@endsection
+        @endif
 
-@push('scripts')
-    <!-- Datatable -->
-    <script src="{{ asset('admin/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('admin/js/plugins-init/datatables.init.js') }}"></script>
-@endpush
+    </div>
+@endsection

@@ -1,130 +1,65 @@
-@extends('layouts.admin')
+@extends('layouts.backoffice')
 
-@push('styles')
-    <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-@endpush
+@section('title', 'Ajouter un utilisateur')
+@section('page_title', 'Ajouter un utilisateur')
 
 @section('content')
-    <!-- Container fluid -->
-    <div class="container-fluid px-6 py-4">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-12">
-                <!-- Page header -->
-                <div>
-                    <div class="border-bottom pb-4 mb-4 d-flex align-items-center
-              justify-content-between">
-                        <div class="mb-2 mb-lg-0">
-                            <h3 class="mb-0 fw-bold">Ajouter un utilisateur</h3>
-                        </div>
-                        <div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="mx-auto max-w-[1400px] space-y-6">
+
+        <div>
+            <span class="eyebrow">Administration</span>
+            <h2 class="mt-2 font-display text-2xl font-extrabold text-ink">Ajouter un utilisateur</h2>
+            <p class="mt-1 text-sm text-ink-muted">Informations personnelles du nouvel utilisateur.</p>
         </div>
-        <div class="row mb-8">
-            <div class="col-xl-3 col-lg-4 col-md-12 col-12">
-                <div class="mb-4 mb-lg-0">
-                    <h4 class="mb-1">Informations Personnelles</h4>
-                    <p class="mb-0 fs-5 text-muted">Informations Personnelles de l'utilisateur </p>
-                </div>
 
+        <div class="grid gap-6 lg:grid-cols-3">
+            <div class="lg:col-span-1">
+                <h3 class="font-display text-base font-bold text-ink">Informations</h3>
+                <p class="mt-1 text-sm text-ink-muted">Renseignez le nom, l'email et le rôle attribué à l'utilisateur.</p>
             </div>
 
-            <div class="col-xl-9 col-lg-8 col-md-12 col-12">
-                <!-- card -->
-                <div class="card">
-                    <!-- card body -->
-                    <div class="card-body">
-                        <div class=" mb-6">
-                            <h4 class="mb-1">Informations</h4>
+            <div class="lg:col-span-2">
+                <x-ui.card>
+                    <form method="POST" action="{{ url('admin/register') }}" class="grid gap-4 sm:grid-cols-2">
+                        @csrf
+                        <div class="sm:col-span-2">
+                            <label for="name" class="mb-1.5 block text-sm font-semibold text-ink">Nom complet <span class="text-accent-600">*</span></label>
+                            <input type="text" id="name" name="name" value="{{ old('name') }}" required
+                                class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                            @error('name')<p class="mt-1 text-xs text-accent-600">{{ $message }}</p>@enderror
+                        </div>
 
-                        </div>
-                        <div class="row align-items-center mb-8">
-                            <div class="col-md-3 mb-3 mb-md-0">
-                                <h5 class="mb-0">Photo de profil</h5>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="d-flex align-items-center">
-                                    <div class="me-3">
-                                        <img src="{{ asset('media/users/blank.png') }}"
-                                            class="rounded-circle avatar avatar-lg" alt="">
-                                    </div>
-                                    <div>
-                                        <button type="submit"
-                                            class="btn btn-outline-white
-                        me-1">Changer</button>
-                                        <button type="submit" class="btn btn-outline-white">Retirer</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- col -->
                         <div>
-                            <!-- border -->
-                            <div class="mb-6">
-                                <h4 class="mb-1">Informations</h4>
-
-                            </div>
-                            <form method="POST" action="{{ route('register') }}">
-                                @csrf
-                                <!-- row -->
-                                <div class="mb-3 row">
-                                    <label for="fullName"
-                                        class="col-sm-4 col-form-label
-                      form-label">Nom complet</label>
-                                    <div class="col-sm-4 mb-3 mb-lg-0">
-                                        <input type="text" class="form-control" placeholder="First name" id="name"
-                                            required>
-                                    </div>
-                                </div>
-
-                                <!-- row -->
-                                <div class="mb-3 row">
-                                    <label for="email"
-                                        class="col-sm-4 col-form-label
-                      form-label">Email</label>
-                                    <div class="col-md-8 col-12">
-                                        <input type="email" class="form-control" name="email" placeholder="Email"
-                                            id="email" required>
-                                    </div>
-                                </div>
-
-                                <!-- row -->
-                                <div class="mb-3 row">
-                                    <label for="email"
-                                        class="col-sm-4 col-form-label
-                        form-label">Rôle</label>
-                                    <div class="col-md-8 col-12">
-                                        <select id="selectOne" class="form-control" name="security_role_id">
-                                            @foreach ($roles as $role)
-                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- row -->
-                                <div class="offset-md-4 col-md-8 mt-4">
-                                    <button type="submit" class="btn btn-primary"> Enregister</button>
-                                </div>
-                            </form>
+                            <label for="email" class="mb-1.5 block text-sm font-semibold text-ink">Email <span class="text-accent-600">*</span></label>
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                                class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                            @error('email')<p class="mt-1 text-xs text-accent-600">{{ $message }}</p>@enderror
                         </div>
-                    </div>
-                </div>
 
+                        <div>
+                            <label for="phone" class="mb-1.5 block text-sm font-semibold text-ink">Téléphone <span class="text-accent-600">*</span></label>
+                            <input type="text" id="phone" name="phone" value="{{ old('phone') }}"
+                                class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                            @error('phone')<p class="mt-1 text-xs text-accent-600">{{ $message }}</p>@enderror
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <label for="security_role_id" class="mb-1.5 block text-sm font-semibold text-ink">Rôle <span class="text-accent-600">*</span></label>
+                            <select id="security_role_id" name="security_role_id"
+                                class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}" @selected(old('security_role_id') == $role->id)>{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('security_role_id')<p class="mt-1 text-xs text-accent-600">{{ $message }}</p>@enderror
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <x-ui.button type="submit" variant="primary">Enregistrer</x-ui.button>
+                        </div>
+                    </form>
+                </x-ui.card>
             </div>
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <!--begin::Page Vendors(used by this page)-->
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <!--end::Page Vendors-->
-
-    <script type="script">
-        $(document).ready( function () {
-            $('.table').DataTable();
-        } );
-    </script>
-@endpush
