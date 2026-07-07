@@ -1,55 +1,90 @@
 @extends('layouts.login')
 
-@section('content')
-    <div class="row justify-content-center h-100 align-items-center">
-        <div class="col-md-6">
-            <div class="authincation-content">
-                <div class="row no-gutters">
-                    <div class="col-xl-12">
-                        <div class="auth-form">
-                            <div class="text-center mb-3">
-                                <a href="{{ route('home') }}"><img src="{{ asset('images/Alpha.png') }}" alt="Alpha"
-                                        style="width: 20%; height:auto;" loading="lazy"></a>
-                            </div>
-                            <h4 class="text-center mb-4">Créer votre compte</h4>
-                            @include('layouts.flash-admin')
-                            <br>
-                            <form action="{{ route('register') }}" method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <label class="mb-1"><strong>Votre Nom Complet</strong></label>
-                                    <input type="text" name="name" class="form-control" placeholder="Nom Complet">
-                                </div>
-                                <div class="form-group">
-                                    <label class="mb-1"><strong>Email</strong></label>
-                                    <input type="email" name="email" class="form-control"
-                                        placeholder="hello@example.com">
-                                </div>
-                                <div class="form-group">
-                                    <label class="mb-1"><strong>Téléphone</strong></label>
-                                    <input type="text" name="phone" class="form-control" placeholder="074010203">
-                                </div>
-                                <div class="form-group">
-                                    <label class="mb-1"><strong>Mot de passe</strong></label>
-                                    <input type="password" name="password" class="form-control" placeholder="Mot de passe">
-                                </div>
+@section('title', 'Créer un compte')
 
-                                <div class="form-group">
-                                    <label class="mb-1"><strong>Confirmer Mot de Passe</strong></label>
-                                    <input type="password" name="password_confirmation" class="form-control"
-                                        placeholder="Confirmer Mot de passe">
-                                </div>
-                                <div class="text-center mt-4">
-                                    <button type="submit" class="btn btn-primary btn-block">S'enregistrer</button>
-                                </div>
-                            </form>
-                            <div class="new-account mt-3">
-                                <p>Déjà enregistrer ? <a class="text-primary" href="{{ route('login') }}">Connexion</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+@section('content')
+    <div class="mb-6">
+        <span class="eyebrow text-primary-600">Espace client</span>
+        <h1 class="mt-2 font-display text-2xl font-extrabold text-ink">Créer votre compte</h1>
+        <p class="mt-1.5 text-sm text-ink-muted">Quelques informations et vous pourrez suivre vos dossiers.</p>
     </div>
+
+    @if (session('status'))
+        <x-ui.alert type="success" class="mb-5">{{ session('status') }}</x-ui.alert>
+    @endif
+    @if (session('success'))
+        <x-ui.alert type="success" class="mb-5">{{ session('success') }}</x-ui.alert>
+    @endif
+    @if (session('error'))
+        <x-ui.alert type="danger" class="mb-5">{{ session('error') }}</x-ui.alert>
+    @endif
+
+    <form method="POST" action="{{ route('register') }}" class="space-y-4">
+        @csrf
+
+        <div>
+            <label for="name" class="mb-1.5 block text-sm font-semibold text-ink">
+                Nom complet <span class="text-accent-600">*</span>
+            </label>
+            <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus
+                   autocomplete="name" placeholder="Nom complet"
+                   class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+            @error('name')
+                <p class="mt-1.5 text-sm text-accent-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label for="email" class="mb-1.5 block text-sm font-semibold text-ink">
+                Email <span class="text-accent-600">*</span>
+            </label>
+            <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                   autocomplete="email" placeholder="hello@example.com"
+                   class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+            @error('email')
+                <p class="mt-1.5 text-sm text-accent-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label for="phone" class="mb-1.5 block text-sm font-semibold text-ink">Téléphone</label>
+            <input type="text" id="phone" name="phone" value="{{ old('phone') }}"
+                   autocomplete="tel" placeholder="074010203"
+                   class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+            @error('phone')
+                <p class="mt-1.5 text-sm text-accent-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label for="password" class="mb-1.5 block text-sm font-semibold text-ink">
+                Mot de passe <span class="text-accent-600">*</span>
+            </label>
+            <input type="password" id="password" name="password" required
+                   autocomplete="new-password" placeholder="Mot de passe"
+                   class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+            @error('password')
+                <p class="mt-1.5 text-sm text-accent-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label for="password_confirmation" class="mb-1.5 block text-sm font-semibold text-ink">
+                Confirmer le mot de passe <span class="text-accent-600">*</span>
+            </label>
+            <input type="password" id="password_confirmation" name="password_confirmation" required
+                   autocomplete="new-password" placeholder="Confirmer le mot de passe"
+                   class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+            @error('password_confirmation')
+                <p class="mt-1.5 text-sm text-accent-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <x-ui.button type="submit" variant="accent" class="mt-2 w-full">S'enregistrer</x-ui.button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-ink-muted">
+        Déjà un compte ?
+        <a href="{{ route('login') }}" class="font-semibold text-primary-600 hover:text-primary-700">Connexion</a>
+    </p>
 @endsection
