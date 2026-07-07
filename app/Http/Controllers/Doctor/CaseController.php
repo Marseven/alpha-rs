@@ -23,6 +23,69 @@ class CaseController extends Controller
         return view('doctor.cases.index', ['cases' => $cases, 'title' => 'Mes dossiers']);
     }
 
+    /** Form to register a new case. */
+    public function create()
+    {
+        $this->authorize('create', MedicalCaseWorkflow::class);
+
+        return view('doctor.cases.form', ['case' => new MedicalCaseWorkflow(), 'title' => 'Nouveau dossier']);
+    }
+
+    /** Persist a new draft case for the authenticated doctor. */
+    public function store(Request $request)
+    {
+        $this->authorize('create', MedicalCaseWorkflow::class);
+
+        $data = $request->validate([
+            'patient_name' => 'required|string|max:255',
+            'patient_phone' => 'required|string|max:32',
+            'doctor_note' => 'nullable|string|max:2000',
+        ]);
+
+        $case = MedicalCaseWorkflow::create($data + [
+            'doctor_id' => auth()->id(),
+            'status' => MedicalCaseWorkflow::DRAFT,
+        ]);
+
+        return redirect()->route('doctor.cases.show', $case)
+            ->with('success', "Dossier {$case->tracking_number} créé.");
+    }
+
+    /** Form to edit an editable case (draft / missing-information). */
+    public function edit(MedicalCaseWorkflow $case)
+    {
+        $this->authorize('update', $case);
+
+        return view('doctor.cases.form', ['case' => $case, 'title' => "Modifier {$case->tracking_number}"]);
+    }
+
+    /** Update an editable case. */
+    public function update(Request $request, MedicalCaseWorkflow $case)
+    {
+        $this->authorize('update', $case);
+
+        $data = $request->validate([
+            'patient_name' => 'required|string|max:255',
+            'patient_phone' => 'required|string|max:32',
+            'doctor_note' => 'nullable|string|max:2000',
+        ]);
+
+        $case->update($data);
+
+        return redirect()->route('doctor.cases.show', $case)
+            ->with('success', "Dossier {$case->tracking_number} mis à jour.");
+    }
+
+    /** Delete a draft case (never sent to CNAMGS). */
+    public function destroy(MedicalCaseWorkflow $case)
+    {
+        $this->authorize('delete', $case);
+        $ref = $case->tracking_number;
+        $case->delete();
+
+        return redirect()->route('doctor.cases')->with('success', "Dossier {$ref} supprimé.");
+    }
+
     public function show(MedicalCaseWorkflow $case)
     {
         $this->authorize('view', $case);

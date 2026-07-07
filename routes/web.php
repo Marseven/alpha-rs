@@ -99,7 +99,13 @@ Auth::routes();
 // Medical workflow — Doctor space
 Route::middleware(['auth', 'workflow_role:doctor'])->prefix('doctor')->group(function () {
     Route::get('/cases', [\App\Http\Controllers\Doctor\CaseController::class, 'index'])->name('doctor.cases');
+    // create/store BEFORE /cases/{case} so "create" is not bound as a {case}.
+    Route::get('/cases/create', [\App\Http\Controllers\Doctor\CaseController::class, 'create'])->name('doctor.cases.create');
+    Route::post('/cases', [\App\Http\Controllers\Doctor\CaseController::class, 'store'])->name('doctor.cases.store');
     Route::get('/cases/{case}', [\App\Http\Controllers\Doctor\CaseController::class, 'show'])->name('doctor.cases.show');
+    Route::get('/cases/{case}/edit', [\App\Http\Controllers\Doctor\CaseController::class, 'edit'])->name('doctor.cases.edit');
+    Route::put('/cases/{case}', [\App\Http\Controllers\Doctor\CaseController::class, 'update'])->name('doctor.cases.update');
+    Route::delete('/cases/{case}', [\App\Http\Controllers\Doctor\CaseController::class, 'destroy'])->name('doctor.cases.destroy');
     Route::post('/cases/{case}/send-to-cnamgs', [\App\Http\Controllers\Doctor\CaseController::class, 'sendToCnamgs'])->name('doctor.cases.send');
 });
 

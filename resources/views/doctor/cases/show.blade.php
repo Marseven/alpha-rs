@@ -43,7 +43,23 @@
                 </h2>
                 <p class="mt-1 text-sm text-ink-muted">{{ $case->patient_name }}</p>
             </div>
-            <x-ui.badge :status="strtoupper($case->status)" class="mt-1 text-sm" />
+            <div class="flex flex-col items-end gap-3">
+                <x-ui.badge :status="strtoupper($case->status)" class="text-sm" />
+                @canany(['update', 'delete'], $case)
+                    <div class="flex items-center gap-2">
+                        @can('update', $case)
+                            <x-ui.button variant="outline" href="{{ route('doctor.cases.edit', $case) }}">Modifier</x-ui.button>
+                        @endcan
+                        @can('delete', $case)
+                            <form method="POST" action="{{ route('doctor.cases.destroy', $case) }}" onsubmit="return confirm('Supprimer définitivement ce dossier ?');">
+                                @csrf
+                                @method('DELETE')
+                                <x-ui.button type="submit" variant="ghost" class="text-accent-600 hover:bg-accent-50">Supprimer</x-ui.button>
+                            </form>
+                        @endcan
+                    </div>
+                @endcanany
+            </div>
         </div>
 
         @if ($case->status === 'missing_information')

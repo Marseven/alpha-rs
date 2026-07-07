@@ -5,10 +5,16 @@
 
 @section('content')
     <div class="mx-auto max-w-container">
-        <div class="mb-6">
-            <span class="eyebrow">Workflow CNAMGS</span>
-            <h2 class="mt-2 font-display text-2xl font-extrabold text-ink">Dossiers qui vous sont assignés</h2>
-            <p class="mt-1 text-sm text-ink-muted">Suivez l'avancement de chaque prise en charge et transmettez les dossiers à la CNAMGS.</p>
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+            <div>
+                <span class="eyebrow">Workflow CNAMGS</span>
+                <h2 class="mt-2 font-display text-2xl font-extrabold text-ink">Mes dossiers</h2>
+                <p class="mt-1 text-sm text-ink-muted">Créez, suivez et transmettez vos dossiers de prise en charge à la CNAMGS.</p>
+            </div>
+            <x-ui.button variant="accent" href="{{ route('doctor.cases.create') }}">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                Nouveau dossier
+            </x-ui.button>
         </div>
 
         <x-ui.card padding="p-0">

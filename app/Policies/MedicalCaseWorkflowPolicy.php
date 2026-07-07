@@ -34,6 +34,26 @@ class MedicalCaseWorkflowPolicy
             && $case->status !== MedicalCaseWorkflow::DRAFT;
     }
 
+    /** Any doctor may register a new case (dossier). */
+    public function create(User $user): bool
+    {
+        return $user->isDoctor();
+    }
+
+    /** A doctor may edit their own case while it is still editable (not yet in CNAMGS review). */
+    public function update(User $user, MedicalCaseWorkflow $case): bool
+    {
+        return $this->ownsAsDoctor($user, $case)
+            && in_array($case->status, [MedicalCaseWorkflow::DRAFT, MedicalCaseWorkflow::MISSING_INFORMATION], true);
+    }
+
+    /** A doctor may delete their own case only while it is still a draft (never sent). */
+    public function delete(User $user, MedicalCaseWorkflow $case): bool
+    {
+        return $this->ownsAsDoctor($user, $case)
+            && $case->status === MedicalCaseWorkflow::DRAFT;
+    }
+
     private function ownsAsDoctor(User $user, MedicalCaseWorkflow $case): bool
     {
         return $user->isDoctor() && (int) $case->doctor_id === (int) $user->id;
