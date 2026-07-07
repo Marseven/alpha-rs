@@ -77,7 +77,12 @@
                     </button>
                     <h1 class="font-display text-lg font-bold text-ink">@yield('page_title', 'Espace client')</h1>
                 </div>
-                <a href="{{ route('quote') }}" class="hidden sm:block"><x-ui.button variant="accent">Nouvelle demande</x-ui.button></a>
+                <div class="flex items-center gap-2">
+                    @if (auth()->check() && auth()->user()->isPlatformAdmin())
+                        <a href="{{ url('/admin/dashboard') }}" class="hidden sm:block"><x-ui.button variant="outline">Espace admin</x-ui.button></a>
+                    @endif
+                    <a href="{{ route('quote') }}" class="hidden sm:block"><x-ui.button variant="accent">Nouvelle demande</x-ui.button></a>
+                </div>
             </header>
 
             @include('layouts.flash')

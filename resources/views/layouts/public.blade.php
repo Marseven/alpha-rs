@@ -57,7 +57,11 @@
 
             <div class="flex items-center gap-3">
                 @auth
-                    <x-ui.button variant="outline" href="{{ route('profil') }}" class="hidden sm:inline-flex">Mon espace</x-ui.button>
+                    @if (auth()->user()->isPlatformAdmin())
+                        <x-ui.button variant="outline" href="{{ url('/admin/dashboard') }}" class="hidden sm:inline-flex">Administration</x-ui.button>
+                    @else
+                        <x-ui.button variant="outline" href="{{ route('profil') }}" class="hidden sm:inline-flex">Mon espace</x-ui.button>
+                    @endif
                 @else
                     <x-ui.button variant="outline" href="{{ route('login') }}" class="hidden sm:inline-flex">Espace client</x-ui.button>
                 @endauth
@@ -78,7 +82,15 @@
                 <a href="{{ route('simulator') }}" class="py-2.5">Simulateur</a>
                 <a href="{{ route('list-hospitals') }}" class="py-2.5">Hôpitaux</a>
                 <a href="{{ route('contact.form') }}" class="py-2.5">Contact</a>
-                <a href="{{ auth()->check() ? route('profil') : route('login') }}" class="py-2.5 text-primary-600">{{ auth()->check() ? 'Mon espace' : 'Espace client' }}</a>
+                @auth
+                    @if (auth()->user()->isPlatformAdmin())
+                        <a href="{{ url('/admin/dashboard') }}" class="py-2.5 text-primary-600">Administration</a>
+                    @else
+                        <a href="{{ route('profil') }}" class="py-2.5 text-primary-600">Mon espace</a>
+                    @endif
+                @else
+                    <a href="{{ route('login') }}" class="py-2.5 text-primary-600">Espace client</a>
+                @endauth
             </div>
         </div>
     </header>

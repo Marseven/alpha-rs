@@ -19,7 +19,7 @@ class QuoteController extends Controller
         $user = User::find(Auth::user()->id);
         $user->load(['quotes']);
         return view(
-            'quotes.list',
+            'quote.list',
             [
                 'quotes' => $user->quotes,
                 'title' => 'Devis'
