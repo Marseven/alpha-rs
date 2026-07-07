@@ -1,170 +1,80 @@
-@extends('layouts.default')
+@extends('layouts.client')
 
-@push('styles')
-    <link href="{{ asset('plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />
-@endpush
+@section('title', 'Mes paiements')
+@section('page_title', 'Mes paiements')
+
+@php
+    $statusStyles = [
+        'primary'   => 'text-primary-700 bg-primary-50 border-primary-200',
+        'success'   => 'text-success-700 bg-success-50 border-success-200',
+        'warning'   => 'text-warning-700 bg-warning-50 border-warning-200',
+        'danger'    => 'text-accent-700 bg-accent-50 border-accent-100',
+        'secondary' => 'text-ink-muted bg-line-subtle border-line',
+        'info'      => 'text-primary-700 bg-primary-50 border-primary-200',
+    ];
+@endphp
 
 @section('content')
+    <div class="mx-auto max-w-[1400px] space-y-6">
 
-<!--begin::Subheader-->
-<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
-    <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-        <!--begin::Info-->
-        <div class="d-flex align-items-center flex-wrap mr-1">
-            <!--begin::Heading-->
-            <div class="d-flex flex-column">
-                <!--begin::Title-->
-                <h2 class="text-white font-weight-bold my-2 mr-5">Mes Paiements</h2>
-                <!--end::Title-->
-                <!--begin::Breadcrumb-->
-                <div class="d-flex align-items-center font-weight-bold my-2">
-                    <!--begin::Item-->
-                    <a href="{{route('home')}}" class="opacity-75 hover-opacity-100">
-                        <i class="flaticon2-shelter text-white icon-1x"></i>
-                    </a>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
-                    <a href="#" class="text-white text-hover-white opacity-75 hover-opacity-100">Liste des paiements</a>
-                    <!--end::Item-->
-                </div>
-                <!--end::Breadcrumb-->
+        <div class="flex flex-wrap items-end justify-between gap-3">
+            <div>
+                <span class="eyebrow">Espace client</span>
+                <h2 class="mt-2 font-display text-2xl font-extrabold text-ink">Mes paiements</h2>
+                <p class="mt-1 text-sm text-ink-muted">Historique de vos règlements de frais de service.</p>
             </div>
-            <!--end::Heading-->
+            @if ($payments->count())
+                <span class="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3.5 py-1.5 text-sm font-semibold text-ink-muted shadow-card">
+                    <span class="font-display text-base font-extrabold text-ink">{{ $payments->count() }}</span>
+                    paiement{{ $payments->count() > 1 ? 's' : '' }}
+                </span>
+            @endif
         </div>
-        <!--end::Info-->
-    </div>
-</div>
-<!--end::Subheader-->
 
-<!--begin::Entry-->
-<div class="d-flex flex-column-fluid">
-    <!--begin::Container-->
-    <div class="container">
-        <!--begin::Card-->
-        <div class="card card-custom gutter-b">
-            <div class="card-header flex-wrap py-3">
-                <div class="card-title">
-                    <h3 class="card-label">Liste de mes paiements
-                    <span class="d-block text-muted pt-2 font-size-sm">#####</span></h3>
-                </div>
-                <div class="card-toolbar">
-                    <!--begin::Dropdown-->
-                    <div class="dropdown dropdown-inline mr-2">
-                        <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="svg-icon svg-icon-md">
-                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect x="0" y="0" width="24" height="24" />
-                                    <path d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z" fill="#000000" opacity="0.3" />
-                                    <path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000" />
-                                </g>
-                            </svg>
-                            <!--end::Svg Icon-->
-                        </span>Export</button>
-                        <!--begin::Dropdown Menu-->
-                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                            <!--begin::Navigation-->
-                            <ul class="navi flex-column navi-hover py-2">
-                                <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">Choisissez une option:</li>
-                                <li class="navi-item">
-                                    <a href="#" class="navi-link">
-                                        <span class="navi-icon">
-                                            <i class="la la-print"></i>
-                                        </span>
-                                        <span class="navi-text">Imprimer</span>
-                                    </a>
-                                </li>
-                                <li class="navi-item">
-                                    <a href="#" class="navi-link">
-                                        <span class="navi-icon">
-                                            <i class="la la-copy"></i>
-                                        </span>
-                                        <span class="navi-text">Copier</span>
-                                    </a>
-                                </li>
-                                <li class="navi-item">
-                                    <a href="#" class="navi-link">
-                                        <span class="navi-icon">
-                                            <i class="la la-file-excel-o"></i>
-                                        </span>
-                                        <span class="navi-text">Excel</span>
-                                    </a>
-                                </li>
-                                <li class="navi-item">
-                                    <a href="#" class="navi-link">
-                                        <span class="navi-icon">
-                                            <i class="la la-file-text-o"></i>
-                                        </span>
-                                        <span class="navi-text">CSV</span>
-                                    </a>
-                                </li>
-                                <li class="navi-item">
-                                    <a href="#" class="navi-link">
-                                        <span class="navi-icon">
-                                            <i class="la la-file-pdf-o"></i>
-                                        </span>
-                                        <span class="navi-text">PDF</span>
-                                    </a>
-                                </li>
-                            </ul>
-                            <!--end::Navigation-->
-                        </div>
-                        <!--end::Dropdown Menu-->
-                    </div>
-                    <!--end::Dropdown-->
-                    <!--begin::Button-->
-
-                    <!--end::Button-->
-                </div>
-            </div>
-            <div class="card-body">
-                <!--begin: Datatable-->
-                <table class="table table-bordered table-checkable" id="kt_datatable">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Reference</th>
-                            <th>N° Carte</th>
-                            <th>Montant</th>
-                            <th>ID Transaction</th>
-                            <th>Statut</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($payments as $payment)
-                            <tr>
-                                <td>{{$payment->id}}</td>
-                                <td>{{$payment->reference}}</td>
-                                <td>{{$payment->refill->number_card}}</td>
-                                <td>{{$payment->amount}}</td>
-                                <td>{{$payment->transaction_id}}</td>
-                                <td>{{$payment->status}}</td>
-                                <td></td>
+        <div class="rounded-2xl border border-line bg-white shadow-card">
+            @if ($payments->count())
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b border-line bg-canvas text-[11.5px] uppercase tracking-wide text-ink-muted">
+                                <th class="px-6 py-3 font-semibold">Référence</th>
+                                <th class="px-6 py-3 font-semibold">Date</th>
+                                <th class="px-6 py-3 font-semibold">Montant</th>
+                                <th class="px-6 py-3 font-semibold">Transaction</th>
+                                <th class="px-6 py-3 font-semibold">Statut</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <!--end: Datatable-->
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach ($payments as $payment)
+                                @php
+                                    $st = App\Http\Controllers\Controller::status($payment->status);
+                                    $pill = $st ? ($statusStyles[$st['type']] ?? $statusStyles['secondary']) : $statusStyles['secondary'];
+                                @endphp
+                                <tr class="border-b border-line-subtle last:border-0 hover:bg-canvas">
+                                    <td class="px-6 py-3.5 font-mono text-[13px] font-semibold text-primary-600">{{ $payment->reference }}</td>
+                                    <td class="px-6 py-3.5 text-ink-muted">{{ $payment->created_at?->format('d/m/Y H:i') }}</td>
+                                    <td class="px-6 py-3.5 font-medium text-ink">{{ number_format((float) $payment->amount, 0, ',', ' ') }} XAF</td>
+                                    <td class="px-6 py-3.5 font-mono text-[13px] text-ink-muted">{{ $payment->transaction_id ?: '—' }}</td>
+                                    <td class="px-6 py-3.5">
+                                        <span class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-bold {{ $pill }}">
+                                            {{ $st['message'] ?? $payment->status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="flex flex-col items-center justify-center px-6 py-16 text-center">
+                    <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-50 text-primary-600">
+                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg>
+                    </div>
+                    <h3 class="mt-4 font-display text-lg font-bold text-ink">Aucun paiement pour le moment</h3>
+                    <p class="mt-1 max-w-sm text-sm text-ink-muted">Vos règlements de frais de service apparaîtront ici une fois effectués.</p>
+                </div>
+            @endif
         </div>
-        <!--end::Card-->
+
     </div>
-    <!--end::Container-->
-</div>
-<!--end::Entry-->
-
-
-
 @endsection
-
-@push('scripts')
-    <!--begin::Page Vendors(used by this page)-->
-    <script src="{{ asset('plugins/custom/datatables/datatables.bundle.js')}}"></script>
-    <!--end::Page Vendors-->
-    <!--begin::Page Scripts(used by this page)-->
-    <script src="{{ asset('js/pages/crud/datatables/basic/basic.js')}}"></script>
-    <!--end::Page Scripts-->
-@endpush

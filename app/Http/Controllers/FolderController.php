@@ -19,7 +19,7 @@ class FolderController extends Controller
         $user = User::find(Auth::user()->id);
         $user->load(['folders']);
         return view(
-            'folders.list',
+            'folder.list',
             [
                 'folders' => $user->folders,
             ]
@@ -28,7 +28,7 @@ class FolderController extends Controller
 
     public function add()
     {
-        return view('folders.add');
+        return view('folder.add');
     }
 
     public function create(\App\Http\Requests\StoreFolderRequest $request)

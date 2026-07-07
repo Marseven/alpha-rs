@@ -1,45 +1,27 @@
-@if ($message = Session::get('success'))
-<div  class="alert alert-success" role="alert">
-    {{ $message }}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-@endif
+@php
+    $flash = [
+        'success' => session('success'),
+        'error'   => session('error'),
+        'warning' => session('warning'),
+        'info'    => session('info'),
+    ];
+    $flashType = ['success' => 'success', 'error' => 'danger', 'warning' => 'warning', 'info' => 'info'];
+@endphp
 
-@if ($message = Session::get('error'))
-<div  class="alert alert-danger" role="alert">
-    {{ $message }}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-@endif
+@if (array_filter($flash) || $errors->any())
+    <div class="mx-auto max-w-container px-4 pt-4 lg:px-6">
+        @foreach ($flash as $key => $msg)
+            @if ($msg)
+                <x-ui.alert :type="$flashType[$key]" class="mb-3">{{ $msg }}</x-ui.alert>
+            @endif
+        @endforeach
 
-@if ($message = Session::get('warning'))
-<div  class="alert alert-warning" role="alert">
-    {{ $message }}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-@endif
-
-@if ($message = Session::get('info'))
-<div  class="alert alert-info" role="alert">
-    {{ $message }}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-@endif
-
-@if ($errors->any())
-
-<div  class="alert alert-danger " role="alert">
-    {{ $message }}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+        @if ($errors->any())
+            <x-ui.alert type="danger" class="mb-3">
+                <ul class="list-inside list-disc space-y-1">
+                    @foreach ($errors->all() as $e)<li>{{ $e }}</li>@endforeach
+                </ul>
+            </x-ui.alert>
+        @endif
+    </div>
 @endif
