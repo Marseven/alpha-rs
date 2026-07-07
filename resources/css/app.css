@@ -1,3 +1,28 @@
+/* Relief Services — fonts (titres Poppins · corps Manrope · étiquettes JetBrains Mono) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        @apply font-sans text-ink antialiased;
+    }
+
+    h1, h2, h3, h4, h5 {
+        @apply font-display text-ink;
+    }
+}
+
+@layer components {
+    /* Étiquette mono uppercase au-dessus des titres de section. */
+    .eyebrow {
+        @apply font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-primary-600;
+    }
+
+    /* Filet dégradé marque (décoratif, ≤ 6px). */
+    .brand-line {
+        @apply h-1.5 w-full rounded-full bg-brand-line;
+    }
+}

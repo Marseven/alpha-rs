@@ -1,937 +1,219 @@
-@extends('layouts.default')
+@extends('layouts.public')
 
-@push('styles')
-    <style>
-        :root {
-            --red: #ff3860;
-            --red-dark: #ff1443;
-            --red-light: #ff5c7c;
-            --blue: #498afb;
-            --blue-dark: #2674fa;
-            --blue-light: #6ca0fc;
-            --orange: #fa8142;
-            --orange-dark: #f96a1f;
-            --orange-light: #fb9865;
-            --green: #09c372;
-            --green-dark: #07a15e;
-            --green-light: #0be586;
-            --purple: #9166cc;
-            --purple-dark: #7d4bc3;
-            --purple-light: #a481d5;
-            --yellow: #ffdd57;
-            --yellow-dark: #ffd633;
-            --yellow-light: #ffe47a;
-            --pink: #ff4088;
-            --pink-dark: #ff1c72;
-            --pink-light: #ff649e;
-            --gray0: #f8f8f8;
-            --gray1: #dbe1e8;
-            --gray2: #b2becd;
-            --gray3: #6c7983;
-            --gray4: #454e56;
-            --gray5: #2a2e35;
-            --gray6: #12181b;
-            --nav-width: 4em;
-            --font-body: "sofia-pro", sans-serif;
-            --font-head: "sofia-pro", sans-serif;
-            --font-code: "attribute-mono", monospace;
-            --font-size: 20px;
-            --max-width-bp: 768px;
-            --orange-pink: linear-gradient(to bottom right, var(--orange-light), var(--orange-dark) 85%);
-            --green-grad: linear-gradient(to bottom right, var(--green-light), var(--green-dark) 85%);
-            --background: var(--gray6);
-            --text-color: var(--gray2);
-            --h-color: #fff;
-            --nav-shadow: 4px 0 10px -3px #010101;
-            --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.38);
-            --toc-shadow: rgba(0, 0, 0, 0.7) 0px 10px 20px 0px;
-            --nav-bg: var(--gray5);
-            --tag-bg: var(--gray4);
-            --code-bg: #22262f;
-            --card-bg: var(--gray5);
-            --overlay-bg: rgba(0, 0, 0, 0.9);
-            --h-border: 2px dashed var(--nav-bg);
-            --nav-border: 2px dashed var(--text-color);
-            --card-radius: 0.25em;
-            transition: all .3s ease
-        }
-
-        .tag {
-            display: inline-block;
-            border-radius: 3px;
-            padding: .2em .5em .3em;
-            border-radius: 2px;
-            background: var(--tag-bg);
-            color: var(--text-color);
-            font-weight: 600;
-            margin: .25em .1em
-        }
-
-        h1.tag {
-            margin-left: 0;
-            margin-right: 0
-        }
-
-        .tag-sm {
-            font-size: .7em;
-            display: inline-block;
-            letter-spacing: .15ch;
-            font-weight: 400
-        }
-
-        .tag-lg {
-            font-size: 1.2em;
-            border-radius: 4px
-        }
-
-        .tag-bg {
-            background: var(--background)
-        }
-
-        .tag-green,
-        .tag-pro {
-            background: var(--green);
-            color: #fff
-        }
-
-        .tag-purple {
-            background: var(--purple);
-            color: #fff
-        }
-
-        .tag-contrast {
-            background: var(--text-color);
-            color: var(--background)
-        }
-
-        .tag-javascript {
-            background: #f0db4f;
-            color: #000
-        }
-
-        .tag-typescript {
-            background: #2775c3;
-            color: #fff
-        }
-
-        .tag-angular {
-            background: #dc0530;
-            color: #fff
-        }
-
-        .tag-firebase {
-            background: #ffcb2b;
-            color: #12181a
-        }
-
-        .tag-vue {
-            background: #41b883;
-            color: #35495e
-        }
-
-        .tag-rxjs {
-            background: var(--pink);
-            color: var(--gray5)
-        }
-
-        .tag-node {
-            background: #90c53f;
-            color: #46483d
-        }
-
-        .tag-cloud-functions {
-            background: var(--blue);
-            color: #fff
-        }
-
-        .tag-flutter {
-            background: #54c5f8;
-            color: #003b6c
-        }
-
-        .tag-google-maps {
-            background: #33a668;
-            color: #f8d845
-        }
-
-        .tag-android {
-            background: #a4c34a;
-            color: #fff
-        }
-
-        .tag-stripe {
-            color: #fff;
-            background: #6675e0
-        }
-
-        .tag-machine-learning {
-            color: #fff;
-            background: var(--purple-light)
-        }
-
-        .tag-python {
-            color: #ffda5d;
-            background: #3879ab
-        }
-
-        .tag-svelte {
-            color: #fff;
-            background: #ff3e00
-        }
-
-        .tag-react {
-            color: #00d8ff;
-            background: #222
-        }
-
-        .tag-ios {
-            color: #fff;
-            background: #000
-        }
-
-        .tag-minimum-viable-product,
-        .tag-mvp {
-            color: #fff;
-            background-image: linear-gradient(90deg, #ff8901, #db1d5f);
-            font-weight: 700
-        }
-
-        .tag-ionic {
-            background: #fff;
-            color: #4a8afc
-        }
-
-        .tag-nest {
-            color: #e0234e;
-            background: #000
-        }
-
-        .tag-graphql {
-            color: #fff;
-            background: #e10097
-        }
-
-        .tag-electron {
-            color: #313244;
-            background: #adecf3
-        }
-    </style>
-@endpush
+@section('title', 'Se faire soigner à l’étranger')
 
 @section('content')
-    <!-- =============================
-                                                                                                                                                                                                        Start: Header Slider
-                                                                                                                                                                                                    ============================= -->
-    <div class="tg-sliderholder">
-        <div id="tg-homeslider" class="tg-homeslider tg-haslayout" style="padding-bottom: 0!important">
-            <div class="pogoSlider-slide" data-transition="expandReveal" data-duration="1000"
-                style="background:url({{ \App\Models\SiteSetting::image('home_hero_image', 'images/slider2.png') }}) no-repeat scroll center center;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
-                            <div class="tg-slidercontent">
-                                <h6 class="pogoSlider-slide-element" data-in="slidedown" data-duration="800"
-                                    data-delay="500">Alpha</h6>
-                                <h1 class="pogoSlider-slide-element" data-in="slideUp" data-duration="800" data-delay="500">
-                                    <span>Assistance</span>
-                                    Évacuation Sanitaire
-                                </h1>
-                                <p>Nous sommes là pour vous car votre santé est importante pour nous.</p>
 
-                                <a class="btn-shape btn banner-btn btn-4" data-in="slideUp" data-out="slideDown"
-                                    data-duration="800" data-delay="300" href="{{ route('quote') }}">Demander un Devis</a>
-
-                            </div>
-                        </div>
-                    </div>
+    {{-- ================= HERO ================= --}}
+    <section class="bg-gradient-to-b from-primary-50/60 to-white">
+        <div class="mx-auto grid max-w-container items-center gap-12 px-4 py-16 lg:grid-cols-2 lg:px-6 lg:py-20">
+            <div class="flex flex-col gap-6">
+                <span class="eyebrow">Assistance médicale — Évacuation sanitaire</span>
+                <h1 class="font-display text-4xl font-extrabold leading-[1.12] tracking-tight text-ink sm:text-5xl">
+                    Se faire soigner à l'étranger, en toute confiance.
+                </h1>
+                <p class="max-w-xl text-lg leading-relaxed text-ink-muted">
+                    Relief Services facilite votre prise en charge : démarches administratives, rendez-vous
+                    médicaux, logement et transport — du devis jusqu'au retour.
+                </p>
+                <div class="mt-1 flex flex-wrap gap-3">
+                    <x-ui.button variant="accent" href="{{ route('quote') }}">
+                        Demander un devis
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </x-ui.button>
+                    <x-ui.button variant="outline" href="{{ route('simulator') }}">Simuler ma prise en charge</x-ui.button>
+                </div>
+                <div class="mt-4 flex flex-wrap gap-x-7 gap-y-3 border-t border-line pt-5 text-[13.5px] font-semibold text-ink">
+                    <span class="inline-flex items-center gap-2">
+                        <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="#178A47" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+                        Prise en charge CNAMGS
+                    </span>
+                    <span class="inline-flex items-center gap-2">
+                        <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="#1568B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        Paiement en ligne sécurisé
+                    </span>
+                    <span class="inline-flex items-center gap-2">
+                        <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="#1568B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Assistance 24h/7j
+                    </span>
                 </div>
             </div>
-            {{-- <div class="pogoSlider-slide" data-transition="fade" data-duration="600"
-                style="background:url(images/slider.png) no-repeat scroll center center;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
-                            <div class="tg-slidercontent " data-transition="blocksReveal">
-                                <h6 class="pogoSlider-slide-element" data-in="slideUp" data-duration="800" data-delay="500">
-                                    Alpha</h6>
-                                <h1 class="pogoSlider-slide-element" data-in="slideDown" data-duration="800"
-                                    data-delay="500"><span>Évacuation </span>
-                                    Sanitaire</h1>
-                                <p>Nous vous accompagnos dans la procédure de bout en bout.</p>
 
-                                <a class="btn-shape btn banner-btn btn-4" data-in="slideUp" data-out="slideDown"
-                                    data-duration="800" data-delay="300" href="{{ route('quote') }}">Demander un Devis</a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-
-
-        </div>
-    </div>
-
-    @include('layouts.flash')
-
-    <section id="aboutus" class="aboutus section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5 col-md-12 text-center no-padding">
-                    <div class="about-col">
-                        <img class="img-fluid about-img" src="{{ \App\Models\SiteSetting::image('about_image', 'images/about-image.png') }}" alt="À propos de Relief Services" loading="lazy">
-                    </div>
-
-                </div>
-
-                <div class="col-lg-7 col-md-8 text-left pl0">
-                    <div class="about-cont">
-                        <div class="heading b-text">
-                            <h5>Mieux nous connaître</h5>
-                            <h2>À Propos de Alpha</h2>
-                        </div>
-
-                        <p>
-                            Est vous déjà posez la question de savoir comment procéder à une évacuation sanitaire ?
-                            Alpha est solution numérique permettant de faciliter la prise en charge des patients
-                            souhaitant se faire soigner à l’étranger dans le cadre d’une Evacuation Sanitaire ou d’un bilan
-                            médical de santé.
-                            Notre solution numérique Alpha vous permettra de Gagnez en temps dans vos démarches
-                            administrative, vos rendez-vous médicaux en un temps record, votre logement et transport sont
-                            réservés.
-                        </p>
-                    </div>
-
-                </div>
-                <div class="col-lg-9 offset-lg-3 col-md-12">
-                    <div class="row justify-content-center fun-facts-area">
-                        <div class="col-md-1 col-3 no-padding">
-                            <div class="about-icon1">
-                                <i class="flaticon-family"></i>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-9">
-                            <div class="fun-facts-item">
-                                <span class="title odometer" data-count="100">00</span>
-                                <span>+ Clients</span>
-                                <p>Heureux</p>
-                            </div>
-                        </div>
-                        <div class="col-md-1 col-3 no-padding">
-                            <div class="about-icon1">
-                                <i class="flaticon-medical-insurance"></i>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-9">
-                            <div class="fun-facts-item">
-                                <span class="title odometer" data-count="4">00</span>
-                                <span>+ Services</span>
-                                <p>de Qualité</p>
-                            </div>
-                        </div>
-                        <div class="col-md-1 col-3 no-padding">
-                            <div class="about-icon1">
-                                <i class="flaticon-certificate"></i>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-9">
-                            <div class="fun-facts-item">
-                                <span class="title odometer" data-count="4">00</span>
-                                <span>+ Années</span>
-                                <p>d'Expériences</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
+            <div class="relative flex h-72 items-center justify-center overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-primary-100 via-primary-200/70 to-primary-100 sm:h-[420px]">
+                <img src="{{ asset('images/LogoRSA.png') }}" alt="Relief Services" class="h-24 w-auto opacity-90">
             </div>
-
-
         </div>
     </section>
 
-    <!-- =============================
-                                                                                                                                                                                                        End: About Us
-                                                                                                                                                                                                    ============================= -->
-
-    <!-- =============================
-                                                                                                                                                                                                        Start: service Part
-                                                                                                                                                                                                    ============================= -->
-
-    <section id="service" class="service section">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-12 ">
-                    <div class="heading b-text text-center">
-                        <h5>Découvrez nos offres</h5>
-                        <h2>Nos Services</h2>
-                    </div>
-                </div>
-
-            </div>
-
+    {{-- ================= BANDEAU CHIFFRES ================= --}}
+    <section class="border-y border-line bg-white">
+        <div class="mx-auto grid max-w-container grid-cols-2 gap-8 px-4 py-10 lg:grid-cols-4 lg:px-6">
+            <x-ui.stat value="8 ans" label="d'assistance sanitaire" />
+            <x-ui.stat value="5 pays" label="de destination sélectionnés" />
+            <x-ui.stat value="24h/7j" label="équipe d'assistance dédiée" />
+            <x-ui.stat value="100%" label="secret professionnel garanti" />
         </div>
-        <div class="container">
-            <div class="row service-slick">
-                @foreach ($services as $service)
-                    <div class="col-md-4">
-                        <div class="service-inner text-center">
-                            <div>
-                                <i class="flaticon-medical-insurance"></i>
-                            </div>
-                            <h5>{{ $service->label }} <br><br> <span
-                                    class="badge badge-pill badge-info">{{ number_format($service->price, 0, ',', ' ') }}
-                                    XAF</span></h5>
-                            <p style="padding: 5px">{{ $service->description }}</p>
-                            <div><a class="btn btn-4 btn-ser" href="{{ url('quote/') }}">Devis</a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+    </section>
 
+    {{-- ================= SERVICES / FORMULES ================= --}}
+    <section id="services" class="bg-canvas">
+        <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
+            <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
+                <div class="max-w-2xl">
+                    <span class="eyebrow">Nos services</span>
+                    <h2 class="mt-3 font-display text-3xl font-extrabold text-ink sm:text-[38px]">Un accompagnement complet</h2>
+                    <p class="mt-3 text-ink-muted">
+                        De la prise de rendez-vous à l'assistance sur place, choisissez le niveau
+                        d'accompagnement adapté à votre situation. Le devis est gratuit et sans engagement.
+                    </p>
+                </div>
+                <a href="{{ route('quote') }}" class="font-semibold text-primary-600 hover:text-primary-700">Demander un devis →</a>
             </div>
-            @if ($services->count() == 0)
-                <div class="col-md-12">
-                    <div class="alert alert-info alert-dismissible fade show" role="alert">
-                        Aucun Service pour le moment !
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+
+            <div class="grid gap-6 md:grid-cols-2">
+                @forelse ($services as $service)
+                    <x-ui.card :featured="$loop->index === 1" padding="p-7" class="flex flex-col">
+                        @if ($loop->index === 1)
+                            <span class="eyebrow mb-3 text-accent-600">Recommandée</span>
+                        @endif
+                        <h3 class="font-display text-2xl font-extrabold text-ink">{{ $service->label }}</h3>
+                        <div class="mt-3 flex items-baseline gap-1.5">
+                            <span class="font-display text-3xl font-extrabold text-ink">{{ number_format((float) $service->price, 0, ',', ' ') }}</span>
+                            <span class="font-mono text-sm text-ink-muted">XAF</span>
+                        </div>
+                        @if ($service->description)
+                            <p class="mt-4 flex-1 text-sm leading-relaxed text-ink-muted">{{ $service->description }}</p>
+                        @endif
+                        <div class="mt-6">
+                            <x-ui.button :variant="$loop->index === 1 ? 'accent' : 'primary'" href="{{ route('quote') }}" class="w-full">
+                                Choisir {{ $service->label }}
+                            </x-ui.button>
+                        </div>
+                    </x-ui.card>
+                @empty
+                    <x-ui.card class="md:col-span-2">
+                        <p class="text-ink-muted">Nos formules seront bientôt disponibles. <a href="{{ route('quote') }}" class="font-semibold text-primary-600">Demandez un devis personnalisé</a>.</p>
+                    </x-ui.card>
+                @endforelse
+            </div>
+        </div>
+    </section>
+
+    {{-- ================= PARCOURS ================= --}}
+    <section class="bg-white">
+        <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
+            <div class="mb-10 max-w-2xl">
+                <span class="eyebrow">Votre parcours</span>
+                <h2 class="mt-3 font-display text-3xl font-extrabold text-ink sm:text-[38px]">De la demande au retour, en 4 étapes</h2>
+            </div>
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                @foreach ([
+                    ['01', 'Demande de devis', 'Décrivez votre besoin en ligne ; réponse sous 48h avec un devis détaillé.'],
+                    ['02', 'Constitution du dossier', 'Passeport, rapport médical et examens transmis en toute confidentialité.'],
+                    ['03', 'Validation CNAMGS', "Suivi transparent de l'examen de votre prise en charge, étape par étape."],
+                    ['04', 'Évacuation & suivi', "Voyage, séjour et rendez-vous organisés ; assistance jusqu'au retour."],
+                ] as [$num, $t, $d])
+                    <x-ui.card padding="p-6">
+                        <div class="font-mono text-2xl font-semibold text-primary-300">{{ $num }}</div>
+                        <h3 class="mt-3 font-display text-lg font-bold text-ink">{{ $t }}</h3>
+                        <p class="mt-2 text-sm leading-relaxed text-ink-muted">{{ $d }}</p>
+                    </x-ui.card>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- ================= SPÉCIALITÉS ================= --}}
+    <section class="bg-canvas">
+        <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
+            <div class="mb-8 max-w-2xl">
+                <span class="eyebrow">Les spécialités</span>
+                <h2 class="mt-3 font-display text-3xl font-extrabold text-ink sm:text-[38px]">Les maladies que nous prenons en charge</h2>
+                <p class="mt-3 text-ink-muted">
+                    Nos hôpitaux partenaires en Tunisie, au Maroc, en Afrique du Sud, en Turquie et en France
+                    couvrent les grandes spécialités médicales et chirurgicales.
+                </p>
+            </div>
+            @if ($sicks->count())
+                <div class="flex flex-wrap gap-3">
+                    @foreach ($sicks as $sick)
+                        <span class="inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold text-ink shadow-card">
+                            <svg class="h-4 w-4 text-primary-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2v2"/><path d="M5 2v2"/><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/></svg>
+                            {{ $sick->label }}
+                        </span>
+                    @endforeach
                 </div>
             @endif
-
-
-            <br>
-            {{-- <div class="container">
-                <div class="row">
-
-                    <div class="col-12 ">
-                        <div class="heading b-text text-center">
-                            <h5>Vous souhaitez avoir une estimation ?</h5>
-                            <h2>Simulateur</h2>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-
-            {{-- <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <form method="POST" action="{{ route('simulate') }}">
-                            @csrf
-                            <div class="row mb-3">
-                                <label for="inputEmail3" class="col-sm-2 col-form-label">Pays</label>
-                                <div class="col-sm-10">
-                                    <select id="selectOne" name="country_id" class="form-control">
-                                        @foreach ($countries as $country)
-                                            <option value="{{ $country->id }}">{{ $country->label }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="inputPassword3" class="col-sm-2 col-form-label">Service</label>
-                                <div class="col-sm-10">
-                                    <select name="service_id" id="service_id" class="form-control service_id">
-                                        @foreach ($services as $service)
-                                            <option value="{{ $service->id }}">{{ $service->label }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-10" id="service1" style="display: none">
-                                    <br>
-                                    <br>
-                                    <label>Éléments du Service</label>
-                                    <br>
-                                    <ol>
-                                        <li>Hospitalisation</li>
-                                    </ol>
-                                </div>
-                                <div class="col-sm-10" id="service2" style="display: none">
-                                    <br>
-                                    <br>
-                                    <label> <strong>Éléments du Service</strong></label>
-                                    <br>
-                                    <ol>
-                                        <li>Hospitalisation</li>
-                                        <li>Hébergement</li>
-                                        <li>Transport Standard</li>
-                                        <li>Restauration</li>
-                                    </ol>
-                                </div>
-                                <div class="col-sm-10" id="service3" style="display: none">
-                                    <br>
-                                    <br>
-                                    <label>Éléments du Service</label>
-                                    <br>
-                                    <ol>
-                                        <li>Hospitalisation</li>
-                                        <li>Hébergement</li>
-                                        <li>Transport Standard ou Médicalisé</li>
-                                        <li>Restauration</li>
-                                        <li>Accompagnement</li>
-                                    </ol>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row mb-3">
-                                <button type="submit" class="btn btn-primary">Valider</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div> --}}
-
-            <br>
-            <br>
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-12 ">
-                        <div class="heading b-text text-center">
-                            <h5>Les maladies traitées</h5>
-                            <h2>Les Spécialités</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- =============================
-                                                                                                                                                                                                                Start: Search
-                                                                                                                                                                                                            ============================= -->
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        @foreach ($sicks as $sick)
-                            <h5 style="display: inline-block; margin : 3px;"><span
-                                    class="tag tag-ios tag-lg">{{ '#' . $sick->label }}</span></h5>
-                        @endforeach
-
-                        @if ($sicks->count() == 0)
-                            <h2><span class="badge badge-pill badge-info">Aucune Maladie Pour le Moment</span></h2>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <!-- =============================
-                                                                                                                                                                                                                End: Search
-                                                                                                                                                                                                            ============================= -->
-
-            <br>
-            <br>
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-12 ">
-                        <div class="heading b-text text-center">
-                            <h5>Quelle maladie souhaitez-vous soigner ?</h5>
-                            <h2>Trouver une Destination</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- =============================
-                                                                                                                                                                                                                Start: Search
-                                                                                                                                                                                                            ============================= -->
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <form class="form-inline" method="POST" action="{{ route('search') }}">
-                            @csrf
-                            <div class="col-sm-1">
-                            </div>
-                            <div class="form-group col-sm-8">
-                                <input type="text" style="width: 100%" name="q"
-                                    class="form-control form-control-lg" id="sick" placeholder="Cancer, ...">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Recherche</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- =============================
-                                                                                                                                                                                                                End: Search
-                                                                                                                                                                                                            ============================= -->
-
-        </div>
-    </section>
-    <!-- =============================
-                                                                                                                                                                                                        End: service Part
-                                                                                                                                                                                                    ============================= -->
-
-    <!-- =============================
-                                                                                                                                                                                                        Start: Experience Part
-                                                                                                                                                                                                    ============================= -->
-
-    <section id="experience" class="experience">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-12 text-center">
-                    <img class="img-fluid" src="images/why-choose-us-image.png" alt="about" loading="lazy">
-                </div>
-                <div class="col-lg-7 exp-pad pl0">
-                    <div class="row exp-in">
-                        <div class="col-lg-3 col-md-12 text-center">
-                            <img src="images/experience.png" class="img-fluid exp" alt="experienced" loading="lazy" />
-                        </div>
-                        <div class="col-lg-9 col-md-12 pl0">
-                            <div class="exp-text">
-                                <h5>Des années d'expériences</h5>
-                                <h4>Dans l'assistance et l'évacuation sanitaire</h4>
-
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="exp-txt">
-                                <p>
-                                    Relief Services a sélectionné pour vous les meilleurs hôpitaux en Tunisie, Maroc,
-                                    Afrique du sud, Turquie et France. Notre équipe d’assistance est présente pour veiller à
-                                    ce que
-                                    vos rendez-vous et séjours se passent dans les bonnes conditions. Le secret
-                                    professionnel, institué dans l’intérêt des patients, s’impose à Relief Services.
-                                </p>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-12">
-                            <div class="row exp-ser-in">
-                                <div class="col-md-3 col-3">
-                                    <div class="exp-icon1">
-                                        <i class="flaticon-job-search"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-9">
-                                    <div class="exp-ser">
-                                        <h4>100%</h4>
-                                        <p>Transparent</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="row exp-ser-in">
-                                <div class="col-md-3 col-3">
-                                    <div class="exp-icon1">
-                                        <i class="flaticon-car-insurance"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-9">
-                                    <div class="exp-ser">
-                                        <h4>4 pays</h4>
-                                        <p>Destination de qualité</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="row exp-ser-in">
-                                <div class="col-md-3 col-3">
-                                    <div class="exp-icon1">
-                                        <i class="flaticon-family"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-9">
-                                    <div class="exp-ser">
-                                        <h4>24X7</h4>
-                                        <p>Support</p>
-                                    </div>
-                                </div>
-                                <br>
-                            </div>
-
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="row exp-ser-in">
-                                <div class="col-md-3 col-3">
-                                    <div class="exp-icon1">
-                                        <i class="flaticon-password"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 col-9">
-                                    <div class="exp-ser">
-                                        <h4>100%</h4>
-                                        <p>Sûr</p>
-                                    </div>
-                                </div>
-                                <br>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-    </section>
-
-    <section class="experience">
-        <div class="container">
-            <div class="row">
-
-                <img class="img-fluid" src="images/VISUEL3.jpg" alt="about" loading="lazy">
-
-            </div>
         </div>
     </section>
 
-    <!-- =============================
-                                                                                                                                                                                                        End: Experience Part
-                                                                                                                                                                                                    ============================= -->
-    <!-- =============================
-                                                                                                                                                                                                        Start: Testimonial Part
-                                                                                                                                                                                                    ============================= -->
-    <section id="testimonial" class="testimonial section">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-12 ">
-                    <div class="heading w-text text-center">
-                        <h5>Un seul objectif, vous satisfaire</h5>
-                        <h2>Témoiganges</h2>
-                    </div>
+    {{-- ================= DESTINATIONS ================= --}}
+    <section class="bg-white">
+        <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
+            <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
+                <div class="max-w-2xl">
+                    <span class="eyebrow">Nos destinations</span>
+                    <h2 class="mt-3 font-display text-3xl font-extrabold text-ink sm:text-[38px]">Des villes et hôpitaux de qualité</h2>
                 </div>
-
+                <a href="{{ route('list-hospitals') }}" class="font-semibold text-primary-600 hover:text-primary-700">Tous les hôpitaux partenaires →</a>
             </div>
-            <div class="row testimonial-slick">
-                <div class="col-md-6">
-                    <div class="tes-inner">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="test-img">
-                                    <img src="images/hubert.jpeg" class="img-fluid" alt="testimonial" loading="lazy" />
-                                </div>
-
+            @if ($towns->count())
+                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    @foreach ($towns as $town)
+                        <div class="group overflow-hidden rounded-2xl border border-line bg-white shadow-card">
+                            <div class="flex h-40 items-center justify-center bg-gradient-to-br from-primary-100 to-primary-200/60">
+                                <svg class="h-10 w-10 text-primary-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                             </div>
-                            <div class="col-md-9 pl0">
-                                <div class="test-txt">
-                                    <h4>Hubert MINKO</h4>
-                                    <p>Client</p>
-
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="test-para">
-                                    <p>
-                                        Je vous recommanderai la structure Relief Services
-                                        pour vos futurs déplacements vers la Turquie dans le cadre d'un tourisme Médical.
-                                    </p>
-                                </div>
+                            <div class="p-5">
+                                <div class="font-display text-lg font-bold text-ink">{{ $town->label }}</div>
+                                <div class="mt-1 text-sm text-ink-muted">{{ $town->country->label ?? '' }}</div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
-                <div class="col-md-6">
-                    <div class="tes-inner">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="test-img">
-                                    <img src="images/testimonial-image-4.png" class="img-fluid" alt="testimonial"
-                                        loading="lazy" />
-                                </div>
-
-                            </div>
-                            <div class="col-md-9 pl0">
-                                <div class="test-txt">
-                                    <h4>Carla Mbadinga</h4>
-                                    <p>Malade</p>
-
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="test-para">
-                                    <p>Grâce à Alpha, j'ai pu me soigner au Maroc et depuis il est plus facile pour moi de
-                                        suivre mon dossier médicale.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="tes-inner">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="test-img">
-                                    <img src="images/testimonial-image-3.png" class="img-fluid" alt="testimonial"
-                                        loading="lazy" />
-                                </div>
-
-                            </div>
-                            <div class="col-md-9 pl0">
-                                <div class="test-txt">
-                                    <h4>Jean Aliangha</h4>
-                                    <p>Client</p>
-
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="test-para">
-                                    <p>L'assistance et le suivie de Relief Services m'ont permis de trouver la meilleure
-                                        destinantion pour soigner ma fille.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            @endif
         </div>
-
     </section>
 
-    <!-- =============================
-                                                                                                                                                                                                        End: Testimonial Part
-                                                                                                                                                                                                    ============================= -->
-    <!--========================
-                                                                                                                                                                                                     Team Part HTML Start
-                                                                                                                                                                                                    ==========================-->
-    <section id="team" class="team section">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-12 ">
-                    <div class="heading b-text text-center">
-                        <h5>Des Villes et Hôpitaux de qualité</h5>
-                        <h2>Nos Destinations</h2>
-                    </div>
-                </div>
-
+    {{-- ================= TÉMOIGNAGES ================= --}}
+    <section class="bg-canvas">
+        <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
+            <div class="mb-10 max-w-2xl">
+                <span class="eyebrow">Témoignages</span>
+                <h2 class="mt-3 font-display text-3xl font-extrabold text-ink sm:text-[38px]">Un seul objectif : vous satisfaire</h2>
             </div>
-
-            <div class="row doctor-slick">
-                @foreach ($towns as $town)
-                    <div class="col-md-4">
-                        <div class="team-inner">
-                            <div class="team-img text-center">
-                                <img src="{{ asset($town->picture) }}" class="img-fluid" alt="team" loading="lazy">
-                            </div>
-                            <div class="team-txt text-center">
-                                <h4>{{ $town->label }}</h4>
-                                <p class="team-border">{{ $town->country?->label }}</p>
+            <div class="grid gap-6 md:grid-cols-3">
+                @foreach ([
+                    ['« Je recommande Relief Services pour vos futurs déplacements vers la Turquie dans le cadre d\'un tourisme médical. »', 'HM', 'Hubert Minko', 'Client · Istanbul'],
+                    ['« Grâce à Relief Services, j\'ai pu me soigner au Maroc, et il est désormais très simple de suivre mon dossier médical en ligne. »', 'CM', 'Carla Mbadinga', 'Patiente · Rabat'],
+                    ['« L\'assistance et le suivi de Relief Services m\'ont permis de trouver la meilleure destination pour soigner ma fille. »', 'JA', 'Jean Aliangha', 'Client · Tunis'],
+                ] as [$quote, $initials, $name, $role])
+                    <x-ui.card padding="p-7" class="flex flex-col">
+                        <p class="flex-1 text-[15px] leading-relaxed text-ink">{{ $quote }}</p>
+                        <div class="mt-6 flex items-center gap-3">
+                            <div class="flex h-11 w-11 items-center justify-center rounded-full bg-primary-600 font-display text-sm font-bold text-white">{{ $initials }}</div>
+                            <div>
+                                <div class="font-bold text-ink">{{ $name }}</div>
+                                <div class="text-xs text-ink-muted">{{ $role }}</div>
                             </div>
                         </div>
-                    </div>
+                    </x-ui.card>
                 @endforeach
-                @if ($towns->count() == 0)
-                    <div class="col-md-12">
-                        <div class="alert alert-info alert-dismissible fade show" role="alert">
-                            Aucune destination pour le moment !
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                @endif
             </div>
         </div>
     </section>
 
-    <!--======================
-                                                                                                                                                                                                     Team Part HTML End
-                                                                                                                                                                                                    =======================-->
-    <!--======================
-                                                                                                                                                                                                        Latest Updates Part HTML Start
-                                                                                                                                                                                                    =======================-->
-
-    <section id="contactus" class="blog section">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-12 ">
-                    <div class="heading b-text text-center">
-                        <h5>Nous sommes Disponible pour vous</h5>
-                        <h2>Entrer en Contact</h2>
-                    </div>
-                </div>
-
+    {{-- ================= CTA FINAL ================= --}}
+    <section class="bg-primary-900">
+        <div class="mx-auto flex max-w-container flex-col items-center gap-6 px-4 py-16 text-center lg:px-6">
+            <div class="brand-line max-w-[120px]"></div>
+            <h2 class="font-display text-3xl font-extrabold text-white sm:text-4xl">Prêt à organiser votre prise en charge&nbsp;?</h2>
+            <p class="max-w-xl text-primary-100">Obtenez un devis gratuit et sans engagement, ou simulez votre prise en charge en quelques minutes.</p>
+            <div class="mt-2 flex flex-wrap justify-center gap-3">
+                <x-ui.button variant="accent" href="{{ route('quote') }}">Demander un devis</x-ui.button>
+                <a href="{{ route('simulator') }}" class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border-[1.5px] border-white/40 px-5 text-[15px] font-bold text-white transition-colors duration-150 hover:bg-white/10">Simuler ma prise en charge</a>
             </div>
-            <div class="row">
-
-                <div class="col-lg-5">
-                    {{-- <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63835.662901823234!2d9.447716099999997!3d0.38353399999999355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x107f3b91a1b2f065%3A0x38aa4a66b57072f1!2sMontagne%20Sainte%2C%20Libreville!5e0!3m2!1sfr!2sga!4v1626723504345!5m2!1sfr!2sga"
-                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe> --}}
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7279928281387!2d9.445058975446605!3d0.3855421996106776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x107f3bef264edb03%3A0x1acdb801cf9b288c!2sRelief%20Services%20Alpha!5e0!3m2!1sfr!2sga!4v1701022030136!5m2!1sfr!2sga"
-                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
-
-                </div>
-                <div class="col-lg-7 blog-right">
-                    <form method="POST" action="{{ route('contact') }}">
-                        @csrf
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="inputNom4">Nom Complet</label>
-                                <input type="text" name="name" class="form-control" id="inputEmail4"
-                                    placeholder="Nom Complet">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputPhone4">Téléphone</label>
-                                <input type="text" name="phone" class="form-control" id="inputPhone4"
-                                    placeholder="074010203">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail">Email</label>
-                            <input type="email" name="email" class="form-control" id="inputEmail"
-                                placeholder="nom.prenom@domaine.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="inputSubject">Sujet</label>
-                            <input type="text" name="subject" class="form-control" id="inputSubject"
-                                placeholder="Sujet">
-                        </div>
-                        <div class="form-group">
-                            <label for="inputMessage">Message</label>
-                            <textarea type="text" name="message" class="form-control" id="inputMessage">Message...</textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Contacter</button>
-                    </form>
-                </div>
-            </div>
-
         </div>
-
     </section>
 
-    <!--======================
-                                                                                                                                                                                                        Blog Part HTML End
-                                                                                                                                                                                                    =======================-->
 @endsection
-
-@push('scripts')
-    <script language="JavaScript">
-        $(function() {
-
-            $('#service_id').change(function() {
-                var service1 = document.getElementById("service1");
-                var service2 = document.getElementById("service2");
-                var service3 = document.getElementById("service3");
-
-                var valeur = document.getElementById("service_id").value;
-
-                if (valeur == 1) {
-                    service1.style.display = "block";
-                    service2.style.display = "none";
-                    service3.style.display = "none";
-                }
-
-                if (valeur == 2) {
-                    service1.style.display = "none";
-                    service2.style.display = "block";
-                    service3.style.display = "none";
-                }
-
-                if (valeur == 3) {
-                    service1.style.display = "none";
-                    service2.style.display = "none";
-                    service3.style.display = "block";
-                }
-            });
-        });
-    </script>
-@endpush
