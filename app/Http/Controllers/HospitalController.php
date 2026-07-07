@@ -71,16 +71,6 @@ class HospitalController extends Controller
         }
     }
 
-    public function edit(Hospital $hospital)
-    {
-
-        if (auth()->user()->id == $hospital->user_id) {
-            return view('edit', compact('hospital'));
-        } else {
-            return redirect('/hospital');
-        }
-    }
-
     public function update(Request $request, Hospital $hospital)
     {
         Controller::he_can('hospitals', 'updat');

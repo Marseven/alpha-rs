@@ -10,16 +10,6 @@ use Illuminate\Http\Request;
 class SickController extends Controller
 {
     //
-    public function index()
-    {
-
-        $sicks = Sick::all();
-        return view('sick.list',
-        [
-            'sicks' => $sicks,
-        ]);
-    }
-
     public function create(Request $request)
     {
         $request->validate([

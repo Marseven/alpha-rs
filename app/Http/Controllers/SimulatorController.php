@@ -112,16 +112,6 @@ class SimulatorController extends Controller
         }
     }
 
-    public function edit(Simulator $simulator)
-    {
-
-        if (auth()->user()->id == $simulator->user_id) {
-            return view('edit', compact('simulator'));
-        } else {
-            return redirect('/simulator');
-        }
-    }
-
     public function update(Request $request, Simulator $simulator)
     {
         if ($request->has('delete')) {

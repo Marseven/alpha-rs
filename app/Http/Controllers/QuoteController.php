@@ -153,13 +153,6 @@ class QuoteController extends Controller
         }
     }
 
-    public function edit(Quote $quote)
-    {
-        $this->authorize('view', $quote);
-
-        return view('edit', compact('quote'));
-    }
-
     public function update(Request $request, Quote $quote)
     {
         Controller::he_can('Quotes', 'updat');

@@ -126,13 +126,6 @@ class FolderController extends Controller
         return PaymentController::singpay('folder', $folder);
     }
 
-    public function edit(Folder $folder)
-    {
-        $this->authorize('view', $folder);
-
-        return view('edit', compact('folder'));
-    }
-
     public function update(Request $request, Folder $folder)
     {
         Controller::he_can('Folders', 'updat');
