@@ -13,6 +13,8 @@ return [
     'ai' => [
         'enabled' => (bool) env('AI_ASSISTANT_ENABLED', false),
         'provider' => env('AI_PROVIDER', 'openai'),
+        // Any OpenAI-compatible endpoint works (OpenAI, Groq, OpenRouter, Gemini…).
+        'base_url' => env('AI_BASE_URL', 'https://api.openai.com/v1'),
         'api_key' => env('AI_API_KEY'),
         'model' => env('AI_MODEL', 'gpt-4o-mini'),
     ],

@@ -89,7 +89,7 @@ class AiAssistantService
 
         $response = Http::withToken(config('relief.ai.api_key'))
             ->timeout(20)
-            ->post('https://api.openai.com/v1/chat/completions', [
+            ->post(rtrim(config('relief.ai.base_url', 'https://api.openai.com/v1'), '/') . '/chat/completions', [
                 'model' => config('relief.ai.model', 'gpt-4o-mini'),
                 'temperature' => 0.2,
                 'max_tokens' => 400,
