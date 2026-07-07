@@ -39,11 +39,40 @@
                 </div>
             </div>
 
-            <div class="relative flex h-72 items-center justify-center overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-primary-100 via-primary-200/70 to-primary-100 sm:h-[420px]">
-                <img src="{{ asset('images/LogoRSA.png') }}" alt="Relief Services" class="h-24 w-auto opacity-90">
+            @php $heroImages = array_map(fn ($n) => asset("media/stories/img-$n.jpg"), range(1, 7)); @endphp
+            <div class="relative h-80 overflow-hidden rounded-3xl border border-line bg-primary-100 shadow-card sm:h-[460px]">
+                @foreach ($heroImages as $i => $img)
+                    <img src="{{ $img }}" alt="Relief Services — accompagnement médical" data-hero-slide
+                         class="absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out {{ $i === 0 ? 'opacity-100' : 'opacity-0' }}">
+                @endforeach
+                <span class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink/45 to-transparent"></span>
+                <div class="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5" data-hero-dots></div>
             </div>
         </div>
     </section>
+
+    @push('scripts')
+    <script>
+        (function () {
+            const slides = Array.from(document.querySelectorAll('[data-hero-slide]'));
+            const dotsC = document.querySelector('[data-hero-dots]');
+            if (slides.length < 2 || !dotsC) return;
+            let i = 0;
+            slides.forEach((_, k) => {
+                const d = document.createElement('span');
+                d.className = 'h-1.5 rounded-full transition-all ' + (k === 0 ? 'w-5 bg-white' : 'w-1.5 bg-white/50');
+                dotsC.appendChild(d);
+            });
+            const dots = dotsC.children;
+            function show(n) {
+                slides.forEach((s, k) => s.style.opacity = k === n ? '1' : '0');
+                Array.from(dots).forEach((d, k) => { d.className = 'h-1.5 rounded-full transition-all ' + (k === n ? 'w-5 bg-white' : 'w-1.5 bg-white/50'); });
+            }
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            setInterval(function () { i = (i + 1) % slides.length; show(i); }, 4000);
+        })();
+    </script>
+    @endpush
 
     {{-- ================= BANDEAU CHIFFRES ================= --}}
     <section class="border-y border-line bg-white">
@@ -177,20 +206,14 @@
 
     {{-- ================= STORIES (vidéos + images) ================= --}}
     @php
-        $storyVideos = array_map(fn ($n) => ['type' => 'video', 'src' => asset("media/stories/vid-$n.mp4")], range(1, 4));
-        $storyImages = array_map(fn ($n) => ['type' => 'image', 'src' => asset("media/stories/img-$n.jpg")], range(1, 7));
-        $stories = [];
-        for ($k = 0; $k < max(count($storyVideos), count($storyImages)); $k++) {
-            if (isset($storyVideos[$k])) $stories[] = $storyVideos[$k];
-            if (isset($storyImages[$k])) $stories[] = $storyImages[$k];
-        }
+        $stories = array_map(fn ($n) => ['type' => 'video', 'src' => asset("media/stories/vid-$n.mp4")], range(1, 4));
     @endphp
     <section class="bg-white">
         <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
             <div class="mb-8 max-w-2xl">
-                <span class="eyebrow">En vidéos &amp; en images</span>
+                <span class="eyebrow">En vidéo</span>
                 <h2 class="mt-3 font-display text-3xl font-extrabold text-ink sm:text-[38px]">Relief Services en action</h2>
-                <p class="mt-3 text-ink-muted">Le quotidien de nos accompagnements — voyages, prises en charge et témoignages. Touchez une story pour la parcourir.</p>
+                <p class="mt-3 text-ink-muted">Le quotidien de nos accompagnements en vidéo — touchez une story pour la lancer.</p>
             </div>
 
             <div class="flex snap-x gap-4 overflow-x-auto pb-4 [scrollbar-width:thin]">
