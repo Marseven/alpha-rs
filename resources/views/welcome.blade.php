@@ -175,6 +175,106 @@
         </div>
     </section>
 
+    {{-- ================= STORIES (vidéos + images) ================= --}}
+    @php
+        $storyVideos = array_map(fn ($n) => ['type' => 'video', 'src' => asset("media/stories/vid-$n.mp4")], range(1, 4));
+        $storyImages = array_map(fn ($n) => ['type' => 'image', 'src' => asset("media/stories/img-$n.jpg")], range(1, 7));
+        $stories = [];
+        for ($k = 0; $k < max(count($storyVideos), count($storyImages)); $k++) {
+            if (isset($storyVideos[$k])) $stories[] = $storyVideos[$k];
+            if (isset($storyImages[$k])) $stories[] = $storyImages[$k];
+        }
+    @endphp
+    <section class="bg-white">
+        <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
+            <div class="mb-8 max-w-2xl">
+                <span class="eyebrow">En vidéos &amp; en images</span>
+                <h2 class="mt-3 font-display text-3xl font-extrabold text-ink sm:text-[38px]">Relief Services en action</h2>
+                <p class="mt-3 text-ink-muted">Le quotidien de nos accompagnements — voyages, prises en charge et témoignages. Touchez une story pour la parcourir.</p>
+            </div>
+
+            <div class="flex snap-x gap-4 overflow-x-auto pb-4 [scrollbar-width:thin]">
+                @foreach ($stories as $i => $story)
+                    <button type="button" onclick="rsOpenStory({{ $i }})"
+                        class="group relative aspect-[9/16] w-40 flex-none snap-start overflow-hidden rounded-2xl border border-line bg-primary-100 shadow-card ring-2 ring-transparent transition hover:ring-primary-300 sm:w-48">
+                        @if ($story['type'] === 'video')
+                            <video class="h-full w-full object-cover" muted playsinline preload="metadata" src="{{ $story['src'] }}#t=0.1"></video>
+                            <span class="absolute inset-0 flex items-center justify-center">
+                                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-white/85 text-primary-700 shadow-lg backdrop-blur">
+                                    <svg class="ml-0.5 h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                </span>
+                            </span>
+                        @else
+                            <img class="h-full w-full object-cover transition duration-300 group-hover:scale-105" src="{{ $story['src'] }}" alt="Relief Services" loading="lazy">
+                        @endif
+                        <span class="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ink/70 to-transparent"></span>
+                        <span class="absolute bottom-2 left-3 font-mono text-[10px] font-semibold uppercase tracking-wide text-white/90">{{ $story['type'] === 'video' ? 'Vidéo' : 'Photo' }}</span>
+                    </button>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- Story viewer (plein écran, clavier + tap) --}}
+    <div id="rs-story-viewer" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 p-4" role="dialog" aria-modal="true" aria-label="Visionneuse de stories">
+        <button type="button" onclick="rsCloseStory()" class="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20" aria-label="Fermer">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <button type="button" onclick="rsPrevStory()" class="absolute left-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 sm:left-6" aria-label="Précédent">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button type="button" onclick="rsNextStory()" class="absolute right-2 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 sm:right-6" aria-label="Suivant">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <div class="flex aspect-[9/16] max-h-[88vh] w-full max-w-[420px] items-center justify-center overflow-hidden rounded-2xl bg-black">
+            <div id="rs-story-stage" class="h-full w-full"></div>
+        </div>
+        <div id="rs-story-dots" class="absolute bottom-5 flex items-center gap-1.5"></div>
+    </div>
+
+    @push('scripts')
+    <script>
+        (function () {
+            const stories = @json($stories);
+            let idx = 0;
+            const viewer = document.getElementById('rs-story-viewer');
+            const stage = document.getElementById('rs-story-stage');
+            const dots = document.getElementById('rs-story-dots');
+            if (!viewer) return;
+
+            function render() {
+                const s = stories[idx];
+                stage.innerHTML = '';
+                if (s.type === 'video') {
+                    const v = document.createElement('video');
+                    v.src = s.src; v.controls = true; v.autoplay = true; v.playsInline = true;
+                    v.className = 'h-full w-full object-contain bg-black';
+                    stage.appendChild(v);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = s.src; img.alt = 'Relief Services';
+                    img.className = 'h-full w-full object-contain';
+                    stage.appendChild(img);
+                }
+                dots.innerHTML = stories.map((_, i) =>
+                    '<span class="h-1.5 rounded-full ' + (i === idx ? 'w-5 bg-white' : 'w-1.5 bg-white/40') + '"></span>'
+                ).join('');
+            }
+            window.rsOpenStory = function (i) { idx = i; viewer.classList.remove('hidden'); viewer.classList.add('flex'); document.body.style.overflow = 'hidden'; render(); };
+            window.rsCloseStory = function () { viewer.classList.add('hidden'); viewer.classList.remove('flex'); document.body.style.overflow = ''; stage.innerHTML = ''; };
+            window.rsNextStory = function () { idx = (idx + 1) % stories.length; render(); };
+            window.rsPrevStory = function () { idx = (idx - 1 + stories.length) % stories.length; render(); };
+            viewer.addEventListener('click', function (e) { if (e.target === viewer) window.rsCloseStory(); });
+            document.addEventListener('keydown', function (e) {
+                if (viewer.classList.contains('hidden')) return;
+                if (e.key === 'Escape') window.rsCloseStory();
+                if (e.key === 'ArrowRight') window.rsNextStory();
+                if (e.key === 'ArrowLeft') window.rsPrevStory();
+            });
+        })();
+    </script>
+    @endpush
+
     {{-- ================= TÉMOIGNAGES ================= --}}
     <section class="bg-canvas">
         <div class="mx-auto max-w-container px-4 py-16 lg:px-6 lg:py-20">
