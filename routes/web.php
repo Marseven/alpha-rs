@@ -89,8 +89,8 @@ Route::post('/track-case', [\App\Http\Controllers\TrackController::class, 'track
 
 //public AI assistant (guarded Q&A)
 Route::get('/assistant', [\App\Http\Controllers\AiAssistantController::class, 'form'])->name('assistant.form');
-Route::post('/assistant', [\App\Http\Controllers\AiAssistantController::class, 'ask'])->name('assistant.ask');
-Route::post('/assistant/chat', [\App\Http\Controllers\AiAssistantController::class, 'chat'])->name('assistant.chat')->middleware('throttle:20,1');
+Route::post('/assistant', [\App\Http\Controllers\AiAssistantController::class, 'ask'])->name('assistant.ask')->middleware('throttle:10,1');
+Route::post('/assistant/chat', [\App\Http\Controllers\AiAssistantController::class, 'chat'])->name('assistant.chat')->middleware('throttle:10,1');
 
 
 

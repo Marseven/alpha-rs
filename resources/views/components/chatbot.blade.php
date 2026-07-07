@@ -22,7 +22,7 @@
 
         <div class="border-t border-line bg-white px-3 py-2">
             <div class="flex items-end gap-2">
-                <textarea id="rs-chat-input" rows="1" placeholder="Écrivez votre question…"
+                <textarea id="rs-chat-input" rows="1" maxlength="1000" placeholder="Écrivez votre question…"
                     class="max-h-28 w-full resize-none rounded-xl border-[1.5px] border-line-strong px-3 py-2 text-sm text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15"></textarea>
                 <button type="button" onclick="rsChatSend()" id="rs-chat-send" aria-label="Envoyer"
                     class="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-primary-600 text-white transition-colors hover:bg-primary-700 disabled:opacity-50">
@@ -100,10 +100,10 @@
                         body: JSON.stringify({ question: q }),
                     });
                     t.remove();
-                    if (res.status === 429) { bubble('Vous envoyez des messages trop vite — merci de patienter quelques instants.', 'bot'); }
-                    else if (!res.ok) { bubble('Désolé, une erreur est survenue. Veuillez réessayer.', 'bot'); }
+                    if (res.status === 429) { bubble('Vous envoyez des messages trop vite — merci de patienter quelques instants.', 'bot'); input.value = q; }
+                    else if (!res.ok) { bubble('Désolé, une erreur est survenue. Veuillez réessayer.', 'bot'); input.value = q; }
                     else { const data = await res.json(); bubble(data.answer || 'Je n\'ai pas de réponse pour le moment.', 'bot'); }
-                } catch (e) { t.remove(); bubble('Connexion impossible. Vérifiez votre réseau et réessayez.', 'bot'); }
+                } catch (e) { t.remove(); bubble('Connexion impossible. Vérifiez votre réseau et réessayez.', 'bot'); input.value = q; }
                 sending = false;
             };
 

@@ -37,14 +37,13 @@ class AiAssistantController extends Controller
      */
     public function chat(Request $request, AiAssistantService $assistant)
     {
+        // The floating widget only ever sends a question — do not accept/persist
+        // visitor PII (name/phone/email) from this anonymous endpoint.
         $data = $request->validate([
             'question' => 'required|string|max:1000',
-            'name' => 'nullable|string|max:120',
-            'phone' => 'nullable|string|max:32',
-            'email' => 'nullable|email|max:150',
         ]);
 
-        $record = $assistant->ask($data['question'], $data);
+        $record = $assistant->ask($data['question']);
 
         return response()->json([
             'question' => $record->question,

@@ -15,10 +15,15 @@ use Illuminate\Support\Facades\Log;
  */
 class AiAssistantService
 {
+    // Stored accent-free + lowercase; the question is normalized the same way
+    // before matching (see normalize()), so "symptôme"/"symptome" both hit.
     private const MEDICAL_MARKERS = [
-        'diagnostic', 'diagnostiquer', 'prescri', 'médicament', 'medicament',
-        'posologie', 'ordonnance', 'symptôme', 'symptome', 'douleur', 'mal au',
-        'urgence', 'dose', 'traitement', 'maladie grave', 'cancer', 'covid',
+        // FR
+        'diagnos', 'prescri', 'medicament', 'medoc', 'posologie', 'ordonnance',
+        'symptome', 'douleur', 'mal au', 'mal de', 'urgence', 'dose', 'traitement',
+        'maladie', 'remede', 'analyse medical', 'operation', 'chirurgie', 'cancer', 'covid',
+        // EN
+        'medication', 'dosage', 'symptom', 'disease', 'treatment', 'painkiller', 'remedy', 'prescription',
     ];
 
     private const MEDICAL_ANSWER = "Je ne peux pas donner de diagnostic ou de prescription médicale. "
@@ -53,7 +58,7 @@ class AiAssistantService
 
     private function isMedical(string $question): bool
     {
-        $q = mb_strtolower($question);
+        $q = $this->normalize($question);
         foreach (self::MEDICAL_MARKERS as $marker) {
             if (str_contains($q, $marker)) {
                 return true;
@@ -61,6 +66,12 @@ class AiAssistantService
         }
 
         return false;
+    }
+
+    /** Lowercase + strip diacritics so accented and English/plain spellings both match. */
+    private function normalize(string $text): string
+    {
+        return mb_strtolower(\Illuminate\Support\Str::ascii($text));
     }
 
     private function callProvider(string $question): string
