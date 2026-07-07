@@ -230,8 +230,14 @@
                 <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($towns as $town)
                         <div class="group overflow-hidden rounded-2xl border border-line bg-white shadow-card">
-                            <div class="flex h-40 items-center justify-center bg-gradient-to-br from-primary-100 to-primary-200/60">
-                                <svg class="h-10 w-10 text-primary-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <div class="h-40 overflow-hidden bg-gradient-to-br from-primary-100 to-primary-200/60">
+                                @if ($town->picture)
+                                    <img src="{{ asset($town->picture) }}" alt="{{ $town->label }}" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+                                @else
+                                    <div class="flex h-full items-center justify-center">
+                                        <svg class="h-10 w-10 text-primary-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    </div>
+                                @endif
                             </div>
                             <div class="p-5">
                                 <div class="font-display text-lg font-bold text-ink">{{ $town->label }}</div>

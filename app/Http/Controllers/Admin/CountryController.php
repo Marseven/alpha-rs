@@ -151,11 +151,19 @@ class CountryController extends Controller
                 'code' => 'required|string|max:16',
                 'status' => 'required|string|max:32',
                 'country_id' => 'required|exists:countries,id',
+                'picture' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
             ]);
             $town->label = $request->label;
             $town->code = $request->code;
             $town->status = $request->status;
             $town->country_id = $request->country_id;
+            if ($request->file('picture')) {
+                $picture = FileController::picture($request->file('picture'));
+                if ($picture['state'] == false) {
+                    return back()->with('error', $picture['message']);
+                }
+                $town->picture = $picture['url'];
+            }
             if ($town->save()) {
                 return back()->with('success', "La ville a bien été mis à jour !");
             } else {

@@ -29,7 +29,8 @@
                 ['url' => url('admin/list-services'), 'match' => 'admin/list-services', 'label' => 'Services', 'icon' => 'M20.59 13.41 11 3.83V3H4v7h.83l9.59 9.59a2 2 0 0 0 2.83 0l3.34-3.34a2 2 0 0 0 0-2.83ZM7 7h.01'],
                 ['url' => url('admin/list-sicks'), 'match' => 'admin/list-sicks', 'label' => 'Pathologies', 'icon' => 'M11 2v2M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1M8 15a6 6 0 0 0 12 0v-3'],
                 ['url' => url('admin/list-hospitals'), 'match' => 'admin/list-hospitals', 'label' => 'Hôpitaux', 'icon' => 'M12 6v4m-2-2h4M4 21V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16M2 21h20M9 21v-4h6v4'],
-                ['url' => url('admin/list-countries'), 'match' => 'admin/list-countries', 'label' => 'Pays & villes', 'icon' => 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20ZM2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z'],
+                ['url' => url('admin/list-countries'), 'match' => 'admin/list-countries', 'label' => 'Pays', 'icon' => 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20ZM2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z'],
+                ['url' => url('admin/list-towns'), 'match' => 'admin/list-towns', 'label' => 'Villes & photos', 'icon' => 'M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M9 9h.01M15 9h.01M9 13h.01M15 13h.01'],
                 ['url' => url('admin/list-simulators'), 'match' => 'admin/list-simulators', 'label' => 'Simulateur', 'icon' => 'M9 3v18m6-18v18M3 9h18M3 15h18'],
             ]],
             ['label' => 'Administration', 'items' => [
