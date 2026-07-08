@@ -5,7 +5,6 @@ namespace App\Mail;
 use App\Models\Quote;
 use App\Services\SensitiveFileStorage;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -13,8 +12,11 @@ use Illuminate\Queue\SerializesModels;
  * Sent to the client once their quote has been processed ("Traité"): it
  * delivers the actual devis document as an attachment (plus the team's reply
  * and a link to pay online), rather than the generic status-change ping.
+ *
+ * Not ShouldQueue: like every other mailable here it is dispatched inline via
+ * the sync mail connection (no queue worker is run), so it must send in-request.
  */
-class QuoteReadyMessage extends Mailable implements ShouldQueue
+class QuoteReadyMessage extends Mailable
 {
     use Queueable, SerializesModels;
 
