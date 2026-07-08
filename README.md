@@ -5,12 +5,16 @@ marché gabonais : site public, demande de devis avec pièces justificatives,
 espace client, back-office d'administration, simulateur, annuaire d'hôpitaux et
 paiement en ligne (**Singpay**, **E-Billing CGI**).
 
+> 🚀 **Nouveau·elle sur le projet ?** Commencez par le
+> [**Guide de prise en main**](docs/ONBOARDING.md).
+
 - **Framework :** Laravel 12 (PHP 8.2+). Migration 8→12 réalisée par paliers,
   voir [`docs/UPGRADE_EXECUTION_PLAN.md`](docs/UPGRADE_EXECUTION_PLAN.md).
 - **Front :** Blade (couche de vue), Livewire 3, Alpine.js, Tailwind 3,
-  build **Vite**.
+  build **Vite** (`public/build/` committé).
 - **Auth :** Jetstream 5 / Fortify / Sanctum 4.
-- **Tests :** PHPUnit 11 ; `vendor/` non versionné (`composer install` requis).
+- **Tests :** PHPUnit 11 (SQLite en mémoire) ; `vendor/` **committé** pour le
+  déploiement git-pull.
 
 ## Installation
 
@@ -61,8 +65,8 @@ changement de mot de passe, accès back-office + RBAC, signature et montant des
 webhooks de paiement, validation des uploads. Ils servent de filet
 anti-régression, notamment pendant la migration Laravel 12.
 
-> Remarque : certains tests de scaffolding Jetstream sont rouges (vues
-> personnalisées) — voir le palier A de [`docs/MIGRATION-L12.md`](docs/MIGRATION-L12.md).
+> La suite est verte (~139 tests, 6 skippés). Historique de la migration :
+> [`docs/MIGRATION-L12.md`](docs/MIGRATION-L12.md).
 
 ## Sécurité
 
@@ -82,12 +86,23 @@ Déploiement et bascule `vendor/` : [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
 ## Déploiement
 
-1. `composer install --no-dev --optimize-autoloader`
-2. `.env` de production (`APP_DEBUG=false`, secrets de paiement renseignés).
-3. `php artisan migrate --force`
-4. `php artisan config:cache route:cache view:cache`
-5. `npm ci && npm run build`
-6. S'assurer que `public/upload/.htaccess` est déployé (blocage d'exécution).
+Déploiement **git-pull, sans Docker** : `vendor/` **et** `public/build/` sont
+committés, la prod ne lance donc ni `composer install` ni `npm build`.
+
+```bash
+bash deploy.sh
+```
+
+Le script fait : `git reset --hard origin/main` → `composer dump-autoload -o`
+(best-effort) → **baseline** des migrations legacy → `migrate --force` →
+`optimize:clear` + `config:cache` + `view:cache`.
+
+⚠️ **Pas de `route:cache`** (routes en closure non sérialisables). `.env` de
+prod : `APP_DEBUG=false` + secrets renseignés. Vérifier que
+`public/upload/.htaccess` est déployé (blocage d'exécution). Détails :
+[`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) · [`docs/ONBOARDING.md`](docs/ONBOARDING.md).
+
+> Après une modif front, committer `public/build/` (regénéré par `npm run build`).
 
 ## CI
 
