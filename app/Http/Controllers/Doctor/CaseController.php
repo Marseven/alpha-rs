@@ -18,7 +18,7 @@ class CaseController extends Controller
         $cases = MedicalCaseWorkflow::where('doctor_id', auth()->id())
             ->with('cnamgs')
             ->latest()
-            ->paginate(20);
+            ->get();
 
         return view('doctor.cases.index', ['cases' => $cases, 'title' => 'Mes dossiers']);
     }

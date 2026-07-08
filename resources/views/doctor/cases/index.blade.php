@@ -19,7 +19,7 @@
 
         <x-ui.card padding="p-0">
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm">
+                <table data-datatable class="w-full text-left text-sm">
                     <thead>
                         <tr class="border-b border-line bg-[#F9FBFD] text-[11.5px] uppercase tracking-wider text-ink-muted">
                             <th class="px-5 py-3 font-semibold">Suivi</th>
@@ -59,9 +59,5 @@
                 </table>
             </div>
         </x-ui.card>
-
-        @if ($cases->hasPages())
-            <div class="mt-6">{{ $cases->links() }}</div>
-        @endif
     </div>
 @endsection
