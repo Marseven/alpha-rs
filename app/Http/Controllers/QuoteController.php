@@ -192,6 +192,16 @@ class QuoteController extends Controller
 
     public function updateState(Request $request, $quote)
     {
+        // Same fine-grained gate as update(): this action stores an admin devis
+        // and e-mails it to the client, so it must not be reachable by an
+        // admin-space operator lacking the Quotes permission.
+        Controller::he_can('Quotes', 'updat');
+
+        $request->validate([
+            'status'   => 'required|in:' . implode(',', [STATUT_RECEIVE, STATUT_PENDING, STATUT_DO]),
+            'response' => 'nullable|string|max:5000',
+        ]);
+
         $quote = Quote::findOrFail($quote);
         $devis = FileController::quote_file($request->file('devis'));
         if ($devis['state'] == false) {

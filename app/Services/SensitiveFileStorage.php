@@ -65,4 +65,24 @@ class SensitiveFileStorage
             Storage::disk(self::DISK)->delete($path);
         }
     }
+
+    /**
+     * Resolve a stored document to an absolute filesystem path so it can be
+     * attached to an e-mail. Handles both private paths and the legacy public
+     * ones (same rules as download()). Returns null when the file is missing.
+     */
+    public static function absolutePath(?string $path): ?string
+    {
+        if (empty($path)) {
+            return null;
+        }
+
+        if (Storage::disk(self::DISK)->exists($path)) {
+            return Storage::disk(self::DISK)->path($path);
+        }
+
+        $legacy = public_path(ltrim($path, '/'));
+
+        return is_file($legacy) ? $legacy : null;
+    }
 }

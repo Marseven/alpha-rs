@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Mail\QuoteAdminMessage;
 use App\Mail\QuoteMessage;
+use App\Mail\QuoteReadyMessage;
 use App\Mail\StatusMessage;
 use App\Models\Quote;
 use App\Models\User;
@@ -34,11 +35,32 @@ class QuoteNotifier
         }
     }
 
-    /** Notify the quote owner that its status changed. */
+    /**
+     * Notify the quote owner that its status changed. When the quote has been
+     * processed ("Traité") and a devis document is attached, the client
+     * receives the devis itself; otherwise a plain status-change notice.
+     */
     public function notifyStatusChanged(Quote $quote): void
     {
         try {
-            Mail::to($quote->user->email)->queue(new StatusMessage($quote, 'quote'));
+            // Prefer the account e-mail; fall back to the quote's own e-mail
+            // (guest/legacy rows without a linked user).
+            $recipient = $quote->user->email ?? $quote->email;
+            if (empty($recipient)) {
+                Log::warning('Quote status notification skipped: no recipient for quote ' . $quote->id);
+
+                return;
+            }
+
+            // STATUT_DO ("Traité") is a global define() from the base Controller;
+            // guard for contexts where that file is not autoloaded (unit tests).
+            $processed = defined('STATUT_DO') ? STATUT_DO : 6;
+
+            if ((int) $quote->status === (int) $processed && ! empty($quote->devis)) {
+                Mail::to($recipient)->queue(new QuoteReadyMessage($quote));
+            } else {
+                Mail::to($recipient)->queue(new StatusMessage($quote, 'quote'));
+            }
         } catch (\Throwable $e) {
             Log::warning('Quote status notification failed: ' . $e->getMessage());
         }

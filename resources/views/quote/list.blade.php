@@ -57,10 +57,18 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-3.5 text-right">
-                                        <a href="{{ url('quote/pay/' . $quote->id) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
-                                            Payer
-                                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                                        </a>
+                                        <div class="inline-flex items-center justify-end gap-4">
+                                            @if ($quote->devis)
+                                                <a href="{{ route('files.quote', [$quote, 'devis']) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-ink-muted transition-colors hover:text-primary-600">
+                                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+                                                    Devis
+                                                </a>
+                                            @endif
+                                            <a href="{{ url('quote/pay/' . $quote->id) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700">
+                                                Payer
+                                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

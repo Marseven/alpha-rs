@@ -4,6 +4,7 @@ namespace Tests\Feature\Security;
 
 use App\Mail\QuoteAdminMessage;
 use App\Mail\QuoteMessage;
+use App\Mail\QuoteReadyMessage;
 use App\Mail\StatusMessage;
 use App\Models\Country;
 use App\Models\Quote;
@@ -111,18 +112,62 @@ class QuoteNotificationTest extends TestCase
         $owner = $this->makeUser();
         $quote = $this->makeQuote($owner);
 
-        // updateState is an admin action (POST /admin/quotes-state/{id}); it
-        // notifies the quote's owner.
+        // updateState is an admin action (POST /admin/quotes-state/{id}); a
+        // non-final status (1 = En cours) notifies the owner with a status notice.
         $this->actingAs($this->makeAdmin())
             ->post('/admin/quotes-state/' . $quote->id, [
-                'status' => 5, // STATUT_PAID
-                'response' => 'Traitement terminé',
+                'status' => 1, // STATUT_PENDING
+                'response' => 'Traitement en cours',
                 'devis' => $this->pdf('devis.pdf'),
             ])->assertRedirect();
 
         $quote->refresh();
-        $this->assertSame(5, (int) $quote->status);
-        $this->assertSame('Traitement terminé', $quote->response);
+        $this->assertSame(1, (int) $quote->status);
+        $this->assertSame('Traitement en cours', $quote->response);
         Mail::assertQueued(StatusMessage::class, 1);
+        Mail::assertNotQueued(QuoteReadyMessage::class);
+    }
+
+    public function test_updatestate_traite_emails_the_devis_to_the_client(): void
+    {
+        Storage::fake('local');
+        Mail::fake();
+
+        $owner = $this->makeUser(['email' => 'client@example.test']);
+        $quote = $this->makeQuote($owner);
+
+        // Marking the quote "Traité" (6 = STATUT_DO) with a devis delivers the
+        // devis document to the client, not just a status notice.
+        $this->actingAs($this->makeAdmin())
+            ->post('/admin/quotes-state/' . $quote->id, [
+                'status' => 6, // STATUT_DO
+                'response' => 'Voici votre devis',
+                'devis' => $this->pdf('devis.pdf'),
+            ])->assertRedirect();
+
+        $quote->refresh();
+        $this->assertSame(6, (int) $quote->status);
+        Mail::assertQueued(QuoteReadyMessage::class, fn ($mail) => $mail->hasTo('client@example.test'));
+        Mail::assertNotQueued(StatusMessage::class);
+    }
+
+    public function test_updatestate_rejects_an_out_of_band_status(): void
+    {
+        Storage::fake('local');
+        Mail::fake();
+
+        $quote = $this->makeQuote($this->makeUser());
+
+        // 5 = STATUT_PAID is set by the payment flow, not selectable here.
+        $this->actingAs($this->makeAdmin())
+            ->post('/admin/quotes-state/' . $quote->id, [
+                'status' => 5,
+                'response' => 'x',
+                'devis' => $this->pdf('devis.pdf'),
+            ])->assertSessionHasErrors('status');
+
+        $quote->refresh();
+        $this->assertSame(0, (int) $quote->status); // STATUT_RECEIVE, unchanged
+        Mail::assertNothingQueued();
     }
 }
