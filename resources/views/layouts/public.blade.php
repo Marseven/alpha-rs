@@ -4,13 +4,61 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Relief Services') — Relief Services</title>
+
+    @php
+        $siteName = config('relief.name');
+        // Inline @section('x','val') escapes its value once; decode then re-escape
+        // exactly once so apostrophes/ampersands aren't double-encoded.
+        $decode = fn ($v) => trim(html_entity_decode((string) $v, ENT_QUOTES));
+        $pageName = $decode($__env->yieldContent('title', $siteName));
+        $metaTitle = e($pageName === $siteName ? $siteName . ' — Assistance médicale & évacuation sanitaire' : $pageName . ' — ' . $siteName);
+        $metaDesc = e($decode($__env->yieldContent('meta_description', config('relief.seo.description'))));
+        $metaImage = asset($decode($__env->yieldContent('meta_image', config('relief.seo.og_image'))));
+        $canonical = url()->current();
+        $jsonLd = [
+            '@context' => 'https://schema.org',
+            '@type' => 'MedicalOrganization',
+            'name' => $siteName,
+            'url' => url('/'),
+            'logo' => asset('images/LogoRSA.png'),
+            'image' => $metaImage,
+            'description' => config('relief.seo.description'),
+            'telephone' => config('relief.contact_phone') ?: '+241 76 55 57 81',
+            'email' => config('relief.contact_email') ?: 'info@reliefservices.net',
+            'address' => ['@type' => 'PostalAddress', 'addressLocality' => 'Libreville', 'addressCountry' => 'GA'],
+            'areaServed' => ['@type' => 'Country', 'name' => 'Gabon'],
+        ];
+    @endphp
+
+    <title>{!! $metaTitle !!}</title>
+    <meta name="description" content="{!! $metaDesc !!}">
+    <meta name="keywords" content="{{ config('relief.seo.keywords') }}">
+    <meta name="author" content="{{ $siteName }}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ $canonical }}">
+
+    {{-- Open Graph --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ $siteName }}">
+    <meta property="og:locale" content="{{ config('relief.seo.locale') }}">
+    <meta property="og:title" content="{!! $metaTitle !!}">
+    <meta property="og:description" content="{!! $metaDesc !!}">
+    <meta property="og:url" content="{{ $canonical }}">
+    <meta property="og:image" content="{{ $metaImage }}">
+
+    {{-- Twitter --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{!! $metaTitle !!}">
+    <meta name="twitter:description" content="{!! $metaDesc !!}">
+    <meta name="twitter:image" content="{{ $metaImage }}">
 
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/LogoRSA.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <script type="application/ld+json">{!! json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
     @stack('styles')
 </head>
 <body class="bg-white text-ink">

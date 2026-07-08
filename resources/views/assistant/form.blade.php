@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Assistant en ligne')
+@section('meta_description', "Posez vos questions à l'assistant en ligne Relief Services : services, devis, destinations et suivi de dossier.")
 
 @section('content')
     {{-- ================= HERO ================= --}}

@@ -53,6 +53,7 @@ Route::get('/up', function () {
 
 //home
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 Route::get('/faq', [WelcomeController::class, 'faq'])->name('faq');
 Route::get('/pc', [WelcomeController::class, 'pc'])->name('pc');
 Route::get('/cgu', [WelcomeController::class, 'cgu'])->name('cgu');

@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Suivre mon dossier')
+@section('meta_description', "Suivez l'état de votre dossier de prise en charge Relief Services avec votre numéro de suivi et votre téléphone.")
 
 @section('content')
     <section class="bg-canvas">

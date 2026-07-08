@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Hôpitaux partenaires')
+@section('meta_description', "Les hôpitaux partenaires de Relief Services en Tunisie, au Maroc, en Afrique du Sud, en Turquie et en France pour vos soins et évacuations sanitaires.")
 
 @section('content')
 

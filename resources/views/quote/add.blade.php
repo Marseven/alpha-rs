@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Demander un devis')
+@section('meta_description', "Demandez un devis gratuit et sans engagement pour votre évacuation sanitaire ou vos soins à l'étranger avec Relief Services.")
 
 @section('content')
     <section class="bg-canvas">

@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Contact')
+@section('meta_description', "Contactez Relief Services pour votre assistance médicale et évacuation sanitaire — Libreville et Port-Gentil, Gabon.")
 
 @section('content')
     {{-- ================= EN-TÊTE ================= --}}

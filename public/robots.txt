@@ -1,2 +1,19 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /doctor
+Disallow: /cnamgs
+Disallow: /espace-medical
+Disallow: /profil
+Disallow: /admin-profil
+Disallow: /list-folder
+Disallow: /list-quotes
+Disallow: /list-payments
+Disallow: /list-services
+Disallow: /user/
+Disallow: /userpassword/
+Disallow: /login
+Disallow: /register
+Disallow: /password/
+
+Sitemap: https://reliefservices.net/sitemap.xml

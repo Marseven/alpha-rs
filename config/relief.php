@@ -10,6 +10,14 @@ return [
     // Prefix used to build human-readable case tracking numbers (e.g. RS-AB12CD).
     'tracking_prefix' => env('CASE_TRACKING_PREFIX', 'RS'),
 
+    // SEO defaults (overridable per page via @section('meta_description') etc.).
+    'seo' => [
+        'description' => "Relief Services organise votre évacuation sanitaire et votre prise en charge médicale à l'étranger depuis le Gabon : devis gratuit, constitution du dossier, rendez-vous médicaux, logement et transport — du premier contact jusqu'au retour.",
+        'keywords' => "évacuation sanitaire, assistance médicale, soins à l'étranger, prise en charge CNAMGS, tourisme médical, devis médical, dossier médical, Gabon, Libreville, Port-Gentil",
+        'og_image' => 'images/LogoRSA.png',
+        'locale' => 'fr_FR',
+    ],
+
     'ai' => [
         'enabled' => (bool) env('AI_ASSISTANT_ENABLED', false),
         'provider' => env('AI_PROVIDER', 'openai'),

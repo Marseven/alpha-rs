@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Foire aux questions')
+@section('meta_description', "Questions fréquentes sur l'assistance médicale, les devis, le suivi de dossier et la prise en charge CNAMGS avec Relief Services.")
 
 @section('content')
     {{-- ================= EN-TÊTE ================= --}}

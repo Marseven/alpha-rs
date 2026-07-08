@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Simulateur de prise en charge')
+@section('meta_description', "Simulez gratuitement votre prise en charge médicale à l'étranger : destination, service et pathologie pour une estimation immédiate.")
 
 @section('content')
 

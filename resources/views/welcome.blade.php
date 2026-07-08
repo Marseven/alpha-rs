@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Se faire soigner à l’étranger')
+@section('meta_description', "Relief Services facilite votre évacuation sanitaire et vos soins à l'étranger depuis le Gabon : devis gratuit, prise en charge CNAMGS, rendez-vous médicaux, logement et suivi de dossier en ligne.")
 
 @section('content')
 
