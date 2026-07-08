@@ -44,7 +44,7 @@
                 <h3 class="font-display text-base font-bold text-ink">Liste des paiements</h3>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full min-w-[840px] text-left text-sm">
+                <table data-datatable class="w-full min-w-[840px] text-left text-sm">
                     <thead>
                         <tr class="border-b border-line bg-canvas text-[11.5px] uppercase tracking-wide text-ink-muted">
                             <th class="px-6 py-3 font-semibold">#</th>

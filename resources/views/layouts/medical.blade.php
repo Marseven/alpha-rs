@@ -72,7 +72,7 @@
         </aside>
 
         {{-- Main --}}
-        <div class="flex min-h-screen flex-1 flex-col lg:pl-64">
+        <div class="flex min-h-screen min-w-0 flex-1 flex-col lg:pl-64">
             <header class="sticky top-0 z-30 flex items-center justify-between border-b border-line bg-white/95 px-4 py-3 backdrop-blur lg:px-8">
                 <div class="flex items-center gap-3">
                     <button type="button" onclick="document.getElementById('medical-sidebar').classList.toggle('hidden');document.getElementById('medical-sidebar').classList.toggle('flex')" class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line-strong text-ink lg:hidden" aria-label="Menu">

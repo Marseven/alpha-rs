@@ -1,5 +1,6 @@
 /* Relief Services — fonts (titres Poppins · corps Manrope · étiquettes JetBrains Mono) */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import 'simple-datatables/dist/style.css';
 
 @tailwind base;
 @tailwind components;
@@ -26,3 +27,31 @@
         @apply h-1.5 w-full rounded-full bg-brand-line;
     }
 }
+
+/* ---- simple-datatables : habillage design system Relief ---- */
+.datatable-wrapper .datatable-top,
+.datatable-wrapper .datatable-bottom {
+    @apply flex flex-wrap items-center justify-between gap-3 px-6 py-4 text-sm text-ink-muted;
+}
+.datatable-wrapper .datatable-search { @apply order-2 sm:order-none; }
+.datatable-input,
+.datatable-selector {
+    @apply rounded-lg border-[1.5px] border-line-strong bg-white px-3 py-2 text-sm text-ink focus:border-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-600/15;
+}
+.datatable-wrapper { @apply w-full min-w-0; }
+.datatable-wrapper .datatable-container { @apply w-full max-w-full overflow-x-auto; }
+.datatable-wrapper table.datatable-table { @apply w-full; }
+.datatable-wrapper .datatable-pagination-list { @apply flex flex-wrap items-center gap-1; }
+.datatable-wrapper .datatable-pagination-list li a {
+    @apply flex h-9 min-w-9 items-center justify-center rounded-lg border border-line bg-white px-3 text-sm font-semibold text-ink transition-colors hover:bg-canvas;
+}
+.datatable-wrapper .datatable-pagination-list li.datatable-active a {
+    @apply border-primary-600 bg-primary-600 text-white hover:bg-primary-700;
+}
+.datatable-wrapper .datatable-pagination-list li.datatable-disabled a {
+    @apply cursor-not-allowed opacity-40 hover:bg-white;
+}
+.datatable-wrapper .datatable-sorter { @apply cursor-pointer; }
+/* keep header cells styled by the existing Tailwind thead classes */
+.datatable-wrapper .datatable-table > thead > tr > th { @apply align-middle; }
+.datatable-empty { @apply px-6 py-10 text-center text-ink-muted; }

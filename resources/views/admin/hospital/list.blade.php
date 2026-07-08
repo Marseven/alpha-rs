@@ -95,7 +95,7 @@
                 <span class="text-sm text-ink-muted">{{ count($hospitals) }} hôpital(aux)</span>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm">
+                <table data-datatable class="w-full text-left text-sm">
                     <thead>
                         <tr class="border-b border-line bg-canvas text-[11.5px] uppercase tracking-wide text-ink-muted">
                             <th class="px-6 py-3 font-semibold">#</th>
