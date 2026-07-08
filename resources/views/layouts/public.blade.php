@@ -11,7 +11,7 @@
         // exactly once so apostrophes/ampersands aren't double-encoded.
         $decode = fn ($v) => trim(html_entity_decode((string) $v, ENT_QUOTES));
         $pageName = $decode($__env->yieldContent('title', $siteName));
-        $metaTitle = e($pageName === $siteName ? $siteName . ' — Assistance médicale & évacuation sanitaire' : $pageName . ' — ' . $siteName);
+        $metaTitle = e($pageName === $siteName ? $siteName . ' — Conciergerie médicale & évacuation sanitaire' : $pageName . ' — ' . $siteName);
         $metaDesc = e($decode($__env->yieldContent('meta_description', config('relief.seo.description'))));
         $metaImage = asset($decode($__env->yieldContent('meta_image', config('relief.seo.og_image'))));
         $canonical = url()->current();
@@ -69,7 +69,7 @@
             <div class="flex flex-wrap items-center gap-x-6 gap-y-1">
                 <span class="inline-flex items-center gap-1.5">
                     <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                    Libreville · Port-Gentil, Gabon
+                    Gabon · Congo · France
                 </span>
                 <span class="hidden items-center gap-1.5 sm:inline-flex">
                     <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
@@ -174,12 +174,19 @@
             </div>
 
             <div>
-                <div class="eyebrow mb-4 text-primary-300">Contact</div>
-                <ul class="space-y-2.5 text-sm text-primary-200">
-                    <li>Libreville · Port-Gentil, Gabon</li>
-                    <li>(+241) 76 55 57 81</li>
-                    <li>info@reliefservices.net</li>
-                    <li><a href="{{ route('assistant.form') }}" class="hover:text-white">Assistant en ligne</a></li>
+                <div class="eyebrow mb-4 text-primary-300">Nos bureaux</div>
+                <ul class="space-y-2 text-sm text-primary-200">
+                    @foreach (config('relief.offices') as $office)
+                        <li>
+                            <span class="font-semibold text-white">{{ $office['city'] }}</span>
+                            @if (!empty($office['phones']))
+                                <span class="text-primary-300"> — {{ implode(' · ', $office['phones']) }}</span>
+                            @endif
+                        </li>
+                    @endforeach
+                    <li class="pt-1.5">
+                        <a href="mailto:{{ config('relief.contact_email') }}" class="hover:text-white">{{ config('relief.contact_email') }}</a>
+                    </li>
                 </ul>
             </div>
 

@@ -3,8 +3,17 @@
 return [
     'name' => 'Relief Services',
     'description' => "Plateforme d'assistance médicale, de gestion de dossiers patients, de devis et de suivi.",
-    'contact_phone' => env('RELIEF_CONTACT_PHONE', ''),
-    'contact_email' => env('RELIEF_CONTACT_EMAIL', ''),
+    'contact_phone' => env('RELIEF_CONTACT_PHONE', '+241 76 55 57 81'),
+    'contact_email' => env('RELIEF_CONTACT_EMAIL', 'info@reliefservices.net'),
+
+    // Bureaux (utilisés dans l'en-tête, le pied de page et la page contact).
+    'offices' => [
+        ['city' => 'Libreville', 'country' => 'Gabon', 'phones' => ['+241 76 55 57 81', '+241 66 20 75 25']],
+        ['city' => 'Port-Gentil', 'country' => 'Gabon', 'phones' => []],
+        ['city' => 'Brazzaville', 'country' => 'Congo', 'phones' => ['+242 666 644 034']],
+        ['city' => 'Pointe-Noire', 'country' => 'Congo', 'phones' => ['+242 666 644 034']],
+        ['city' => 'Paris', 'country' => 'France', 'phones' => ['+33 7 80 76 31 38']],
+    ],
     'medical_disclaimer' => "L'assistant IA ne remplace pas un avis médical.",
 
     // Prefix used to build human-readable case tracking numbers (e.g. RS-AB12CD).

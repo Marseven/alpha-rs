@@ -26,35 +26,33 @@
             <div>
                 <h2 class="font-display text-2xl font-bold text-ink">Nos coordonnées</h2>
                 <p class="mt-2 text-[15px] leading-relaxed text-ink-muted">
-                    Assistance médicale et évacuation sanitaire depuis le Gabon.
+                    Conciergerie médicale et évacuation sanitaire — Gabon, Congo et France.
                 </p>
 
-                <ul class="mt-6 space-y-5">
-                    <li class="flex items-start gap-4">
-                        <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-white text-primary-600 shadow-card">
-                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                        </span>
-                        <div>
-                            <div class="text-sm font-semibold text-ink">Adresse</div>
-                            <div class="text-[15px] text-ink-muted">Libreville · Port-Gentil, Gabon</div>
-                        </div>
-                    </li>
-                    <li class="flex items-start gap-4">
-                        <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-white text-primary-600 shadow-card">
-                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
-                        </span>
-                        <div>
-                            <div class="text-sm font-semibold text-ink">Téléphone</div>
-                            <div class="text-[15px] text-ink-muted">(+241) 76 55 57 81</div>
-                        </div>
-                    </li>
+                <div class="mt-6 text-sm font-semibold uppercase tracking-wide text-ink-muted">Nos bureaux</div>
+                <ul class="mt-3 space-y-4">
+                    @foreach (config('relief.offices') as $office)
+                        <li class="flex items-start gap-4">
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-white text-primary-600 shadow-card">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </span>
+                            <div>
+                                <div class="text-sm font-semibold text-ink">{{ $office['city'] }} <span class="font-normal text-ink-faint">· {{ $office['country'] }}</span></div>
+                                @forelse ($office['phones'] as $phone)
+                                    <div class="text-[15px] text-ink-muted"><a href="tel:{{ preg_replace('/\s+/', '', $phone) }}" class="hover:text-primary-600">{{ $phone }}</a></div>
+                                @empty
+                                    <div class="text-[15px] text-ink-faint">Sur rendez-vous</div>
+                                @endforelse
+                            </div>
+                        </li>
+                    @endforeach
                     <li class="flex items-start gap-4">
                         <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-white text-primary-600 shadow-card">
                             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
                         </span>
                         <div>
                             <div class="text-sm font-semibold text-ink">E-mail</div>
-                            <div class="text-[15px] text-ink-muted">info@reliefservices.net</div>
+                            <div class="text-[15px] text-ink-muted"><a href="mailto:{{ config('relief.contact_email') }}" class="hover:text-primary-600">{{ config('relief.contact_email') }}</a></div>
                         </div>
                     </li>
                 </ul>

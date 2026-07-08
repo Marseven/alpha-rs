@@ -9,7 +9,7 @@
     <section class="bg-gradient-to-b from-primary-50/60 to-white">
         <div class="mx-auto grid max-w-container items-center gap-12 px-4 py-16 lg:grid-cols-2 lg:px-6 lg:py-20">
             <div class="flex flex-col gap-6">
-                <span class="eyebrow">Assistance médicale — Évacuation sanitaire</span>
+                <span class="eyebrow">Conciergerie médicale — Évacuation sanitaire</span>
                 <h1 class="font-display text-4xl font-extrabold leading-[1.12] tracking-tight text-ink sm:text-5xl">
                     Se faire soigner à l'étranger, en toute confiance.
                 </h1>
@@ -78,9 +78,9 @@
     {{-- ================= BANDEAU CHIFFRES ================= --}}
     <section class="border-y border-line bg-white">
         <div class="mx-auto grid max-w-container grid-cols-2 gap-8 px-4 py-10 lg:grid-cols-4 lg:px-6">
-            <x-ui.stat value="8 ans" label="d'assistance sanitaire" />
-            <x-ui.stat value="5 pays" label="de destination sélectionnés" />
-            <x-ui.stat value="24h/7j" label="équipe d'assistance dédiée" />
+            <x-ui.stat value="+150" label="clients heureux" />
+            <x-ui.stat value="5" label="destinations partenaires" />
+            <x-ui.stat value="24h/7j" label="assistance dédiée" />
             <x-ui.stat value="100%" label="secret professionnel garanti" />
         </div>
     </section>
@@ -200,7 +200,7 @@
                 <span class="eyebrow">Les spécialités</span>
                 <h2 class="mt-3 font-display text-3xl font-extrabold text-ink sm:text-[38px]">Les maladies que nous prenons en charge</h2>
                 <p class="mt-3 text-ink-muted">
-                    Nos hôpitaux partenaires en Tunisie, au Maroc, en Afrique du Sud, en Turquie et en France
+                    Nos hôpitaux partenaires en Tunisie, au Maroc, en Turquie, en Israël, en Afrique du Sud et en France
                     couvrent les grandes spécialités médicales et chirurgicales.
                 </p>
             </div>
