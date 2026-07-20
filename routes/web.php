@@ -73,20 +73,24 @@ Route::get('/list-hospitals', [HospitalController::class, 'index'])->name('list-
 //ebilling — the user-facing callback requires an authenticated session and
 // only reflects state already confirmed by the signed webhook below.
 Route::get('/callback-ebilling/{type}/{entity}', [PaymentController::class, 'callback_ebilling'])->middleware('auth')->name('ebilling-payment');
-Route::post('/notify/ebilling', [PaymentController::class, 'notify_ebilling'])->name('notify-ebilling-payments');
+// Throttled: unauthenticated endpoint, must not be hammerable (signature
+// brute-force / DoS). Generous enough for legitimate PSP retries.
+Route::post('/notify/ebilling', [PaymentController::class, 'notify_ebilling'])->middleware('throttle:60,1')->name('notify-ebilling-payments');
 
 //singpay
 Route::get('/callback-singpay/{type}/{entity}/{payment}', [PaymentController::class, 'callback_singpay'])->middleware('auth')->name('singpay');
-Route::post('/notify/singpay', [PaymentController::class, 'notify_singpay'])->name('notify-singpay');
+Route::post('/notify/singpay', [PaymentController::class, 'notify_singpay'])->middleware('throttle:60,1')->name('notify-singpay');
 
 
 //simulator
 Route::get('/simulator', [SimulatorController::class, 'index'])->name('simulator');
-Route::post('/simulate', [SimulatorController::class, 'search'])->name('simulate');
+Route::post('/simulate', [SimulatorController::class, 'search'])->middleware('throttle:30,1')->name('simulate');
 
 //public case tracking (patient) — tracking number + phone
+// Throttled: the (tracking number, phone) pair is otherwise brute-forceable,
+// which would expose another patient's case status.
 Route::get('/track-case', [\App\Http\Controllers\TrackController::class, 'form'])->name('track.form');
-Route::post('/track-case', [\App\Http\Controllers\TrackController::class, 'track'])->name('track.track');
+Route::post('/track-case', [\App\Http\Controllers\TrackController::class, 'track'])->middleware('throttle:10,1')->name('track.track');
 
 //public AI assistant (guarded Q&A)
 Route::get('/assistant', [\App\Http\Controllers\AiAssistantController::class, 'form'])->name('assistant.form');
@@ -95,7 +99,12 @@ Route::post('/assistant/chat', [\App\Http\Controllers\AiAssistantController::cla
 
 
 
-Auth::routes();
+// Throttled as a group: Auth::routes() ships registration and password-reset
+// endpoints with no rate limiting, allowing account enumeration and mail flood
+// (aggravated by the synchronous mailer).
+Route::middleware('throttle:20,1')->group(function () {
+    Auth::routes();
+});
 
 // Medical workflow — Doctor space
 Route::middleware(['auth', 'workflow_role:doctor'])->prefix('doctor')->group(function () {
@@ -124,7 +133,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('logout', [LoginController::class, 'logout']);
-Route::post('login', [LoginController::class, 'authenticate']);
+// This custom POST /login is declared after Auth::routes() and therefore
+// overrides it — which also dropped Fortify's 'login' rate limiter. Without a
+// throttle here, credential stuffing on the platform is unbounded.
+Route::post('login', [LoginController::class, 'authenticate'])->middleware('throttle:10,1');
 Route::get('503', function () {
     return 'Accès non autorisé';
 });
