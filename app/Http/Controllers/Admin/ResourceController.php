@@ -45,6 +45,11 @@ abstract class ResourceController extends Controller
     /** Delete a row by primary key. Returns 1 for the legacy AJAX callers. */
     public function delete(Request $request, $parent_id = null, $_id = null)
     {
+        // Only the three RBAC controllers extend this base, and they all gate on
+        // the "Users" object. Deleting a role/object/permission is destructive
+        // and was previously reachable with no permission check at all.
+        \App\Http\Controllers\Controller::he_can('Users', 'del');
+
         $_id = $_id ?? $parent_id;
 
         $modelClass = get_class($this->model);

@@ -48,9 +48,26 @@ class RbacBackofficeTest extends TestCase
         $permission->description = 'temporary';
         $permission->save();
 
+        // POST (not GET): destructive actions must go through CSRF.
         $this->actingAs($admin)
-            ->get('/admin/security-permission/delete/' . $permission->id);
+            ->post('/admin/security-permission/delete/' . $permission->id);
 
         $this->assertDatabaseMissing('security_permissions', ['id' => $permission->id]);
+    }
+
+    public function test_delete_is_no_longer_reachable_by_get(): void
+    {
+        $permission = new SecurityPermission();
+        $permission->name = 'Temp';
+        $permission->description = 'temporary';
+        $permission->save();
+
+        // A GET link carries no CSRF token: one crafted <img>/<a> was enough to
+        // wipe a role, an object or a permission.
+        $this->actingAs($this->makeAdmin())
+            ->get('/admin/security-permission/delete/' . $permission->id)
+            ->assertStatus(405); // Method Not Allowed: the route only accepts POST
+
+        $this->assertDatabaseHas('security_permissions', ['id' => $permission->id]);
     }
 }

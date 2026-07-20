@@ -80,9 +80,12 @@
                                 <td class="px-6 py-3.5 text-ink-muted">{{ $object->icon }}</td>
                                 <td class="px-6 py-3.5">
                                     <div class="flex items-center justify-end gap-2">
-                                        <a href="{{ url('admin/security-object/delete/' . $object->id) }}"
-                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet espace ?')"
-                                            class="inline-flex items-center gap-1.5 rounded-lg border border-accent-100 bg-accent-50 px-3 py-2 text-[13px] font-semibold text-accent-700 transition-colors hover:bg-accent-100">Supprimer</a>
+                                        <form method="POST" action="{{ url('admin/security-object/delete/' . $object->id) }}" class="inline"
+                                            onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet espace ?')">
+                                            @csrf
+                                            <button type="submit"
+                                                class="inline-flex items-center gap-1.5 rounded-lg border border-accent-100 bg-accent-50 px-3 py-2 text-[13px] font-semibold text-accent-700 transition-colors hover:bg-accent-100">Supprimer</button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

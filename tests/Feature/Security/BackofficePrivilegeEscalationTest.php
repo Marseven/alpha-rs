@@ -143,6 +143,20 @@ class BackofficePrivilegeEscalationTest extends TestCase
         $this->assertSame(0, (int) $folder->status);
     }
 
+    public function test_restricted_operator_cannot_delete_rbac_configuration(): void
+    {
+        $row = new \App\Models\SecurityPermission();
+        $row->name = 'Temp';
+        $row->description = 'temporary';
+        $row->save();
+
+        $this->actingAs($this->restrictedOperator())
+            ->post('/admin/security-permission/delete/' . $row->id)
+            ->assertForbidden();
+
+        $this->assertDatabaseHas('security_permissions', ['id' => $row->id]);
+    }
+
     public function test_dead_admin_userpassword_route_is_removed(): void
     {
         $victim = $this->makeUser();

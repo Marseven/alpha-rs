@@ -76,9 +76,12 @@
                                         <button type="button"
                                             class="inline-flex items-center gap-1.5 rounded-lg border border-primary-600 bg-white px-3 py-2 text-[13px] font-semibold text-primary-600 transition-colors hover:bg-primary-50"
                                             onclick="document.getElementById('edit-role-{{ $role->id }}').classList.toggle('hidden')">Modifier</button>
-                                        <a href="{{ url('admin/security-role/delete/' . $role->id) }}"
-                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce rôle ?')"
-                                            class="inline-flex items-center gap-1.5 rounded-lg border border-accent-100 bg-accent-50 px-3 py-2 text-[13px] font-semibold text-accent-700 transition-colors hover:bg-accent-100">Supprimer</a>
+                                        <form method="POST" action="{{ url('admin/security-role/delete/' . $role->id) }}" class="inline"
+                                            onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce rôle ?')">
+                                            @csrf
+                                            <button type="submit"
+                                                class="inline-flex items-center gap-1.5 rounded-lg border border-accent-100 bg-accent-50 px-3 py-2 text-[13px] font-semibold text-accent-700 transition-colors hover:bg-accent-100">Supprimer</button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

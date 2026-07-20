@@ -203,17 +203,17 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->namespace('Admin')->middleware('admin')->group(function () {
 
     Route::get('security-role', [SecurityRoleController::class, 'index']);
-    Route::get('security-role/delete/{_id}', [SecurityRoleController::class, 'delete']);
+    Route::post('security-role/delete/{_id}', [SecurityRoleController::class, 'delete']);
     Route::post('security-role', [SecurityRoleController::class, 'save']);
     Route::get('security-role/edit/{_id}', [SecurityRoleController::class, 'edit']);
 
     Route::get('security-object', [SecurityObjectController::class, 'index']);
-    Route::get('security-object/delete/{_id}', [SecurityObjectController::class, 'delete']);
+    Route::post('security-object/delete/{_id}', [SecurityObjectController::class, 'delete']);
     Route::post('security-object', [SecurityObjectController::class, 'save']);
     Route::get('security-object/edit/{_id}', [SecurityObjectController::class, 'edit']);
 
     Route::get('security-permission', [SecurityPermissionController::class, 'index']);
-    Route::get('security-permission/delete/{_id}', [SecurityPermissionController::class, 'delete']);
+    Route::post('security-permission/delete/{_id}', [SecurityPermissionController::class, 'delete']);
     Route::post('security-permission', [SecurityPermissionController::class, 'save']);
     Route::post('security-permission/edit/{_id}', [SecurityRoleController::class, 'permission']);
 
