@@ -90,4 +90,33 @@ class PrivateDocumentTest extends TestCase
             ->get('/files/quotes/' . $quote->id . '/passport')
             ->assertNotFound();
     }
+
+    /**
+     * Legacy documents still physically under public/upload/quote are now denied
+     * direct web access (public/upload/quote/.htaccess). That must NOT break the
+     * legitimate path: the download route reads them from the filesystem, so an
+     * owner keeps access while the public URL is closed.
+     */
+    public function test_legacy_public_path_document_is_still_served_to_its_owner(): void
+    {
+        $relative = 'upload/quote/legacy-regression-test.pdf';
+        $absolute = public_path($relative);
+        @mkdir(dirname($absolute), 0755, true);
+        file_put_contents($absolute, '%PDF-1.4 legacy');
+
+        try {
+            $owner = $this->makeUser();
+            $quote = $this->makeQuote($owner);
+            $quote->join_piece_passport = $relative;
+            $quote->save();
+
+            // (the foreign-client refusal is covered by
+            // test_client_cannot_download_another_clients_document)
+            $this->actingAs($owner)
+                ->get('/files/quotes/' . $quote->id . '/passport')
+                ->assertOk();
+        } finally {
+            @unlink($absolute);
+        }
+    }
 }

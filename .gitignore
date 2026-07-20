@@ -24,3 +24,8 @@ public/upload/**/*.env
 # but allow our protective .htaccess files to be tracked
 !public/.htaccess
 !public/**/.htaccess
+
+# Documents médicaux téléversés : ne JAMAIS versionner (cf. public/upload/quote/.htaccess).
+# Les nouveaux dépôts vont sur le disque privé (storage/app/private) via SensitiveFileStorage.
+public/upload/quote/*
+!public/upload/quote/.htaccess

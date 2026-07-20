@@ -1,0 +1,31 @@
+# ---------------------------------------------------------------------------
+# Documents médicaux hérités (passeports, rapports, examens, devis).
+#
+# Ces fichiers datent d'avant la migration vers le stockage privé
+# (storage/app/private) et sont encore physiquement présents ici. Le .htaccess
+# du dossier parent ne bloque que les extensions dangereuses (.php, .sql, .env…)
+# et laissait donc .pdf / .jpg / .png / .mp4 librement téléchargeables à une URL
+# publique permanente — soit une fuite de données de santé.
+#
+# On interdit ici TOUT accès web direct. Cela ne casse rien :
+# App\Services\SensitiveFileStorage::download() lit ces fichiers depuis le
+# SYSTÈME DE FICHIERS (public_path() + response()->download()), après
+# authentification et vérification de policy — jamais via une requête HTTP.
+# Le seul chemin de téléchargement reste /files/quotes/{quote}/{field}.
+#
+# Suppression définitive : exécuter en production
+#   php artisan sensitive-files:migrate --delete
+# (copie vers le disque privé puis retire les originaux publics), puis purger
+# ces fichiers du dépôt.
+# ---------------------------------------------------------------------------
+
+# Apache 2.4+
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+
+# Apache 2.2 (repli)
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>
