@@ -38,7 +38,14 @@ class PaymentAmountTest extends TestCase
 
     public function test_singpay_stores_the_resolved_quote_amount(): void
     {
-        config(['services.payment.quote_amount' => 50000]);
+        config([
+            'services.payment.quote_amount' => 50000,
+            // The gateway refuses to call the PSP with missing credentials.
+            'services.singpay.base_url' => 'https://gateway.test/v1/ext',
+            'services.singpay.client_id' => 'CID',
+            'services.singpay.client_secret' => 'SECRET',
+            'services.singpay.wallet_id' => 'WALLET',
+        ]);
         Http::fake([
             '*' => Http::response(['link' => 'https://pay.example/redirect'], 200),
         ]);

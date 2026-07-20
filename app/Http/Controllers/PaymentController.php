@@ -253,8 +253,45 @@ class PaymentController extends Controller
         $payment->paid_at = date('Y-m-d H:i:s');
         $payment->save();
 
+        $this->markEntityPaid($payment);
+
         Log::info('Payment settled via webhook: ' . $reference);
 
         return response('OK', 200);
+    }
+
+    /**
+     * Reconcile the business record with the settled payment.
+     *
+     * The webhook used to update the `payments` row only: a Folder/Quote was
+     * moved to PAID exclusively by the browser return on /callback-singpay/...
+     * So a client who closed the tab (or whose session expired, or whom the PSP
+     * failed to redirect) was charged without their case ever being marked paid.
+     * The webhook is the authoritative, server-to-server signal — settle here.
+     */
+    private function markEntityPaid(Payment $payment): void
+    {
+        $entity = $payment->folder_id
+            ? Folder::find($payment->folder_id)
+            : ($payment->quote_id ? Quote::find($payment->quote_id) : null);
+
+        if (! $entity) {
+            Log::warning('Payment settled but no related folder/quote: ' . $payment->reference);
+
+            return;
+        }
+
+        if ((int) $entity->status === STATUT_PAID) {
+            return; // idempotent: a webhook replay must not rewrite it
+        }
+
+        $entity->status = STATUT_PAID;
+        $entity->save();
+
+        Log::info('Business record marked paid from webhook', [
+            'reference' => $payment->reference,
+            'entity' => $payment->folder_id ? 'folder' : 'quote',
+            'entity_id' => $entity->id,
+        ]);
     }
 }

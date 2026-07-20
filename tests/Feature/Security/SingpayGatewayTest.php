@@ -19,6 +19,22 @@ class SingpayGatewayTest extends TestCase
 {
     use RefreshDatabase, CreatesDomainData;
 
+    /**
+     * The gateway now refuses to call the PSP with missing credentials, so these
+     * tests must describe a properly configured environment.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        config([
+            'services.singpay.base_url' => 'https://gateway.test/v1/ext',
+            'services.singpay.client_id' => 'CID',
+            'services.singpay.client_secret' => 'SECRET',
+            'services.singpay.wallet_id' => 'WALLET',
+        ]);
+    }
+
     public function test_singpay_redirects_to_gateway_link_on_success(): void
     {
         config(['services.payment.quote_amount' => 50000]);

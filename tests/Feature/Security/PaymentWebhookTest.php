@@ -127,4 +127,64 @@ class PaymentWebhookTest extends TestCase
             ->get('/callback-singpay/folder/' . $folder->id . '/REF')
             ->assertForbidden();
     }
+
+    /**
+     * The webhook is the authoritative server-to-server signal. It used to
+     * update the `payments` row only, so a client who never came back to the
+     * browser callback was charged while their case stayed unpaid.
+     */
+    public function test_settled_webhook_marks_the_related_quote_as_paid(): void
+    {
+        $quote = $this->makeQuote($this->makeUser());
+        $this->makePayment([
+            'reference' => 'REF-QUOTE-PAID',
+            'quote_id' => $quote->id,
+            'amount' => '100',
+            'status' => 1, // PENDING
+        ]);
+
+        $body = $this->singpayBody('REF-QUOTE-PAID', 100);
+        $this->postSinged($body, hash_hmac('sha256', $body, $this->secret))->assertOk();
+
+        $quote->refresh();
+        $this->assertSame(STATUT_PAID, (int) $quote->status);
+    }
+
+    public function test_settled_webhook_marks_the_related_folder_as_paid(): void
+    {
+        $folder = $this->makeFolder($this->makeUser());
+        $this->makePayment([
+            'reference' => 'REF-FOLDER-PAID',
+            'folder_id' => $folder->id,
+            'amount' => '100',
+            'status' => 1,
+        ]);
+
+        $body = $this->singpayBody('REF-FOLDER-PAID', 100);
+        $this->postSinged($body, hash_hmac('sha256', $body, $this->secret))->assertOk();
+
+        $folder->refresh();
+        $this->assertSame(STATUT_PAID, (int) $folder->status);
+    }
+
+    public function test_replayed_webhook_stays_idempotent_for_the_business_record(): void
+    {
+        $quote = $this->makeQuote($this->makeUser());
+        $this->makePayment([
+            'reference' => 'REF-REPLAY',
+            'quote_id' => $quote->id,
+            'amount' => '100',
+            'status' => 1,
+        ]);
+
+        $body = $this->singpayBody('REF-REPLAY', 100);
+        $sig = hash_hmac('sha256', $body, $this->secret);
+
+        $this->postSinged($body, $sig)->assertOk();
+        $this->postSinged($body, $sig)->assertOk(); // replay: "Already processed"
+
+        $quote->refresh();
+        $this->assertSame(STATUT_PAID, (int) $quote->status);
+        $this->assertSame(1, Payment::where('reference', 'REF-REPLAY')->count());
+    }
 }
