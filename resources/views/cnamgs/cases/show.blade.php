@@ -114,7 +114,7 @@
                 @if ($case->folder && $case->folder->join_piece)
                     <div class="mt-5 border-t border-line pt-4">
                         <h4 class="text-xs font-bold uppercase tracking-wider text-ink-muted">Documents</h4>
-                        <a href="{{ $case->folder->join_piece }}" target="_blank" rel="noopener"
+                        <a href="{{ route('files.folder', [$case->folder, 'piece']) }}" target="_blank" rel="noopener"
                            class="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-700">
                             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Zm0 0v6h6"/></svg>
                             Pièce jointe du dossier
