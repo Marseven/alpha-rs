@@ -286,5 +286,4 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group(function 
     Route::get('/register', [AdminUserController::class, 'register'])->name('admin-register');
     Route::post('/register', [AdminUserController::class, 'create']);
     Route::post('/admin-user/{user}', [AdminUserController::class, 'update']);
-    Route::post('/admin-userpassword/{user}', [AdminUserController::class, 'updatePassword']);
 });

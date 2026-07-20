@@ -23,6 +23,7 @@ class AdminUserController extends Controller
 
     public function list()
     {
+        Controller::he_can('Users', 'look');
         $users = User::all()->where('security_role_id', "<>", 1);
         $users->load(['role']);
         $roles = SecurityRole::all();
@@ -43,6 +44,11 @@ class AdminUserController extends Controller
 
     public function create(Request $request)
     {
+        // The form (register()) was gated but this write endpoint was not:
+        // an operator without the Users permission could still POST here and
+        // grant any security_role_id, including the admin role.
+        Controller::he_can('Users', 'creat');
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
@@ -72,14 +78,19 @@ class AdminUserController extends Controller
 
     public function update(Request $request, User $user)
     {
-
         if ($request->has('delete')) {
+            Controller::he_can('Users', 'del');
+
             if ($user->delete()) {
                 return  back()->with('success', "L'utilisateur a bien été supprimé !");
             } else {
                 return back()->with('error', "Une erreur s'est produite.");
             }
         }
+
+        // This endpoint assigns security_role_id: without a permission check any
+        // back-office operator could promote themselves (or anyone) to admin.
+        Controller::he_can('Users', 'updat');
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -111,10 +122,4 @@ class AdminUserController extends Controller
         }
     }
 
-    public function updatePassword(Request $request, User $user)
-    {
-        $user->status = $request->status;
-        $user->save();
-        return redirect('/admin-profil');
-    }
 }

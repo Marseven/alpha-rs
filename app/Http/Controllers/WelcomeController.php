@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Swift_TransportException;
 
 class WelcomeController extends Controller
 {
@@ -65,7 +64,7 @@ class WelcomeController extends Controller
     {
         try {
             Mail::to('reliefservices21@gmail.com')->queue(new QueryMessage($request->all()));
-        } catch (Swift_TransportException $e) {
+        } catch (\Throwable $e) {
             return back()->with('error',  $e->getMessage());
         }
         return back()->with('success', "Votre mail a été envoyé, nous reviendrons vers vous au plus tôt.");

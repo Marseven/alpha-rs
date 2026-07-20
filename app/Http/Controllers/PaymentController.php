@@ -17,7 +17,6 @@ use App\Services\Payments\SingpayProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Swift_TransportException;
 
 class PaymentController extends Controller
 {
@@ -154,7 +153,7 @@ class PaymentController extends Controller
                 try {
                     Mail::to("contact@reliefservices.net")->queue(new QuoteAdminMessage($quote));
                     Mail::to(Auth::user()->email)->queue(new QuoteMessage($quote));
-                } catch (Swift_TransportException $e) {
+                } catch (\Throwable $e) {
                     return view(
                         'payment.callback-request',
                         [

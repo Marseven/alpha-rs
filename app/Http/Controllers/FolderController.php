@@ -8,8 +8,8 @@ use App\Models\Folder;
 use App\Models\Quote;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Swift_TransportException;
 
 class FolderController extends Controller
 {
@@ -167,15 +167,30 @@ class FolderController extends Controller
 
     public function updateState(Request $request, $folder)
     {
+        // This action changes the client-facing status AND the price, and mails
+        // the client: it must be gated like every other back-office write.
+        Controller::he_can('Folders', 'updat');
+
+        $request->validate([
+            'status' => 'required|in:' . implode(',', [
+                STATUT_RECEIVE, STATUT_PENDING, STATUT_APPROVE, STATUT_REFUSED, STATUT_CANCEL,
+            ]),
+            'price' => 'required|numeric|min:0',
+        ]);
+
         $folder = Folder::findOrFail($folder);
         $folder->status = $request->status;
         $folder->price = $request->price;
         $folder->load(['user']);
         if ($folder->save()) {
             try {
-                $result = Mail::to($folder->user->email)->queue(new StatusMessage($folder, "folder"));
-            } catch (Swift_TransportException $e) {
-                echo $e->getMessage();
+                Mail::to($folder->user->email)->queue(new StatusMessage($folder, "folder"));
+            } catch (\Throwable $e) {
+                // Was `catch (Swift_TransportException)` — a class that no longer
+                // exists on Laravel 12 (Symfony Mailer), so any SMTP failure
+                // escaped as a 500 *after* the status had been saved. It also
+                // echoed the error into the response body.
+                Log::warning('Folder status notification failed: ' . $e->getMessage());
             }
             return back()->with('success', "Le status du dossier a bien été mis à jour !");
         } else {
