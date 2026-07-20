@@ -133,7 +133,9 @@
                         <label for="status" class="mb-1.5 block text-sm font-semibold text-ink">Nouveau statut <span class="text-accent-600">*</span></label>
                         <select name="status" id="status" required
                                 class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
-                            @foreach (\App\Models\MedicalCaseWorkflow::CNAMGS_STATUSES as $s)
+                            {{-- Only statuses this case can actually reach (state machine
+                                 ∩ statuses the CNAMGS is allowed to set). --}}
+                            @foreach (array_intersect(\App\Models\MedicalCaseWorkflow::CNAMGS_STATUSES, array_merge($case->allowedTransitions(), [$case->status])) as $s)
                                 <option value="{{ $s }}" @selected(old('status', $case->status) === $s)>{{ $statusLabels[$s] ?? $s }}</option>
                             @endforeach
                         </select>

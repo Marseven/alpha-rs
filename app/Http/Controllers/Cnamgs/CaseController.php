@@ -32,8 +32,15 @@ class CaseController extends Controller
     {
         $this->authorize('updateStatus', $case);
 
+        // Two gates: the role gate (which statuses the CNAMGS may set at all)
+        // intersected with the state machine (which are reachable from here).
+        $selectable = array_values(array_intersect(
+            MedicalCaseWorkflow::CNAMGS_STATUSES,
+            array_merge($case->allowedTransitions(), [$case->status]),
+        ));
+
         $data = $request->validate([
-            'status' => ['required', Rule::in(MedicalCaseWorkflow::CNAMGS_STATUSES)],
+            'status' => ['required', Rule::in($selectable)],
             'cnamgs_note' => 'nullable|string|max:2000',
         ]);
 

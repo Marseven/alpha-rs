@@ -20,7 +20,7 @@ class MedicalCaseWorkflow extends Model
     public const COMPLETED = 'completed';
     public const CANCELLED = 'cancelled';
 
-    /** Statuses the CNAMGS is allowed to set. */
+    /** Statuses the CNAMGS is allowed to set (role gate — see TRANSITIONS for order). */
     public const CNAMGS_STATUSES = [
         self::RECEIVED_BY_CNAMGS,
         self::IN_REVIEW,
@@ -28,6 +28,30 @@ class MedicalCaseWorkflow extends Model
         self::READY,
         self::COMPLETED,
         self::CANCELLED,
+    ];
+
+    /** Terminal statuses: a case that reached one can no longer move. */
+    public const TERMINAL_STATUSES = [self::COMPLETED, self::CANCELLED];
+
+    /**
+     * Allowed state transitions: current status => statuses reachable from it.
+     *
+     * Until now any status could be set from any other, so a COMPLETED or
+     * CANCELLED case could be dragged back to an earlier step, and a case could
+     * jump straight to COMPLETED without ever being instructed. Staying on the
+     * same status is always allowed (re-saving a note is a legitimate action).
+     */
+    public const TRANSITIONS = [
+        self::DRAFT => [self::SENT_TO_CNAMGS, self::CANCELLED],
+        // A CNAMGS agent legitimately opens a freshly sent case straight into
+        // review without ticking "received" first.
+        self::SENT_TO_CNAMGS => [self::RECEIVED_BY_CNAMGS, self::IN_REVIEW, self::MISSING_INFORMATION, self::CANCELLED],
+        self::RECEIVED_BY_CNAMGS => [self::IN_REVIEW, self::MISSING_INFORMATION, self::READY, self::CANCELLED],
+        self::IN_REVIEW => [self::MISSING_INFORMATION, self::READY, self::CANCELLED],
+        self::MISSING_INFORMATION => [self::IN_REVIEW, self::READY, self::CANCELLED],
+        self::READY => [self::COMPLETED, self::CANCELLED],
+        self::COMPLETED => [],
+        self::CANCELLED => [],
     ];
 
     protected $fillable = [
@@ -63,11 +87,42 @@ class MedicalCaseWorkflow extends Model
         return $number;
     }
 
+    /** Statuses reachable from the case's current status. */
+    public function allowedTransitions(): array
+    {
+        return self::TRANSITIONS[$this->status] ?? [];
+    }
+
+    /** True when the case may move to $newStatus (same status is a no-op). */
+    public function canTransitionTo(string $newStatus): bool
+    {
+        return $newStatus === $this->status
+            || in_array($newStatus, $this->allowedTransitions(), true);
+    }
+
+    /** True when the case reached a terminal status and can no longer move. */
+    public function isTerminal(): bool
+    {
+        return in_array($this->status, self::TERMINAL_STATUSES, true);
+    }
+
     /**
      * Change status, stamp the relevant timestamp, and record history.
+     *
+     * Invariant guard: callers should offer only allowedTransitions() so the
+     * user gets a validation error; reaching this exception means a forbidden
+     * transition slipped through.
+     *
+     * @throws \DomainException on a forbidden transition
      */
     public function changeStatus(string $newStatus, ?int $changedBy = null, ?string $note = null): void
     {
+        if (! $this->canTransitionTo($newStatus)) {
+            throw new \DomainException(
+                "Transition interdite : {$this->status} → {$newStatus} (dossier {$this->tracking_number})."
+            );
+        }
+
         $old = $this->status;
 
         $this->status = $newStatus;
