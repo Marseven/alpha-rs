@@ -27,6 +27,7 @@
                             <th class="px-5 py-3 font-semibold">Téléphone</th>
                             <th class="px-5 py-3 font-semibold">Statut</th>
                             <th class="px-5 py-3 font-semibold">CNAMGS</th>
+                            <th class="px-5 py-3 font-semibold">Échéance</th>
                             <th class="px-5 py-3 font-semibold">Mise à jour</th>
                             <th class="px-5 py-3"></th>
                         </tr>
@@ -41,6 +42,16 @@
                                 <td class="px-5 py-4 text-ink-muted">{{ $case->patient_phone ?? '—' }}</td>
                                 <td class="px-5 py-4"><x-ui.badge :status="strtoupper($case->status)" /></td>
                                 <td class="px-5 py-4 text-ink-muted">{{ $case->cnamgs?->name ?? '—' }}</td>
+                                <td class="px-5 py-4">
+                                    @if ($case->due_at)
+                                        <span class="inline-flex items-center gap-1.5 text-sm {{ $case->isOverdue() ? 'font-bold text-accent-700' : 'text-ink-muted' }}">
+                                            {{ $case->due_at->format('d/m/Y') }}
+                                            @if ($case->isOverdue())<span class="rounded-full bg-accent-50 px-2 py-0.5 text-[11px] font-bold text-accent-700">En retard</span>@endif
+                                        </span>
+                                    @else
+                                        <span class="text-ink-faint">—</span>
+                                    @endif
+                                </td>
                                 <td class="px-5 py-4 text-ink-muted">{{ $case->updated_at?->format('d/m/Y H:i') }}</td>
                                 <td class="px-5 py-4 text-right">
                                     <a href="{{ route('doctor.cases.show', $case) }}"
@@ -52,7 +63,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-5 py-12 text-center text-ink-muted">Aucun dossier assigné.</td>
+                                <td colspan="8" class="px-5 py-12 text-center text-ink-muted">Aucun dossier assigné.</td>
                             </tr>
                         @endforelse
                     </tbody>

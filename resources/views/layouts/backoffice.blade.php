@@ -23,6 +23,7 @@
             ]],
             ['label' => 'Activité', 'items' => [
                 ['url' => url('admin/list-folders'), 'match' => 'admin/list-folders', 'label' => 'Dossiers', 'icon' => 'M4 4h6l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z'],
+                ['url' => url('admin/medical-cases'), 'match' => 'admin/medical-cases', 'label' => 'Dossiers médicaux', 'icon' => 'M9 12h6m-3-3v6M4 4h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z'],
                 ['url' => url('admin/list-quotes'), 'match' => 'admin/list-quotes', 'label' => 'Devis', 'icon' => 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Zm0 0v6h6'],
                 ['url' => url('admin/list-payments'), 'match' => 'admin/list-payments', 'label' => 'Paiements', 'icon' => 'M3 10h18M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z'],
             ]],

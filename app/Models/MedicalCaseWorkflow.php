@@ -62,7 +62,7 @@ class MedicalCaseWorkflow extends Model
         'tracking_number', 'folder_id', 'patient_name', 'patient_phone',
         'doctor_id', 'cnamgs_id', 'status', 'doctor_note', 'cnamgs_note',
         'patient_note', 'sent_to_cnamgs_at', 'received_by_cnamgs_at',
-        'processed_at', 'completed_at',
+        'processed_at', 'completed_at', 'due_at', 'assigned_at',
     ];
 
     protected $casts = [
@@ -70,7 +70,45 @@ class MedicalCaseWorkflow extends Model
         'received_by_cnamgs_at' => 'datetime',
         'processed_at' => 'datetime',
         'completed_at' => 'datetime',
+        'due_at' => 'datetime',
+        'assigned_at' => 'datetime',
     ];
+
+    /** A case is overdue when its deadline has passed and it is not yet closed. */
+    public function isOverdue(): bool
+    {
+        return $this->due_at !== null
+            && ! $this->isTerminal()
+            && $this->due_at->isPast();
+    }
+
+    /**
+     * Assign (or reassign) the case to a doctor and optionally set a deadline.
+     * The change is recorded in the case history (audit trail). A reason is
+     * required when reassigning away from a doctor already in place.
+     */
+    public function assignTo(int $doctorId, ?int $changedBy, ?string $dueAt = null, ?string $reason = null): void
+    {
+        $previous = $this->doctor_id;
+
+        $this->doctor_id = $doctorId;
+        $this->assigned_at = now();
+        if ($dueAt !== null) {
+            $this->due_at = $dueAt;
+        }
+        $this->save();
+
+        $note = $previous && (int) $previous !== $doctorId
+            ? "Réaffecté (médecin #{$previous} → #{$doctorId})" . ($reason ? " : {$reason}" : '')
+            : "Affecté au médecin #{$doctorId}" . ($reason ? " : {$reason}" : '');
+
+        $this->statusHistories()->create([
+            'old_status' => $this->status,
+            'new_status' => $this->status, // assignment does not change status
+            'changed_by' => $changedBy,
+            'note' => $note,
+        ]);
+    }
 
     protected static function booted(): void
     {

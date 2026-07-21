@@ -222,6 +222,10 @@ Route::prefix('admin')->namespace('Admin')->middleware('admin')->group(function 
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin-dashboard');
 
+    //medical cases (assignment + deadlines)
+    Route::get('/medical-cases', [\App\Http\Controllers\Admin\MedicalCaseController::class, 'index'])->name('admin.medical-cases');
+    Route::post('/medical-cases/{case}/assign', [\App\Http\Controllers\Admin\MedicalCaseController::class, 'assign'])->name('admin.medical-cases.assign');
+
     //site images (settings)
     Route::get('/site-images', [\App\Http\Controllers\Admin\SiteSettingController::class, 'index'])->name('admin-site-images');
     Route::post('/site-images', [\App\Http\Controllers\Admin\SiteSettingController::class, 'update']);
