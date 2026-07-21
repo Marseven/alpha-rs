@@ -42,4 +42,16 @@ return [
         'currency' => env('SIMULATOR_CURRENCY', 'XAF'),
         'validity_days' => (int) env('SIMULATOR_VALIDITY_DAYS', 30),
     ],
+
+    // Click-to-chat WhatsApp handoff (a wa.me link — no API needed).
+    // The number falls back to contact_phone when WHATSAPP_NUMBER is unset.
+    // The prefilled message must never contain medical/personal data.
+    'whatsapp' => [
+        'enabled' => (bool) env('WHATSAPP_LINK_ENABLED', true),
+        'number' => env('WHATSAPP_NUMBER'),
+        'message' => env(
+            'WHATSAPP_DEFAULT_MESSAGE',
+            "Bonjour Relief Services, j'ai besoin d'assistance concernant ma prise en charge.",
+        ),
+    ],
 ];

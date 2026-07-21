@@ -1,6 +1,16 @@
-{{-- Floating AI assistant widget — mounted site-wide. Talks to the guarded
-     JSON endpoint (route assistant.chat), which reuses AiAssistantService (medical
-     guard + fallback). Messages are rendered with textContent (XSS-safe). --}}
+{{-- Floating assistance widget — mounted site-wide. Offers two clearly visible
+     channels: the guarded AI assistant (route assistant.chat, reusing
+     AiAssistantService) and a WhatsApp handoff (wa.me). The WhatsApp message is
+     a fixed, PII-free text; the number comes from config (falls back to the
+     contact phone). Bot messages are rendered with textContent (XSS-safe). --}}
+@php
+    $waRaw = config('relief.whatsapp.number') ?: config('relief.contact_phone');
+    $waNumber = preg_replace('/\D/', '', (string) $waRaw);
+    $waEnabled = config('relief.whatsapp.enabled', true) && $waNumber !== '';
+    $waHref = $waEnabled
+        ? 'https://wa.me/' . $waNumber . '?text=' . rawurlencode((string) config('relief.whatsapp.message'))
+        : null;
+@endphp
 <div id="rs-chat" class="fixed bottom-5 right-5 z-50 print:hidden">
 
     {{-- Panel --}}
@@ -13,6 +23,12 @@
                 <div class="font-display text-sm font-bold leading-tight">Assistant Relief Services</div>
                 <div class="text-[11px] text-primary-200">Réponse rapide à vos questions</div>
             </div>
+            @if ($waHref)
+                <a href="{{ $waHref }}" target="_blank" rel="noopener" title="Contacter un conseiller sur WhatsApp"
+                   class="flex h-8 w-8 items-center justify-center rounded-full text-primary-100 transition-colors hover:bg-white/10 hover:text-white" aria-label="Contacter sur WhatsApp">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2Zm0 1.67c2.2 0 4.27.86 5.82 2.42a8.2 8.2 0 0 1 2.42 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24Zm4.52 10.31c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.8-.79.97-.14.16-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.42-.14-.01-.31-.01-.48-.01-.16 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.74 2.66 4.22 3.73.59.25 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg>
+                </a>
+            @endif
             <button type="button" onclick="rsChatToggle(false)" class="flex h-8 w-8 items-center justify-center rounded-full text-primary-200 hover:bg-white/10 hover:text-white" aria-label="Fermer">
                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
@@ -43,6 +59,7 @@
     <script>
         (function () {
             const url = @json(route('assistant.chat'));
+            const waHref = @json($waHref);
             const panel = document.getElementById('rs-chat-panel');
             const msgs = document.getElementById('rs-chat-msgs');
             const input = document.getElementById('rs-chat-input');
@@ -64,6 +81,22 @@
                 msgs.scrollTop = msgs.scrollHeight;
                 return wrap;
             }
+            // A green WhatsApp call-to-action (used as a choice on open and as an
+            // escalation when the assistant cannot answer). Fixed, PII-free text.
+            function waCta(label) {
+                if (!waHref) return;
+                const wrap = document.createElement('div');
+                wrap.className = 'flex justify-start';
+                const a = document.createElement('a');
+                a.href = waHref;
+                a.target = '_blank';
+                a.rel = 'noopener';
+                a.className = 'inline-flex items-center gap-2 rounded-xl border border-[#25D366]/40 bg-[#25D366]/10 px-3.5 py-2 text-sm font-semibold text-[#128C4B] transition-colors hover:bg-[#25D366]/20';
+                a.textContent = label;
+                wrap.appendChild(a);
+                msgs.appendChild(wrap);
+                msgs.scrollTop = msgs.scrollHeight;
+            }
             function typing() {
                 const wrap = document.createElement('div');
                 wrap.className = 'flex justify-start';
@@ -80,7 +113,16 @@
                 iconOpen.classList.toggle('hidden', open);
                 iconClose.classList.toggle('hidden', !open);
                 if (open) {
-                    if (!greeted) { bubble('Bonjour ! Je suis l\'assistant Relief Services. Posez-moi une question sur nos services, un devis, une destination ou le suivi de votre dossier.', 'bot'); greeted = true; }
+                    if (!greeted) {
+                        // Only mention WhatsApp when the channel is actually available,
+                        // otherwise the greeting would point to a button that isn't shown.
+                        bubble(waHref
+                            ? 'Bonjour ! Comment souhaitez-vous être assisté ? Posez votre question à l\'assistant ci-dessous, ou contactez directement un conseiller Relief Services sur WhatsApp.'
+                            : 'Bonjour ! Je suis l\'assistant Relief Services. Posez-moi une question sur nos services, un devis, une destination ou le suivi de votre dossier.',
+                            'bot');
+                        waCta('Contacter un conseiller sur WhatsApp'); // no-op when WhatsApp is off
+                        greeted = true;
+                    }
                     setTimeout(() => input.focus(), 50);
                 }
             };
@@ -102,7 +144,14 @@
                     t.remove();
                     if (res.status === 429) { bubble('Vous envoyez des messages trop vite — merci de patienter quelques instants.', 'bot'); input.value = q; }
                     else if (!res.ok) { bubble('Désolé, une erreur est survenue. Veuillez réessayer.', 'bot'); input.value = q; }
-                    else { const data = await res.json(); bubble(data.answer || 'Je n\'ai pas de réponse pour le moment.', 'bot'); }
+                    else {
+                        const data = await res.json();
+                        bubble(data.answer || 'Je n\'ai pas de réponse pour le moment.', 'bot');
+                        // Escalate to a human when the assistant could not answer confidently.
+                        if (data.status === 'needs_human_review' || data.status === 'failed') {
+                            waCta('Contacter un conseiller sur WhatsApp');
+                        }
+                    }
                 } catch (e) { t.remove(); bubble('Connexion impossible. Vérifiez votre réseau et réessayez.', 'bot'); input.value = q; }
                 sending = false;
             };
