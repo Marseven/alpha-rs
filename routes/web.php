@@ -85,6 +85,7 @@ Route::post('/notify/singpay', [PaymentController::class, 'notify_singpay'])->mi
 //simulator
 Route::get('/simulator', [SimulatorController::class, 'index'])->name('simulator');
 Route::post('/simulate', [SimulatorController::class, 'search'])->middleware('throttle:30,1')->name('simulate');
+Route::get('/simulation/{reference}', [SimulatorController::class, 'show'])->name('simulation.show');
 
 //public case tracking (patient) — tracking number + phone
 // Throttled: the (tracking number, phone) pair is otherwise brute-forceable,

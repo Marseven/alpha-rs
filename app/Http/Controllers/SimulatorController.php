@@ -46,41 +46,42 @@ class SimulatorController extends Controller
         );
     }
 
-    public function search(Request $request)
+    public function search(Request $request, \App\Services\SimulationEngine $engine)
     {
-        $request->validate([
+        $data = $request->validate([
             'service_id' => 'required|exists:services,id',
             'country_id' => 'required|exists:countries,id',
             'sick_id' => 'required|exists:sicks,id',
         ]);
 
-        $simulators = Simulator::where('service_id', $request->service_id)
-            ->where('country_id', $request->country_id)
-            ->where('sick_id', $request->sick_id)
-            ->with(['item', 'service', 'country', 'sick'])
-            ->get();
-        $service_id = Service::findOrFail($request->service_id);
-        $country_id = Country::findOrFail($request->country_id);
-        $sick_id = Sick::findOrFail($request->sick_id);
-
-        $services = Service::all();
-        $countries = Country::all();
-        $sicks = Sick::all();
-
-
-        return view(
-            'simulator.result',
-            [
-                'simulators' => $simulators,
-                'service_id' => $service_id,
-                'country_id' => $country_id,
-                'services' => $services,
-                'sick_id' => $sick_id,
-                'countries' => $countries,
-                'sicks' => $sicks,
-                'title' => 'Simulateur'
-            ]
+        // Compute + persist the breakdown (total = sum of the lines), server-side.
+        $simulation = $engine->run(
+            (int) $data['service_id'],
+            (int) $data['country_id'],
+            (int) $data['sick_id'],
+            ['user_id' => auth()->id()],
         );
+
+        return redirect()->route('simulation.show', $simulation->reference);
+    }
+
+    /** Detailed, referenceable result of a persisted simulation. */
+    public function show(string $reference)
+    {
+        $simulation = \App\Models\Simulation::where('reference', $reference)
+            ->with(['lines', 'service', 'country', 'sick'])
+            ->firstOrFail();
+
+        // A saved simulation is public via its non-sequential reference, but an
+        // owned one is only shown to its owner (no cross-account leak).
+        if ($simulation->user_id && (int) $simulation->user_id !== (int) auth()->id()) {
+            abort(403);
+        }
+
+        return view('simulator.result', [
+            'simulation' => $simulation,
+            'title' => 'Résultat de la simulation',
+        ]);
     }
 
     public function create(Request $request)

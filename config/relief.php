@@ -35,4 +35,11 @@ return [
         'api_key' => env('AI_API_KEY'),
         'model' => env('AI_MODEL', 'gpt-4o-mini'),
     ],
+
+    'simulator' => [
+        // Frozen on each saved simulation. Bump when the tariff grid changes.
+        'tariff_version' => env('SIMULATOR_TARIFF_VERSION', 'v1'),
+        'currency' => env('SIMULATOR_CURRENCY', 'XAF'),
+        'validity_days' => (int) env('SIMULATOR_VALIDITY_DAYS', 30),
+    ],
 ];
