@@ -87,16 +87,37 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="mb-1.5 block text-sm font-semibold text-ink">Valeur</label>
-                                <input type="text" name="value" value="{{ old('value') }}"
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Prix unitaire (XAF)</label>
+                                <input type="number" name="unit_price" value="{{ old('unit_price') }}" min="0" step="1"
+                                    placeholder="ex. 60000"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                @error('unit_price')<p class="mt-1 text-xs text-accent-600">{{ $message }}</p>@enderror
+                            </div>
+                            <div>
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Quantité</label>
+                                <input type="number" name="quantity" value="{{ old('quantity', 1) }}" min="0.01" step="0.01"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                @error('quantity')<p class="mt-1 text-xs text-accent-600">{{ $message }}</p>@enderror
+                            </div>
+                            <div>
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Catégorie</label>
+                                <input type="text" name="category" value="{{ old('category') }}" placeholder="ex. Médical, Séjour"
                                     class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
                             </div>
                             <div>
-                                <label class="mb-1.5 block text-sm font-semibold text-ink">Activé ?</label>
-                                <select name="status"
+                                <label class="mb-1.5 block text-sm font-semibold text-ink">Valeur (libellé, optionnel)</label>
+                                <input type="text" name="value" value="{{ old('value') }}" placeholder="Repli si pas de prix unitaire"
                                     class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
-                                    @php App\Http\Controllers\Controller::enable_status(); @endphp
-                                </select>
+                            </div>
+                            <div class="flex items-end gap-5 pb-2.5">
+                                <label class="inline-flex items-center gap-2 text-sm font-semibold text-ink">
+                                    <input type="checkbox" name="is_optional" value="1" @checked(old('is_optional')) class="h-4 w-4 rounded border-line-strong text-primary-600">
+                                    Facultatif
+                                </label>
+                                <label class="inline-flex items-center gap-2 text-sm font-semibold text-ink">
+                                    <input type="checkbox" name="is_estimate" value="1" @checked(old('is_estimate', true)) class="h-4 w-4 rounded border-line-strong text-primary-600">
+                                    Estimé
+                                </label>
                             </div>
                         </div>
                         <div class="mt-5">
@@ -119,7 +140,9 @@
                         <tr class="border-b border-line bg-canvas text-[11.5px] uppercase tracking-wide text-ink-muted">
                             <th class="px-6 py-3 font-semibold">#</th>
                             <th class="px-6 py-3 font-semibold">Libellé</th>
-                            <th class="px-6 py-3 font-semibold">Valeur</th>
+                            <th class="px-6 py-3 font-semibold">Prix unit.</th>
+                            <th class="px-6 py-3 font-semibold">Qté</th>
+                            <th class="px-6 py-3 font-semibold">Catégorie</th>
                             <th class="px-6 py-3 font-semibold">Pathologie</th>
                             <th class="px-6 py-3 font-semibold">Service</th>
                             <th class="px-6 py-3 font-semibold">Pays</th>
@@ -143,7 +166,9 @@
                             <tr class="border-b border-line-subtle last:border-0 hover:bg-canvas">
                                 <td class="px-6 py-3.5 font-mono text-[13px] text-ink-muted">{{ $simulator->id }}</td>
                                 <td class="px-6 py-3.5 font-medium text-ink">{{ $simulator->item?->label }}</td>
-                                <td class="px-6 py-3.5 text-ink-muted">{{ $simulator->value }}</td>
+                                <td class="px-6 py-3.5 font-mono text-ink">{{ $simulator->unit_price !== null ? number_format($simulator->unit_price, 0, ',', ' ') : ($simulator->value ?: '—') }}</td>
+                                <td class="px-6 py-3.5 text-ink-muted">{{ rtrim(rtrim(number_format($simulator->quantity ?? 1, 2, ',', ' '), '0'), ',') }}</td>
+                                <td class="px-6 py-3.5 text-ink-muted">{{ $simulator->category ?: '—' }}@if($simulator->is_optional) <span class="text-[11px] text-ink-faint">(fac.)</span>@endif</td>
                                 <td class="px-6 py-3.5 text-ink-muted">{{ $simulator->sick?->label }}</td>
                                 <td class="px-6 py-3.5 text-ink-muted">{{ $simulator->service?->label }}</td>
                                 <td class="px-6 py-3.5 text-ink-muted">{{ $simulator->country?->label }}</td>
@@ -155,7 +180,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="8" class="px-6 py-8 text-center text-ink-muted">Aucune valeur pour le moment.</td></tr>
+                            <tr><td colspan="10" class="px-6 py-8 text-center text-ink-muted">Aucune valeur pour le moment.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -223,16 +248,34 @@
                                             </select>
                                         </div>
                                         <div>
-                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Valeur</label>
-                                            <input type="text" name="value" value="{{ $simulator->value }}"
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Prix unitaire (XAF)</label>
+                                            <input type="number" name="unit_price" value="{{ $simulator->unit_price }}" min="0" step="1"
                                                 class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
                                         </div>
                                         <div>
-                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Activé ?</label>
-                                            <select name="status"
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Quantité</label>
+                                            <input type="number" name="quantity" value="{{ $simulator->quantity ?? 1 }}" min="0.01" step="0.01"
                                                 class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
-                                                @php App\Http\Controllers\Controller::enable_status(); @endphp
-                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Catégorie</label>
+                                            <input type="text" name="category" value="{{ $simulator->category }}"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                        </div>
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Valeur (libellé, optionnel)</label>
+                                            <input type="text" name="value" value="{{ $simulator->value }}"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                        </div>
+                                        <div class="flex items-center gap-5 sm:col-span-2">
+                                            <label class="inline-flex items-center gap-2 text-sm font-semibold text-ink">
+                                                <input type="checkbox" name="is_optional" value="1" @checked($simulator->is_optional) class="h-4 w-4 rounded border-line-strong text-primary-600">
+                                                Facultatif
+                                            </label>
+                                            <label class="inline-flex items-center gap-2 text-sm font-semibold text-ink">
+                                                <input type="checkbox" name="is_estimate" value="1" @checked($simulator->is_estimate) class="h-4 w-4 rounded border-line-strong text-primary-600">
+                                                Estimé
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="mt-5">

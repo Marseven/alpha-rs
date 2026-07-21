@@ -86,25 +86,17 @@ class SimulatorController extends Controller
 
     public function create(Request $request)
     {
-        $request->validate([
-            'value' => 'required|string|max:255',
-            'note' => 'nullable|string',
-            'country_id' => 'required|exists:countries,id',
-            'service_id' => 'required|exists:services,id',
-            'sick_id' => 'required|exists:sicks,id',
-            'item_id' => 'required|exists:simulator_items,id',
-        ]);
+        $request->validate($this->rowRules());
 
         $simulator = new Simulator();
 
-        $simulator->value = $request->value;
-        $simulator->note = $request->note;
         $simulator->country_id = $request->country_id;
         $simulator->service_id = $request->service_id;
         $simulator->sick_id = $request->sick_id;
         $simulator->simulator_item_id = $request->item_id;
         $simulator->status = STATUT_ENABLE;
         $simulator->user_id = auth()->user()->id;
+        $this->applyRow($simulator, $request);
 
         if ($simulator->save()) {
             return back()->with('success', "L'élément a bien été créé !");
@@ -122,18 +114,49 @@ class SimulatorController extends Controller
                 return back()->with('error', "Une erreur s'est produite.");
             }
         } else {
-            $simulator->value = $request->value;
-            $simulator->note = $request->note;
+            $request->validate($this->rowRules());
+
             $simulator->country_id = $request->country_id;
             $simulator->service_id = $request->service_id;
             $simulator->sick_id = $request->sick_id;
             $simulator->simulator_item_id = $request->item_id;
+            $this->applyRow($simulator, $request);
+
             if ($simulator->save()) {
                 return back()->with('success', "L'élément a bien été mis à jour !");
             } else {
                 return back()->with('error', "Une erreur s'est produite.");
             }
         }
+    }
+
+    /** Validation for a catalog row (structured pricing + legacy label). */
+    private function rowRules(): array
+    {
+        return [
+            'country_id' => 'required|exists:countries,id',
+            'service_id' => 'required|exists:services,id',
+            'sick_id' => 'required|exists:sicks,id',
+            'item_id' => 'required|exists:simulator_items,id',
+            'unit_price' => 'nullable|numeric|min:0',
+            'quantity' => 'nullable|numeric|min:0.01',
+            'category' => 'nullable|string|max:120',
+            'value' => 'nullable|string|max:255',
+            'note' => 'nullable|string',
+        ];
+    }
+
+    /** Apply the pricing + display fields to a catalog row. */
+    private function applyRow(Simulator $simulator, Request $request): void
+    {
+        // value is kept as the legacy label/fallback; the column is NOT NULL.
+        $simulator->value = $request->input('value', '') ?? '';
+        $simulator->note = $request->note;
+        $simulator->unit_price = $request->filled('unit_price') ? $request->unit_price : null;
+        $simulator->quantity = $request->filled('quantity') ? $request->quantity : 1;
+        $simulator->category = $request->category;
+        $simulator->is_optional = $request->boolean('is_optional');
+        $simulator->is_estimate = $request->boolean('is_estimate');
     }
 
     public function create_item(Request $request)
