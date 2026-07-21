@@ -76,6 +76,24 @@
                                 </select>
                                 @error('workflow_role')<p class="mt-1 text-xs text-accent-600">{{ $message }}</p>@enderror
                             </div>
+                            <div>
+                                <label for="specialty" class="mb-1.5 block text-sm font-semibold text-ink">Spécialité</label>
+                                <input type="text" id="specialty" name="specialty" value="{{ old('specialty') }}"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                @error('specialty')<p class="mt-1 text-xs text-accent-600">{{ $message }}</p>@enderror
+                            </div>
+                            <div>
+                                <label for="license_number" class="mb-1.5 block text-sm font-semibold text-ink">N° professionnel</label>
+                                <input type="text" id="license_number" name="license_number" value="{{ old('license_number') }}"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                @error('license_number')<p class="mt-1 text-xs text-accent-600">{{ $message }}</p>@enderror
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label for="institution" class="mb-1.5 block text-sm font-semibold text-ink">Institution / établissement</label>
+                                <input type="text" id="institution" name="institution" value="{{ old('institution') }}"
+                                    class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                @error('institution')<p class="mt-1 text-xs text-accent-600">{{ $message }}</p>@enderror
+                            </div>
                             <div class="sm:col-span-2">
                                 <label for="password" class="mb-1.5 block text-sm font-semibold text-ink">Mot de passe <span class="text-accent-600">*</span></label>
                                 <input type="password" id="password" name="password" required minlength="8"
@@ -116,7 +134,12 @@
                                 <td class="px-6 py-3.5 text-ink-muted">{{ $user->email }}</td>
                                 <td class="px-6 py-3.5 text-ink-muted">{{ $user->phone ?: '—' }}</td>
                                 <td class="px-6 py-3.5">
-                                    <x-ui.badge :label="$user->workflow_role === 'doctor' ? 'Médecin' : 'CNAMGS'" />
+                                    <div class="flex flex-wrap items-center gap-1.5">
+                                        <x-ui.badge :label="$user->workflow_role === 'doctor' ? 'Médecin' : 'CNAMGS'" />
+                                        @if ($user->suspended_at)
+                                            <span class="inline-flex items-center rounded-full border border-accent-100 bg-accent-50 px-2.5 py-0.5 text-xs font-bold text-accent-700">Suspendu</span>
+                                        @endif
+                                    </div>
                                 </td>
                                 <td class="px-6 py-3.5 text-right">
                                     <a href="#edit-staff-{{ $user->id }}" class="text-sm font-semibold text-primary-600 hover:text-primary-700">Gérer</a>
@@ -173,6 +196,21 @@
                                                 <option value="cnamgs" @selected($user->workflow_role === 'cnamgs')>CNAMGS</option>
                                             </select>
                                         </div>
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Spécialité</label>
+                                            <input type="text" name="specialty" value="{{ $user->specialty }}"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                        </div>
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">N° professionnel</label>
+                                            <input type="text" name="license_number" value="{{ $user->license_number }}"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                        </div>
+                                        <div class="sm:col-span-2">
+                                            <label class="mb-1.5 block text-sm font-semibold text-ink">Institution / établissement</label>
+                                            <input type="text" name="institution" value="{{ $user->institution }}"
+                                                class="w-full rounded-lg border-[1.5px] border-line-strong bg-white px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
+                                        </div>
                                         <div class="sm:col-span-2">
                                             <label class="mb-1.5 block text-sm font-semibold text-ink">Mot de passe</label>
                                             <input type="password" name="password" minlength="8"
@@ -186,7 +224,25 @@
                                 </form>
 
                                 <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line bg-white px-4 py-3">
-                                    <p class="text-sm text-ink-muted">Êtes-vous sûr de vouloir supprimer ce compte ?</p>
+                                    @if ($user->suspended_at)
+                                        <p class="text-sm text-ink-muted">Ce compte est <span class="font-semibold text-accent-700">suspendu</span> — il ne peut plus se connecter.</p>
+                                        <form method="POST" action="{{ url('admin/staff/' . $user->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="reactivate" value="1">
+                                            <button type="submit" class="inline-flex min-h-[40px] items-center justify-center rounded-lg bg-success-600 px-4 text-sm font-bold text-white transition-colors hover:bg-success-700">Rétablir l'accès</button>
+                                        </form>
+                                    @else
+                                        <p class="text-sm text-ink-muted">Suspendre coupe l'accès sans supprimer les dossiers traités.</p>
+                                        <form method="POST" action="{{ url('admin/staff/' . $user->id) }}">
+                                            @csrf
+                                            <input type="hidden" name="suspend" value="1">
+                                            <button type="submit" class="inline-flex min-h-[40px] items-center justify-center rounded-lg bg-warning-500 px-4 text-sm font-bold text-white transition-colors hover:bg-warning-600">Suspendre l'accès</button>
+                                        </form>
+                                    @endif
+                                </div>
+
+                                <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-accent-100 bg-accent-50/40 px-4 py-3">
+                                    <p class="text-sm text-ink-muted">Suppression définitive (préférer la suspension).</p>
                                     <form method="POST" action="{{ url('admin/staff/' . $user->id) }}"
                                         onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce compte ?')">
                                         @csrf

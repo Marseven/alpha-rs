@@ -25,6 +25,9 @@ class User extends Authenticatable
         'password',
         'phone',
         'workflow_role',
+        'specialty',
+        'institution',
+        'license_number',
     ];
 
     /**
@@ -44,7 +47,18 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'suspended_at' => 'datetime',
     ];
+
+    /**
+     * A suspended account keeps all its data (and stays attached to the cases it
+     * handled) but can no longer sign in or reach its space. Suspending is the
+     * reversible alternative to deleting, which orphans the cases.
+     */
+    public function isSuspended(): bool
+    {
+        return $this->suspended_at !== null;
+    }
 
     public function role(){
         return $this->belongsTo(SecurityRole::class,'security_role_id');

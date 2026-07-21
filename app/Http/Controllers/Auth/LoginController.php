@@ -55,6 +55,16 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            // A suspended account must not obtain a session, even with valid
+            // credentials (the password stays known to the admin who set it).
+            if (Auth::user()->isSuspended()) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()->with('error', "Ce compte a été suspendu. Contactez Relief Services.");
+            }
+
             $request->session()->regenerate();
 
             return redirect()->intended($this->homeFor(Auth::user()));

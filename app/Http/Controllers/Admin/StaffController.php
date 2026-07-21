@@ -31,6 +31,9 @@ class StaffController extends Controller
             'phone' => 'nullable|string|max:32',
             'workflow_role' => 'required|in:doctor,cnamgs',
             'password' => 'required|string|min:8',
+            'specialty' => 'nullable|string|max:120',
+            'institution' => 'nullable|string|max:180',
+            'license_number' => 'nullable|string|max:60',
         ]);
 
         $user = new User();
@@ -38,6 +41,9 @@ class StaffController extends Controller
         $user->email = $data['email'];
         $user->phone = $data['phone'] ?? null;
         $user->workflow_role = $data['workflow_role'];
+        $user->specialty = $data['specialty'] ?? null;
+        $user->institution = $data['institution'] ?? null;
+        $user->license_number = $data['license_number'] ?? null;
         $user->password = Hash::make($data['password']);
         $user->email_verified_at = now();
         $user->save();
@@ -56,18 +62,41 @@ class StaffController extends Controller
             return back()->with('success', 'Compte supprimé.');
         }
 
+        // Suspension: reversible alternative to deletion. The account keeps its
+        // history and stays attached to the cases it handled, but can no longer
+        // sign in or reach the medical space.
+        if ($request->has('suspend')) {
+            $user->suspended_at = now();
+            $user->save();
+
+            return back()->with('success', "Accès suspendu pour {$user->name}.");
+        }
+
+        if ($request->has('reactivate')) {
+            $user->suspended_at = null;
+            $user->save();
+
+            return back()->with('success', "Accès rétabli pour {$user->name}.");
+        }
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:32',
             'workflow_role' => 'required|in:doctor,cnamgs',
             'password' => 'nullable|string|min:8',
+            'specialty' => 'nullable|string|max:120',
+            'institution' => 'nullable|string|max:180',
+            'license_number' => 'nullable|string|max:60',
         ]);
 
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->phone = $data['phone'] ?? null;
         $user->workflow_role = $data['workflow_role'];
+        $user->specialty = $data['specialty'] ?? null;
+        $user->institution = $data['institution'] ?? null;
+        $user->license_number = $data['license_number'] ?? null;
         if (! empty($data['password'])) {
             $user->password = Hash::make($data['password']);
         }

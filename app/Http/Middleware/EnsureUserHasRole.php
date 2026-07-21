@@ -19,6 +19,16 @@ class EnsureUserHasRole
             return redirect('/login');
         }
 
+        // A suspended staff account loses access immediately, even mid-session
+        // (e.g. a compromised account revoked by an admin).
+        if ($user->isSuspended()) {
+            auth()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect('/login')->with('error', "Ce compte a été suspendu.");
+        }
+
         if ($user->isPlatformAdmin() || $user->workflow_role === $role) {
             return $next($request);
         }
