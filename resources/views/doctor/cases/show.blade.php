@@ -143,12 +143,12 @@
             <div>
                 @can('sendToCnamgs', $case)
                     <x-ui.card padding="p-6">
-                        <h3 class="font-display text-base font-bold text-ink">Envoyer à la CNAMGS</h3>
-                        <p class="mt-1 text-sm text-ink-muted">Transmettez ce dossier à la structure CNAMGS de votre choix.</p>
+                        <h3 class="font-display text-base font-bold text-ink">Décision médicale</h3>
+                        <p class="mt-1 text-sm text-ink-muted">Validez et transmettez ce dossier à la CNAMGS, ou prononcez une autre décision.</p>
                         <form method="POST" action="{{ route('doctor.cases.send', $case) }}" class="mt-5 space-y-4">
                             @csrf
                             <div>
-                                <label for="cnamgs_id" class="mb-1.5 block text-sm font-semibold text-ink">CNAMGS <span class="text-accent-600">*</span></label>
+                                <label for="cnamgs_id" class="mb-1.5 block text-sm font-semibold text-ink">CNAMGS destinataire <span class="text-accent-600">*</span></label>
                                 <select name="cnamgs_id" id="cnamgs_id" required
                                         class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">
                                     <option value="">— Choisir —</option>
@@ -159,16 +159,43 @@
                                 @error('cnamgs_id')<p class="mt-1.5 text-sm text-accent-700">{{ $message }}</p>@enderror
                             </div>
                             <div>
-                                <label for="doctor_note" class="mb-1.5 block text-sm font-semibold text-ink">Note (optionnel)</label>
-                                <textarea name="doctor_note" id="doctor_note" rows="3"
+                                <label for="doctor_note" class="mb-1.5 block text-sm font-semibold text-ink">Avis médical <span class="text-accent-600">*</span></label>
+                                <textarea name="doctor_note" id="doctor_note" rows="3" required
+                                          placeholder="Votre avis médical justifiant la validation."
                                           class="w-full rounded-lg border-[1.5px] border-line-strong px-3.5 py-2.5 text-[15px] text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15">{{ old('doctor_note', $case->doctor_note) }}</textarea>
                                 @error('doctor_note')<p class="mt-1.5 text-sm text-accent-700">{{ $message }}</p>@enderror
                             </div>
-                            <x-ui.button type="submit" variant="primary" class="w-full">Envoyer le dossier</x-ui.button>
+                            <x-ui.button type="submit" variant="primary" class="w-full">Valider et transmettre</x-ui.button>
                         </form>
+
+                        <div class="mt-5 grid gap-3 border-t border-line pt-5 sm:grid-cols-2">
+                            @can('requestInformation', $case)
+                                <details class="rounded-lg border border-line-strong">
+                                    <summary class="cursor-pointer px-3.5 py-2.5 text-sm font-semibold text-ink">Demander un complément</summary>
+                                    <form method="POST" action="{{ route('doctor.cases.request-info', $case) }}" class="space-y-3 px-3.5 pb-3.5">
+                                        @csrf
+                                        <textarea name="reason" rows="2" required placeholder="Document ou information manquant."
+                                                  class="w-full rounded-lg border-[1.5px] border-line-strong px-3 py-2 text-sm text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15"></textarea>
+                                        <x-ui.button type="submit" variant="outline" class="w-full">Demander un complément</x-ui.button>
+                                    </form>
+                                </details>
+                            @endcan
+                            @can('reject', $case)
+                                <details class="rounded-lg border border-accent-100">
+                                    <summary class="cursor-pointer px-3.5 py-2.5 text-sm font-semibold text-accent-700">Refuser le dossier</summary>
+                                    <form method="POST" action="{{ route('doctor.cases.reject', $case) }}" class="space-y-3 px-3.5 pb-3.5"
+                                          onsubmit="return confirm('Refuser médicalement ce dossier ? Cette action le clôture.');">
+                                        @csrf
+                                        <textarea name="reason" rows="2" required placeholder="Motif du refus médical."
+                                                  class="w-full rounded-lg border-[1.5px] border-line-strong px-3 py-2 text-sm text-ink focus:border-primary-600 focus:ring-2 focus:ring-primary-600/15"></textarea>
+                                        <x-ui.button type="submit" variant="accent" class="w-full">Refuser</x-ui.button>
+                                    </form>
+                                </details>
+                            @endcan
+                        </div>
                     </x-ui.card>
                 @else
-                    <x-ui.alert type="info">Ce dossier a déjà été envoyé (statut : {{ $statusLabels[$case->status] ?? $case->status }}).</x-ui.alert>
+                    <x-ui.alert type="info">Ce dossier n'est plus modifiable (statut : {{ $statusLabels[$case->status] ?? $case->status }}).</x-ui.alert>
                 @endcan
             </div>
         </div>

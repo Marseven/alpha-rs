@@ -117,6 +117,8 @@ Route::middleware(['auth', 'workflow_role:doctor'])->prefix('doctor')->group(fun
     Route::put('/cases/{case}', [\App\Http\Controllers\Doctor\CaseController::class, 'update'])->name('doctor.cases.update');
     Route::delete('/cases/{case}', [\App\Http\Controllers\Doctor\CaseController::class, 'destroy'])->name('doctor.cases.destroy');
     Route::post('/cases/{case}/send-to-cnamgs', [\App\Http\Controllers\Doctor\CaseController::class, 'sendToCnamgs'])->name('doctor.cases.send');
+    Route::post('/cases/{case}/reject', [\App\Http\Controllers\Doctor\CaseController::class, 'reject'])->name('doctor.cases.reject');
+    Route::post('/cases/{case}/request-information', [\App\Http\Controllers\Doctor\CaseController::class, 'requestInformation'])->name('doctor.cases.request-info');
 });
 
 // Medical workflow — CNAMGS space

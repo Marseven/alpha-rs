@@ -114,7 +114,7 @@ class DoctorCaseCrudTest extends TestCase
         $case = $this->makeCase(['doctor_id' => $doctor->id]);
 
         $this->actingAs($doctor)
-            ->post('/doctor/cases/' . $case->id . '/send-to-cnamgs', ['cnamgs_id' => $cnamgs->id])
+            ->post('/doctor/cases/' . $case->id . '/send-to-cnamgs', ['cnamgs_id' => $cnamgs->id, 'doctor_note' => 'Avis médical favorable.'])
             ->assertRedirect();
 
         $this->assertDatabaseHas('medical_case_workflows', [

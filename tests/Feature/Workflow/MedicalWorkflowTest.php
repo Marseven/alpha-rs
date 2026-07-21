@@ -39,7 +39,7 @@ class MedicalWorkflowTest extends TestCase
         $case = $this->makeCase(['doctor_id' => $doctor->id]);
 
         $this->actingAs($doctor)
-            ->post('/doctor/cases/' . $case->id . '/send-to-cnamgs', ['cnamgs_id' => $cnamgs->id])
+            ->post('/doctor/cases/' . $case->id . '/send-to-cnamgs', ['cnamgs_id' => $cnamgs->id, 'doctor_note' => 'Avis médical favorable.'])
             ->assertRedirect();
 
         $case->refresh();
@@ -60,7 +60,7 @@ class MedicalWorkflowTest extends TestCase
         $case = $this->makeCase(['doctor_id' => $other->id]);
 
         $this->actingAs($doctor)
-            ->post('/doctor/cases/' . $case->id . '/send-to-cnamgs', ['cnamgs_id' => $cnamgs->id])
+            ->post('/doctor/cases/' . $case->id . '/send-to-cnamgs', ['cnamgs_id' => $cnamgs->id, 'doctor_note' => 'Avis médical favorable.'])
             ->assertForbidden();
 
         $this->assertSame(MedicalCaseWorkflow::DRAFT, $case->fresh()->status);

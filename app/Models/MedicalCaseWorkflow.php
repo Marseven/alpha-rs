@@ -42,13 +42,17 @@ class MedicalCaseWorkflow extends Model
      * same status is always allowed (re-saving a note is a legitimate action).
      */
     public const TRANSITIONS = [
-        self::DRAFT => [self::SENT_TO_CNAMGS, self::CANCELLED],
+        // From draft the doctor may transmit, flag a missing document, or reject.
+        self::DRAFT => [self::SENT_TO_CNAMGS, self::MISSING_INFORMATION, self::CANCELLED],
         // A CNAMGS agent legitimately opens a freshly sent case straight into
         // review without ticking "received" first.
         self::SENT_TO_CNAMGS => [self::RECEIVED_BY_CNAMGS, self::IN_REVIEW, self::MISSING_INFORMATION, self::CANCELLED],
         self::RECEIVED_BY_CNAMGS => [self::IN_REVIEW, self::MISSING_INFORMATION, self::READY, self::CANCELLED],
         self::IN_REVIEW => [self::MISSING_INFORMATION, self::READY, self::CANCELLED],
-        self::MISSING_INFORMATION => [self::IN_REVIEW, self::READY, self::CANCELLED],
+        // Once the missing document is provided the doctor re-transmits, or the
+        // CNAMGS resumes its review. (SENT_TO_CNAMGS closes an inconsistency with
+        // the sendToCnamgs policy, which already allowed a re-send from here.)
+        self::MISSING_INFORMATION => [self::SENT_TO_CNAMGS, self::IN_REVIEW, self::READY, self::CANCELLED],
         self::READY => [self::COMPLETED, self::CANCELLED],
         self::COMPLETED => [],
         self::CANCELLED => [],

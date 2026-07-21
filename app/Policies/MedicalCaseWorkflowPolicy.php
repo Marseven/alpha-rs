@@ -27,6 +27,20 @@ class MedicalCaseWorkflowPolicy
             && in_array($case->status, [MedicalCaseWorkflow::DRAFT, MedicalCaseWorkflow::MISSING_INFORMATION], true);
     }
 
+    /** The doctor may reject their own case, before it leaves their hands. */
+    public function reject(User $user, MedicalCaseWorkflow $case): bool
+    {
+        return $this->ownsAsDoctor($user, $case)
+            && in_array($case->status, [MedicalCaseWorkflow::DRAFT, MedicalCaseWorkflow::MISSING_INFORMATION], true);
+    }
+
+    /** The doctor may flag a missing document while still preparing a draft. */
+    public function requestInformation(User $user, MedicalCaseWorkflow $case): bool
+    {
+        return $this->ownsAsDoctor($user, $case)
+            && $case->status === MedicalCaseWorkflow::DRAFT;
+    }
+
     /** Only the receiving cnamgs may update status, once the case was sent. */
     public function updateStatus(User $user, MedicalCaseWorkflow $case): bool
     {

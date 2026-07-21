@@ -100,9 +100,12 @@ class CaseController extends Controller
     {
         $this->authorize('sendToCnamgs', $case);
 
+        // Medical validation = a signed opinion is now mandatory: transmitting a
+        // case to the CNAMGS is the doctor's medical validation, it must not be
+        // an empty routing action.
         $data = $request->validate([
             'cnamgs_id' => 'required|exists:users,id',
-            'doctor_note' => 'nullable|string|max:2000',
+            'doctor_note' => 'required|string|max:2000',
         ]);
 
         $cnamgs = User::where('id', $data['cnamgs_id'])->where('workflow_role', 'cnamgs')->first();
@@ -111,14 +114,48 @@ class CaseController extends Controller
         }
 
         $case->cnamgs_id = $cnamgs->id;
-        if (! empty($data['doctor_note'])) {
-            $case->doctor_note = $data['doctor_note'];
-        }
-        $case->changeStatus(MedicalCaseWorkflow::SENT_TO_CNAMGS, auth()->id(), 'Dossier envoyé à la CNAMGS.');
+        $case->doctor_note = $data['doctor_note'];
+        $case->changeStatus(MedicalCaseWorkflow::SENT_TO_CNAMGS, auth()->id(), 'Validé médicalement et transmis à la CNAMGS.');
 
         $this->notifyCnamgs($case, $cnamgs);
 
-        return back()->with('success', "Le dossier {$case->tracking_number} a été envoyé à la CNAMGS.");
+        return back()->with('success', "Le dossier {$case->tracking_number} a été validé et transmis à la CNAMGS.");
+    }
+
+    /**
+     * Medical rejection: the doctor refuses the case on medical grounds. A
+     * reason is mandatory and is recorded in the case history.
+     */
+    public function reject(Request $request, MedicalCaseWorkflow $case)
+    {
+        $this->authorize('reject', $case);
+
+        $data = $request->validate([
+            'reason' => 'required|string|max:2000',
+        ]);
+
+        $case->doctor_note = $data['reason'];
+        $case->changeStatus(MedicalCaseWorkflow::CANCELLED, auth()->id(), 'Refusé médicalement : ' . $data['reason']);
+
+        return back()->with('success', "Le dossier {$case->tracking_number} a été refusé.");
+    }
+
+    /**
+     * The doctor flags that a document is missing before they can validate. A
+     * reason is mandatory; the patient timeline reflects the missing-info state.
+     */
+    public function requestInformation(Request $request, MedicalCaseWorkflow $case)
+    {
+        $this->authorize('requestInformation', $case);
+
+        $data = $request->validate([
+            'reason' => 'required|string|max:2000',
+        ]);
+
+        $case->doctor_note = $data['reason'];
+        $case->changeStatus(MedicalCaseWorkflow::MISSING_INFORMATION, auth()->id(), 'Complément demandé : ' . $data['reason']);
+
+        return back()->with('success', "Un complément d'information a été demandé pour le dossier {$case->tracking_number}.");
     }
 
     private function notifyCnamgs(MedicalCaseWorkflow $case, User $cnamgs): void
