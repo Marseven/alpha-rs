@@ -1,0 +1,168 @@
+# Garde-fou « version de PHP » — à copier dans .github/workflows/ de chaque
+# projet PHP, ou à coller comme job dans un workflow existant :
+#
+#     cp /Applications/MAMP/htdocs/_scripts/ci/php-securite.yml \
+#        <projet>/.github/workflows/
+#
+# ------------------------------------------------------------------------
+# CE QUE CE WORKFLOW GARDE, ET CE QU'IL NE GARDE PAS
+#
+# CERT-EU 2026-018 décrit deux failles PHP notées 9.2 : exécution de code à
+# distance, sans authentification, en une requête, AVANT que le code
+# applicatif ne s'exécute (CVE-2026-109618, CVE-2026-109619). La faille est
+# dans l'interpréteur, pas dans vos projets : aucun correctif applicatif n'y
+# change quoi que ce soit, seule la version du binaire compte.
+#
+# ⚠️ LE RUNNER N'EST PAS LA PRODUCTION, ET C'EST TOUT LE PROBLÈME.
+# GitHub installe un PHP neuf à chaque exécution, donc presque toujours déjà
+# corrigé : ne vérifier que le runner donnerait un ✓ vert rassurant pendant
+# qu'un serveur vulnérable sert le site. Ce serait pire que rien.
+#
+# D'où le SECOND contrôle, le seul qui voyage avec le code : composer.json
+# doit déclarer un plancher AU NIVEAU DU CORRECTIF. `composer install` refuse
+# alors de s'installer sur un interpréteur vulnérable — sur le serveur comme
+# sur n'importe quelle machine.
+#
+# ⚠️ Les seuils sont redits ici plutôt que lus depuis _scripts/verifier-php.sh :
+# ce workflow tourne chez GitHub, sans accès au dossier htdocs. Au prochain
+# avis, les DEUX fichiers sont à reprendre.
+# ------------------------------------------------------------------------
+
+name: Sécurité PHP
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  # Une version sûre aujourd'hui ne l'est plus au prochain avis, même si
+  # personne ne pousse une ligne. D'où le passage hebdomadaire.
+  schedule:
+    - cron: '0 6 * * 1'
+
+jobs:
+  version-de-php:
+    name: Version de PHP
+    runs-on: ubuntu-latest
+
+    env:
+      # Branche:version corrigée. Une branche absente est réputée non
+      # maintenue, donc refusée.
+      SEUILS: "8.5:8.5.12 8.4:8.4.27 8.3:8.3.36 8.2:8.2.35"
+      AVIS: "CERT-EU 2026-018 (CVE-2026-109618, CVE-2026-109619, CVSS 9.2)"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Une fonction partagée par les deux contrôles : « cette version est-elle
+      # corrigée ? ». Écrite une fois, appelée deux fois.
+      - name: Outil de comparaison
+        run: |
+          cat > "$RUNNER_TEMP/seuil.sh" <<'FIN'
+          # seuil.sh <version> — sort 0 si corrigée, 1 sinon. Explique au passage.
+          version_corrigee() {
+            local version="${1%%-*}"            # « 8.3.6-1ubuntu2 » → « 8.3.6 »
+            local branche="${version%.*}"
+            local seuil=""
+
+            for entree in $SEUILS; do
+              [ "${entree%%:*}" = "$branche" ] && seuil="${entree#*:}"
+            done
+
+            if [ -z "$seuil" ]; then
+              echo "branche $branche non maintenue (plus aucun correctif amont)"
+              return 1
+            fi
+
+            if [ "$(printf '%s\n%s\n' "$seuil" "$version" | sort -V | head -n1)" != "$seuil" ]; then
+              echo "vulnérable — corrigé à partir de $seuil"
+              return 1
+            fi
+
+            echo "corrigé (seuil $seuil)"
+            return 0
+          }
+          FIN
+          echo "prêt"
+
+      - name: Le PHP de ce workflow
+        run: |
+          source "$RUNNER_TEMP/seuil.sh"
+          VERSION="$(php -r 'echo PHP_VERSION;')"
+
+          if VERDICT="$(version_corrigee "$VERSION")"; then
+            echo "PHP $VERSION — $VERDICT"
+            exit 0
+          fi
+
+          # ⚠️ LE NUMÉRO AMONT NE SUFFIT PAS SUR DEBIAN ET UBUNTU.
+          # Ces distributions RÉTROPORTENT les correctifs sans toucher au
+          # numéro amont : un Ubuntu 24.04 corrigé reste « PHP 8.3.6 », le
+          # correctif n'apparaissant que dans le suffixe du paquet
+          # (…24.04.12 → …24.04.13). Sans ce rattrapage, un runner auto-hébergé
+          # sur Ubuntu serait déclaré vulnérable à vie — et un garde-fou qui
+          # crie au loup sur une machine saine finit par être ignoré.
+          BRANCHE="${VERSION%.*}"
+          if zcat "/usr/share/doc/php${BRANCHE}-common/changelog.Debian.gz" 2>/dev/null \
+               | head -100 | grep -qE 'CVE-2026-109618|CVE-2026-109619'; then
+            echo "PHP $VERSION — correctif rétroporté par la distribution."
+            exit 0
+          fi
+
+          echo "::error::PHP $VERSION : $VERDICT. $AVIS"
+          exit 1
+
+      - name: Les branches déclarées dans composer.json
+        run: |
+          source "$RUNNER_TEMP/seuil.sh"
+
+          if [ ! -f composer.json ]; then
+            echo "Pas de composer.json : rien à déclarer."
+            exit 0
+          fi
+
+          CONTRAINTE="$(php -r 'echo json_decode(file_get_contents("composer.json"), true)["require"]["php"] ?? "";')"
+
+          if [ -z "$CONTRAINTE" ]; then
+            echo "::error::composer.json ne déclare aucune contrainte « php »."
+            exit 1
+          fi
+
+          echo "Contrainte déclarée : $CONTRAINTE"
+
+          # ------------------------------------------------------------------
+          # CE QUI EST REFUSÉ : PROMETTRE DE TOURNER SUR UNE BRANCHE MORTE.
+          #
+          # Un projet qui déclare « >=7.0.0 » ou « ^8.1 » s'engage à fonctionner
+          # sur des PHP qui ne recevront plus JAMAIS de correctif — ni pour cet
+          # avis, ni pour les suivants. C'est le danger durable, et il ne
+          # dépend d'aucun hébergeur : c'est une promesse du dépôt.
+          #
+          # ⚠️ CE QUI N'EST PAS EXIGÉ : un plancher au niveau du correctif.
+          # « >=8.3.36 » semble plus sûr, mais Debian et Ubuntu rétroportent
+          # sans changer le numéro amont : ce plancher ferait échouer
+          # `composer install` sur un serveur pourtant corrigé. Un garde-fou
+          # qui bloque un déploiement sain finit supprimé — et il n'est plus là
+          # le jour où il aurait servi. On le signale, on ne l'impose pas.
+          # ------------------------------------------------------------------
+          BRANCHES="$(printf '%s' "$CONTRAINTE" | grep -oE '[0-9]+\.[0-9]+' | sort -u)"
+          SUIVIES="$(printf '%s' "$SEUILS" | tr ' ' '\n' | cut -d: -f1)"
+
+          FAUTE=0
+          for b in $BRANCHES; do
+            if ! printf '%s\n' $SUIVIES | grep -qx "$b"; then
+              echo "::error::La contrainte « $CONTRAINTE » autorise PHP $b, branche qui ne reçoit plus de correctifs."
+              FAUTE=1
+            fi
+          done
+
+          if [ "$FAUTE" -eq 1 ]; then
+            echo "::error::Relevez-la à une branche suivie, par exemple « ^8.2 »."
+            exit 1
+          fi
+
+          # Simple signalement : utile là où l'on maîtrise l'interpréteur.
+          if ! printf '%s' "$CONTRAINTE" | grep -qE '[0-9]+\.[0-9]+\.[0-9]+'; then
+            echo "::notice::« $CONTRAINTE » ne nomme pas de correctif précis. Si ce projet tourne sur un PHP compilé ou un dépôt amont, un plancher comme « >=8.3.36 » fermerait la porte aux versions trouées. Inutile sur Debian/Ubuntu, qui rétroportent."
+          fi
+
+          echo "Aucune branche morte déclarée."
