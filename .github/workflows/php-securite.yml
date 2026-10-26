@@ -108,8 +108,23 @@ jobs:
             exit 0
           fi
 
-          echo "::error::PHP $VERSION : $VERDICT. $AVIS"
-          exit 1
+          # ⚠️ UN AVERTISSEMENT, PAS UN ÉCHEC — ET C'EST UNE CORRECTION.
+          #
+          # La première version faisait échouer le job ici. Résultat au premier
+          # passage réel : rouge partout, parce que l'image `ubuntu-latest`
+          # embarquait PHP 8.5.4 alors que le correctif est en 8.5.12.
+          #
+          # Or cet interpréteur est celui de GitHub. Il ne sert aucun site, il
+          # ne touche aucune donnée, et le proprietaire du depot ne peut rien y
+          # faire : attendre que GitHub mette son image a jour, et voila tout.
+          # Un garde-fou qui echoue sur ce qu'on ne peut pas corriger est
+          # desactive dans la semaine — et il n'est plus la le jour ou il
+          # aurait servi.
+          #
+          # On le signale donc, et le job continue. Ce qui FAIT echouer, c'est
+          # l'etape suivante : composer.json, que le depot maitrise.
+          echo "::warning::PHP $VERSION (image du runner) : $VERDICT. $AVIS"
+          echo "Information seulement : cet interpréteur est celui de GitHub, pas celui de production."
 
       - name: Les branches déclarées dans composer.json
         run: |
