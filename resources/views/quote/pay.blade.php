@@ -110,7 +110,7 @@
                 <div class="px-6 py-8 text-center">
                     <div class="text-[12.5px] font-medium uppercase tracking-wide text-ink-muted">Montant à régler</div>
                     <div class="mt-2 font-display text-4xl font-extrabold leading-none text-ink">
-                        {{ number_format($service?->price ?? 0, 0, ',', ' ') }} <span class="text-2xl text-ink-muted">XAF</span>
+                        {{ number_format($amount ?? 0, 0, ',', ' ') }} <span class="text-2xl text-ink-muted">XAF</span>
                     </div>
                 </div>
 
@@ -119,7 +119,7 @@
                     <div class="mt-5 flex justify-center">
                         <x-ui.button variant="accent" href="{{ url('quote/pay/' . $quote->id) }}" class="w-full sm:w-auto">
                             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg>
-                            Payer {{ number_format($service?->price ?? 0, 0, ',', ' ') }} XAF
+                            Payer {{ number_format($amount ?? 0, 0, ',', ' ') }} XAF
                         </x-ui.button>
                     </div>
                     <p class="mt-4 flex items-center justify-center gap-1.5 text-xs text-ink-faint">

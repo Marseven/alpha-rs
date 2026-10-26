@@ -255,6 +255,10 @@ class QuoteController extends Controller
             [
                 'quote' => $quote,
                 'service' => $service,
+                // Display the EXACT amount that will be charged (same source the
+                // gateway and the webhook use), never the service price — the two
+                // differ for a quote (flat fee) and used to show 1 000 / bill 50 000.
+                'amount' => \App\Services\PaymentAmountResolver::for('quote', $quote),
                 'title' => 'Paiement'
             ]
         );
