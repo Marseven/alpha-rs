@@ -57,6 +57,13 @@ php artisan config:cache || true
 php artisan view:cache || true
 # route:cache volontairement omis (routes en closure non sérialisables).
 
+# Garde-fou : la config est mise en cache ci-dessus, donc Laravel ne relit plus
+# le .env au runtime. Si les clés Singpay ont été ajoutées au .env APRÈS un
+# précédent config:cache, elles manquaient et le paiement échouait silencieusement
+# ("missing configuration"). On vérifie ici qu'elles sont bien chargées.
+line "Vérification — config de paiement Singpay"
+php artisan tinker --execute='$m=array_filter(["client_id","client_secret","wallet_id"], fn($k)=>empty(config("services.singpay.".$k))); echo empty($m) ? "    Singpay: cles chargees OK" : "    /!\ Singpay: cles MANQUANTES en config -> ".implode(", ", $m)." (ajoutez-les au .env PUIS relancez deploy.sh)"; echo PHP_EOL;' || true
+
 line "Terminé"
 php artisan --version
 echo "    Déploiement OK."
