@@ -67,6 +67,11 @@ Route::post('/search', [WelcomeController::class, 'search'])->name('search');
 Route::get('/quote', [QuoteController::class, 'add'])->name('quote');
 Route::post('/quote', [QuoteController::class, 'create']);
 
+// Signed "magic access" link from the devis e-mail: opens the client's devis
+// without a password (the account is created without one on a guest request).
+Route::get('/acces-devis/{quote}', [QuoteController::class, 'access'])
+    ->name('quote.access')->middleware(['signed', 'throttle:10,1']);
+
 //hospital
 Route::get('/list-hospitals', [HospitalController::class, 'index'])->name('list-hospitals');
 

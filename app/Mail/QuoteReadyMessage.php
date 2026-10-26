@@ -7,6 +7,7 @@ use App\Services\SensitiveFileStorage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\URL;
 
 /**
  * Sent to the client once their quote has been processed ("Traité"): it
@@ -47,7 +48,9 @@ class QuoteReadyMessage extends Mailable
                 'reference' => $reference,
                 'response'  => $this->quote->response,
                 'service'   => $this->quote->service->label ?? null,
-                'url'       => url('/list-quotes'),
+                // Signed, time-limited link so the client opens the devis without
+                // a password (accounts are created without one on a guest request).
+                'url'       => URL::temporarySignedRoute('quote.access', now()->addDays(30), ['quote' => $this->quote->id]),
                 'attached'  => $attached,
             ]);
     }

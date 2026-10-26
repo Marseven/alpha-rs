@@ -221,6 +221,23 @@ class QuoteController extends Controller
         }
     }
 
+    /**
+     * Signed "magic access" link from the devis e-mail. A guest request creates
+     * an account with NO password (only a reset link is sent), so the client
+     * could not reach the "voir et payer" page — it asked for a password they
+     * never set. The 'signed' middleware proves the URL was issued by us and is
+     * not expired (same trust model as a password-reset link), so we can log the
+     * quote owner in and land them straight on their devis (view / download / pay).
+     */
+    public function access(Quote $quote)
+    {
+        if ($quote->user) {
+            Auth::login($quote->user);
+        }
+
+        return redirect('/quote/payment/' . $quote->id);
+    }
+
     public function pay(Quote $quote)
     {
         $this->authorize('pay', $quote);
