@@ -8,39 +8,58 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * The devis page must display the EXACT amount that will be charged (the quote
- * flat fee resolved by PaymentAmountResolver), never the service price. In
- * production the page showed 1 000 (service "Elite") while Singpay billed 50 000
- * (the flat quote fee) — display and charge must agree.
+ * The devis page must display the EXACT amount that will be charged, and that
+ * amount is the chosen service price. In production the page showed the service
+ * price (e.g. 1 000 for "Elite") while the gateway billed a flat 50 000 — the
+ * fee now follows the service price, so display == charge for every service.
  */
 class DevisAmountDisplayTest extends TestCase
 {
     use RefreshDatabase, CreatesDomainData;
 
-    public function test_devis_page_shows_the_charged_amount_not_the_service_price(): void
+    private function servicePriced(string $label, string $price): Service
     {
-        config(['services.payment.quote_amount' => 50000]);
-
-        // A service priced very differently from the flat quote fee.
         $service = new Service();
-        $service->label = 'Elite';
+        $service->label = $label;
         $service->description = 'd';
-        $service->price = '1000';
+        $service->price = $price;
         $service->picture = 'p.png';
         $service->user_id = 1;
         $service->status = STATUT_ENABLE;
         $service->save();
 
+        return $service;
+    }
+
+    public function test_devis_page_and_charge_both_use_the_service_price(): void
+    {
+        // A flat config fee is set but must be ignored in favour of the service price.
+        config(['services.payment.quote_amount' => 50000]);
+
+        $service = $this->servicePriced('Elite', '1000');
         $owner = $this->makeUser();
         $quote = $this->makeQuote($owner, $service);
 
-        $response = $this->actingAs($owner)->get('/quote/payment/' . $quote->id)->assertOk();
+        $this->actingAs($owner)
+            ->get('/quote/payment/' . $quote->id)
+            ->assertOk()
+            ->assertSee('Payer 1 000 XAF')      // what the client sees
+            ->assertDontSee('Payer 50 000 XAF'); // not the old flat fee
 
-        // Shows the charged amount (50 000), and the Payer button matches.
-        $response->assertSee('Payer 50 000 XAF');
-        $response->assertDontSee('Payer 1 000 XAF');
+        // ...and it is exactly what the gateway + webhook will use.
+        $this->assertSame(1000.0, PaymentAmountResolver::for('quote', $quote));
+    }
 
-        // And the displayed amount equals what the gateway + webhook will use.
-        $this->assertSame(50000.0, PaymentAmountResolver::for('quote', $quote));
+    public function test_a_different_service_charges_its_own_price(): void
+    {
+        $service = $this->servicePriced('Évacuation', '150000');
+        $owner = $this->makeUser();
+        $quote = $this->makeQuote($owner, $service);
+
+        $this->assertSame(150000.0, PaymentAmountResolver::for('quote', $quote));
+        $this->actingAs($owner)
+            ->get('/quote/payment/' . $quote->id)
+            ->assertOk()
+            ->assertSee('Payer 150 000 XAF');
     }
 }

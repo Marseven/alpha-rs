@@ -17,12 +17,16 @@ class PaymentAmountTest extends TestCase
 {
     use RefreshDatabase, CreatesDomainData;
 
-    public function test_quote_amount_comes_from_config(): void
+    public function test_quote_amount_is_the_service_price(): void
     {
-        config(['services.payment.quote_amount' => 50000]);
-        $quote = $this->makeQuote($this->makeUser());
+        // The quote fee follows the chosen service price (what the devis page
+        // shows), not a flat config fee — so the gateway bills what the client sees.
+        $service = $this->makeService();
+        $service->price = '1234';
+        $service->save();
+        $quote = $this->makeQuote($this->makeUser(), $service);
 
-        $this->assertSame(50000.0, PaymentAmountResolver::forQuote($quote));
+        $this->assertSame(1234.0, PaymentAmountResolver::forQuote($quote));
     }
 
     public function test_folder_amount_is_service_price_plus_folder_price(): void

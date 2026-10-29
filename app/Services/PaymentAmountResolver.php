@@ -15,10 +15,21 @@ use App\Models\Quote;
  */
 class PaymentAmountResolver
 {
-    /** Flat fee for a quote (devis), from config (env QUOTE_PAYMENT_AMOUNT). */
+    /**
+     * Fee for a quote (devis) = the price of the chosen service, i.e. the amount
+     * shown on the devis page, so the gateway charges exactly what the client
+     * sees (consistent with the folder amount, which is also price-based).
+     * Previously it returned a flat config fee (QUOTE_PAYMENT_AMOUNT, 50 000),
+     * so every devis was billed 50 000 regardless of the displayed amount.
+     * Falls back to the configured flat fee only for a quote with no service.
+     */
     public static function forQuote(Quote $quote): float
     {
-        return (float) config('services.payment.quote_amount', 50000);
+        $quote->loadMissing('service');
+
+        return $quote->service
+            ? (float) $quote->service->price
+            : (float) config('services.payment.quote_amount', 0);
     }
 
     /** Dossier amount = service price + dossier-specific price (set by admin). */
